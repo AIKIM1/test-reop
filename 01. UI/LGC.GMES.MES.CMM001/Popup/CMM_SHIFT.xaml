@@ -1,0 +1,69 @@
+﻿<c1:C1Window x:Class="LGC.GMES.MES.CMM001.Popup.CMM_SHIFT"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:c1="http://schemas.componentone.com/winfx/2006/xaml"
+		     xmlns:System="clr-namespace:System;assembly=mscorlib"
+             xmlns:ctrlLib="clr-namespace:LGC.GMES.MES.ControlsLibrary;assembly=LGC.GMES.MES.ControlsLibrary"        
+             ctrlLib:LGCPopupWindowExtension.ApplyStyle="True"
+             Header="{Binding Converter={StaticResource GlobalObjectDicConverter}, ConverterParameter='작업조조회'}" 
+             Tag="ProtoType01Windows01" Height="332" Width="550" IsResizable="True" Loaded="C1Window_Loaded"  >
+
+    <c1:C1Window.Resources>
+        <ResourceDictionary Source="/LGC.GMES.MES.ControlsLibrary;Component/ControlStyles.xaml"/>
+    </c1:C1Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="15" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="8" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="8" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="8" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="8" />
+            </Grid.ColumnDefinitions>
+            <Grid Grid.Row="1" Grid.Column="1">
+                <c1:C1DataGrid Grid.Row="1" Grid.Column="1" x:Name="dgShift" IsReadOnly="true" HeadersVisibility="Column" SelectionMode="SingleRow" MouseDoubleClick="dgShift_MouseDoubleClick" MouseLeftButtonUp="dgShift_MouseLeftButtonUp" HorizontalScrollBarVisibility="Hidden" >
+                    <c1:C1DataGrid.Columns>
+                        <c1:DataGridTemplateColumn  EditOnSelection="True" Name="CHK" Width="Auto" >
+                            <c1:DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <RadioButton GroupName="dgShiftChoiceGroup" IsChecked="{Binding CHK, Mode=OneWay}" Name="dgShiftChoice" HorizontalAlignment="Center" Checked="dgShiftChoice_Checked" />
+                                </DataTemplate>
+                            </c1:DataGridTemplateColumn.CellTemplate>
+                        </c1:DataGridTemplateColumn>
+                        <c1:DataGridTextColumn        Header = "구분"            Binding = "{Binding SHFT_GR_NAME}"  HorizontalAlignment="Center" ctrlLib:DataGridMergeExtension.MergeMode="VERTICAL" />
+                        <c1:DataGridTextColumn        Header = "작업조"          Binding = "{Binding SHFT_NAME}"     HorizontalAlignment="Center" />
+                        <c1:DataGridTextColumn        Header = "작업조코드"      Binding = "{Binding SHFT_ID}"       HorizontalAlignment="Center" />
+                        <c1:DataGridTextColumn        Header = "시작시간"        Binding = "{Binding SHFT_STRT}"     HorizontalAlignment="Center" />
+                        <c1:DataGridTextColumn        Header = "종료시간"        Binding = "{Binding SHFT_END}"      HorizontalAlignment="Center" />
+                        <c1:DataGridTextColumn        Header = "시작시간"        Binding = "{Binding SHFT_STRT_HMS}" HorizontalAlignment="Center" Visibility="Hidden" />
+                        <c1:DataGridTextColumn        Header = "종료시간"        Binding = "{Binding SHFT_END_HMS}"  HorizontalAlignment="Center" Visibility="Hidden" />
+                    </c1:C1DataGrid.Columns>
+                </c1:C1DataGrid>
+            </Grid>
+        </Grid>
+        
+        <!--button area-->
+        <Grid Grid.Row ="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="5"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <Button x:Name="btnSelect" Grid.Column="1" Content="{Binding ConverterParameter='선택', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{DynamicResource Content_MainButtonSpecialStyle}" Click="btnSelect_Click" />
+            <Button x:Name="btnClose"   Grid.Column="3" Content="{Binding ConverterParameter='닫기', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{DynamicResource Content_MainButtonStyle}" Click="btnClose_Click"   />
+        </Grid>
+
+
+        <ctrlLib:LoadingIndicator x:Name="loadingIndicator" Grid.Row="999" Grid.Column="999" />
+    </Grid>
+</c1:C1Window>

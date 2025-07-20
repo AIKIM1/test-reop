@@ -1,0 +1,163 @@
+<UserControl x:Class="LGC.GMES.MES.MCS001.MCS001_066"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:c1="http://schemas.componentone.com/winfx/2006/xaml"
+             xmlns:ctrlLib="clr-namespace:LGC.GMES.MES.ControlsLibrary;assembly=LGC.GMES.MES.ControlsLibrary"
+             xmlns:cmm001="clr-namespace:LGC.GMES.MES.CMM001;assembly=LGC.GMES.MES.CMM001"
+             mc:Ignorable="d" 
+             d:DesignHeight="768" d:DesignWidth="1024" 
+             Loaded="UserControl_Loaded">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/LGC.GMES.MES.ControlsLibrary;component/ControlStyles.xaml" />
+                <ResourceDictionary Source="/LGC.GMES.MES.ControlsLibrary;component/ControlTemplates/LGCDatePicker.xaml" />
+                <ResourceDictionary Source="/LGC.GMES.MES.CMM001;component/PopupFindControlStyle.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid x:Name="grdMain">
+        <Grid.Resources>
+            <DataTemplate x:Key="ItemTemplate">
+                <WrapPanel>
+                    <Image Width="138" Height="138" Stretch="Fill" Source="{Binding}" Margin="3,3,3,3" />
+                </WrapPanel>
+            </DataTemplate>
+            <DataTemplate x:Key="ResultTemplate">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Text="{Binding}" HorizontalAlignment="Right" Padding="0,0,5,0"  />
+                </Grid>
+            </DataTemplate>
+            <DataTemplate x:Key="ResultTemplateSum">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="4"  Text="{Binding ConverterParameter='TOTAL', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" HorizontalAlignment="Right" Padding="0,0,5,0"  />
+                </Grid>
+            </DataTemplate>
+        </Grid.Resources>
+
+        <ctrlLib:LGCLayout x:Name="LayoutRoot" Tag="롤프레스 대기 모델별 재공 수량 설정" Grid.ColumnSpan="2">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="8" />
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <Border Grid.Row="0" Grid.Column="0" Style="{StaticResource Content_InputForm_LabelBorderStyle}" />
+                <!--조회영역-->
+                <Grid Grid.Row="0" Grid.Column="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="8" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="8" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="13"/>
+                        <ColumnDefinition Width="AUto"/>
+                        <ColumnDefinition Width="AUto"/>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="4"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="4"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="4"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="13"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock                 Grid.Row="1" Grid.Column="1" x:Name="lblEqpId" Text="{Binding ConverterParameter='EQPTID', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}"  />
+                    <c1:C1ComboBox             Grid.Row="1" Grid.Column="2" x:Name="cboEqpId" DisplayMemberPath="CBO_NAME" SelectedValuePath="CBO_CODE" Style="{StaticResource C1ComboBoxStyle_Mandatory}" AutoComplete="False" SelectedValueChanged="cboStkId_SelectedValueChanged" />
+
+                    <c1:C1NumericBox           Grid.Row="1" Grid.Column="4" Name="numAddCount" Minimum="1" Value="1" Height="23"  CornerRadius="0" Width="50"></c1:C1NumericBox>
+                    <Button x:Name="btnAdd"    Grid.Row="1" Grid.Column="6" Content="{Binding ConverterParameter=Plus, Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{DynamicResource Content_ModuleButtonAddStyle}" Click="btnAdd_Click" HorizontalAlignment="Left" Margin="0,8" />
+                    <Button x:Name="btnDelete" Grid.Row="1" Grid.Column="8" Content="{Binding ConverterParameter=Minus, Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{DynamicResource Content_ModuleButtonDeleteStyle}" Click="btnDelete_Click"  />
+
+                    <Button x:Name="btnSave"   Grid.Row="1" Grid.Column="10" Margin="4" Content="{Binding ConverterParameter=SAVE, Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_MainButtonSpecialStyle}" Cursor="Hand" Click="btnSave_Click"  />
+                    <Button x:Name="btnSearch" Grid.Row="1" Grid.Column="11" Margin="4" Content="{Binding ConverterParameter=SEARCH, Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource SearchButtonStyle}" Cursor="Hand" Click="btnSearch_Click" />
+                </Grid>
+
+                <Border Grid.Row="2" Grid.Column="0" Style="{StaticResource Content_InputForm_ContentBorderStyle}"/>
+                <!--LOT 리스트-->
+                <Grid Grid.Row="2" Grid.Column="0">
+                    <c1:C1DataGrid x:Name="dgModelList" 
+                                   HeadersVisibility="Column" 
+                                   FrozenColumnCount="3" 
+                                   SelectionMode="SingleRow"
+                                   CanUserRemoveRows="True" 
+                                   CanUserAddRows="True" 
+                                   NewRowVisibility="Bottom" 
+                                   Margin="8" BeginningNewRow="dgModelList_BeginningNewRow" BeginningEdit="dgModelList_BeginningEdit" LoadedCellPresenter="dgModelList_LoadedCellPresenter" 
+                                   >
+                        <c1:C1DataGrid.Columns>
+                            <c1:DataGridCheckBoxColumn  Name = "CHK" Binding = "{Binding CHK, Mode=TwoWay}" HorizontalAlignment="Center" CanUserFilter="False" CanUserSort="False" CanUserResize="False" >
+                                <c1:DataGridCheckBoxColumn.Header>
+                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                                        <CheckBox x:Name="chkHeaderAll" Margin="0" Width="19" Checked="chkHeaderAll_Checked" Unchecked="chkHeaderAll_Unchecked"></CheckBox>
+                                    </StackPanel>
+                                </c1:DataGridCheckBoxColumn.Header>
+                            </c1:DataGridCheckBoxColumn>
+                            
+                            <c1:DataGridComboBoxColumn  Header = "USE_FLAG"       Binding = "{Binding USE_FLAG, Mode=TwoWay}" DisplayMemberPath="CBO_NAME" SelectedValuePath="CBO_CODE" HorizontalAlignment="Center" />
+                            <cmm001:PopupFindDataColumn Header = "PRODUCT"        Binding = "{Binding PRODID}"                HorizontalAlignment="Left"   EditOnSelection="True" DisplayMemberPath="CBO_NAME" SelectedValuePath="CBO_CODE"  PopupDisplayMode="ValueAndText"/>
+                            <c1:DataGridNumericColumn   Header = "SETTING_QTY"    Binding = "{Binding SET_QTY}"               HorizontalAlignment="Right"  Format="#,##0" >
+                                <c1:DataGridAggregate.AggregateFunctions>
+                                    <c1:DataGridAggregatesCollection>
+                                        <c1:DataGridAggregateSum ResultTemplate="{StaticResource ResultTemplate}" ></c1:DataGridAggregateSum>
+                                    </c1:DataGridAggregatesCollection>
+                                </c1:DataGridAggregate.AggregateFunctions>
+                            </c1:DataGridNumericColumn>
+
+                            <c1:DataGridNumericColumn   Header = "SETTING_RATE"   Binding = "{Binding SET_RATE}"              HorizontalAlignment="Right"  IsReadOnly="True" Format="#,##0" >
+                                <c1:DataGridAggregate.AggregateFunctions>
+                                    <c1:DataGridAggregatesCollection>
+                                        <c1:DataGridAggregateSum ResultTemplate="{StaticResource ResultTemplate}" ></c1:DataGridAggregateSum>
+                                    </c1:DataGridAggregatesCollection>
+                                </c1:DataGridAggregate.AggregateFunctions>
+                            </c1:DataGridNumericColumn>
+
+                            <c1:DataGridNumericColumn   Header = "STACK_CNT"      Binding = "{Binding CURR_QTY}"              HorizontalAlignment="Right"  IsReadOnly="True" Format="#,##0" >
+                                <c1:DataGridAggregate.AggregateFunctions>
+                                    <c1:DataGridAggregatesCollection>
+                                        <c1:DataGridAggregateSum ResultTemplate="{StaticResource ResultTemplate}" ></c1:DataGridAggregateSum>
+                                    </c1:DataGridAggregatesCollection>
+                                </c1:DataGridAggregate.AggregateFunctions>
+                            </c1:DataGridNumericColumn>
+
+                            <c1:DataGridNumericColumn   Header = "STACK_RATE"     Binding = "{Binding CURR_RATE}"             HorizontalAlignment="Right"  IsReadOnly="True" Format="#,##0" >
+                                <c1:DataGridAggregate.AggregateFunctions>
+                                    <c1:DataGridAggregatesCollection>
+                                        <c1:DataGridAggregateSum ResultTemplate="{StaticResource ResultTemplate}" ></c1:DataGridAggregateSum>
+                                    </c1:DataGridAggregatesCollection>
+                                </c1:DataGridAggregate.AggregateFunctions>
+                            </c1:DataGridNumericColumn>
+
+                            <c1:DataGridTextColumn      Header = "RP_PROD_EQP"    Binding = "{Binding RT_EQPT}"               HorizontalAlignment="Center" IsReadOnly="True" />
+                            <c1:DataGridTextColumn      Header = "INSUSER"        Binding = "{Binding INSUSER, Mode=TwoWay}"  HorizontalAlignment="Left"   IsReadOnly="True" />
+                            <c1:DataGridDateTimeColumn  Header = "INSDTTM"        Binding = "{Binding INSDTTM, Mode=TwoWay}"  HorizontalAlignment="Left"   IsReadOnly="True" Format="yyyy-MM-dd HH:mm:ss" />
+                            <c1:DataGridTextColumn      Header = "UPDUSER"        Binding = "{Binding UPDUSER, Mode=TwoWay}"  HorizontalAlignment="Left"   IsReadOnly="True" />
+                            <c1:DataGridDateTimeColumn  Header = "UPDDTTM"        Binding = "{Binding UPDDTTM, Mode=TwoWay}"  HorizontalAlignment="Left"   IsReadOnly="True" Format="yyyy-MM-dd HH:mm:ss" />
+                        </c1:C1DataGrid.Columns>
+                        
+                        <c1:C1DataGrid.BottomRows >
+                            <c1:DataGridSummaryRow x:Name="summary" RowStyle="{StaticResource SummaryRowStyle}"/>
+                        </c1:C1DataGrid.BottomRows>
+
+                    </c1:C1DataGrid>
+                </Grid>
+
+            </Grid>
+        </ctrlLib:LGCLayout>
+
+        <ctrlLib:LoadingIndicator x:Name="loadingIndicator" Grid.Row="999" Grid.Column="999" />
+    </Grid>
+</UserControl>

@@ -1,0 +1,104 @@
+﻿<c1:C1Window x:Class="LGC.GMES.MES.BOX001.BOX001_246_TAG_MAPPING"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:c1="http://schemas.componentone.com/winfx/2006/xaml"
+        xmlns:System="clr-namespace:System;assembly=mscorlib"
+        xmlns:ctrlLib="clr-namespace:LGC.GMES.MES.ControlsLibrary;assembly=LGC.GMES.MES.ControlsLibrary"
+        xmlns:uc="clr-namespace:LGC.GMES.MES.CMM001.Controls;assembly=LGC.GMES.MES.CMM001"
+        ctrlLib:LGCPopupWindowExtension.ApplyStyle="True"
+        Header="{Binding Converter={StaticResource GlobalObjectDicConverter}, ConverterParameter='매핑설정'}" 
+        Tag="매핑셋팅" Height="420" Width="380" IsResizable="True" Loaded="C1Window_Loaded">
+
+    <c1:C1Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/LGC.GMES.MES.ControlsLibrary;Component/ControlStyles.xaml"/>
+                <ResourceDictionary Source="/LGC.GMES.MES.CMM001;component/AutoCompleteComboBoxStyle.xaml" />
+                <ResourceDictionary Source="/LGC.GMES.MES.CMM001;component/PopupFindControlStyle.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </c1:C1Window.Resources>
+    <Grid x:Name="grdMain">
+       
+        <!--<Grid.Resources>
+            <Style TargetType="{x:Type c1:C1ComboBoxItem}" BasedOn="{StaticResource C1ComboBoxItemStyle_PDA}"/>
+        </Grid.Resources>-->
+        <Grid.RowDefinitions>
+            <RowDefinition Height="5" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="5" />
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="5" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="5" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="1" />
+        </Grid.ColumnDefinitions>
+
+        <Grid x:Name="grHeader" Grid.Row="1" Grid.Column="1">
+            <!--<TextBlock x:Name="txtbProcess"  Text="Process"   Style="{StaticResource Content_InputForm_LabelStyle_PDA}"></TextBlock>-->
+            <TextBlock x:Name="txtbUserName" Text="User Name" Style="{StaticResource Content_InputForm_LabelStyle_PDA}" HorizontalAlignment="Right"></TextBlock>
+        </Grid>
+
+        <Grid x:Name="grContent" Grid.Row="3" Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="5" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <Grid Grid.Row="0" Grid.Column="0" >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="5" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="5" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <uc:UcBaseRadioButton    Grid.Row="0"  Grid.Column="1"  x:Name="rdoRF"  Content="{Binding Converter={StaticResource GlobalObjectDicConverter}, ConverterParameter=RFID}"  GroupName="RadioButton_Group" Style="{StaticResource SearchCondition_RadioButtonStyle}" Checked="rdoRF_Ischecked" IsChecked="True" />
+                <TextBox        Grid.Row="0"  Grid.Column="4"  x:Name="txtRFID"  Style="{StaticResource TextBoxBaseStyle_PDA}" CharacterCasing="Upper" Height="Auto" TextWrapping="Wrap"  AcceptsReturn="false"  KeyDown="txtRFID_KeyDown" />
+
+                <uc:UcBaseRadioButton    Grid.Row="1"  Grid.Column="1"  x:Name="rdoPallet"  Content="{Binding Converter={StaticResource GlobalObjectDicConverter}, ConverterParameter=PalletID}"  GroupName="RadioButton_Group" Style="{StaticResource SearchCondition_RadioButtonStyle}" Checked="rdoPallet_Ischecked"  IsChecked="False" />
+                <TextBox        Grid.Row="1"  Grid.Column="4"  x:Name="txtPalletID"   Style="{StaticResource TextBoxBaseStyle_PDA}" CharacterCasing="Upper" Height="Auto" TextWrapping="Wrap"  AcceptsReturn="false" KeyDown="txtPalletID_KeyDown" />
+
+            </Grid>
+
+            <Grid Grid.Row="2" Grid.Column="0" >
+                <uc:UcBaseDataGrid x:Name="dgPalletInfo" IsReadOnly="False" HeadersVisibility="Column" RowHeight="25" SelectionMode="SingleRow" CanUserAddRows="True">
+                    <c1:C1DataGrid.Columns>
+                        <c1:DataGridTextColumn Header = "PALLETID"       Binding = "{Binding BOXID}"             Width="Auto"   HorizontalAlignment="Center" IsReadOnly="True" />
+                        <c1:DataGridTextColumn Header = "BOXSTAT"        Binding = "{Binding BOXSTAT}"           Width="Auto"   HorizontalAlignment="Center" Visibility="Collapsed"/>
+                        <c1:DataGridTextColumn Header = "제품코드"       Binding = "{Binding PRODID}"            Width="Auto"   HorizontalAlignment="Center" IsReadOnly="True" />
+                        <c1:DataGridTextColumn Header = "수량"           Binding = "{Binding TOTAL_QTY}"         Width="Auto"   HorizontalAlignment="Center" Format="#,##0"/>
+                        <c1:DataGridTextColumn Header = "EQSGID"         Binding = "{Binding PACK_EQSGID}"       Width="Auto"   HorizontalAlignment="Center" Visibility="Collapsed"/>
+                        <c1:DataGridTextColumn Header = "Project"        Binding = "{Binding PROJECTNAME}"       Width="Auto"   HorizontalAlignment="Center" IsReadOnly="True" />
+                        <c1:DataGridTextColumn Header = "모델 LOT"       Binding = "{Binding MDLLOT_ID}"         Width="Auto"   HorizontalAlignment="Center" IsReadOnly="True" />
+                    </c1:C1DataGrid.Columns>
+                </uc:UcBaseDataGrid>
+            </Grid>
+        </Grid>
+
+        <Grid x:Name="grBottom" Grid.Row="5" Grid.Column="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="5" />
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="5" />
+                <ColumnDefinition Width="1*" />
+            </Grid.ColumnDefinitions>
+
+            <uc:UcBaseButton x:Name="btnInitialize"  Grid.Row="0" Grid.Column="0"  Content="{Binding ConverterParameter=초기화,   Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{DynamicResource Content_MainButtonSpecialStyle}" Click="btnInitialize_Click"/>
+            <uc:UcBaseButton x:Name="btnMap"         Grid.Row="0" Grid.Column="2"  Content="{Binding ConverterParameter=등록,        Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{DynamicResource Content_MainButtonSpecialStyle}" Click="btnMap_Click"/>
+            <uc:UcBaseButton x:Name="btnClose"       Grid.Row="0" Grid.Column="4"  Content="{Binding ConverterParameter=닫기,        Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{DynamicResource Content_MainButtonStyle}" Click="btnClose_Click"/>
+        </Grid>
+    </Grid>
+</c1:C1Window>

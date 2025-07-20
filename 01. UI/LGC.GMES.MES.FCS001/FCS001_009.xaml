@@ -1,0 +1,107 @@
+﻿<UserControl x:Class="LGC.GMES.MES.FCS001.FCS001_009"
+             xmlns:ss="http://schemas.grapecity.com/windows/spreadsheet/2012"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:c1="http://schemas.componentone.com/winfx/2006/xaml"
+             xmlns:ctrlLib="clr-namespace:LGC.GMES.MES.ControlsLibrary;assembly=LGC.GMES.MES.ControlsLibrary"
+             xmlns:uc="clr-namespace:LGC.GMES.MES.CMM001.Controls;assembly=LGC.GMES.MES.CMM001"
+             mc:Ignorable="d" 
+             d:DesignHeight="768" d:DesignWidth="1024"  Loaded="UserControl_Loaded" >
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/LGC.GMES.MES.ControlsLibrary;component/ControlStyles.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    
+    <Grid x:Name="grdMain">
+        <ctrlLib:LGCLayout x:Name="LayoutRoot" Tag="OCV Alarm View" Grid.ColumnSpan="2">
+            <ctrlLib:LGCLayout.Content>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="8"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <Border Grid.Row="0" Background="#fff2f2f2" BorderThickness="1" BorderBrush="#ffd1d1d1"/>
+                    <Grid   Grid.Row="0" Grid.Column="0" >
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="11" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="11" />
+                        </Grid.RowDefinitions>
+
+                        <!--조회조건 ROW1-->
+                        <Grid Grid.Row="1" Grid.Column="0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="13"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="1*"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="4"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="13"/>
+                            </Grid.ColumnDefinitions>
+
+                            <!--조회 버튼-->
+                            <uc:UcBaseButton    x:Name="btnSearch"  Grid.Row="0" Grid.Column="3" Content="{Binding ConverterParameter='SEARCH', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource SearchButtonStyle}" Cursor="Hand" Click="btnSearch_Click" />
+                            <uc:UcBaseButton    x:Name="btnExcel"   Grid.Row="0" Grid.Column="5" Height="Auto" Content="{Binding ConverterParameter='Excel', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_ModuleButtonExcelExportStyle}" Cursor="Hand" Click="btnExcel_Click" />
+                        </Grid>
+                    </Grid>
+
+                    <!--조회 영역-->
+                    <Border Grid.Row="3" Background="#fff2f2f2" BorderThickness="1" BorderBrush="#ffbebebe"></Border>
+                    <Grid   Grid.Row="3" Grid.Column="0" >
+                        <uc:UcBaseDataGrid x:Name="dgOCVAlarm" Grid.Row="0" Grid.Column="0" Margin="8" IsReadOnly="True" HeadersVisibility="Column" FrozenColumnCount="4" FrozenTopRowsCount="1" SelectionMode="MultiRange" >
+                            <c1:C1DataGrid.Columns>
+                                <c1:DataGridCheckBoxColumn  Name = "CHK" Binding = "{Binding CHK, Mode=TwoWay}" HorizontalAlignment="Center" CanUserFilter="False" CanUserSort="False" CanUserResize="False" >
+                                    <c1:DataGridCheckBoxColumn.Header>
+                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                                            <CheckBox x:Name="chkHeaderAll" Content="{Binding ConverterParameter='SELECT', Converter={StaticResource GlobalObjectDicConverter}}" Margin="0" Width="Auto" ></CheckBox>
+                                        </StackPanel>
+                                    </c1:DataGridCheckBoxColumn.Header>
+                                </c1:DataGridCheckBoxColumn>
+
+                                <c1:DataGridComboBoxColumn Name="EQPID" Header="EQP_NAME" Binding="{Binding EQPID}"       IsReadOnly="false" 
+                                                       HorizontalAlignment="Left" EditOnSelection="False" DisplayMemberPath="CBO_NAME" SelectedValuePath="CBO_CODE" 
+                                                       CellContentStyle="{StaticResource Grid_CellContentStyle}" />
+
+                                <c1:DataGridTextColumn      Header = "MAX_CH_CNT"         Binding = "{Binding ALARM_MAX_RATE}"      HorizontalAlignment="Center" />
+                                <c1:DataGridTextColumn      Header = "MAX_CH_NO"          Binding = "{Binding ALARM_CAL_CHANNEL}"   HorizontalAlignment="Center" />
+                                <c1:DataGridTextColumn      Header = "GRADE"              Binding = "{Binding ALARM_GRADE}"         HorizontalAlignment="Center" />
+                                <c1:DataGridTextColumn      Header = "ALARM_YN"           Binding = "{Binding ALARM_ON_YN}"         HorizontalAlignment="Center" />
+                                <c1:DataGridTextColumn      Header = "START_TRAY"         Binding = "{Binding END_CSTID}"           HorizontalAlignment="Center" />
+                                <c1:DataGridTextColumn      Header = "END_TRAY"           Binding = "{Binding START_CSTID}"         HorizontalAlignment="Center" />
+                            </c1:C1DataGrid.Columns>
+
+                            <c1:C1GroupingWithSummariesBehavior.GroupingWithSummariesBehavior>
+                                <c1:C1GroupingWithSummariesBehavior />
+                            </c1:C1GroupingWithSummariesBehavior.GroupingWithSummariesBehavior>
+                        </uc:UcBaseDataGrid>
+
+                        <uc:UcBaseDataGrid x:Name="dgOCVAlarmInsert" Grid.Row="0" Grid.Column="0" Margin="8" IsReadOnly="True" HeadersVisibility="Column" FrozenColumnCount="4" FrozenTopRowsCount="1" SelectionMode="MultiRange" Visibility="Hidden" >
+                            <c1:C1DataGrid.Columns>
+                                <c1:DataGridComboBoxColumn  Header = "TRAY_ID"           Binding = "{Binding CSTID}"             HorizontalAlignment="Center" />
+                                <c1:DataGridTextColumn      Header = "TRAY_LOT_ID"       Binding = "{Binding LOTID}"             HorizontalAlignment="Center" />
+                                <c1:DataGridTextColumn      Header = "CELL_NG_CNT"       Binding = "{Binding CELL_NG_CNT}"       HorizontalAlignment="Center" />
+                                <c1:DataGridTextColumn      Header = "EQP_ID"            Binding = "{Binding EQPTID}"            HorizontalAlignment="Center" />
+                                <c1:DataGridTextColumn      Header = "OP_START_TIME"     Binding = "{Binding WIPDTTM_ST}"        HorizontalAlignment="Center" />
+                            </c1:C1DataGrid.Columns>
+
+                            <c1:C1GroupingWithSummariesBehavior.GroupingWithSummariesBehavior>
+                                <c1:C1GroupingWithSummariesBehavior />
+                            </c1:C1GroupingWithSummariesBehavior.GroupingWithSummariesBehavior>
+                        </uc:UcBaseDataGrid>
+                        
+                    </Grid>
+                </Grid>
+            </ctrlLib:LGCLayout.Content>
+        </ctrlLib:LGCLayout>
+
+        <ctrlLib:LoadingIndicator x:Name="loadingIndicator" Grid.Row="999" Grid.Column="999" />
+    </Grid>
+</UserControl>

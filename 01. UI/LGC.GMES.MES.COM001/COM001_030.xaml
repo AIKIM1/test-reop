@@ -1,0 +1,227 @@
+<UserControl xmlns:ss="http://schemas.grapecity.com/windows/spreadsheet/2012"  x:Class="LGC.GMES.MES.COM001.COM001_030"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:c1="http://schemas.componentone.com/winfx/2006/xaml"
+             xmlns:ctrlLib="clr-namespace:LGC.GMES.MES.ControlsLibrary;assembly=LGC.GMES.MES.ControlsLibrary"
+             xmlns:uc="clr-namespace:LGC.GMES.MES.CMM001.Controls;assembly=LGC.GMES.MES.CMM001"
+             mc:Ignorable="d" 
+             d:DesignHeight="768" d:DesignWidth="1024"
+             Loaded="UserControl_Loaded">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/LGC.GMES.MES.ControlsLibrary;component/ControlStyles.xaml" />
+                <ResourceDictionary Source="/LGC.GMES.MES.ControlsLibrary;component/ControlTemplates/LGCDatePicker.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid>
+        <ctrlLib:LGCLayout x:Name="LayoutRoot" Tag="ERP 이전전기 확인">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="8" />
+                    <RowDefinition Height="60"/>
+                    <RowDefinition Height="8" />
+                    <RowDefinition Height="1*" />
+                </Grid.RowDefinitions>
+
+                <!--백그라운드용-->
+                <Border   Grid.Row="1" Style="{StaticResource Content_InputForm_ContentBorderStyle}" />
+                <Border   Grid.Row="3" Style="{StaticResource Content_InputForm_ContentBorderStyle}" />
+
+
+                <!--조회영역-->
+                <Grid Grid.Row="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="5" />
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="5" />
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="5" />
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="5" />
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="5" />
+                        <ColumnDefinition Width="5"/>
+                        <ColumnDefinition Width="5" />
+                    </Grid.ColumnDefinitions>
+
+                    <Grid Grid.Row="0" Grid.Column="1" >
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="2*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock      Grid.Row="0"  Grid.Column="0" Text="{Binding ConverterParameter='기간', Converter={StaticResource GlobalObjectDicConverter}, RelativeSource={RelativeSource Self}}" HorizontalAlignment="Right" Style="{StaticResource Content_InputForm_LabelStyle}" />
+
+                        <StackPanel Orientation="Horizontal"  Grid.Row="0" Grid.Column="1">
+                            <ctrlLib:LGCDatePicker  x:Name="dtpDateFrom"  DatepickerType="Date"/>
+                            <TextBlock  Text="~" Style="{StaticResource Content_InputForm_LabelStyle}" Margin="3,0,3,0"/>
+                            <ctrlLib:LGCDatePicker  x:Name="dtpDateTo"  DatepickerType="Date"/>
+                        </StackPanel>
+
+                    </Grid>
+
+                    <Grid Grid.Row="0" Grid.Column="3" >
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="2*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock       Grid.Row="0" Grid.Column="0" Text="{Binding ConverterParameter='전송구분', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}"/>
+                        <uc:UcBaseComboBox   Grid.Row="0" Grid.Column="1" x:Name="cboTranGubun" Style="{StaticResource C1ComboBoxStyle}" AutoComplete="False" HorizontalAlignment="Stretch" 
+                                     DisplayMemberPath="KEY" SelectedValuePath="VALUE" SelectedIndex="1"/>
+
+                    </Grid>
+
+                    <Grid Grid.Row="0" Grid.Column="5" >
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="2*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock       Grid.Row="0" Grid.Column="0" Text="{Binding ConverterParameter='ERP오류코드', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}"/>
+                        <uc:UcBaseComboBox   Grid.Row="0" Grid.Column="1" x:Name="cboErpStatusCode" Style="{StaticResource C1ComboBoxStyle}" AutoComplete="False" HorizontalAlignment="Stretch" 
+                                     DisplayMemberPath="KEY" SelectedValuePath="VALUE" SelectedIndex="1"/>
+
+                    </Grid>
+                    
+                    <Grid Grid.Row="0" Grid.Column="7">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="2*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <uc:UcBaseCheckBox Grid.Row="0"  Grid.Column="3"  x:Name="chkError" Content="{Binding ConverterParameter='미처리오류', Converter={StaticResource GlobalObjectDicConverter}}"  
+                                      Style="{StaticResource SearchCondition_CheckBoxStyle}" MinWidth="100" IsChecked="False" Click="chkError_Click" />
+
+                    </Grid>
+
+                    <Grid Grid.Row="1" Grid.Column="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="2*"/>
+                            <!--<ColumnDefinition Width="Auto" MinWidth="80"/>-->
+                        </Grid.ColumnDefinitions>
+                        
+                        <TextBlock                  Grid.Column="0" Text="{Binding ConverterParameter='자재코드', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}"/>
+                        <TextBox x:Name="txtProdID" Grid.Column="1" Style="{StaticResource SearchCondition_TextBoxStyle}" />
+                    </Grid>
+
+                    <Grid Grid.Row="1" Grid.Column="3">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="2*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock                         Grid.Column="0" Text="{Binding ConverterParameter='조회건수', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}"/>
+                        <c1:C1NumericBox x:Name="txtCount" Grid.Column="1" Visibility="{Binding TEXTVISIBLE}" Style="{StaticResource C1NumericBoxStyle}" ShowButtons="False" CornerRadius="0" Value="100" AllowNull="True" HandleUpDownKeys="False" Format="#,##0"/>
+                    </Grid>
+
+                    <Grid Grid.Row="1" Grid.Column="5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="2*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Grid.Column="0" Text="{Binding ConverterParameter='SEQ', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}"/>
+                        <TextBox x:Name="txtEepTrnfSeqno" Grid.Column="1" Style="{StaticResource SearchCondition_TextBoxStyle}" />
+                    </Grid>
+
+                    <Grid Grid.Row="1" Grid.Column="7" Grid.ColumnSpan="2" HorizontalAlignment="Right">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="4"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="4"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="4"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <uc:UcBaseButton x:Name="btnSave"     Grid.Row="0" Grid.Column="0"   Content="{Binding ConverterParameter=저장,    Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" 
+                                Style="{StaticResource Content_MainButtonSpecialStyle}" Cursor="Hand" Click="btnSave_Click"/>
+
+                        <uc:UcBaseButton x:Name="btnSearch"      Grid.Row="0" Grid.Column="6"   Content="{Binding ConverterParameter=SEARCH,    Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" 
+                                Style="{StaticResource SearchButtonStyle}" Cursor="Hand" Click="btnSearch_Click"/>
+
+                        <uc:UcBaseButton x:Name="btnExcelActHistory"       Grid.Row="0" Grid.Column="4"   Content="{Binding ConverterParameter=EXCEL,    Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" 
+                                Style="{StaticResource Content_ModuleButtonExcelExportStyle}" Cursor="Hand" Click="btnExcelActHistory_Click" Height="29" />
+
+                        <uc:UcBaseButton x:Name="btnReTran"     Grid.Row="0" Grid.Column="2"   Content="{Binding ConverterParameter=재전송,    Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" 
+                                Style="{StaticResource Content_MainButtonSpecialStyle}" Cursor="Hand" Click="btnReTran_Click"/>
+
+                    </Grid>
+
+                </Grid>
+               
+
+                <!-- <content 영역> -->
+                <Grid Grid.Row="3" >
+                    <Grid Grid.Row="1">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+
+                        <!--결과 그리드-->
+                        <uc:UcBaseDataGrid x:Name="dgSearchResult" Grid.Row="0" IsReadOnly="False" HeadersVisibility="Column" SelectionMode="MultiRange" Margin="8"  LoadedColumnHeaderPresenter="dgData_LoadedColumnHeaderPresenter" CommittedEdit="dgData_CommittedEdit" FrozenColumnCount="2" >
+                            <c1:C1DataGrid.Columns>
+                                <c1:DataGridCheckBoxColumn Name="CHK"                   Binding = "{Binding CHK}"             HorizontalAlignment="Center" Width="Auto" IsReadOnly="False" />
+                                <c1:DataGridTextColumn     Header = "SEQ"               Binding = "{Binding ERP_TRNF_SEQNO}"  HorizontalAlignment="Left" IsReadOnly="True" />
+                                <c1:DataGridTextColumn     Header = "전기일"            Binding = "{Binding MOVE_DTTM}"            HorizontalAlignment="Left"   IsReadOnly="True" />
+                                <c1:DataGridTextColumn     Header = "이전전기처리시간"   Binding = "{Binding ERP_EXEC_DTTM}"            HorizontalAlignment="Left"   IsReadOnly="True" />
+                                <c1:DataGridTextColumn     Header = "전송구분"          Binding = "{Binding TRSF_POST_TYPE_NAME}"       HorizontalAlignment="Left"   IsReadOnly="True" />
+                                <c1:DataGridTextColumn     Header = "전송구분"          Binding = "{Binding TRSF_POST_TYPE_CODE}"       HorizontalAlignment="Left"   IsReadOnly="True" Visibility="Collapsed"/>
+                                <c1:DataGridTextColumn     Header = "이동ID"            Binding = "{Binding MOVE_ID}"       HorizontalAlignment="Left"   IsReadOnly="True" />
+                                <c1:DataGridTextColumn     Header = "자재코드"          Binding = "{Binding PRODID}"       HorizontalAlignment="Left"   IsReadOnly="True" />
+                                <c1:DataGridTextColumn     Header = "자재명"            Binding = "{Binding PRODNAME}"       HorizontalAlignment="Center" IsReadOnly="True" />
+                                <c1:DataGridTextColumn     Header = "Project"            Binding = "{Binding PRJT_NAME}"       HorizontalAlignment="Center" IsReadOnly="True" />
+                                <c1:DataGridTextColumn     Header = "출고FACTORY"        Binding = "{Binding FROM_SHOPID}"      HorizontalAlignment="Left"   IsReadOnly="True" />
+                                <c1:DataGridTextColumn     Header = "출고저장위치"      Binding = "{Binding FROM_SLOCNAME}"   HorizontalAlignment="Left"   IsReadOnly="True" />
+                                <c1:DataGridTextColumn     Header = "입고FACTORY"        Binding = "{Binding TO_SHOPID}"       HorizontalAlignment="Left"   IsReadOnly="True" />
+                                <c1:DataGridTextColumn     Header = "입고저장위치"      Binding = "{Binding TO_SLOCNAME}"    HorizontalAlignment="Left"   IsReadOnly="True" />
+                                <c1:DataGridTextColumn     Header = "이전전기취소"   Binding = "{Binding TRSF_POST_CNCL_FLAG}"         HorizontalAlignment="Center"   IsReadOnly="True" />
+                                <c1:DataGridTextColumn     Header = "이동수량"          Binding = "{Binding MOVE_QTY}"            HorizontalAlignment="Left"   IsReadOnly="True" />
+                                <c1:DataGridTextColumn     Header = "이동단위코드"      Binding = "{Binding MOVE_UNIT_CODE}"           HorizontalAlignment="Center"   IsReadOnly="True" />
+                                <c1:DataGridTextColumn     Header = "ERP오류코드"       Binding = "{Binding ERP_ERR_CODE}"      HorizontalAlignment="Center"   IsReadOnly="True" Visibility="Collapsed" />
+                                <c1:DataGridTextColumn     Header = "ERP오류코드"       Binding = "{Binding ERP_ERR_NAME}"      HorizontalAlignment="Center"   IsReadOnly="True" />
+                                <c1:DataGridTextColumn     Header = "ERP오류원인내용"   Binding = "{Binding ERP_ERR_CAUSE_CNTT}"         HorizontalAlignment="Left"   IsReadOnly="True" />
+
+                                <!--<c1:DataGridTemplateColumn    Header = "확인여부"   EditOnSelection="True" Name="CBO_CHK" Width="Auto" HorizontalAlignment="Center" CanUserFilter="False" CanUserSort="False" CanUserResize="False" >
+                                    <c1:DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <StackPanel>
+                                                --><!--<TextBox x:Name="txtVal" Text="{Binding USER_CHK_FLAG, Mode=OneTime}" Visibility="{Binding TEXTVISIBLE}" HorizontalContentAlignment="Right" TextChanged="txtVal_TextChanged"/>--><!--
+                                                <ComboBox x:Name="cbVal" Text="{Binding USER_CHK_FLAG}" Visibility="{Binding COMBOVISIBLE}" >
+                                                    <ComboBoxItem >Y</ComboBoxItem>
+                                                    <ComboBoxItem >N</ComboBoxItem>
+                                                </ComboBox>
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </c1:DataGridTemplateColumn.CellTemplate>
+                                </c1:DataGridTemplateColumn>-->
+
+
+                                <!--<c1:DataGridTextColumn      Header = "확인여부"                 Binding = "{Binding USER_CHK_FLAG}"            IsReadOnly="False" HorizontalAlignment="Center" />-->
+                                <c1:DataGridTextColumn      Header = "비고"                     Binding = "{Binding NOTE}"                     IsReadOnly="False" HorizontalAlignment="Center" Width="200" />
+                                <c1:DataGridTextColumn     Header = "ERP오류유형"   Binding = "{Binding ERP_ERR_TYPE}"         HorizontalAlignment="Left"   IsReadOnly="True" />
+                                
+                            </c1:C1DataGrid.Columns>
+                        </uc:UcBaseDataGrid>
+                    </Grid>
+
+                </Grid>
+            </Grid>
+
+        </ctrlLib:LGCLayout>
+
+        <ctrlLib:LoadingIndicator x:Name="loadingIndicator" Grid.Row="999" Grid.Column="999" />
+    </Grid>
+</UserControl>

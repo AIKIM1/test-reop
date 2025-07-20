@@ -1,0 +1,358 @@
+﻿<UserControl xmlns:ss="hhemas.grapecity.com/windows/spreadsheet/2012"  x:Class="LGC.GMES.MES.FCS001.FCS001_043"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:c1="http://schemas.componentone.com/winfx/2006/xaml"
+             xmlns:ctrlLib="clr-namespace:LGC.GMES.MES.ControlsLibrary;assembly=LGC.GMES.MES.ControlsLibrary"
+             xmlns:uc="clr-namespace:LGC.GMES.MES.CMM001.Controls;assembly=LGC.GMES.MES.CMM001"
+             mc:Ignorable="d" 
+             Loaded="UserControl_Loaded"
+             d:DesignHeight="768" d:DesignWidth="1920" >
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/LGC.GMES.MES.ControlsLibrary;component/ControlStyles.xaml" />
+                <ResourceDictionary Source="/LGC.GMES.MES.ControlsLibrary;component/ControlTemplates/LGCDatePicker.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid x:Name="grdMain">
+        <Grid.Resources>
+            <DataTemplate x:Key="ItemTemplate">
+                <WrapPanel>
+                    <Image Width="138" Height="138" Stretch="Fill" Source="{Binding}" Margin="3,3,3,3" />
+                </WrapPanel>
+            </DataTemplate>
+            <DataTemplate x:Key="ResultTemplateSum">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" x:Name="tbSum" Text="{Binding}" HorizontalAlignment="Right" Padding="0,0,0,0"  />
+                </Grid>
+            </DataTemplate>
+            <DataTemplate x:Key="ResultTemplateSumTitle">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" x:Name="tbSumTitle"  Text="{Binding ConverterParameter='합계',    Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" HorizontalAlignment="Right" Padding="0,0,5,0"  />
+                </Grid>
+            </DataTemplate>
+        </Grid.Resources>
+        <ctrlLib:LGCLayout x:Name="LayoutRoot" Tag="날짜별 공정정보" Grid.ColumnSpan="2">
+            <Grid>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="8"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <!--조회영역-->
+                    <Grid x:Name="SearchArea" Grid.Row="0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="11" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="4"/>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="4"/>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="11" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="13"/>
+                            <ColumnDefinition Width=".8*"/>
+                            <ColumnDefinition Width="2*"/>
+                            <ColumnDefinition Width="10"/>
+                            <ColumnDefinition Width=".8*"/>
+                            <ColumnDefinition Width="2*"/>
+                            <ColumnDefinition Width="10"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="2*"/>
+                            <ColumnDefinition Width="10"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="2*"/>
+                            <ColumnDefinition Width="10"/>
+                            <ColumnDefinition Width=".8*"/>
+                            <ColumnDefinition Width="2*"/>
+                            <ColumnDefinition Width="10"/>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="13"/>
+                        </Grid.ColumnDefinitions>
+                        <Border Grid.Row="0" Grid.RowSpan="99" Grid.Column="0" Grid.ColumnSpan="99" Style="{StaticResource Content_InputForm_ContentBorderStyle}"/>
+                        <Border Grid.Row="0" Grid.RowSpan="99" Grid.Column="0" Grid.ColumnSpan="99" BorderThickness="1" BorderBrush="#ffbebebe" Style="{StaticResource BorderSubTitleStyle}"/>
+                        
+                        <!--조회조건 Row1-->
+                        <TextBlock           Grid.Row="1" Grid.Column="1"  Text="{Binding ConverterParameter='LINE_ID', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}" />
+                        <uc:UcBaseComboBox       Grid.Row="1" Grid.Column="2"   x:Name="cboLine"  Style="{StaticResource C1ComboBoxStyle}"/>
+                        <TextBlock           Grid.Row="1" Grid.Column="4"  Text="{Binding ConverterParameter='MODEL', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}"/>
+                        <uc:UcBaseComboBox   Grid.Row="1" Grid.Column="5"   x:Name="cboModel"  Style="{StaticResource C1ComboBoxStyle}"/>
+                        <TextBlock           Grid.Row="1"   Grid.Column="7"  Text="{Binding ConverterParameter='PERF_GRP', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}"/>
+                        <uc:UcBaseComboBox       Grid.Row="1"   Grid.Column="8"   x:Name="cboRouteSet" MinWidth="120" Style="{StaticResource C1ComboBoxStyle}"/>
+                        <TextBlock           Grid.Row="1"   Grid.Column="10"  Text="{Binding ConverterParameter='ROUTE_ID', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}"/>
+                        <uc:UcBaseComboBox   Grid.Row="1"   Grid.Column="11"   x:Name="cboRoute" MinWidth="120" Style="{StaticResource C1ComboBoxStyle}"/>
+                        <TextBlock           Grid.Row="1"   Grid.Column="13"  Text="{Binding ConverterParameter='WORK_OP', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}"/>
+                        <uc:UcBaseComboBox   Grid.Row="1"   Grid.Column="14"   x:Name="cboOper" MinWidth="120" Style="{StaticResource C1ComboBoxStyle_Mandatory}" AutoComplete="False"/>
+
+                        <!--조회조건 Row2-->
+                        <TextBlock   Grid.Row="3" Grid.Column="1"   Text="{Binding ConverterParameter='조회기간', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}"/>
+                        <uc:UcBaseDateTimePicker Grid.Row="3" Grid.Column="2" Grid.ColumnSpan="4" x:Name="dtpSearchDate" Text="" IsFromToToggleView="False" IsFromTo="True" IsTimeView="True" HorizontalAlignment="Left"/>
+                        <TextBlock           Grid.Row="3" Grid.Column="7"   Text="{Binding ConverterParameter='SPECIAL_YN', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}"/>
+                        <uc:UcBaseComboBox       Grid.Row="3" Grid.Column="8"   x:Name="cboSpecial" MinWidth="120" Style="{StaticResource C1ComboBoxStyle}"/>
+                        <TextBlock           Grid.Row="3" Grid.Column="10" Text="{Binding ConverterParameter='PKG_LOT_ID', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}"/>
+                        <TextBox             Grid.Row="3" Grid.Column="11" x:Name="txtLotID" MinWidth="120" Style="{StaticResource Content_InputForm_TextBoxStyle}"/>
+                        <TextBlock           Grid.Row="3" Grid.Column="13" Text="{Binding ConverterParameter='LOTTYPE', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}"/>
+                        <uc:UcBaseComboBox       Grid.Row="3" Grid.Column="14" x:Name="cboLotType" Style="{StaticResource C1ComboBoxStyle}" AutoComplete="False" />
+                        <!--조회조건 Row3-->
+                        <TextBlock           Grid.Row="5"  Grid.Column="1"   Text="{Binding ConverterParameter='SEL_STD', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}"/>
+                        <uc:UcBaseComboBox       Grid.Row="5"  Grid.Column="2"   x:Name="cboSearch"  Style="{StaticResource C1ComboBoxStyle}"/>
+                        <TextBlock           Grid.Row="5" Grid.Column="4"  Text="{Binding ConverterParameter='SORT_COND', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}"/>
+                        <uc:UcBaseComboBox        Grid.Row="5" Grid.Column="5"   x:Name="cboOrder"  Style="{StaticResource C1ComboBoxStyle}"/>
+                        <uc:UcBaseCheckBox  Grid.Row="5" Grid.Column="7" Grid.ColumnSpan="2" x:Name="chkHistory"  Content="{Binding ConverterParameter='INC_HISTORY', Converter={StaticResource GlobalObjectDicConverter}}"
+                                   Style="{StaticResource SearchCondition_CheckBoxStyle}" Margin="3" IsChecked="False" HorizontalAlignment="Left"/>
+                        <TextBlock           Grid.Row="5" Grid.Column="10" x:Name="cboRoutGrText" Text="{Binding ConverterParameter='ROUT_GR_CODE', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}"  Visibility="Collapsed"/>
+                        <uc:UcBaseComboBox       Grid.Row="5" Grid.Column="11" x:Name="cboRoutGrCode" Style="{StaticResource C1ComboBoxStyle}" AutoComplete="False" Visibility="Collapsed"/>
+                        <uc:UcBaseButton              Grid.Row="5" Grid.Column="16" x:Name="btnSearch" Content="{Binding ConverterParameter='SEARCH' , Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource SearchButtonStyle}" Click="btnSearch_Click"/>
+                    </Grid>
+                    <!--조회리스트-->
+                    <Grid Grid.Row="3">
+                        <Border Style="{StaticResource Content_InputForm_ContentBorderStyle}"/>
+                        <Border Grid.Row="0" Grid.Column="0" BorderThickness="1"/>
+                        <uc:UcBaseDataGrid x:Name="dgDateOper" IsReadOnly="False" HeadersVisibility="All" FrozenColumnCount="4" FrozenBottomRowsCount="2" SelectionMode="MultiRange"
+                                           MouseDoubleClick="dgDateOper_MouseDoubleClick"                                           
+                                           FilterChanged="dgDateOper_FilterChanged"
+                                           LoadedCellPresenter="dgDateOper_LoadedCellPresenter"
+                                           UnloadedCellPresenter="dgDateOper_UnloadedCellPresenter"
+                                           ExecuteDataCompleted="dgDateOper_ExecuteDataCompleted">
+                            <c1:C1DataGrid.Columns>
+                                <c1:DataGridTextColumn       Header = "PKG_LOT_ID"           Binding = "{Binding PROD_LOTID }"        IsReadOnly="True" HorizontalAlignment="Center" />
+                                <c1:DataGridTextColumn       Header = "TRAY_LOT_ID"          Binding = "{Binding LOTID }"             IsReadOnly="True" HorizontalAlignment="Center" />
+                                <c1:DataGridTextColumn       Header = "TRAY_ID"              Binding = "{Binding CSTID}"              IsReadOnly="True" HorizontalAlignment="Center">
+                                    <c1:DataGridAggregate.AggregateFunctions>
+                                        <c1:DataGridAggregatesCollection>
+                                            <c1:DataGridAggregateSum ResultTemplate="{StaticResource ResultTemplateSumTitle}"/>
+                                        </c1:DataGridAggregatesCollection>
+                                    </c1:DataGridAggregate.AggregateFunctions>     
+                                    
+                                </c1:DataGridTextColumn>
+                                <c1:DataGridTextColumn       Header = "BOX_ID"               Binding = "{Binding LOC }"               IsReadOnly="True" HorizontalAlignment="Center" />
+                                <c1:DataGridTextColumn       Header = "ROUTE_ID"             Binding = "{Binding ROUTID }"     MinWidth="80" MaxWidth="80"       IsReadOnly="True" HorizontalAlignment="Center" />
+                                <c1:DataGridTextColumn       Header = "ROUTE_TYPE_CD"        Binding = "{Binding ROUT_NAME}"          IsReadOnly="True" HorizontalAlignment="Center"  />
+                                <c1:DataGridTextColumn       Header = "SPECIAL_DESC"         Binding = "{Binding SPCL_NOTE}"          IsReadOnly="True" HorizontalAlignment="Center" />
+                                <c1:DataGridNumericColumn    Header = "INPUT"                Binding = "{Binding INPUT_SUBLOT_QTY }"  MinWidth="50" MaxWidth="80" IsReadOnly="True" HorizontalAlignment="Right" Format="#,##0">
+                                    <c1:DataGridAggregate.AggregateFunctions>
+                                        <c1:DataGridAggregatesCollection>
+                                            <c1:DataGridAggregateSum ResultTemplate="{StaticResource ResultTemplateSum}"/>
+                                        </c1:DataGridAggregatesCollection>
+                                    </c1:DataGridAggregate.AggregateFunctions>
+                                </c1:DataGridNumericColumn>
+                                <c1:DataGridTextColumn       Header = "DEFECT"               Binding = "{Binding ERR_QTY}"      MinWidth="50" MaxWidth="80"     IsReadOnly="True" HorizontalAlignment="Right">
+                                    <c1:DataGridAggregate.AggregateFunctions>
+                                        <c1:DataGridAggregatesCollection>
+                                            <c1:DataGridAggregateSum ResultTemplate="{StaticResource ResultTemplateSum}"/>
+                                        </c1:DataGridAggregatesCollection>
+                                    </c1:DataGridAggregate.AggregateFunctions>
+                                </c1:DataGridTextColumn>
+                                <c1:DataGridDateTimeColumn   Header = "PRE_OP_END_TIME"      Binding = "{Binding BF_ENDTIME }"        IsReadOnly="True" HorizontalAlignment="Center" CustomDateFormat="yyyy-MM-dd HH:mm:ss" />
+                                <c1:DataGridDateTimeColumn   Header = "START_TIME"           Binding = "{Binding STARTTIME}"          IsReadOnly="True" HorizontalAlignment="Center" CustomDateFormat="yyyy-MM-dd HH:mm:ss" />
+                                <c1:DataGridDateTimeColumn   Header = "END_TIME"             Binding = "{Binding ENDTIME}"            IsReadOnly="True" HorizontalAlignment="Center" CustomDateFormat="yyyy-MM-dd HH:mm:ss" />
+                                <c1:DataGridDateTimeColumn   Header = "NEXT_OP_START_TIME"   Binding = "{Binding AF_STARTTIME}"       IsReadOnly="True" HorizontalAlignment="Center" CustomDateFormat="yyyy-MM-dd HH:mm:ss" />
+                                <c1:DataGridTextColumn       Header = "JOB_TIME"             Binding = "{Binding JOB_TIME}"     MinWidth="50" MaxWidth="80"         IsReadOnly="True" HorizontalAlignment="Center" />
+                                <c1:DataGridTextColumn       Header = "CURR"                 Binding = "{Binding WIP_QTY }"     MinWidth="50" MaxWidth="80"      IsReadOnly="True" HorizontalAlignment="Right">
+                                    <c1:DataGridAggregate.AggregateFunctions>
+                                        <c1:DataGridAggregatesCollection>
+                                            <c1:DataGridAggregateSum ResultTemplate="{StaticResource ResultTemplateSum}"/>
+                                        </c1:DataGridAggregatesCollection>
+                                    </c1:DataGridAggregate.AggregateFunctions>
+                                </c1:DataGridTextColumn>
+                                <c1:DataGridTextColumn       Header = "GRADE_A"              Binding = "{Binding A_GRD_QTY}"   MinWidth="50" MaxWidth="80"       IsReadOnly="True" HorizontalAlignment="Right">
+                                    <c1:DataGridAggregate.AggregateFunctions>
+                                        <c1:DataGridAggregatesCollection>
+                                            <c1:DataGridAggregateSum ResultTemplate="{StaticResource ResultTemplateSum}"/>
+                                        </c1:DataGridAggregatesCollection>
+                                    </c1:DataGridAggregate.AggregateFunctions>
+                                </c1:DataGridTextColumn>
+                                <c1:DataGridTextColumn       Header = "GRADE_B"              Binding = "{Binding B_GRD_QTY}"   MinWidth="50" MaxWidth="80"       IsReadOnly="True" HorizontalAlignment="Right">
+                                    <c1:DataGridAggregate.AggregateFunctions>
+                                        <c1:DataGridAggregatesCollection>
+                                            <c1:DataGridAggregateSum ResultTemplate="{StaticResource ResultTemplateSum}"/>
+                                        </c1:DataGridAggregatesCollection>
+                                    </c1:DataGridAggregate.AggregateFunctions>
+                                </c1:DataGridTextColumn>
+                                <c1:DataGridTextColumn       Header = "GRADE_C"              Binding = "{Binding C_GRD_QTY}"   MinWidth="50" MaxWidth="80"       IsReadOnly="True" HorizontalAlignment="Right" >
+                                    <c1:DataGridAggregate.AggregateFunctions>
+                                        <c1:DataGridAggregatesCollection>
+                                            <c1:DataGridAggregateSum ResultTemplate="{StaticResource ResultTemplateSum}"/>
+                                        </c1:DataGridAggregatesCollection>
+                                    </c1:DataGridAggregate.AggregateFunctions>
+                                </c1:DataGridTextColumn>
+                                <c1:DataGridTextColumn       Header = "GRADE_D"              Binding = "{Binding D_GRD_QTY}"    MinWidth="50" MaxWidth="80"      IsReadOnly="True" HorizontalAlignment="Right" >
+                                    <c1:DataGridAggregate.AggregateFunctions>
+                                        <c1:DataGridAggregatesCollection>
+                                            <c1:DataGridAggregateSum ResultTemplate="{StaticResource ResultTemplateSum}"/>
+                                        </c1:DataGridAggregatesCollection>
+                                    </c1:DataGridAggregate.AggregateFunctions>
+                                </c1:DataGridTextColumn>
+                                <c1:DataGridTextColumn       Header = "GRADE_E"              Binding = "{Binding E_GRD_QTY}"   MinWidth="50" MaxWidth="80"       IsReadOnly="True" HorizontalAlignment="Right" >
+                                    <c1:DataGridAggregate.AggregateFunctions>
+                                        <c1:DataGridAggregatesCollection>
+                                            <c1:DataGridAggregateSum ResultTemplate="{StaticResource ResultTemplateSum}"/>
+                                        </c1:DataGridAggregatesCollection>
+                                    </c1:DataGridAggregate.AggregateFunctions>
+                                </c1:DataGridTextColumn>
+                                <c1:DataGridTextColumn       Header = "GRADE_F"              Binding = "{Binding F_GRD_QTY}"  MinWidth="50" MaxWidth="80"        IsReadOnly="True" HorizontalAlignment="Right" >
+                                    <c1:DataGridAggregate.AggregateFunctions>
+                                        <c1:DataGridAggregatesCollection>
+                                            <c1:DataGridAggregateSum ResultTemplate="{StaticResource ResultTemplateSum}"/>
+                                        </c1:DataGridAggregatesCollection>
+                                    </c1:DataGridAggregate.AggregateFunctions>
+                                </c1:DataGridTextColumn>
+                                <c1:DataGridTextColumn       Header = "GRADE_G"              Binding = "{Binding G_GRD_QTY}"   MinWidth="50" MaxWidth="80"       IsReadOnly="True" HorizontalAlignment="Right" >
+                                    <c1:DataGridAggregate.AggregateFunctions>
+                                        <c1:DataGridAggregatesCollection>
+                                            <c1:DataGridAggregateSum ResultTemplate="{StaticResource ResultTemplateSum}"/>
+                                        </c1:DataGridAggregatesCollection>
+                                    </c1:DataGridAggregate.AggregateFunctions>
+                                </c1:DataGridTextColumn>
+                                <c1:DataGridTextColumn       Header = "GRADE_H"              Binding = "{Binding H_GRD_QTY}"   MinWidth="50" MaxWidth="80"       IsReadOnly="True" HorizontalAlignment="Right">
+                                    <c1:DataGridAggregate.AggregateFunctions>
+                                        <c1:DataGridAggregatesCollection>
+                                            <c1:DataGridAggregateSum ResultTemplate="{StaticResource ResultTemplateSum}"/>
+                                        </c1:DataGridAggregatesCollection>
+                                    </c1:DataGridAggregate.AggregateFunctions>
+                                </c1:DataGridTextColumn>
+                                <c1:DataGridTextColumn       Header = "GRADE_I"              Binding = "{Binding I_GRD_QTY}"  MinWidth="50" MaxWidth="80"        IsReadOnly="True" HorizontalAlignment="Right" >
+                                    <c1:DataGridAggregate.AggregateFunctions>
+                                        <c1:DataGridAggregatesCollection>
+                                            <c1:DataGridAggregateSum ResultTemplate="{StaticResource ResultTemplateSum}"/>
+                                        </c1:DataGridAggregatesCollection>
+                                    </c1:DataGridAggregate.AggregateFunctions>
+                                </c1:DataGridTextColumn>
+                                <c1:DataGridTextColumn       Header = "GRADE_J"              Binding = "{Binding J_GRD_QTY}"  MinWidth="50" MaxWidth="80"        IsReadOnly="True" HorizontalAlignment="Right">
+                                    <c1:DataGridAggregate.AggregateFunctions>
+                                        <c1:DataGridAggregatesCollection>
+                                            <c1:DataGridAggregateSum ResultTemplate="{StaticResource ResultTemplateSum}"/>
+                                        </c1:DataGridAggregatesCollection>
+                                    </c1:DataGridAggregate.AggregateFunctions>
+                                </c1:DataGridTextColumn>
+                                <c1:DataGridTextColumn       Header = "GRADE_K"              Binding = "{Binding K_GRD_QTY}"   MinWidth="50" MaxWidth="80"       IsReadOnly="True" HorizontalAlignment="Right" >
+                                    <c1:DataGridAggregate.AggregateFunctions>
+                                        <c1:DataGridAggregatesCollection>
+                                            <c1:DataGridAggregateSum ResultTemplate="{StaticResource ResultTemplateSum}"/>
+                                        </c1:DataGridAggregatesCollection>
+                                    </c1:DataGridAggregate.AggregateFunctions>
+                                </c1:DataGridTextColumn>
+                                <c1:DataGridTextColumn       Header = "GRADE_L"              Binding = "{Binding L_GRD_QTY}"   MinWidth="50" MaxWidth="80"       IsReadOnly="True" HorizontalAlignment="Right" >
+                                    <c1:DataGridAggregate.AggregateFunctions>
+                                        <c1:DataGridAggregatesCollection>
+                                            <c1:DataGridAggregateSum ResultTemplate="{StaticResource ResultTemplateSum}"/>
+                                        </c1:DataGridAggregatesCollection>
+                                    </c1:DataGridAggregate.AggregateFunctions>
+                                </c1:DataGridTextColumn>
+                                <c1:DataGridTextColumn       Header = "GRADE_M"              Binding = "{Binding M_GRD_QTY}"  MinWidth="50" MaxWidth="80"        IsReadOnly="True" HorizontalAlignment="Right" >
+                                    <c1:DataGridAggregate.AggregateFunctions>
+                                        <c1:DataGridAggregatesCollection>
+                                            <c1:DataGridAggregateSum ResultTemplate="{StaticResource ResultTemplateSum}"/>
+                                        </c1:DataGridAggregatesCollection>
+                                    </c1:DataGridAggregate.AggregateFunctions>
+                                </c1:DataGridTextColumn>
+                                <c1:DataGridTextColumn       Header = "GRADE_N"              Binding = "{Binding N_GRD_QTY}"   MinWidth="50" MaxWidth="80"       IsReadOnly="True" HorizontalAlignment="Right">
+                                    <c1:DataGridAggregate.AggregateFunctions>
+                                        <c1:DataGridAggregatesCollection>
+                                            <c1:DataGridAggregateSum ResultTemplate="{StaticResource ResultTemplateSum}"/>
+                                        </c1:DataGridAggregatesCollection>
+                                    </c1:DataGridAggregate.AggregateFunctions>
+                                </c1:DataGridTextColumn>
+                                <c1:DataGridTextColumn       Header = "GRADE_O"              Binding = "{Binding O_GRD_QTY}"  MinWidth="50" MaxWidth="80"        IsReadOnly="True" HorizontalAlignment="Right" >
+                                    <c1:DataGridAggregate.AggregateFunctions>
+                                        <c1:DataGridAggregatesCollection>
+                                            <c1:DataGridAggregateSum ResultTemplate="{StaticResource ResultTemplateSum}"/>
+                                        </c1:DataGridAggregatesCollection>
+                                    </c1:DataGridAggregate.AggregateFunctions>
+                                </c1:DataGridTextColumn>
+                                <c1:DataGridTextColumn       Header = "GRADE_P"              Binding = "{Binding P_GRD_QTY}"  MinWidth="50" MaxWidth="80"        IsReadOnly="True" HorizontalAlignment="Right" >
+                                    <c1:DataGridAggregate.AggregateFunctions>
+                                        <c1:DataGridAggregatesCollection>
+                                            <c1:DataGridAggregateSum ResultTemplate="{StaticResource ResultTemplateSum}"/>
+                                        </c1:DataGridAggregatesCollection>
+                                    </c1:DataGridAggregate.AggregateFunctions>
+                                </c1:DataGridTextColumn>
+                                <c1:DataGridTextColumn       Header = "GRADE_Q"              Binding = "{Binding Q_GRD_QTY}"  MinWidth="50" MaxWidth="80"        IsReadOnly="True" HorizontalAlignment="Right">
+                                    <c1:DataGridAggregate.AggregateFunctions>
+                                        <c1:DataGridAggregatesCollection>
+                                            <c1:DataGridAggregateSum ResultTemplate="{StaticResource ResultTemplateSum}"/>
+                                        </c1:DataGridAggregatesCollection>
+                                    </c1:DataGridAggregate.AggregateFunctions>
+                                </c1:DataGridTextColumn>
+                                <c1:DataGridTextColumn       Header = "GRADE_R"              Binding = "{Binding R_GRD_QTY}"   MinWidth="50" MaxWidth="80"       IsReadOnly="True" HorizontalAlignment="Right">
+                                    <c1:DataGridAggregate.AggregateFunctions>
+                                        <c1:DataGridAggregatesCollection>
+                                            <c1:DataGridAggregateSum ResultTemplate="{StaticResource ResultTemplateSum}"/>
+                                        </c1:DataGridAggregatesCollection>
+                                    </c1:DataGridAggregate.AggregateFunctions>
+                                </c1:DataGridTextColumn>
+                                <c1:DataGridTextColumn       Header = "GRADE_S"              Binding = "{Binding S_GRD_QTY}"  MinWidth="50" MaxWidth="80"        IsReadOnly="True" HorizontalAlignment="Right" >
+                                    <c1:DataGridAggregate.AggregateFunctions>
+                                        <c1:DataGridAggregatesCollection>
+                                            <c1:DataGridAggregateSum ResultTemplate="{StaticResource ResultTemplateSum}"/>
+                                        </c1:DataGridAggregatesCollection>
+                                    </c1:DataGridAggregate.AggregateFunctions>
+                                </c1:DataGridTextColumn>
+                                <c1:DataGridTextColumn       Header = "GRADE_T"              Binding = "{Binding T_GRD_QTY}"   MinWidth="50" MaxWidth="80"       IsReadOnly="True" HorizontalAlignment="Right" >
+                                    <c1:DataGridAggregate.AggregateFunctions>
+                                        <c1:DataGridAggregatesCollection>
+                                            <c1:DataGridAggregateSum ResultTemplate="{StaticResource ResultTemplateSum}"/>
+                                        </c1:DataGridAggregatesCollection>
+                                    </c1:DataGridAggregate.AggregateFunctions>
+                                </c1:DataGridTextColumn>
+                                <c1:DataGridTextColumn       Header = "GRADE_U"              Binding = "{Binding U_GRD_QTY}"   MinWidth="50" MaxWidth="80"       IsReadOnly="True" HorizontalAlignment="Right">
+                                    <c1:DataGridAggregate.AggregateFunctions>
+                                        <c1:DataGridAggregatesCollection>
+                                            <c1:DataGridAggregateSum ResultTemplate="{StaticResource ResultTemplateSum}"/>
+                                        </c1:DataGridAggregatesCollection>
+                                    </c1:DataGridAggregate.AggregateFunctions>
+                                </c1:DataGridTextColumn>
+                                <c1:DataGridTextColumn       Header = "GRADE_V"              Binding = "{Binding V_GRD_QTY}"   MinWidth="50" MaxWidth="80"       IsReadOnly="True" HorizontalAlignment="Right" >
+                                    <c1:DataGridAggregate.AggregateFunctions>
+                                        <c1:DataGridAggregatesCollection>
+                                            <c1:DataGridAggregateSum ResultTemplate="{StaticResource ResultTemplateSum}"/>
+                                        </c1:DataGridAggregatesCollection>
+                                    </c1:DataGridAggregate.AggregateFunctions>
+                                </c1:DataGridTextColumn>
+                                <c1:DataGridTextColumn       Header = "GRADE_W"              Binding = "{Binding W_GRD_QTY}"  MinWidth="50" MaxWidth="80"        IsReadOnly="True" HorizontalAlignment="Right" >
+                                    <c1:DataGridAggregate.AggregateFunctions>
+                                        <c1:DataGridAggregatesCollection>
+                                            <c1:DataGridAggregateSum ResultTemplate="{StaticResource ResultTemplateSum}"/>
+                                        </c1:DataGridAggregatesCollection>
+                                    </c1:DataGridAggregate.AggregateFunctions>
+                                </c1:DataGridTextColumn>
+                                <c1:DataGridTextColumn       Header = "GRADE_Y"              Binding = "{Binding Y_GRD_QTY}"   MinWidth="50" MaxWidth="80"       IsReadOnly="True" HorizontalAlignment="Right">
+                                    <c1:DataGridAggregate.AggregateFunctions>
+                                        <c1:DataGridAggregatesCollection>
+                                            <c1:DataGridAggregateSum ResultTemplate="{StaticResource ResultTemplateSum}"/>
+                                        </c1:DataGridAggregatesCollection>
+                                    </c1:DataGridAggregate.AggregateFunctions>
+                                </c1:DataGridTextColumn>
+                                <c1:DataGridTextColumn       Header = "GRADE_Z"              Binding = "{Binding Z_GRD_QTY}"   MinWidth="50" MaxWidth="80"       IsReadOnly="True" HorizontalAlignment="Right" >
+                                    <c1:DataGridAggregate.AggregateFunctions>
+                                        <c1:DataGridAggregatesCollection>
+                                            <c1:DataGridAggregateSum ResultTemplate="{StaticResource ResultTemplateSum}"/>
+                                        </c1:DataGridAggregatesCollection>
+                                    </c1:DataGridAggregate.AggregateFunctions>
+                                </c1:DataGridTextColumn>
+                                <c1:DataGridTextColumn       Header = "DUMMY_YN"             Binding = "{Binding DUMMY_FLAG}"         IsReadOnly="True" HorizontalAlignment="Center"  Visibility="Collapsed"/>
+                                <c1:DataGridTextColumn       Header = "SPECIAL_YN"           Binding = "{Binding SPCL_FLAG}"          IsReadOnly="True" HorizontalAlignment="Center"  Visibility="Collapsed" />
+                            </c1:C1DataGrid.Columns>
+                            <c1:C1DataGrid.BottomRows>
+                                <c1:DataGridSummaryRow x:Name="summarySum"  RowStyle="{StaticResource SummaryRowStyle}"/>
+                                <c1:DataGridSummaryRow x:Name="summaryRate" RowStyle="{StaticResource SummaryRowStyle }"/>
+                            </c1:C1DataGrid.BottomRows>
+                        </uc:UcBaseDataGrid>
+                    </Grid>
+                </Grid>
+            </Grid>
+        </ctrlLib:LGCLayout>
+        <ctrlLib:LoadingIndicator x:Name="loadingIndicator" Grid.Row="999" Grid.Column="999"/>
+    </Grid>
+</UserControl>

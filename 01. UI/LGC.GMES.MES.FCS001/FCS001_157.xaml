@@ -1,0 +1,111 @@
+﻿<UserControl x:Class="LGC.GMES.MES.FCS001.FCS001_157"
+             xmlns:ss="http://schemas.grapecity.com/windows/spreadsheet/2012"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:c1="http://schemas.componentone.com/winfx/2006/xaml"
+             xmlns:ctrlLib="clr-namespace:LGC.GMES.MES.ControlsLibrary;assembly=LGC.GMES.MES.ControlsLibrary"
+             xmlns:uc="clr-namespace:LGC.GMES.MES.CMM001.Controls;assembly=LGC.GMES.MES.CMM001"
+             mc:Ignorable="d" 
+             d:DesignHeight="768" d:DesignWidth="1920"  Loaded="UserControl_Loaded" >
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/LGC.GMES.MES.ControlsLibrary;component/ControlStyles.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <Grid x:Name="grdMain">
+        <ctrlLib:LGCLayout x:Name="LayoutRoot" Tag="예약 현황" Grid.ColumnSpan="2">
+            <ctrlLib:LGCLayout.Content>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="51"/>
+                        <RowDefinition Height="8"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <Border Grid.Row="0" Background="#fff2f2f2" BorderThickness="1" BorderBrush="#ffd1d1d1"/>
+                    <Grid   Grid.Row="0" Grid.Column="0" >
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="11" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="11" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="13" />
+                            <ColumnDefinition Width="169*"/>
+                            <ColumnDefinition Width="170*"/>
+                            <ColumnDefinition Width="10" />
+                            <ColumnDefinition Width="163*"/>
+                            <ColumnDefinition Width="208*"/>
+                            <ColumnDefinition Width="7.2" />
+                            <ColumnDefinition Width="163"/>
+                            <ColumnDefinition Width="208"/>
+                            <ColumnDefinition Width="510*"/>
+                            <ColumnDefinition Width="10" />
+                            <ColumnDefinition Width="170*"/>
+                            <ColumnDefinition Width="10" />
+                            <ColumnDefinition Width="168*"/>
+                            <ColumnDefinition Width="13"/>
+                        </Grid.ColumnDefinitions>
+
+                        <!--조회조건 ROW1-->
+
+
+                        <TextBlock                          Grid.Row="1" Grid.Column="1" Text="{Binding ConverterParameter='RSVTYPE', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}" HorizontalAlignment="Right"  Width="80" Height="16" />
+                        <uc:UcBaseComboBox x:Name="cboRsvType" Grid.Row="1" Grid.Column="2" MinHeight="23" Style="{StaticResource C1ComboBoxStyle}" AutoComplete="False" Height="Auto" Margin="3.4,2.8,3.2,3" />
+
+                        <TextBlock                               Grid.Row="1" Grid.Column="4"  Text="{Binding ConverterParameter=RSVNAME, Converter={StaticResource GlobalObjectDicConverter}, RelativeSource={RelativeSource Self}}" Style="{StaticResource Content_InputForm_LabelStyle}" HorizontalAlignment="Right"  Height="16" />
+                        <ctrlLib:MultiSelectionBox              Grid.Row="1" Grid.Column="5" x:Name="cboRsvName" DisplayMemberPath="CBO_NAME" SelectedValuePath="CBO_CODE" isAllUsed="False" VerticalAlignment="Bottom" Background="LightYellow" MinWidth="150" SelectionChanged="cboRsvName_SelectionChanged" DropDownClosed="cboRsvName_DropDownClosed" />
+                        
+                        <TextBlock                               Grid.Row="1" Grid.Column="7"  Text="{Binding ConverterParameter=COLOR_LEGEND, Converter={StaticResource GlobalObjectDicConverter}, RelativeSource={RelativeSource Self}}" Style="{StaticResource Content_InputForm_LabelStyle}" HorizontalAlignment="Right"  Height="16" />
+                        <uc:UcBaseComboBox  x:Name="cboColorLegend"  Grid.Row="1" Grid.Column="8" MinHeight="23" Style="{StaticResource C1ComboBoxStyle}" AutoComplete="False" Height="Auto" Margin="10,2.8,4,3" />
+
+                        <Grid Grid.Column="10" Grid.ColumnSpan="3" Margin="9.4,11,9.2,0" Grid.RowSpan="2">
+                            <uc:UcBaseCheckBox Grid.Row="1"  Grid.Column="9" Margin="4" x:Name="chkTimer" Content="{Binding ConverterParameter='AUTO_TIMER', Converter={StaticResource GlobalObjectDicConverter}}" Style="{StaticResource SearchCondition_CheckBoxStyle}" IsChecked="False" Checked="chkTimer_Checked" Unchecked="chkTimer_Unchecked" />
+                        </Grid>
+
+                        <!--조회 버튼-->
+                        <Grid Grid.Column="13" Margin="0,11,0.2,0" Grid.RowSpan="2" HorizontalAlignment="Right" Width="135" >
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+
+                            <uc:UcBaseButton x:Name="btnSearch"  Grid.Row="0" Grid.Column="1" Height="Auto" Content="{Binding ConverterParameter=SEARCH, Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource SearchButtonStyle}" Cursor="Hand" Click="btnSearch_Click" />
+                        </Grid>
+                    </Grid>
+                    <!--조회 영역-->
+                    <!--ROW 02-->
+                    <Border Grid.Row="2" Background="#fff2f2f2" BorderThickness="1" BorderBrush="#ffbebebe"></Border>
+                    <Grid   Grid.Row="2" Grid.Column="0" >
+                        <uc:UcBaseDataGrid x:Name="dgRsvStatus"  Grid.Row="0" Grid.Column="0" Margin="8" IsReadOnly="True" HeadersVisibility="Column" SelectionMode="MultiRange" LoadedCellPresenter="dgRsvStatus_LoadedCellPresenter" MouseDoubleClick="dgRsvStatus_MouseDoubleClick">
+                            <c1:C1DataGrid.Columns>
+                                <c1:DataGridTextColumn      Header = "예약 명"                   Binding = "{Binding EXEC_PGM_NAME}"      HorizontalAlignment="Center" />
+                                <c1:DataGridTextColumn      Header = "최신 예약 시간"            Binding = "{Binding EXEC_DTTM}"          HorizontalAlignment="Center" />
+                                <c1:DataGridTextColumn      Header = "최신 예약 수량"            Binding = "{Binding RSV_QTY}"            HorizontalAlignment="Center" />
+                                <c1:DataGridTextColumn      Header = "최신 예약 내용"            Binding = "{Binding EXEC_NOTE}"          HorizontalAlignment="Left" />
+                                <c1:DataGridTextColumn      Header = "마지막 성공 예약 시간"     Binding = "{Binding LAST_EXEC_DTTM}"     HorizontalAlignment="Center" />
+                                <c1:DataGridTextColumn      Header = "마지막 성공 예약 수량"     Binding = "{Binding LAST_RSV_QTY}"       HorizontalAlignment="Center" />
+                                <c1:DataGridTextColumn      Header = "마지막 성공 예약 내용"     Binding = "{Binding LAST_EXEC_NOTE}"     HorizontalAlignment="Left" />
+                                <c1:DataGridTextColumn      Header = "PRE_MIN_DIFF"              Binding = "{Binding PRE_MIN_DIFF}"       HorizontalAlignment="Center"  Visibility="Hidden" />
+                                <c1:DataGridTextColumn      Header = "MIN_SYS_DIFF"              Binding = "{Binding MIN_SYS_DIFF}"       HorizontalAlignment="Center"  Visibility="Hidden" />
+                                <c1:DataGridTextColumn      Header = "EXEC_PGM_NAME_ORG"         Binding = "{Binding EXEC_PGM_NAME_ORG}"  HorizontalAlignment="Center"  Visibility="Hidden" />
+                                <c1:DataGridTextColumn      Header = "EXEC_TYPE        "         Binding = "{Binding EXEC_TYPE}"          HorizontalAlignment="Center"  Visibility="Hidden" />
+                            </c1:C1DataGrid.Columns>
+
+                            <c1:C1GroupingWithSummariesBehavior.GroupingWithSummariesBehavior>
+                                <c1:C1GroupingWithSummariesBehavior />
+                            </c1:C1GroupingWithSummariesBehavior.GroupingWithSummariesBehavior>
+                        </uc:UcBaseDataGrid>
+                    </Grid>
+                </Grid>
+            </ctrlLib:LGCLayout.Content>
+        </ctrlLib:LGCLayout>
+
+        <ctrlLib:LoadingIndicator x:Name="loadingIndicator" Grid.Row="999" Grid.Column="999" />
+    </Grid>
+</UserControl>

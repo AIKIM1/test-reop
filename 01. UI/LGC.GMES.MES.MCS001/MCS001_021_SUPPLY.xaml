@@ -1,0 +1,131 @@
+﻿<c1:C1Window x:Class="LGC.GMES.MES.MCS001.MCS001_021_SUPPLY"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:c1="http://schemas.componentone.com/winfx/2006/xaml"
+		     xmlns:System="clr-namespace:System;assembly=mscorlib"
+             xmlns:ctrlLib="clr-namespace:LGC.GMES.MES.ControlsLibrary;assembly=LGC.GMES.MES.ControlsLibrary"        
+             ctrlLib:LGCPopupWindowExtension.ApplyStyle="True"
+             Header="{Binding Converter={StaticResource GlobalObjectDicConverter}, ConverterParameter='자재공급'}" 
+             Tag="ProtoType01Windows01"  Height="450" Width="750"  IsResizable="True" Loaded="C1Window_Loaded"  >
+
+    <c1:C1Window.Resources>
+        <ResourceDictionary Source="/LGC.GMES.MES.ControlsLibrary;Component/ControlStyles.xaml"/>
+    </c1:C1Window.Resources>
+    <Grid x:Name="grdMain">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="8" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="8" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="8" />
+            </Grid.RowDefinitions>
+
+            <Border Grid.Row="0" BorderThickness="1" Grid.RowSpan="99" Grid.ColumnSpan="99" BorderBrush="#ffbebebe" Style="{StaticResource BorderSubTitleStyle}"/>
+            <Border Grid.Row="2" BorderThickness="1,0,1,1" Grid.ColumnSpan="99" BorderBrush="#ffbebebe" Style="{StaticResource BorderSubTitleStyle}"/>
+            <!--<Border Grid.Row="4" BorderThickness="1,0,1,1" Grid.ColumnSpan="99" BorderBrush="#ffbebebe" Style="{StaticResource BorderSubTitleStyle}"/>-->
+            <!--<Border Grid.Row="6" BorderThickness="1,0,1,1" Grid.ColumnSpan="99" BorderBrush="#ffbebebe" Style="{StaticResource BorderSubTitleStyle}"/>-->
+
+            <Grid Grid.Row ="1">
+                <Grid.RowDefinitions>
+
+                    <RowDefinition Height="8" />
+                    <RowDefinition Height="30" />
+                    <RowDefinition Height="3" />
+                    <RowDefinition Height="30" />
+                    <RowDefinition Height="8" />
+                    <RowDefinition Height="70" />
+                    <RowDefinition Height="8" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="8" />
+                    <RowDefinition Height="0.3*" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="8" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="8" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="8" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="8" />
+                </Grid.ColumnDefinitions>
+                <!--기본정보-->
+                <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding ConverterParameter='요청설비', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}"/>
+                <TextBox x:Name="txtR_Eqpt"  Grid.Row="1" Grid.Column="2" MinWidth="150" Style="{StaticResource Content_InputForm_TextBoxStyle}" IsEnabled="False" />
+
+                <TextBlock Grid.Row="1" Grid.Column="4" Text="{Binding ConverterParameter='W/O', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}" />
+                <TextBox x:Name="txtWo"  Grid.Row="1" Grid.Column="5" MinWidth="150" Style="{StaticResource Content_InputForm_TextBoxStyle}" IsEnabled="False" />
+
+                <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding ConverterParameter='FROMPORT', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}"/>
+                <TextBox x:Name="txtFromPort"  Grid.Row="3" Grid.Column="2" MinWidth="150" Style="{StaticResource Content_InputForm_TextBoxStyle}" IsEnabled="False" />
+
+                <TextBlock Grid.Row="3" Grid.Column="4" Text="{Binding ConverterParameter='TOPORT', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}" />
+                <TextBox x:Name="txtToPort"  Grid.Row="3" Grid.Column="5" MinWidth="150" Style="{StaticResource Content_InputForm_TextBoxStyle}" IsEnabled="False" />
+                <!--요청정보-->
+                <c1:C1DataGrid Grid.Row="5" 
+                           Grid.Column="1"
+                           x:Name="dgAssyLot" 
+                           IsReadOnly="False" 
+                           Grid.ColumnSpan="7"
+                           HeadersVisibility="Column" 
+                           SelectionMode="SingleRow" 
+                           CanUserFilter="False" 
+                           CanUserSort="False" Margin="0,5,0,3" Grid.RowSpan="2">
+                    <c1:C1DataGrid.Columns>
+                        <c1:DataGridTextColumn      Header = "자재요청NO" Binding = "{Binding LOTID_RT}"  HorizontalAlignment="Center" IsReadOnly="True" />
+                        <c1:DataGridTextColumn      Header = "요청자재"   Binding = "{Binding LOTID_RT}"  HorizontalAlignment="Center" IsReadOnly="True" />
+                        <c1:DataGridNumericColumn   Header = "요청수량"   Binding = "{Binding SUBLOTQTY}" HorizontalAlignment="Right"  IsReadOnly="True" Format="#,##0" />
+                    </c1:C1DataGrid.Columns>
+                </c1:C1DataGrid>
+
+                <TextBlock                   Grid.Row="7" Grid.Column="1" Text="{Binding ConverterParameter='CSTID', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}"/>
+                <TextBox x:Name="txtCSTID"   Grid.Row="7" Grid.Column="2" MinWidth="150" Style="{StaticResource Content_InputForm_TextBoxStyle}"  KeyDown="txtCSTID_KeyDown" GotFocus="txtCSTID_GotFocus"/>
+
+                <TextBlock                   Grid.Row="7" Grid.Column="4" Text="{Binding ConverterParameter='MLOTID', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}"/>
+                <TextBox x:Name="txtMLOTID"  Grid.Row="7" Grid.Column="5" MinWidth="150" Style="{StaticResource Content_InputForm_TextBoxStyle}"  KeyDown="txtMLOTID_KeyDown" GotFocus="txtMLOTID_GotFocus"/>
+
+                <c1:C1DataGrid Grid.Row="9" 
+                           Grid.Column="1"
+                           x:Name="dgMLOT" 
+                           IsReadOnly="False" 
+                           Grid.ColumnSpan="7"
+                           HeadersVisibility="Column" 
+                           SelectionMode="SingleRow" 
+                           CanUserFilter="False" 
+                           CanUserSort="False">
+                    <c1:C1DataGrid.Columns>
+                        <c1:DataGridTextColumn   Header = "자재LOT"  Binding = "{Binding MLOT}" HorizontalAlignment="Center" IsReadOnly="True" />
+                    </c1:C1DataGrid.Columns>
+                </c1:C1DataGrid>
+            </Grid>
+
+            <Grid Grid.Row ="3" >
+                <Grid.RowDefinitions>
+
+                    <RowDefinition Height="8" />
+                    <RowDefinition Height="Auto" />
+
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="8"/>
+                    <ColumnDefinition Width="100"/>
+                    <ColumnDefinition Width="8"/>
+                    <ColumnDefinition Width="100"/>
+                    <ColumnDefinition Width="8"/>
+                    <ColumnDefinition Width="100"/>
+                    <ColumnDefinition Width="8"/>
+                </Grid.ColumnDefinitions>
+
+                <Button x:Name="btnSupply" Grid.Row="1" Grid.Column="4" Content="{Binding ConverterParameter=공급요청, Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{DynamicResource Content_MainButtonSpecialStyle}" Click="btnSupply_Click" />
+                <Button x:Name="btnClose"  Grid.Row="1" Grid.Column="6" Content="{Binding ConverterParameter=닫기,     Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{DynamicResource Content_MainButtonStyle}" Click="btnClose_Click" />
+            </Grid>
+            
+            <ctrlLib:LoadingIndicator x:Name="loadingIndicator" Grid.Row="0" Grid.RowSpan="999" Grid.Column="0" Grid.ColumnSpan="999" />
+
+        </Grid>
+    </Grid>
+</c1:C1Window>

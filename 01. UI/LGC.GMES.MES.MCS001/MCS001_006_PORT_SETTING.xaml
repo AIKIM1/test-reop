@@ -1,0 +1,129 @@
+<c1:C1Window x:Class="LGC.GMES.MES.MCS001.MCS001_006_PORT_SETTING"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:c1="http://schemas.componentone.com/winfx/2006/xaml"
+		     xmlns:System="clr-namespace:System;assembly=mscorlib"
+             xmlns:ctrlLib="clr-namespace:LGC.GMES.MES.ControlsLibrary;assembly=LGC.GMES.MES.ControlsLibrary"        
+             ctrlLib:LGCPopupWindowExtension.ApplyStyle="True"
+             Header="{Binding Converter={StaticResource GlobalObjectDicConverter}, ConverterParameter='PORT 설정'}" 
+             Tag="ProtoType01Windows01" Height="700" Width="1230" IsResizable="True" Loaded="C1Window_Loaded"  >
+
+    <c1:C1Window.Resources>
+        <ResourceDictionary Source="/LGC.GMES.MES.ControlsLibrary;Component/ControlStyles.xaml"/>
+    </c1:C1Window.Resources>
+    <Grid>
+        <ctrlLib:LGCLayout x:Name="LayoutRoot" Tag="LOTLIST">
+            <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="5" />
+            <RowDefinition Height="44" />
+        </Grid.RowDefinitions>
+        <!--content area-->
+        <Grid Grid.Row ="0">
+            <!--tab area-->
+            <c1:C1TabControl  Grid.Row="3" Grid.Column="1">
+                <c1:C1TabItem Header="{Binding Converter={StaticResource GlobalObjectDicConverter}, ConverterParameter='포트출고설비'}" >
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="5"/>
+                            <RowDefinition Height="34"/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="90"/>
+                            <ColumnDefinition Width="5"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="5"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="4"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="4"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="8"/>
+                        </Grid.ColumnDefinitions>
+                        <Button  Grid.Row="1" Grid.Column="3" x:Name="btnPortSearch"   Content="{Binding ConverterParameter=조회,Converter ={StaticResource GlobalObjectDicConverter}, Mode=OneWay}"      Style="{StaticResource SearchButtonStyle}"               Click="btnPortSearch_Click" Cursor="Hand"/>
+                        <Button  Grid.Row="1" Grid.Column="5" x:Name="btnAdd"          Content="{Binding ConverterParameter='ROW추가', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{DynamicResource Content_MainButtonSpecialStyle}" Click="btnAdd_Click"           Cursor="Hand"/>
+                        <Button  Grid.Row="1" Grid.Column="7" x:Name="btnDeleteDtail"  Content="{Binding ConverterParameter='ROW삭제', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{DynamicResource Content_MainButtonSpecialStyle}" Click="btnDeleteDtail_Click"   Cursor="Hand"/>
+                        <Button  Grid.Row="1" Grid.Column="9" x:Name="btnPortSave"     Content="{Binding ConverterParameter=저장,   Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}"    Style="{DynamicResource Content_MainButtonSpecialStyle}" Click="btnPortSave_Click"      Cursor="Hand"/>
+
+                        <c1:C1DataGrid Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="99" x:Name="dgOutPutPort" HeadersVisibility="Column" SelectionMode="SingleRow" Margin="8" CommittedEdit="dgOutPutPort_CommittedEdit" BeginningEdit="dgOutPutPort_BeginningEdit" BeganEdit="dgOutPutPort_BeganEdit" LoadedCellPresenter="dgOutPutPort_LoadedCellPresenter" UnloadedCellPresenter="dgOutPutPort_UnloadedCellPresenter"   >
+                            <c1:C1DataGrid.Columns>
+                                <c1:DataGridCheckBoxColumn    Header = "선택"          Binding = "{Binding CHK}"                  HorizontalAlignment="Center" Width="40" IsReadOnly="False"/>
+                                <c1:DataGridComboBoxColumn    Header = "포트명"        Binding = "{Binding PORT_ID}"              Width="180" CellContentStyle="{StaticResource Grid_CellContentStyle}" DisplayMemberPath="CBO_NAME" SelectedValuePath="CBO_CODE"   IsReadOnly="False" />
+                                <c1:DataGridComboBoxColumn    Header = "자동출고요청"  Binding = "{Binding AUTO_ISS_REQ_FLAG}"    Width="120" CellContentStyle="{StaticResource Grid_CellContentStyle}" DisplayMemberPath="CBO_NAME" SelectedValuePath="CBO_CODE"   IsReadOnly="False" />
+                                <c1:DataGridComboBoxColumn    Header = "출고전극타입"  Binding = "{Binding ELTR_TYPE_CODE}"       Width="120" CellContentStyle="{StaticResource Grid_CellContentStyle}" DisplayMemberPath="CBO_NAME" SelectedValuePath="CBO_CODE"   IsReadOnly="False" />
+                                <c1:DataGridComboBoxColumn    Header = "사용유무"      Binding = "{Binding USE_FLAG}"             Width="120" CellContentStyle="{StaticResource Grid_CellContentStyle}" DisplayMemberPath="CBO_NAME" SelectedValuePath="CBO_CODE"   IsReadOnly="False" />
+                                <c1:DataGridComboBoxColumn    Header = "현재반송설비"  Binding = "{Binding LINK_EQPTID}"          Width="230" CellContentStyle="{StaticResource Grid_CellContentStyle}" DisplayMemberPath="CBO_NAME" SelectedValuePath="CBO_CODE"   IsReadOnly="False" />
+                                <c1:DataGridComboBoxColumn    Header = "다음반송설비"  Binding = "{Binding NEXT_LINK_EQPTID}"     Width="230" CellContentStyle="{StaticResource Grid_CellContentStyle}" DisplayMemberPath="CBO_NAME" SelectedValuePath="CBO_CODE"   IsReadOnly="False" />
+                                <c1:DataGridTextColumn        Header = "설비반송순서"  Binding = "{Binding LOGIS_CMD_SEQNO}"      Width="100" HorizontalAlignment="Center"  IsReadOnly="True"/>
+                                <c1:DataGridTextColumn        Header = "저장유무"      Binding = "{Binding SAVE_YN}"              Width="100" HorizontalAlignment="Center"  IsReadOnly="True" Visibility="Collapsed"/>
+                            </c1:C1DataGrid.Columns>
+                        </c1:C1DataGrid>
+                    </Grid>
+
+                </c1:C1TabItem>
+                <c1:C1TabItem Header="{Binding Converter={StaticResource GlobalObjectDicConverter}, ConverterParameter='REEL설정'}">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="5"/>
+                            <RowDefinition Height="34"/>
+                            <RowDefinition Height="5"/>
+                            <RowDefinition Height="1*"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="5"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="5"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="5"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Button    Grid.Row="1" Grid.Column="7" x:Name="btnQualityInfoSearch" Content="{Binding ConverterParameter=조회, Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource SearchButtonStyle}" Cursor="Hand" Click="btnQualityInfoSearch_Click"/>
+                        <c1:C1DataGrid Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="8" x:Name="dgQualityList" IsReadOnly="True" HeadersVisibility="Column" SelectionMode="SingleRow" >
+
+                            <c1:C1DataGrid.Columns>
+                                <c1:DataGridTextColumn        Header = "측정명"     Binding = "{Binding CLCTNAME}"   HorizontalAlignment="Center" />
+                                <c1:DataGridTextColumn        Header = "상한"        Binding = "{Binding CLCTMAX}"        HorizontalAlignment="Right" />
+                                <c1:DataGridTextColumn        Header = "하한"        Binding = "{Binding CLCTMIN}"        HorizontalAlignment="Right" />
+                                <c1:DataGridTextColumn        Header = "단위"       Binding = "{Binding CLCTUNIT}"   HorizontalAlignment="Center" />
+                                <c1:DataGridTextColumn        Header = "1차"        Binding = "{Binding Q01}"        HorizontalAlignment="Right" Visibility="Collapsed" />
+                                <c1:DataGridTextColumn        Header = "2차"        Binding = "{Binding Q02}"        HorizontalAlignment="Right" Visibility="Collapsed" />
+                                <c1:DataGridTextColumn        Header = "3차"        Binding = "{Binding Q03}"        HorizontalAlignment="Right" Visibility="Collapsed" />
+                                <c1:DataGridTextColumn        Header = "4차"        Binding = "{Binding Q04}"        HorizontalAlignment="Right" Visibility="Collapsed" />
+                                <c1:DataGridTextColumn        Header = "5차"        Binding = "{Binding Q05}"        HorizontalAlignment="Right" Visibility="Collapsed" />
+                                <c1:DataGridTextColumn        Header = "6차"        Binding = "{Binding Q06}"        HorizontalAlignment="Right" Visibility="Collapsed" />
+                                <c1:DataGridTextColumn        Header = "7차"        Binding = "{Binding Q07}"        HorizontalAlignment="Right" Visibility="Collapsed" />
+                                <c1:DataGridTextColumn        Header = "8차"        Binding = "{Binding Q08}"        HorizontalAlignment="Right" Visibility="Collapsed" />
+                                <c1:DataGridTextColumn        Header = "9차"        Binding = "{Binding Q09}"        HorizontalAlignment="Right" Visibility="Collapsed" />
+                                <c1:DataGridTextColumn        Header = "10차"       Binding = "{Binding Q10}"        HorizontalAlignment="Right" Visibility="Collapsed" />
+                            </c1:C1DataGrid.Columns>
+
+                        </c1:C1DataGrid>
+                    </Grid>
+
+                </c1:C1TabItem>
+            </c1:C1TabControl>
+
+        </Grid>
+        <Grid Grid.Row ="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="10"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <!--<Button x:Name="btnSave"    Grid.Column="1" Content="{Binding ConverterParameter=저장, Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{DynamicResource Content_MainButtonSpecialStyle}"/>-->
+            <Button x:Name="btnClose" Grid.Column="3" Content="{Binding ConverterParameter=닫기, Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{DynamicResource Content_MainButtonStyle}" Click="btnClose_Click" />
+        </Grid>
+    </Grid>
+        </ctrlLib:LGCLayout>
+
+        <ctrlLib:LoadingIndicator x:Name="loadingIndicator" Grid.Row="999" Grid.Column="999" />
+    </Grid>
+</c1:C1Window>

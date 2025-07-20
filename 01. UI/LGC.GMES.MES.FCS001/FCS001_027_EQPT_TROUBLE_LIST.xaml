@@ -1,0 +1,113 @@
+﻿<UserControl xmlns:ss="hhemas.grapecity.com/windows/spreadsheet/2012"  x:Class="LGC.GMES.MES.FCS001.FCS001_027_EQPT_TROUBLE_LIST"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:c1="http://schemas.componentone.com/winfx/2006/xaml"
+             xmlns:ctrlLib="clr-namespace:LGC.GMES.MES.ControlsLibrary;assembly=LGC.GMES.MES.ControlsLibrary"
+             xmlns:uc="clr-namespace:LGC.GMES.MES.CMM001.Controls;assembly=LGC.GMES.MES.CMM001"
+             mc:Ignorable="d" 
+             d:DesignHeight="768" d:DesignWidth="1580" Loaded="UserControl_Loaded">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/LGC.GMES.MES.ControlsLibrary;component/ControlStyles.xaml" />
+                <ResourceDictionary Source="/LGC.GMES.MES.ControlsLibrary;component/ControlTemplates/LGCDatePicker.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    
+    <Grid x:Name="grdMain">
+        <ctrlLib:LGCLayout x:Name="LayoutRoot" Tag="Trouble 상세 List" Grid.ColumnSpan="2">
+            <Grid>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="8"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <!--조회영역-->
+                    <Grid x:Name="SearchArea" Grid.Row="0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="11" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="11" />
+                        </Grid.RowDefinitions>
+                        <Border Grid.Row="0" Grid.RowSpan="99" Grid.Column="0" Style="{StaticResource Content_InputForm_ContentBorderStyle}"/>
+                        <Border Grid.Row="0" Grid.RowSpan="99" Grid.Column="0" BorderThickness="1" BorderBrush="#ffbebebe" Style="{StaticResource BorderSubTitleStyle}"/>
+                        <Grid Grid.Row="1">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="13"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="10"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="1.5*"/>
+                                <ColumnDefinition Width="10"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="1.5*"/>
+                                <ColumnDefinition Width="10"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="13"/>
+                            </Grid.ColumnDefinitions>
+                                <TextBlock  Grid.Column="1"  Text="{Binding ConverterParameter='조회기간', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}"/>
+                            <ctrlLib:LGCDatePicker Grid.Column="2"  x:Name="dtpFromDate" DatepickerType="Date"/>
+                            <TextBlock              Grid.Column="3"  Style="{StaticResource Content_InputForm_LabelStyle}"><Run Text="{Binding ConverterParameter='~', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay }"/></TextBlock>
+                            <ctrlLib:LGCDatePicker  Grid.Column="4"  x:Name="dtpToDate" DatepickerType="Date"  />
+                            <TextBlock              Grid.Column="6"  Style="{StaticResource Content_InputForm_LabelStyle}"><Run Text="{Binding ConverterParameter='LANE_ID', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay }"/></TextBlock>
+                            <uc:UcBaseComboBox          Grid.Column="7"  x:Name="cboLane"  DisplayMemberPath="" SelectedValuePath=""  Style="{StaticResource C1ComboBoxStyle}" AutoComplete="False" />
+                            <TextBlock              Grid.Column="9"  Style="{StaticResource Content_InputForm_LabelStyle}"><Run Text="{Binding ConverterParameter='EQP_FLAG', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay }"/></TextBlock>
+                            <uc:UcBaseComboBox          Grid.Column="10"  x:Name="cboEqp"  DisplayMemberPath="" SelectedValuePath=""  Style="{StaticResource C1ComboBoxStyle}" AutoComplete="False"/>
+                            <uc:UcBaseButton                 Grid.Column="13" x:Name="btnSearch" Margin="3"  Content="{Binding ConverterParameter=조회 , Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource SearchButtonStyle}"  Cursor="Hand" Click="BtnSearch_Click" />
+                            <uc:UcBaseButton                 Grid.Column="14" x:Name="btnUserConfirm" Margin="3"  Content="{Binding ConverterParameter=USER_CONFIRM , Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_MainButtonSpecialStyle}"  Cursor="Hand" Click="BtnUserConfirm_Click" />
+                        </Grid>
+                    </Grid>
+                    <!--조회리스트-->
+                    <Grid Grid.Row="2">
+                        <Border Style="{StaticResource Content_InputForm_ContentBorderStyle}"/>
+                        <Border Grid.Row="0" Grid.Column="0" BorderThickness="1"/>
+                        <uc:UcBaseDataGrid x:Name="dgEqpTroubleList" IsReadOnly="False" HeadersVisibility="Column" FrozenColumnCount="3" SelectionMode="SingleRow"
+                                       LoadedCellPresenter="dgEqpTroubleList_LoadedCellPresenter" BeginningEdit="dgEqpTroubleList_BeginningEdit" >
+                            <c1:C1DataGrid.Columns>
+                                <c1:DataGridCheckBoxColumn Name="CHK"  Binding="{Binding CHK, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  Width="Auto" HorizontalAlignment="Center" CanUserSort="False" >
+                                    <c1:DataGridCheckBoxColumn.Header>
+                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                                            <CheckBox x:Name="chkHeaderAll" Margin="0" Width="Auto"  Checked="chkHeaderAll_Checked" Unchecked="chkHeaderAll_Unchecked"></CheckBox>
+                                        </StackPanel>
+                                    </c1:DataGridCheckBoxColumn.Header>
+                                </c1:DataGridCheckBoxColumn>
+                              <!--  <c1:DataGridTemplateColumn Name="CHK" Width="40" >
+                                    <c1:DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <CheckBox IsChecked="{Binding CHK, Mode=TwoWay}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                        </DataTemplate>
+                                    </c1:DataGridTemplateColumn.CellTemplate>
+                                    <c1:DataGridTemplateColumn.Header>
+                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                                            <CheckBox  x:Name="chkHeaderAl" Margin="0" Width="Auto"  Checked="chkHeaderAll_Checked" Unchecked="chkHeaderAll_Unchecked"></CheckBox>
+                                        </StackPanel>
+                                    </c1:DataGridTemplateColumn.Header>
+                                </c1:DataGridTemplateColumn>-->
+                                <c1:DataGridTextColumn      Header = "LANE_ID"             Binding = "{Binding LANE_ID}"                 IsReadOnly="True" HorizontalAlignment="Center"/>
+                                <c1:DataGridTextColumn      Header = "EQP_NAME"            Binding = "{Binding EQPTNAME}"                IsReadOnly="True" HorizontalAlignment="Center" />
+                                <c1:DataGridTextColumn      Header = "TROUBLE_NAME"        Binding = "{Binding TROUBLE_NAME}"            IsReadOnly="True" HorizontalAlignment="Left" />
+                                <c1:DataGridTextColumn      Header = "TROUBLE_GRADE"       Binding = "{Binding ALARM_GRD_CODE}"          IsReadOnly="True" HorizontalAlignment="Center" />
+                                <c1:DataGridTextColumn      Header = "REPAIR_TYPE"         Binding = "{Binding ALARM_ACTION_MTHD_CNTT}"  IsReadOnly="True" HorizontalAlignment="Left" />
+                                <c1:DataGridDateTimeColumn  Header = "INSDTTM"             Binding = "{Binding INSDTTM}"                 IsReadOnly="True" HorizontalAlignment="Center" />
+                                <c1:DataGridTextColumn      Header = "CONFIRM_USER"        Binding = "{Binding CONFIRM_USER}"            IsReadOnly="True" HorizontalAlignment="Center" />
+                                <c1:DataGridDateTimeColumn  Header = "CONFIRM_TIME"        Binding = "{Binding CONFIRM_TIME}"            IsReadOnly="True" HorizontalAlignment="Center" />
+                                <c1:DataGridTextColumn      Header = "USER_CONFIRM"        Binding = "{Binding WRKR_CHK_FLAG}"           IsReadOnly="True" HorizontalAlignment="Center" Visibility="Collapsed" />
+                                <c1:DataGridTextColumn      Header = "TROUBLE_CD"          Binding = "{Binding EQPT_ALARM_CODE}"         IsReadOnly="True" HorizontalAlignment="Center" Visibility="Collapsed"  />
+                            </c1:C1DataGrid.Columns>
+                        </uc:UcBaseDataGrid>
+                    </Grid>
+                </Grid>
+            </Grid>
+        </ctrlLib:LGCLayout>
+        <ctrlLib:LoadingIndicator x:Name="loadingIndicator" Grid.Row="999" Grid.Column="999"/>
+    </Grid>
+</UserControl>

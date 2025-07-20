@@ -1,0 +1,462 @@
+﻿/*************************************************************************************
+ Created Date : 2017.05.31
+      Creator : 이슬아D
+   Decription : 전지 5MEGA-GMES 구축 - 1차포장구성 화면 - INBOX 라벨 발행 팝업
+--------------------------------------------------------------------------------------
+ [Change History]
+  2017.06.20  이슬아D : 최초생성
+  
+**************************************************************************************/
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Shapes;
+using C1.WPF;
+using LGC.GMES.MES.Common;
+using LGC.GMES.MES.CMM001.Class;
+using LGC.GMES.MES.ControlsLibrary;
+using System.Data;
+using C1.WPF.DataGrid;
+using LGC.GMES.MES.CMM001.Extensions;
+
+namespace LGC.GMES.MES.BOX001
+{
+
+    public partial class BOX001_206_PLT_LABEL : C1Window, IWorkArea
+    {
+        #region Declaration & Constructor 
+        Util _Util = new Util();
+
+        string sPrt = string.Empty;
+        string sRes = string.Empty;
+        string sCopy = string.Empty;
+        string sXpos = string.Empty;
+        string sYpos = string.Empty;
+        string sDark = string.Empty;
+        DataRow drPrtInfo = null;
+
+        DataTable _dtParam = null;
+        string _USERID = string.Empty;
+
+        string _sPGM_ID = "BOX001_206_PLT_LABEL";
+
+        public BOX001_206_PLT_LABEL()
+        {
+            InitializeComponent();
+        }
+
+        /// <summary>
+        ///  Frame과 상호작용하기 위한 객체
+        /// </summary>
+        public IFrameOperation FrameOperation
+        {
+            get;
+            set;
+        }
+
+        #endregion
+
+
+        #region Initialize
+
+
+        /// <summary>
+        /// 화면내 버튼 권한 처리
+        /// </summary>
+        private void ApplyPermissions()
+        {
+            List<Button> listAuth = new List<Button>();
+            //listAuth.Add(btnInReplace);
+            Util.pageAuth(listAuth, FrameOperation.AUTHORITY);
+        }
+
+
+
+        /// <summary>
+        /// 컨트롤 초기값 설정
+        /// </summary>
+        private void InitControl()
+        {
+            object[] tmps = C1WindowExtension.GetParameters(this);
+            _dtParam = tmps[0] as DataTable;
+            _USERID = tmps[1] as string;
+            dgPalletList.ItemsSource = DataTableConverter.Convert(_dtParam);
+            // 프린터 정보 조회
+            _Util.GetConfigPrintInfo(out sPrt, out sRes, out sCopy, out sXpos, out sYpos, out sDark, out drPrtInfo);
+        }
+        #endregion
+
+        #region Event
+
+        private void C1Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            InitControl();
+        }
+
+
+        private void btnPrint_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                if (!_Util.GetConfigPrintInfo(out sPrt, out sRes, out sCopy, out sXpos, out sYpos, out sDark, out drPrtInfo))
+                {
+                    return;
+                }
+
+                //C20210906-000305 : Desay pallet modification（pouch). 발행 조건에 따라 PALLET 하나당 하나 발생할지 PALLET 하나의 주차별로 발행할지
+                string sBizName = "BR_PRD_REG_PALLET_LABEL_NJ_ALL";
+                if (rdoPallet.IsChecked == true)
+                {
+                    sBizName = "BR_PRD_REG_PALLET_LABEL_NJ_ALL";
+                }
+                else
+                {
+                    sBizName = "BR_PRD_REG_PALLET_LABEL_NJ";
+                }
+
+                DataSet indataSet = new DataSet();
+                DataTable inDataTable = indataSet.Tables.Add("INDATA");
+                inDataTable.Columns.Add("PO_NO");
+                inDataTable.Columns.Add("SHIP_DATE");
+                inDataTable.Columns.Add("USERID");
+                inDataTable.Columns.Add("PGM_ID");    //라벨 이력 저장용
+                inDataTable.Columns.Add("BZRULE_ID"); //라벨 이력 저장용
+
+                DataTable inBoxTable = indataSet.Tables.Add("INBOX");
+                inBoxTable.Columns.Add("OQC_INSP_REQ_ID");
+                inBoxTable.Columns.Add("BOXID");
+
+
+                DataTable inPrintTable = indataSet.Tables.Add("INPRINT");
+                inPrintTable.Columns.Add("PRMK");
+                inPrintTable.Columns.Add("RESO");
+                inPrintTable.Columns.Add("PRCN");
+                inPrintTable.Columns.Add("MARH");
+                inPrintTable.Columns.Add("MARV");
+                inPrintTable.Columns.Add("DARK");
+
+
+                DataRow newRow = inDataTable.NewRow();
+                newRow["PO_NO"] = txtPONo.Text.Trim();
+                newRow["SHIP_DATE"] = dtpDate.SelectedDateTime.ToString("yyyy-MM-dd");
+                newRow["USERID"] = _USERID;
+                newRow["PGM_ID"] = _sPGM_ID;
+                newRow["BZRULE_ID"] = sBizName;
+                inDataTable.Rows.Add(newRow);
+
+                newRow = inPrintTable.NewRow();
+                newRow["PRMK"] = sPrt; // "ZEBRA"; Print type
+                newRow["RESO"] = sRes; // "203"; DPI
+                newRow["PRCN"] = sCopy; // "1"; Print Count
+                newRow["MARH"] = sXpos; // "0"; Horizone pos
+                newRow["MARV"] = sYpos; // "0"; Vertical pos
+                newRow["DARK"] = sDark; // darkness
+                inPrintTable.Rows.Add(newRow);
+
+                for (int i = 0; i < _dtParam.Rows.Count; i++)
+                {
+                    newRow = inBoxTable.NewRow();
+                    newRow["OQC_INSP_REQ_ID"] = _dtParam.Rows[i]["OQC_INSP_REQ_ID"].ToString();
+                    newRow["BOXID"] = _dtParam.Rows[i]["BOXID"].ToString();
+                    inBoxTable.Rows.Add(newRow);
+                }
+
+                new ClientProxy().ExecuteService_Multi(sBizName, "INDATA,INBOX,INPRINT", "OUTDATA", (bizResult, bizException) =>
+                {
+                    try
+                    {
+                        if (bizException != null)
+                        {
+                            Util.MessageException(bizException);
+                            return;
+                        }
+
+                        if (bizResult != null || bizResult.Tables.Count > 0 || bizResult.Tables["OUTDATA"].Rows.Count > 0)
+                        {
+                            for (int i = 0; i < bizResult.Tables["OUTDATA"].Rows.Count; i++)
+                            {
+                                string zplCode = bizResult.Tables["OUTDATA"].Rows[i]["ZPLCODE"].ToString();
+                                if (sRes.Equals("300"))
+                                {
+                                    #region 300dpi 치환
+                                    zplCode = zplCode.Replace("^PQ", "^FO230,347^GFA,00240,0024"
++"00,00000000030018,0600007001801E,038FFFFC00E018,01C00C00007038,00C00C00007070,00"
++"C00C001860C18000000C000FFFFFC000000C000C07018001800C000C0701803FC00C000C070180"
++"01800C000C07018001800C000FFFFF8001800C000C07018001800C000C07018001800C000C0701"
++"8001800C000FFFFF8001800C000C07018001800C000007,01800C000007006001980C00E00700F0"
++"01B00C00FFFFFF9801E00C000007,01E00C000007,03C00C000007,01800C000007,0001FC0000"
++"07,00003C000007,000000000006,00,"
++"^FO172,177^GFA,00360,00360,00012,"
++"00,00000018030000C0,0001801E01FFFFE0,1FFFEF1801C000F0,018E071801C000C0,018E0618"
++"01C000C0,018E061801C000C0,018E061801C000C0,018EC61801C000C0,618EF61801FFFFE0,3F"
++"FFF61801C0,018E061800000006,038E06180000000F,030E0E183FFFFFFF80,030E00180038,06"
++"0E00180030,0E0E06180070,1C0E03F800600070,300FE03000FFFFF8,6001C00000000060,0001"
++"C1C000000060,0781C1E0000000E0,00FFFF30000000E0,0001C000000000C0,0001C000000001"
++"C0,0001C00C000001C0,6001C01E0003E780,3FFFFFFF00003F,00000000000018,00,"
++"^FO137,452^GFA,00240,00240,00008,"
++"00,0300700003C060,07807800639878,060E6030339C70,0FFFFFFC1B9860,0C00C0001BB060,1D"
++"C1DC001BECE06018738600E38EC07830370700FFFBFFF861C000001FC180C001C300301FF180C0"
++"0181FFF81B9B01C001998070339FC1C0619D8070638EC1C03FFF8070C000618003818070060061"
++"800381FFF007BC618007E180700E3E638007B18070FFF033,0FB98070FC3033,0D9D807078701F"
++",1981FFF018601E,398180703FE00E,3181807003E01E,6181807003F81B8001818070071C71C0"
++"0183FFF01C00E0F001838070F003807801800000000E,00,"
++"^FO204,401^GFA,00600,00600,00020,"
++"00,000380000063800000000000C060,0003C00000FBC18000000000787981C0,0003800000E387"
++"C0000000007061FFE0,0F0380C001C38F00300003807061C1C0,0F0380E00383BC303FFFFFC070"
++"6FC1C0,0E0380C00F83E03030000383FFFFC1C0,0E0380C01F0F8030300003807061C1C0,0E0380"
++"C0331B8030300003807060C1C0,0E0380C0E30380F8300003807060C1C0,0E0380C00301FFF030"
++"0003807060FFC0,0E0380C000000000300003807FE0C1C03C,0E0380C00300070030001B807060"
++"C1C03C,0FFFFFC003FFFF0030003F807060C1C03C,000380C0030006003FFFFF807061C1C0,0003"
++"800003060600300003807FE1C1C0,0003800003078600300003807061C1C0,1C03807803070600"
++"300003807061FFC0,1E0380700307060030000380706181C0,180380700307060030000380706D"
++"81C0,180380700307060030000383FFFF81C0,180380700306060030000380000181C0,18038070"
++"030E0600300003801D8381C0,18038070030C06003000038038E301C03C,180380700019F0003F"
++"FFFF80707701C03C,1803807000703E0030000380603601C03C,1FFFFFF001E0078030000380C0"
++"0C3F80,000000700F0003800000000180180380,000000007800000000000003003006,00,"
++"^FO106,233^GFA,00912,00912,00024,"
++"00,0070030000000F,007C03C000000FC0001F0003800380000003000030,007003E000000E0000"
++"1F8003E001C0000003DFFFF8,0F700700000C0E0E001C00030000E0001FFFEC003C,0E70070000"
++"070E0FE01C00070000E00000F0000030,0E700E0000038E1C3C1C00060180703000E0000070,1C"
++"700E0003018E1C0F1C000E01FFFFFC00E003E070,1C771FFFFFC1CE38079C000C31C0007800E003"
++"E070,1FFFDC70E781EE38039C001C3DC0007000E0038070,1FFFF871C700EE70019C00183FC000"
++"7001E0038070,387030E1C700EE60001C003071C0007001C00300E0,387060E1C7000EC0001C00"
++"3071C0007001C00700E0,3070C0E1C7000E0C001C00FFE1C0007001C00700E0,707181C387000E"
++"1EE01C0078C1FFFFF003800700E0,607301C3870FFFFF381C006181C0007003838E00E0,007003"
++"8387000E001E1C000301C0000003FFCE01C0,0071870707000E000F1C000301C0000003C38E01C7"
++"80,0077C6070700CE00071C000601E0001807C38FFFFFC0,007C0E0E0700FEE0031CC00C01B000"
++"3E07C3800007,01F01C0E0700FE70001CF0180FBFFFFE0FC3800007,0FF0381C0700CE38001DF8"
++"37FBB1C7180DC3800007,7F7070180701CE38001FC07F83B1C7181DC3800007,3870C0380701CE"
++"1C03FC003803B1C71819C38001C7,1873807007018E1C7F1C003003B1C71831C3F003F7,007000"
++"E00E038E1FE01C00000FB1C71801C3BFFFF7,007000C00E030E0C001C00001F3FFFF801C3800007"
++",007001800E070E00001C00007331C71801C380000E,007003000E060E00001C0003C731C71801"
++"C380000E,00700E000E0C0E00001C003F8631C71801C380000E,00701C000E000E00001C00FE06"
++"31C71801FF80000E,007030001C000E00001C00700E31C71801C380001C,007060303C000E0000"
++"1C00600C31C71801C3801C1C,0070001FFC000F00001C00001871C7F801C00007F8,00700001F8"
++"000F00001E00003071867800000000F0,00700000C0000F00001C00000030003000000000C0,00"
++",00,"
++"^FO188,559^GFA,00600,00600,00020,"
++"00,0300000000030000000000000000000C,03CF0F000003C0000000180001C0000F,030E0E0000"
++"07000000001FFFFFE0001C,030E0E000006000000E0180701C00018,030E0E0001C6000001C018"
++"0601C00718,030E0E007FEE007001C0180601C1FFB801C0,037E0E00000FFFF8018018060FC000"
++"3FFFE0,7FFE0E00001C00E001801FFFFFC000700380,030E0E000018F0C00380180601C00063C3"
++",030E6E700030E1800380180601C000C386,030FFFF80060C180030018060DC0018306003C,030E"
++"0E000060E30007001C060FC001838C003C,030E0E0000C0E60007001FFFFFC0030398003C,037E"
++"0E000000E0000600180001C0000380,03CE0E000000E0000E00180001C0000380,1F0E0E0000E1"
++"E0000E0018C071C0038780,7F0E0E00FFF1F0000E0018FFF9C3FFC7C0,730E0E000001B0000C00"
++"18E071C00006C0,030E0E00000398001C0038E071C0000E60,030E0E00000318001C0038E071C0"
++"000C60,030E0E1800070C00180038E071C0001C30,030E0E1800060E00380030FFF9C0001838,03"
++"0E3E18000C0700380030E001C000301C003C,030EEE18001803803000700001C000600E003C,03"
++"0FCE1C003003C07000600001C000C00F003C,7F0F07FC00E001F0000060003FC0038007C0,0F0E"
++"03F0018000780000C0000380060001E0,06000000070000000001800000001C,00,"
++"^FO176,506^GFA,00360,00360,00012,"
++"00,00000C0003C060,00E00F00639878000E000E,00700C00339C70000FFFFF,00381C001B9860"
++"000E000E,001818001BB060000FFFFE,001830001BECE0600E000E,03006380E38EC0780E000E,03"
++"FFFFC0FFFBFFF80FFFFE,038003001FC180C00E000D80038003001FF180C0000001C0038003001B"
++"9B01C1FFFFFFE003800300339FC1C0,03800300638EC1C006000E,03800300C000618007FFFE,03"
++"80030006006180060E0E,03FFFF8007BC6180060E0E,038003800E3E638007FFFE,000C0000FFF0"
++"3300060E0E,00070000FC303300060E0E,00F1C18078701F0007FFFE,0CE0E0E018601E00060E0C"
++",0CE0C6703FE00E00000E03,0CE0063803E01E00700E07801CE0063803F81B801FFFFC,18E00618"
++"071C71C0000E00C0307C3F001C00E0F1800E01E0003FFC00F0038078FFFFFFE000000000000E,00"
++","
++"^FO152,296^GFA,00812,00812,00028,"
++"00,01C181800000380000000E00000000000380300006,01F1E1F000001C000000070000000070"
++"03C03FFFFF,01C1C1C001800E00E00003801C0FFFF9E30038000E,0181C1C001FFFFFFF1C00180"
++"3E00E301C30038000E,0381C1C001C0000000FFFFFFE300E301C30038000E,0301C1C001C00000"
++"0000C01F0000E301C30038000E,0701C1CE01C000000000601C0000E301C30038000E,07BFFFFF"
++"01C01803000070180000E339C3003FFFFF,0F01C1C001C01801E0603030181FFFFDC30038,0F01"
++"C1C001D80C03803FFFFFFC00E301C300000000000380,1F01C1C001CC0C03803038601800C301C3"
++"000000007003C0,3701C1C001CC0603003030601800C301C307FFFFFFFC03C0,3701C1C001C606"
++"03003070601801C30183000380,6701C1C001C7070700306078D8018300030007,0701C1C301C3"
++"07060031C03FF8030300030006,07C1C1C781C383060033000018060380FF000E0003,077F7F7C"
++"C1C1830E003E601C181C03F00E000FFFFF80,0700000001C1C38C00307FFC1830007C0000180007"
++",0700C3000181C30C00306018180000703000000007,0700F1C00181C01800306018180380707C"
++"00000006,0701C0600180C018003060181803FFFFC00000000E,07038038038000300030601C18"
++"000070000000000E0003C0,0707001C03000031E0307FF018000070000000000E0003C0,070C00"
++"0E037FFFFFF030600018000070038000001C0003C0,073800070600000000300007F830007007C0"
++"003F78,07E000070C00000000700000701FFFDFFC600001F0,00000000000000000030,00,"
++"^FO155,614^GFA,00240,00240,00008,"
++"00,0018,003E00003803,003806000E0180,007FFF000700C0,00E01C000700E0,01F018000000"
++"60C00398380000C061F0060E6000007FFFF01C03C000E000E0,3003C0003800E0,000EF0001C00"
++"E0,003C3C001C00E0,00F007F00C00E0,038000FC0000E0,3F0001C00000E18063FFFFC0037FFF"
++"E0030381800300E0,030381800600E0,030381800600E0,030381800C00E0,03FFFF801C00E0,03"
++"0381801800E0,030381803800E0,030381807000E0,03038180F000E07003FFFF8063FFFFF80300"
++"0180,00,00,"
++"^FO256,668^GFA,00348,00348,00012,"
++"00,0001C000001C18,0000E000001E0C,0C007007001806,0FFFFFFF803807,0E00000000380380"
++",0E01E0000030038180,0E018000007E0303E0,0E03801E0063FFFE,0EFFFFFF00F0C00F80,0E07"
++"000001F8C00E0007,0E06380001E0C00C000780,0E0E3E000360601C000780,0E0C38000660601C"
++",0E1C38000C606018,0E38383800603018,0E3FFFFC00603018,0E60380000603038,0E00380000"
++"603030,0C00380700603830,0DFFFFFF80603860,0C00380000603860,1C003800006038600007"
++"80,18003800006038C0000780,18003800006038C0E00780,30003800006FFFFFF8,6000380000"
++"E0,000000000060,00,^PQ");
+                                    #endregion
+
+                                }
+                                else
+                                {
+                                    #region 203dpi 치환
+                                    zplCode = zplCode.Replace("^PQ", "^ FO155,235 ^ GFA,00160,00160,00008,"
+                           + "00,1800180E0380,0E7FFC0307,0701800386,060180301CC0,0001801FF7E0,0601801860C0,7F"
+                           + "01801860C0,0601801FFFC0,0601801860C0,0601801860C0,0601801FFFC0,0601800060,06C1"
+                           + "80C06078,0781807FFFC0,0701800060,0E01800060,061F800060,0003000070,00,"
+                           + "^FO116,120^GFA,00160,00160,00008,"
+                           + "00,00303C180180,3FFB981FFFC0,06C318180180,06C318180180,06C318180180,7FFF181FFF"
+                           + "80,06C318000060,0CC318C00078,0CC3187FFFC0,18C01806,30C1F80C0180,60FC600FFFC0,00"
+                           + "30C0000180,1FFFE0000180,003000000180,0030000003,7FFFFC00E7,000000003E,00,"
+                           + "^FO93,306^GFA,00160,00160,00008,"
+                           + "00,0E07000E06,0C6C186CEF,1FFFFC3D8C,3319800FCC30,61B0C0FFFFF8,6700003F1860,0618"
+                           + "383DF060,06DFF86CF860,7FF818CC0C60,0E18181F0CC0,0F1FF819ECC0,1F9818FF86C0,1ED8"
+                           + "18F18780,361FF8630380,6618183F0380,6618180FC6C0,061FF838CC70,061818E07838,00,"
+                           + "^FO138,272^GFA,00320,00320,00016,"
+                           + "00,003C0003B8C0000000E3B0C0,0030000731E0600180C31FE0,1C30700E37307FFFE0C3D8C0,18"
+                           + "30601E3C306000C3FFF8C0,1830607DF0306000C0C318C0,183060CC3FF86000C0C318C0,183060"
+                           + "0C00006000C0FF1FC060,1830600FFF806007C0C318C0F0,0FFFE00C01C07FFFC0C318C0,003000"
+                           + "0C71806000C0FF18C0,3830180C71806000C0C33FC0,30301C0C61806000C0C3B0C0,3030180C61"
+                           + "806000C3FFF0C0,3030180C61806000C06030C0,3030180CE1806000C07E60C060,30301801DE00"
+                           + "7FFFC0C360C0F0,3FFFF80703C06000C183C6C0,000018FC00E00000030183C0,00,"
+                           + "^FO72,157^GFA,00416,00416,00016,"
+                           + "00,038180000380,03C0E00003C003C00E01C00001800E,1F81C000C31803801C00E003FFFFFF,1B"
+                           + "818000631F83801860600038000E,3B8380187338E380183FFFC0380E0C,3BF3FFFC3B303B8031"
+                           + "B001E0300F0C,3FFE33983B603B8063F001C0300C0C,338E73981BC00380633001C0700C1C,638C"
+                           + "631803000381FF3001C0701C1C,6398E318033F8380E63FFFC0631818,63F0C718FFFEE3800C30"
+                           + "0180739818,039986180300738018300000FFF819C003F38E381BC03380303C00E0F3BFFFE00783"
+                           + "0C383F6003B060FFFFF1F38001807F8E1C38333003F8FFBCCCC1F38001803398183833381F8060"
+                           + "3CCCC37380198063B03030731FF380007CCCC373FFFD80038060306318038001EFFFC073800380"
+                           + "0380C030C3000380076CCCC07380038003818030C30003803C6CCCC0738003,0387007003000381"
+                           + "F0CCCCC07F8003,038C007003000380C0CCCCC0738187,03803FE003000380018CCFC07000FE,03"
+                           + "8001C003000380000C01C0000018,00,"
+                           + "^FO127,378^GFA,00320,00320,00016,"
+                           + "00,0E71C000380000060006000E,0F61800070000707FFFE001C,0C6180066000060706060198,0F"
+                           + "6180FF7FF0060306363FDFFC,7FE18000C0380E03FFFE00300E,0C6DB0019C600C030606006718"
+                           + ",0C7FFC019CC00C03060600673006,0C6180031D801C03FFFE00C7600F,0DE180001C0018030006"
+                           + "0007,0F6180061C00180360C60187,7C6181FF9C0038063FE67FE7,6C6180001E00300660C60007"
+                           + "80,0C6180003600300660C6000D80,0C618C007300700660C6001CC0,0C678C00618060067FE600"
+                           + "186006,0C6D8C01C0C0E00C00060070300F,6C79DC030070000C00FE00C01C,3C60700E00380018"
+                           + "001C03800E,00,"
+                           + "^FO119,343^GFA,00240,00240,00012,"
+                           + "00,0301C00E0600300180,0183006CEF001FFF80,00C3003D8C001803,18C6C00FCC301FFF,0FFF"
+                           + "E0FFFFF81803,0600C03F18603FFEC0,0600C03DF061FFFFF0,0600C06CF860,0600C0CC0C601F"
+                           + "FF80,0600C01F0CC018E3,0FFFC019ECC01FFF,006000FF86C018E3,03B8C0F187801FFF,1B0C70"
+                           + "63038030E0,1B01983F0380C0E1C0,33018C0FC6C07FFF,7381C038CC71FFFFF0,00FF00E07838"
+                           + ",00,"
+                           + "^FO103,200^GFA,00400,00400,00020,"
+                           + "00,073CF0001C00000E00000301E0E007,0618E018060600070187FFB9807FFE,0618E00FFFFF9F"
+                           + "FFFFC0CC3D806006,0C18E00C000000607000CC39806006,0F18FE0C000000306000CC39806006"
+                           + ",1FFFF00C0C060C30C30FFFF980FFFF,3C18E00F060F07FFFF80CC39800000C038,3C18E00D860C"
+                           + "06398300CC39860000F038,6C18E00CC30C063183018C3183FFFF80,0C18E00C63180660FF018C"
+                           + "018038,0F18EF0C631807C003030C1F803003,0DFFB80C7398073FE30E0FC3007FFF80,0C18000C"
+                           + "333006306300030C000003,0C1CE00C303006306301FFFF000007,0C3030180060063063000300"
+                           + "0000060038,0C601C1800C7063FC30003000000060038,0CC00E33FFFD86003B0FFFFFE0038C,0F"
+                           + "80063000000E000F0000000000F8,00,"
+                           + "^FO105,416^GFA,00160,00160,00008,"
+                           + "00,00E0006030,0181803818,03FFC00C0C,078700000C60,0CEE0003FFF8,383800C00C,007C00"
+                           + "700C,01C780380C,0700FC000C,7C0060000CE0,0FFFE00DFFB0,0C3060180C,0C3060180C,0FFF"
+                           + "E0300C,0C3060600C,0C3060E00C30,0FFFE0CFFFF8,0C0060,00,"
+                           + "^FO173,452^GFA,00160,00160,00008,"
+                           + "00,00180001CC,300C0E0187,1FFFFF0303,181C00030386,18301806FFFF,1BFFFE06301C,1860"
+                           + "000F301801C01867001E303801C018C600361830,19C630361830,19FFFC061830,180600060C60"
+                           + ",180606060C60,1FFFFF060CC0,300600060CC001C0300600060CC601C060060007CD8780,6006"
+                           + "00067FFC,00,^PQ"); 
+                                    #endregion
+                                }
+                                PrintLabel(zplCode, drPrtInfo);
+                            }
+
+                            this.DialogResult = MessageBoxResult.OK;
+                            this.Close();
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Util.MessageException(ex);
+                    }
+                }, indataSet);
+            }
+            catch (Exception ex)
+            {
+                Util.MessageException(ex);
+            }
+            finally
+            {
+                loadingIndicator.Visibility = Visibility.Collapsed;
+            }
+        }
+        #endregion
+
+        private void btnClose_Click(object sender, RoutedEventArgs e)
+        {
+            this.DialogResult = MessageBoxResult.Cancel;
+            this.Close();
+        }
+        private bool PrintLabel(string zpl, DataRow drPrtInfo)
+        {
+            if (drPrtInfo?.Table == null)
+            {
+                loadingIndicator.Visibility = Visibility.Collapsed;
+                FrameOperation.PrintFrameMessage(MessageDic.Instance.GetMessage("SFU3030"));
+
+                return false;
+            }
+
+            bool brtndefault = false;
+            if (drPrtInfo.Table.Columns.Contains("PORTNAME") && drPrtInfo["PORTNAME"].ToString().Trim().Length > 0)
+            {
+                if (drPrtInfo["PORTNAME"].GetString().ToUpper().Equals("USB"))
+                {
+                    brtndefault = FrameOperation.Barcode_ZPL_USB_Print(zpl);
+                    if (brtndefault == false)
+                    {
+                        loadingIndicator.Visibility = Visibility.Collapsed;
+                        FrameOperation.PrintFrameMessage(MessageDic.Instance.GetMessage("SFU1309"));
+                    }
+                }
+                else if (drPrtInfo["PORTNAME"].ToString().IndexOf("LPT", StringComparison.Ordinal) >= 0)
+                {
+                    FrameOperation.PrintFrameMessage(string.Empty);
+                    brtndefault = FrameOperation.Barcode_ZPL_LPT_Print(drPrtInfo, zpl);
+                    if (brtndefault == false)
+                    {
+                        loadingIndicator.Visibility = Visibility.Collapsed;
+                        FrameOperation.PrintFrameMessage(MessageDic.Instance.GetMessage("SFU1309"));
+                    }
+                }
+                else
+                {
+                    FrameOperation.PrintFrameMessage(string.Empty);
+                    brtndefault = FrameOperation.Barcode_ZPL_Print(drPrtInfo, zpl);
+                    if (brtndefault == false)
+                    {
+                        loadingIndicator.Visibility = Visibility.Collapsed;
+                        FrameOperation.PrintFrameMessage(MessageDic.Instance.GetMessage("SFU1309"));
+                    }
+                }
+
+                System.Threading.Thread.Sleep(300);
+
+            }
+            else
+            {
+                loadingIndicator.Visibility = Visibility.Collapsed;
+                FrameOperation.PrintFrameMessage(MessageDic.Instance.GetMessage("SFU3031"));
+                Util.MessageValidation("SFU3031");
+            }
+
+            return brtndefault;
+        }
+
+        #region Mehod
+
+        #endregion
+
+    }
+}

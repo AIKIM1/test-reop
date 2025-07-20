@@ -1,0 +1,799 @@
+﻿<c1:C1Window x:Class="LGC.GMES.MES.COM001.COM001_RM_CHART_RP"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+        xmlns:c1="http://schemas.componentone.com/winfx/2006/xaml"
+        xmlns:ss="http://schemas.grapecity.com/windows/spreadsheet/2012"
+        xmlns:local="clr-namespace:LGC.GMES.MES.COM001"
+        xmlns:ctrlLib="clr-namespace:LGC.GMES.MES.ControlsLibrary;assembly=LGC.GMES.MES.ControlsLibrary"
+        ctrlLib:LGCPopupWindowExtension.ApplyStyle="True"
+        xmlns:c1c="clr-namespace:C1.WPF.C1Chart;assembly=C1.WPF.C1Chart.4"
+        Header="{Binding Converter={StaticResource GlobalObjectDicConverter}, ConverterParameter='RollMap 2.0'}" 
+        mc:Ignorable="d"
+        Width="1024" Height="768"
+        x:Name="ROLLMAP"
+        Loaded="RollMap_Loaded">
+
+    <c1:C1Window.Resources>
+        <ResourceDictionary Source="/LGC.GMES.MES.ControlsLibrary;Component/ControlStyles.xaml"/>
+    </c1:C1Window.Resources>
+
+    <Grid>
+        <Grid x:Name="grdMain">
+            <Grid.Resources>
+                <DataTemplate x:Key="chartLabel">
+                    <Grid>
+                        <Label Background="{Binding DataObject.COLORMAP}" Height="20" MinWidth="22"  VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Cursor="Hand"  Margin="21,0,0,0" BorderThickness="0.5" >
+                            <TextBlock Text="{Binding DataObject.ROLLMAP_CLCT_TYPE}" FontSize="11" FontWeight="Bold" TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0" ToolTipService.ShowDuration="60000">
+                                <TextBlock.ToolTip>
+                                    <Grid>
+                                        <TextBlock FontSize="12" Margin="0" Foreground="Black" Text="{Binding DataObject.TOOLTIP}" />
+                                    </Grid>
+                                </TextBlock.ToolTip>
+                            </TextBlock>
+                        </Label>
+                    </Grid>
+                </DataTemplate>
+
+                <DataTemplate x:Key="chartMarkLabel">
+                    <Grid>
+                        <Border Grid.Row="0" Grid.Column="0" BorderThickness="1" BorderBrush="{Binding DataObject.COLORMAP}" CornerRadius="1" Margin="18,0,0,0" Style="{StaticResource BorderSubTitleStyle}" Background="{Binding DataObject.COLORMAP}"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
+                            <TextBlock Text="{Binding DataObject.ROLLMAP_CLCT_TYPE}" Tag="{Binding DataObject.TAG}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextAlignment="Center" Height="12" FontFamily="맑은 고딕" FontSize="10" Foreground="Black" FontWeight="Bold" Cursor="Hand" ToolTipService.ShowDuration="60000" >
+                                <TextBlock.ToolTip>
+                                    <Grid>
+                                        <TextBlock FontSize="12" Margin="0" Foreground="Black" Text="{Binding DataObject.TOOLTIP}" />
+                                    </Grid>
+                                </TextBlock.ToolTip>
+                            </TextBlock>
+                        </Border>
+                    </Grid>
+                </DataTemplate>
+
+                <DataTemplate x:Key="chartTag">
+                    <Grid>
+                        <Border Grid.Row="0" Grid.Column="0" BorderThickness="1" BorderBrush="{Binding DataObject.COLORMAP}" CornerRadius="3" Style="{StaticResource BorderSubTitleStyle}" Background="{Binding DataObject.COLORMAP}"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
+                            <TextBlock Text="{Binding DataObject.TAGNAME}" Tag="{Binding DataObject.TAG}" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" Height="12" Width="12" FontFamily="맑은 고딕" FontSize="10" Foreground="Black" FontWeight="Bold" Cursor="Hand" ToolTipService.ShowDuration="60000" MouseLeftButtonDown="TextBlock_MouseLeftButtonDown" PreviewMouseLeftButtonDown="tbTagSection_PreviewMouseLeftButtonDown">
+                                <TextBlock.ToolTip>
+                                    <Grid>
+                                        <TextBlock FontSize="12" Margin="0" Foreground="Black" Text="{Binding DataObject.TOOLTIP}" />
+                                    </Grid>
+                                </TextBlock.ToolTip>
+                            </TextBlock>
+                        </Border>
+                    </Grid>
+                </DataTemplate>
+
+                <DataTemplate x:Key="chartLane">
+                    <Grid>
+                        <TextBlock Text="{Binding DataObject.LANEINFO}" FontSize="12" Foreground="Black" FontWeight="Bold" TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0" Background="Transparent">
+                        </TextBlock>
+                    </Grid>
+                </DataTemplate>
+
+                <DataTemplate x:Key="chartTopBackFlag">
+                    <Grid>
+                        <TextBlock Text="{Binding DataObject.FLAG}" FontSize="12" Foreground="Gray" FontWeight="Bold" TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0" Background="Transparent">
+                        </TextBlock>
+                    </Grid>
+                </DataTemplate>
+
+                <DataTemplate x:Key="chartMaterial">
+                    <Grid>
+                        <TextBlock Text="{Binding DataObject.INPUT_LOTID}" FontSize="10" Foreground="Black" FontWeight="Bold" TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0" Background="Transparent">
+                        </TextBlock>
+                    </Grid>
+                </DataTemplate>
+
+                <DataTemplate x:Key="chartSample">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="50"/>
+                            <ColumnDefinition Width="20"/>
+                            <ColumnDefinition Width="50"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="{Binding DataObject.STRT_PSTN}" Grid.Column="0"  FontSize="11" Foreground="Blue" FontWeight="Bold" TextAlignment="Right" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0" Background="Transparent" Cursor="Hand"/>
+                        <Grid Grid.Column="1" Cursor="Hand" ToolTipService.ShowDuration="60000">
+                            <Path  Data="M11,21H7V19H11V21M15.5,19H17V21H13V19H13.2L11.8,12.9L9.3,13.5C9.2,14 9,14.4 8.8,14.8C7.9,16.3 6,16.7 4.5,15.8C3,14.9 2.6,13 3.5,11.5C4.4,10 6.3,9.6 7.8,10.5C8.2,10.7 8.5,11.1 8.7,11.4L11.2,10.8L10.6,8.3C10.2,8.2 9.8,8 9.4,7.8C8,6.9 7.5,5 8.4,3.5C9.3,2 11.2,1.6 12.7,2.5C14.2,3.4 14.6,5.3 13.7,6.8C13.5,7.2 13.1,7.5 12.8,7.7L15.5,19M7,11.8C6.3,11.3 5.3,11.6 4.8,12.3C4.3,13 4.6,14 5.3,14.4C6,14.9 7,14.7 7.5,13.9C7.9,13.2 7.7,12.2 7,11.8M12.4,6C12.9,5.3 12.6,4.3 11.9,3.8C11.2,3.3 10.2,3.6 9.7,4.3C9.3,5 9.5,6 10.3,6.5C11,6.9 12,6.7 12.4,6M12.8,11.3C12.6,11.2 12.4,11.2 12.3,11.4C12.2,11.6 12.2,11.8 12.4,11.9C12.6,12 12.8,12 12.9,11.8C13.1,11.6 13,11.4 12.8,11.3M21,8.5L14.5,10L15,12.2L22.5,10.4L23,9.7L21,8.5M23,19H19V21H23V19M5,19H1V21H5V19Z" Stretch="Uniform" Fill="Black" />
+                            <Grid.ToolTip>
+                                <Grid>
+                                    <TextBlock FontSize="12" Margin="0" Foreground="Black" Text="{Binding DataObject.TOOLTIP}" />
+                                </Grid>
+                            </Grid.ToolTip>
+                        </Grid>
+                        <TextBlock Text="{Binding DataObject.END_PSTN}" Grid.Column="2"  FontSize="11" Foreground="Blue" FontWeight="Bold" TextAlignment="Left" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0" Background="Transparent" Cursor="Hand" ToolTipService.ShowDuration="60000">
+                            <TextBlock.ToolTip>
+                                <Grid>
+                                    <TextBlock FontSize="12" Margin="0" Foreground="Black" Text="{Binding DataObject.TOOLTIP}" />
+                                </Grid>
+                            </TextBlock.ToolTip>
+                        </TextBlock>
+                    </Grid>
+                </DataTemplate>
+
+                <DataTemplate x:Key="chartCircle">
+                    <Grid>
+                        <Border Grid.Row="0" Grid.Column="0" BorderThickness="5" BorderBrush="{Binding DataObject.COLORMAP}" CornerRadius="20" Style="{StaticResource BorderSubTitleStyle}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0" >
+                            <TextBlock Text="{Binding DataObject.CIRCLENAME}" TextWrapping="Wrap" TextAlignment="Center" Height="36" Width="36" FontFamily="맑은 고딕" FontSize="14" Foreground="Black" FontWeight="Bold" Cursor="Hand" Padding="0,8,0,0" >
+                            </TextBlock>
+                        </Border>
+                    </Grid>
+                </DataTemplate>
+
+                <DataTemplate x:Key="arrowRight">
+                    <Grid>
+                        <Path Data="M4,11V13H16L10.5,18.5L11.92,19.92L19.84,12L11.92,4.08L10.5,5.5L16,11H4Z" Stretch="Fill" Fill="Black"  Stroke="Black"  StrokeThickness="1" />
+                    </Grid>
+                </DataTemplate>
+
+                <DataTemplate x:Key="chartLength">
+                    <Grid Cursor="Hand" ToolTipService.ShowDuration="60000">
+                        <TextBlock Text="{Binding DataObject.RAW_END_PSTN}" FontSize="{Binding DataObject.FONTSIZE}" Foreground="Blue" FontWeight="Bold" TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0" Background="Transparent">
+                        </TextBlock>
+                    </Grid>
+                </DataTemplate>
+
+                <DataTemplate x:Key="chartLotCut">
+                    <Grid >
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="18"></RowDefinition>
+                            <RowDefinition Height="16"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Grid Grid.Row="1" Cursor="Hand" ToolTipService.ShowDuration="60000">
+                            <Path  Data="M20.84 22.73L12.86 14.75L12.17 15.44L6.66 13.08C6.71 12.65 6.89 12.24 7.22 11.91L8.62 10.5L1.11 3L2.39 1.73L22.11 21.46L20.84 22.73M15.41 12.21L11.16 7.96L16.41 2.71C17.2 1.93 18.46 1.93 19.24 2.71L20.66 4.13C21.44 4.91 21.44 6.17 20.66 6.96L15.41 12.21M17.12 6.25C17.5 6.64 18.15 6.64 18.54 6.25C18.93 5.86 18.93 5.23 18.54 4.83C18.15 4.44 17.5 4.44 17.12 4.83C16.73 5.23 16.73 5.86 17.12 6.25M5 16V21.75L10.81 16.53L5.81 14.53L5 16Z" Stretch="Uniform" Fill="Black" />
+                            <Grid.ToolTip>
+                                <Grid>
+                                    <TextBlock FontSize="12" Margin="0" Foreground="Black" Text="{Binding DataObject.TOOLTIP}" />
+                                </Grid>
+                            </Grid.ToolTip>
+                        </Grid>
+                        <TextBlock Text="{Binding DataObject.RAW_END_PSTN}" Grid.Row="0" FontSize="11" Foreground="Blue"  FontWeight="Bold" TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0" Background="Transparent" Cursor="Hand" ToolTipService.ShowDuration="60000">
+                            <TextBlock.ToolTip>
+                                <Grid>
+                                    <TextBlock FontSize="12" Margin="0" Foreground="Black" Text="{Binding DataObject.TOOLTIP}" />
+                                </Grid>
+                            </TextBlock.ToolTip>                            
+                        </TextBlock>
+                    </Grid>
+                </DataTemplate>
+
+                <DataTemplate x:Key="chartMerge">
+                    <Grid >
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="18"></RowDefinition>
+                            <RowDefinition Height="16"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Grid Grid.Row="1" Cursor="Hand" ToolTipService.ShowDuration="60000">
+                            <Path  Data="M5,10H3V4H11V6H5V10M19,18H13V20H21V14H19V18M5,18V14H3V20H11V18H5M21,4H13V6H19V10H21V4M8,13V15L11,12L8,9V11H3V13H8M16,11V9L13,12L16,15V13H21V11H16Z" Stretch="Uniform" Fill="Black" />
+                            <Grid.ToolTip>
+                                <Grid>
+                                    <TextBlock FontSize="12" Margin="0" Foreground="Black" Text="{Binding DataObject.TOOLTIP}" />
+                                </Grid>
+                            </Grid.ToolTip>
+                        </Grid>
+                        <TextBlock Text="{Binding DataObject.ADJ_LOTID}" Grid.Row="0" Visibility="{Binding DataObject.ADJ_VISIVILITY}" FontSize="11" Foreground="LimeGreen"  FontWeight="Bold" TextAlignment="Left" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0" Background="Transparent" Cursor="Hand" ToolTipService.ShowDuration="60000">
+                            <TextBlock.ToolTip>
+                                <Grid>
+                                    <TextBlock FontSize="12" Margin="0" Foreground="Black" Text="{Binding DataObject.TOOLTIP}" />
+                                </Grid>
+                            </TextBlock.ToolTip>                            
+                        </TextBlock>
+                    </Grid>
+                </DataTemplate>
+
+                <DataTemplate x:Key="chartPetScrap">
+                    <Grid x:Name="gdPetScrap" Cursor="Hand" ToolTipService.ShowDuration="60000" MouseLeftButtonDown="gdPetScrap_MouseLeftButtonDown" Tag="{Binding DataObject.TAG}" Margin="0">
+                        <Polygon Points="0,10 10,10 5,22" Fill="{Binding DataObject.COLORMAP}" Stroke="{Binding DataObject.COLORMAP}" HorizontalAlignment="Center" />
+                        <Grid.ToolTip>
+                            <Grid>
+                                <TextBlock FontSize="12" Margin="0" Foreground="Black" Text="{Binding DataObject.TOOLTIP}" />
+                            </Grid>
+                        </Grid.ToolTip>
+                    </Grid>
+                </DataTemplate>
+
+                <DataTemplate x:Key="chartSectionTagSingle">
+                    <Grid x:Name="gdSectionTagSingle" Tag="{Binding DataObject.BORDERTAG}">
+                        <Border x:Name="borderSectionTag" Grid.Row="0" Grid.Column="0" BorderThickness="1" BorderBrush="{Binding DataObject.COLORMAP}" CornerRadius="3" Style="{StaticResource BorderSubTitleStyle}" Background="{Binding DataObject.COLORMAP}"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
+                            <TextBlock x:Name="tbTagSection" Text="{Binding DataObject.TAGNAME}" Tag="{Binding DataObject.TAG}"  HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" Height="12" Width="12" FontFamily="맑은 고딕" FontSize="10" Foreground="Black" FontWeight="Bold"  ToolTipService.ShowDuration="60000" Margin="0,-1,0,0" >
+                                <TextBlock.ToolTip>
+                                    <Grid>
+                                        <TextBlock FontSize="12" Margin="0" Foreground="Black" Text="{Binding DataObject.TOOLTIP}" />
+                                    </Grid>
+                                </TextBlock.ToolTip>
+                            </TextBlock>
+                        </Border>
+                    </Grid>
+                </DataTemplate>
+
+            </Grid.Resources>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="3" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="10" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <!-- Header -->
+            <Grid Grid.Row="1" x:Name="grdHeader">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="3"/>
+                    <RowDefinition Height="80"/>
+                    <RowDefinition Height="3"/>
+                </Grid.RowDefinitions>
+                <Border Grid.Row="0" Grid.RowSpan="3" Style="{StaticResource Content_InputForm_LabelBorderStyle}"></Border>
+                <Grid Grid.Row="1" >
+                    <Grid.ColumnDefinitions>
+                        <!-- 1~12 -->
+                        <ColumnDefinition Width="4"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="4"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="4"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="4"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="4"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="4"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="4"/>
+                        <!-- 13~18(15,17) -->
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="4"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="4" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="4" />
+                    </Grid.ColumnDefinitions>
+                    <!-- 1.LOT/설비 -->
+                    <Grid Grid.Row="0" Grid.Column="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="3*"/>
+                            <ColumnDefinition Width="7*"/>
+                            <ColumnDefinition Width="5"/>
+                            <ColumnDefinition Width="3*"/>
+                            <ColumnDefinition Width="7*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Grid.Column="0" Text="{Binding ConverterParameter='LOT', Converter={StaticResource GlobalObjectDicConverter}, RelativeSource={RelativeSource Self}}" Style="{StaticResource Content_InputForm_LabelStyle}" />
+                        <TextBox   Grid.Column="1" x:Name="txtLot" Style="{StaticResource SearchCondition_TextBoxStyle}" MinWidth="100" CharacterCasing="Upper" IsReadOnly="False" KeyDown="txtLot_KeyDown"  />
+                        <TextBlock Grid.Column="3" Text="{Binding ConverterParameter='설비', Converter={StaticResource GlobalObjectDicConverter}, RelativeSource={RelativeSource Self}}" Style="{StaticResource Content_InputForm_LabelStyle}" />
+                        <TextBox   Grid.Column="4" x:Name="txtEquipmentName" Style="{StaticResource SearchCondition_TextBoxStyle}" CharacterCasing="Upper" IsReadOnly="True" MinWidth="100" />
+                    </Grid>
+                    <!-- 2.계측기(로딩량/두께) -->
+                    <Grid x:Name="gdMeasurementradio" Grid.Row="0" Grid.Column="3" Margin="10,0,0,0">
+                        <GroupBox x:Name="gbxMeasrPointradio" Header="{Binding Converter={StaticResource GlobalObjectDicConverter}, ConverterParameter='계측기'}"  Width="Auto" HorizontalContentAlignment="Center" Visibility="Collapsed">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="5"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="5"/>
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Grid.Column="1" Orientation="Vertical"  HorizontalAlignment="Center" VerticalAlignment="Center">
+                                    <RadioButton Name="rdoWebgauge"  Style="{StaticResource SearchCondition_RadioButtonStyle}" Content="{Binding ConverterParameter='로딩량', Converter={StaticResource GlobalObjectDicConverter}}" GroupName="rdoMeasurement" Margin="5,0,5,3" Click="rdoWebgauge_Click" IsChecked="True"/>
+                                    <RadioButton Name="rdoThickness" Style="{StaticResource SearchCondition_RadioButtonStyle}" Content="{Binding ConverterParameter='두께', Converter={StaticResource GlobalObjectDicConverter}}" GroupName="rdoMeasurement" Margin="5,0,5,3" Click="rdoThickness_Click" />
+                                </StackPanel>
+                            </Grid>
+                        </GroupBox>
+                    </Grid>
+                    <!-- 3.맵표현 설정(요약/LANE 선택) -->
+                    <Grid x:Name="gdMapExpress" Grid.Row="0" Grid.Column="5" Margin="10,0,0,0">
+                        <GroupBox x:Name="gbxMapExpress" Grid.Row="0" Grid.Column="5" Header="{Binding Converter={StaticResource GlobalObjectDicConverter}, ConverterParameter='맵표현 설정'}"  Width="Auto" HorizontalContentAlignment="Center">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="2" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="2" />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="5"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="5"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid Grid.Row="0" Grid.Column="1">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="4*"/>
+                                        <ColumnDefinition Width="6*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock      Grid.Column="0" Text="{Binding ConverterParameter='요약', Converter={StaticResource GlobalObjectDicConverter}, RelativeSource={RelativeSource Self}}" Style="{StaticResource Content_InputForm_LabelStyle}" />
+                                    <c1:C1ComboBox  Grid.Column="1"  x:Name="cboRollMapExpressSummary" DisplayMemberPath="CMCDNAME" SelectedValuePath="CMCODE" Style="{StaticResource C1ComboBoxStyle}" AutoComplete="False" SelectedValueChanged="cboRollMapExpressSummary_SelectedValueChanged" />
+                                </Grid>
+                                <Grid Grid.Row="2" Grid.Column="1">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="4*"/>
+                                        <ColumnDefinition Width="6*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock      Grid.Column="0" Text="{Binding ConverterParameter='LANE 선택', Converter={StaticResource GlobalObjectDicConverter}, RelativeSource={RelativeSource Self}}" Style="{StaticResource Content_InputForm_LabelStyle}" />
+                                    <ctrlLib:MultiSelectionBox Grid.Column="1" x:Name="msbRollMapLane" DisplayMemberPath="CMCDNAME" SelectedValuePath="CMCODE" FontSize="9" Margin="0,-4,0,0" />
+                                </Grid>
+                            </Grid>
+                        </GroupBox>
+                    </Grid>
+                    <!-- 4.색지도 표현(Grade 블록/평균값 상세) -->
+                    <Grid x:Name="gdColorMap" Grid.Row="0" Grid.Column="7" Margin="10,0,0,0" >
+                        <GroupBox x:Name="gbxColorMap" Header="{Binding Converter={StaticResource GlobalObjectDicConverter}, ConverterParameter='색지도 표현'}" Width="Auto" HorizontalContentAlignment="Center">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="5"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="5"/>
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Grid.Column="1" Orientation="Vertical"  HorizontalAlignment="Center" VerticalAlignment="Center">
+                                    <RadioButton Style="{StaticResource SearchCondition_RadioButtonStyle}" Content="{Binding ConverterParameter='Grade 블록', Converter={StaticResource GlobalObjectDicConverter}}"  Name="rdoGradeBlock" GroupName="rdoColorMap" Margin="5,0,5,3" IsChecked="True"/>
+                                    <RadioButton Style="{StaticResource SearchCondition_RadioButtonStyle}" Content="{Binding ConverterParameter='평균값 상세', Converter={StaticResource GlobalObjectDicConverter}}"  Name="rdoAverageDetail" GroupName="rdoColorMap" Margin="5,0,5,3" />
+                                </StackPanel>
+                            </Grid>
+                        </GroupBox>
+                    </Grid>
+                    <!-- 5.롤맵보정(롤맵보정이후/롤맵보정이전) -->
+                    <Grid x:Name="gdCoordinate" Grid.Row="0" Grid.Column="9" Margin="10,0,0,0">
+                        <GroupBox x:Name="gbxCoordinate" Header="{Binding Converter={StaticResource GlobalObjectDicConverter}, ConverterParameter='롤맵보정'}" Width="Auto" HorizontalContentAlignment="Center">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="5"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="5"/>
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Grid.Column="1" Orientation="Vertical"  HorizontalAlignment="Center" VerticalAlignment="Center">
+                                    <RadioButton Style="{StaticResource SearchCondition_RadioButtonStyle}" Content="{Binding ConverterParameter='롤맵보정이후', Converter={StaticResource GlobalObjectDicConverter}}"  Name="rdoRelativeCoordinates" GroupName="rdoCoordinate" Margin="5,0,5,3" Click="rdoRelativeCoordinates_Click" IsChecked="True"/>
+                                    <RadioButton Style="{StaticResource SearchCondition_RadioButtonStyle}" Content="{Binding ConverterParameter='롤맵보정이전', Converter={StaticResource GlobalObjectDicConverter}}"  Name="rdoAbsolutecoordinates" GroupName="rdoCoordinate" Margin="5,0,5,3" Click="rdoAbsolutecoordinates_Click" />
+                                </StackPanel>
+                            </Grid>
+                        </GroupBox>
+                    </Grid>
+                    <!-- 6.범례 -->
+                    <Grid x:Name="gdLegend" Grid.Row="0" Grid.Column="11" Margin="10,0,0,0">
+                        <GroupBox x:Name="gbxLegend" Header="{Binding Converter={StaticResource GlobalObjectDicConverter}, ConverterParameter='범례'}" HorizontalContentAlignment="Center">
+                            <Grid x:Name="grdLegend" HorizontalAlignment="Left"  VerticalAlignment="Center">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="2" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="4" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="2" />
+                                </Grid.RowDefinitions>
+                                <Grid x:Name="grdLegendUp" HorizontalAlignment="Left"  VerticalAlignment="Center" Grid.Row="1">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="2" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="2" />
+                                    </Grid.RowDefinitions>
+                                </Grid>
+                                <Grid x:Name="grdLegendDown" HorizontalAlignment="Left"  VerticalAlignment="Center" Grid.Row="3">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="2" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="2" />
+                                    </Grid.RowDefinitions>
+                                </Grid>
+                            </Grid>
+                        </GroupBox>
+                    </Grid>
+                    <!-- 7.최외각 폐기/구간불량 등록 -->
+                    <Grid Grid.Row="0" Grid.Column="15" HorizontalAlignment="Right">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="5"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="5"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="5"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="10"/>
+                        </Grid.ColumnDefinitions>
+                        <Button x:Name="btnRollMapOutsideScrap" Grid.Column="1" Content="{Binding ConverterParameter=최외각 폐기, Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" 
+                                Style="{StaticResource Content_MainButtonSpecialStyle}" 
+                                Cursor="Hand"
+                                Visibility="Collapsed"
+                                Click="btnRollMapOutsideScrap_Click"/>
+
+                        <Button x:Name="btnRollMapPositionEdit" Grid.Column="3" Content="{Binding ConverterParameter=구간불량 등록, Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" 
+                                Style="{StaticResource Content_MainButtonSpecialStyle}" 
+                                Cursor="Hand"
+                                Click="btnRollMapPositionEdit_Click"/>
+
+                        <Button x:Name="btnScrapSection" Grid.Column="5" Content="{Binding ConverterParameter=SCRAP_SECTION, Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" 
+                                Style="{StaticResource Content_MainButtonSpecialStyle}" 
+                                Cursor="Hand"
+                                Click="btnScrapSection_Click" />
+                    </Grid>
+                    <!-- 8.불량/조회 -->
+                    <Grid Grid.Row="0" Grid.Column="17" HorizontalAlignment="Right">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="5"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <Button x:Name="btnDefect" Grid.Column="0" Content="{Binding ConverterParameter=불량, Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" 
+                                Style="{StaticResource Content_MainButtonSpecialStyle}" 
+                                Cursor="Hand"
+                                IsEnabled="True"
+                                Click="btnDefect_Click"/>
+                        <Button x:Name="btnSearch" Grid.Column="2" Content="{Binding ConverterParameter=조회, Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" 
+                                Style="{StaticResource SearchButtonStyle}" 
+                                Cursor="Hand"
+                                Click="btnSearch_Click" />
+                    </Grid>
+                </Grid>
+            </Grid>
+
+            <!-- Map -->
+            <Grid Grid.Row="3" x:Name="grdRollMap">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="5" />
+                    <RowDefinition Height="4.0*" />
+                    <RowDefinition Height="20" />
+                    <RowDefinition Height="1.0*" />
+                    <RowDefinition Height="20" />
+                    <RowDefinition Height="4.0*" />
+                    <RowDefinition Height="20" />
+                    <RowDefinition Height="2.0*" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <!-- IN ROLLMAP -->
+                <Grid x:Name="grdInput" Grid.Row="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="1.0*" />
+                        <RowDefinition Height="5" />
+                        <RowDefinition Height="1.0*" />
+                        <RowDefinition Height="83" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="60"/>
+                        <ColumnDefinition Width="30"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="150"/>
+                        <ColumnDefinition Width="80"/>
+                    </Grid.ColumnDefinitions>
+                    <!-- IN(RowSpan[3]) -->
+                    <Border Grid.Row="0" Grid.RowSpan="3" Grid.Column="0" BorderThickness="1" BorderBrush="#ffbebebe" CornerRadius="5" Style="{StaticResource BorderSubTitleStyle}" Margin="0,0,5,0" Background="LightGray"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
+                        <TextBlock x:Name="tbInput" Text="IN" TextWrapping="Wrap" TextAlignment="Center" HorizontalAlignment="Stretch" Style="{StaticResource Content_InputForm_LabelStyle}" Margin="0" />
+                    </Border>
+                    <!-- IN(T) -->
+                    <Border Grid.Row="0" Grid.Column="1" BorderThickness="1" BorderBrush="#ffbebebe" CornerRadius="5" Style="{StaticResource BorderSubTitleStyle}" Margin="0,0,5,0" Background="LightGray"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="1.0*" />
+                                <RowDefinition Height="2.0*" />
+                                <RowDefinition Height="1.0*" />
+                            </Grid.RowDefinitions>
+                            <TextBlock x:Name="tbInputTopupper" Grid.Row="0" FontSize="10" FontWeight="SemiBold" Text="" Foreground="Black" Margin="3,3,0,0" VerticalAlignment="Top"></TextBlock>
+                            <TextBlock x:Name="tbInputTopmiddle" Grid.Row="1" Text="T" TextWrapping="Wrap" TextAlignment="Center" HorizontalAlignment="Stretch" Style="{StaticResource Content_InputForm_LabelStyle}" ></TextBlock>
+                            <TextBlock x:Name="tbInputToplower" Grid.Row="2" FontSize="10" FontWeight="SemiBold" Text="" Foreground="Black" Margin="3,0,0,3" VerticalAlignment="Bottom"></TextBlock>
+                        </Grid>
+                    </Border>
+                    <!-- IN(B) -->
+                    <Border Grid.Row="2" Grid.Column="1" BorderThickness="1" BorderBrush="#ffbebebe" CornerRadius="5" Style="{StaticResource BorderSubTitleStyle}" Margin="0,0,5,0" Background="LightGray"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="1.0*" />
+                                <RowDefinition Height="2.0*" />
+                                <RowDefinition Height="1.0*" />
+                            </Grid.RowDefinitions>
+                            <TextBlock x:Name="tbInputBackupper" Grid.Row="0" FontSize="10" FontWeight="SemiBold" Text="" Foreground="Black" Margin="3,3,0,0" VerticalAlignment="Top"></TextBlock>
+                            <TextBlock x:Name="tbInputBackmiddle" Grid.Row="1" Text="B" TextWrapping="Wrap" TextAlignment="Center" HorizontalAlignment="Stretch" Style="{StaticResource Content_InputForm_LabelStyle}" ></TextBlock>
+                            <TextBlock x:Name="tbInputBacklower" Grid.Row="2" FontSize="10" FontWeight="SemiBold" Text="" Foreground="Black" Margin="3,0,0,3" VerticalAlignment="Bottom"></TextBlock>
+                        </Grid>
+
+                    </Border>
+                    <!-- IN(CORE/생산량/양품량) -->
+                    <Grid Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock x:Name="tbInputCore" Text="CORE" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" TextWrapping="Wrap" TextAlignment="Right" Foreground="Red" FontWeight="UltraBold"  FontSize="13" HorizontalAlignment="Right" VerticalAlignment="Top"/>
+                        <TextBlock x:Name="tbInputProdQty" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" TextWrapping="Wrap" TextAlignment="Right" Foreground="CornflowerBlue"  FontWeight="UltraBold"  FontSize="13" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                        <TextBlock x:Name="tbInputGoodQty" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" TextWrapping="Wrap" TextAlignment="Right" Foreground="CornflowerBlue"  FontWeight="UltraBold"  FontSize="13" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                    </Grid>
+                    <!-- IN CHART(RowSpan[4]) -->
+                    <c1c:C1Chart x:Name="chartInput" Grid.Row="0" Grid.RowSpan="4" Grid.Column="2" ChartType="XYPlot" Margin="0" Style="{StaticResource C1ChartNormalStyle}" >
+                        <c1c:C1Chart.Data >
+                            <c1c:ChartData>
+                                <c1c:XYDataSeries x:Name="xyDataSeriesInput"/>
+                            </c1c:ChartData>
+                        </c1c:C1Chart.Data>
+                    </c1c:C1Chart>
+                    <!-- IN(불량범례) -->
+                    <ScrollViewer CanContentScroll="True"  
+                                  HorizontalScrollBarVisibility="Auto"  
+                                  VerticalScrollBarVisibility="Auto"  
+                                  BorderBrush="Black" 
+                                  BorderThickness="0" 
+                                  Background="White" 
+                                  Grid.Row="0" Grid.Column="3" Grid.RowSpan="3">
+                        <Grid x:Name="grdInputDefectLegend" 
+                                HorizontalAlignment="Left" 
+                                VerticalAlignment="Center" 
+                                Height="Auto" 
+                                Width="Auto" 
+                                Margin="0" >
+                        </Grid>
+                    </ScrollViewer>
+                    <!-- IN 버튼(Refresh/확대/축소/좌우반전/상하반전) -->
+                    <Grid Grid.Row="0" Grid.Column="4" Grid.RowSpan="3" Visibility="Collapsed">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="0.5*" />
+                            <RowDefinition Height="2.*" />
+                            <RowDefinition Height="0.5*" />
+                        </Grid.RowDefinitions>
+                        <StackPanel Grid.Column="0" Grid.Row="0" Grid.RowSpan="3" Orientation="Vertical" VerticalAlignment="Center">
+
+                            <Button x:Name="btnInputRefresh" Width="42" Height="42" ToolTipService.ToolTip="Original size" 
+                                    Background="Transparent" 
+                                    BorderBrush="LightGray"
+                                    BorderThickness="1"
+                                    Margin="0,5,0,0"
+                                    Click="btnInputRefresh_Click">
+                                <Path Fill="Black" Data="M12 2A10 10 0 1 0 22 12A10 10 0 0 0 12 2M18 11H13L14.81 9.19A3.94 3.94 0 0 0 12 8A4 4 0 1 0 15.86 13H17.91A6 6 0 1 1 12 6A5.91 5.91 0 0 1 16.22 7.78L18 6Z" VerticalAlignment="Center" HorizontalAlignment="Center" Stretch="Fill" Width="24" Height="24" ></Path>
+                            </Button>
+
+                            <Button x:Name="btnInputZoomIn" Width="42" Height="42" ToolTipService.ToolTip="확대"
+                                    Background="Transparent" 
+                                    BorderBrush="LightGray"
+                                    BorderThickness="1"
+                                    Margin="0,5,0,0"
+                                    Click="btnInputZoomIn_Click">
+                                <Path Fill="Black" Data="M9,2A7,7 0 0,1 16,9C16,10.57 15.5,12 14.61,13.19L15.41,14H16L22,20L20,22L14,16V15.41L13.19,14.61C12,15.5 10.57,16 9,16A7,7 0 0,1 2,9A7,7 0 0,1 9,2M8,5V8H5V10H8V13H10V10H13V8H10V5H8Z" VerticalAlignment="Center" HorizontalAlignment="Center" Stretch="Fill" Width="24" Height="24" ></Path>
+                            </Button>
+
+                            <Button x:Name="btnInputZoomOut" Width="42" Height="42" ToolTipService.ToolTip="축소"
+                                    Background="Transparent" 
+                                    BorderBrush="LightGray"
+                                    BorderThickness="1"
+                                    Margin="0,5,0,0"
+                                    Click="btnInputZoomOut_Click">
+                                <Path Fill="Black" Data="M9,2A7,7 0 0,1 16,9C16,10.57 15.5,12 14.61,13.19L15.41,14H16L22,20L20,22L14,16V15.41L13.19,14.61C12,15.5 10.57,16 9,16A7,7 0 0,1 2,9A7,7 0 0,1 9,2M5,8V10H13V8H5Z" VerticalAlignment="Center" HorizontalAlignment="Center" Stretch="Fill" Width="24" Height="24" ></Path>
+                            </Button>
+
+                            <Button x:Name="btnInputReverseX" Width="42" Height="42" ToolTipService.ToolTip="좌우반전"
+                                    Background="Transparent" 
+                                    BorderBrush="LightGray"
+                                    BorderThickness="1"
+                                    Margin="0,5,0,0"
+                                    Visibility="Collapsed"
+                                    Click="btnInputReverseX_Click">
+                                <Path Fill="Black" Data="M6.45,17.45L1,12L6.45,6.55L7.86,7.96L4.83,11H19.17L16.14,7.96L17.55,6.55L23,12L17.55,17.45L16.14,16.04L19.17,13H4.83L7.86,16.04L6.45,17.45Z" VerticalAlignment="Center" HorizontalAlignment="Center" Stretch="Fill" Width="24" Height="24" ></Path>
+                            </Button>
+
+                            <Button x:Name="btnInputReverseY" Width="42" Height="42" ToolTipService.ToolTip="상하반전"
+                                    Background="Transparent" 
+                                    BorderBrush="LightGray"
+                                    BorderThickness="1"
+                                    Margin="0,5,0,0"
+                                    Visibility="Collapsed"
+                                    Click="btnInputReverseY_Click">
+                                <Path Fill="Black" Data="M17.45,17.55L12,23L6.55,17.55L7.96,16.14L11,19.17V4.83L7.96,7.86L6.55,6.45L12,1L17.45,6.45L16.04,7.86L13,4.83V19.17L16.04,16.14L17.45,17.55Z" VerticalAlignment="Center" HorizontalAlignment="Center" Stretch="Fill" Width="24" Height="24" ></Path>
+                            </Button>
+                        </StackPanel>
+                    </Grid>
+                </Grid>
+                <!-- OUT Winder Direction(UW/RW 방향) -->
+                <Grid Grid.Row="3" x:Name="grdWinderDirection">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="90"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="150"/>
+                        <ColumnDefinition Width="80"/>
+                    </Grid.ColumnDefinitions>
+
+                    <c1c:C1Chart x:Name="chart" Grid.Row="0" Grid.Column="1" ChartType="XYPlot" Margin="0" Padding="10,0,0,0" Style="{StaticResource C1ChartNormalStyle}" >
+                        <c1c:C1Chart.Data >
+                            <c1c:ChartData>
+                                <c1c:XYDataSeries x:Name="xyDataSeries"/>
+                            </c1c:ChartData>
+                        </c1c:C1Chart.Data>
+                    </c1c:C1Chart>
+                </Grid>
+                <!-- OUT ROLLMAP -->
+                <Grid Grid.Row="5" x:Name="grdOutput">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="1.0*" />
+                        <RowDefinition Height="5" />
+                        <RowDefinition Height="1.0*" />
+                        <RowDefinition Height="83" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="60"/>
+                        <ColumnDefinition Width="30"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="150"/>
+                        <ColumnDefinition Width="80"/>
+                    </Grid.ColumnDefinitions>
+
+                    <!-- OUT(RowSpan[3]) -->
+                    <Border Grid.Row="0" Grid.Column="0" BorderThickness="1" Grid.RowSpan="3" BorderBrush="#ffbebebe" CornerRadius="5" Style="{StaticResource BorderSubTitleStyle}" Margin="0,0,5,0" Background="LightGray"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
+                        <TextBlock x:Name="tbOutput" Text="OUT" TextWrapping="Wrap" TextAlignment="Center" HorizontalAlignment="Stretch" Style="{StaticResource Content_InputForm_LabelStyle}" Margin="0" />
+                    </Border>
+                    <!-- OUT(T) -->
+                    <Border Grid.Row="0" Grid.Column="1" BorderThickness="1" BorderBrush="#ffbebebe" CornerRadius="5" Style="{StaticResource BorderSubTitleStyle}" Margin="0,0,5,0" Background="LightGray"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="1.0*" />
+                                <RowDefinition Height="2.0*" />
+                                <RowDefinition Height="1.0*" />
+                            </Grid.RowDefinitions>
+                            <TextBlock x:Name="tbOutputTopupper" Grid.Row="0" FontSize="10" FontWeight="SemiBold" Text="" Foreground="Black" Margin="3,3,0,0" VerticalAlignment="Top"></TextBlock>
+                            <TextBlock x:Name="tbOutputTopmiddle" Grid.Row="1" Text="T" TextWrapping="Wrap" TextAlignment="Center" HorizontalAlignment="Stretch" Style="{StaticResource Content_InputForm_LabelStyle}" ></TextBlock>
+                            <TextBlock x:Name="tbOutputToplower" Grid.Row="2" FontSize="10" FontWeight="SemiBold" Text="" Foreground="Black" Margin="3,0,0,3" VerticalAlignment="Bottom"></TextBlock>
+                        </Grid>
+
+                    </Border>
+                    <!-- OUT(B) -->
+                    <Border Grid.Row="2" Grid.Column="1" BorderThickness="1" BorderBrush="#ffbebebe" CornerRadius="5" Style="{StaticResource BorderSubTitleStyle}" Margin="0,0,5,0" Background="LightGray"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="1.0*" />
+                                <RowDefinition Height="2.0*" />
+                                <RowDefinition Height="1.0*" />
+                            </Grid.RowDefinitions>
+                            <TextBlock x:Name="tbOutputBackupper" Grid.Row="0" FontSize="10" FontWeight="SemiBold" Text="" Foreground="Black" Margin="3,3,0,0" VerticalAlignment="Top"></TextBlock>
+                            <TextBlock x:Name="tbOutputBackmiddle" Grid.Row="1" Text="B" TextWrapping="Wrap" TextAlignment="Center" HorizontalAlignment="Stretch" Style="{StaticResource Content_InputForm_LabelStyle}" ></TextBlock>
+                            <TextBlock x:Name="tbOutputBacklower" Grid.Row="2" FontSize="10" FontWeight="SemiBold" Text="" Foreground="Black" Margin="3,0,0,3" VerticalAlignment="Bottom"></TextBlock>
+                        </Grid>
+
+                    </Border>
+                    <!-- OUT(생산량/양품량) -->
+                    <Grid Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock x:Name="tbOutputProdQty" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" TextWrapping="Wrap" TextAlignment="Right" Foreground="CornflowerBlue"  FontWeight="UltraBold"  FontSize="13" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                        <TextBlock x:Name="tbOutputGoodQty" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" TextWrapping="Wrap" TextAlignment="Right" Foreground="CornflowerBlue"  FontWeight="UltraBold"  FontSize="13" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                    </Grid>
+
+                    <!-- OUT CHART(RowSpan[4]) -->
+                    <c1c:C1Chart x:Name="chartOutput" Grid.Row="0" Grid.RowSpan="4" Grid.Column="2" Margin="0" ChartType="XYPlot" Style="{StaticResource C1ChartNormalStyle}">
+                        <c1c:C1Chart.Data >
+                            <c1c:ChartData>
+                                <c1c:XYDataSeries x:Name="xyDataSeriesOutput"/>
+                            </c1c:ChartData>
+                        </c1c:C1Chart.Data>
+                    </c1c:C1Chart>
+                    <!-- OUT(불량범례) -->
+                    <ScrollViewer CanContentScroll="True"  
+                                  HorizontalScrollBarVisibility="Auto"  
+                                  VerticalScrollBarVisibility="Auto"  
+                                  BorderBrush="Black" 
+                                  BorderThickness="0" 
+                                  Background="White" 
+                                  Grid.Row="0" 
+                                  Grid.Column="3"
+                                  Grid.RowSpan="3">
+                        <Grid x:Name="grdOutputDefectLegend" 
+                              HorizontalAlignment="Left" 
+                              VerticalAlignment="Center" 
+                              Height="Auto" 
+                              Width="Auto" 
+                              Margin="0" >
+                        </Grid>
+                    </ScrollViewer>
+                    <!-- OUT(CORE) -->
+                    <StackPanel Orientation="Horizontal" Grid.Row="3" Grid.Column="3" HorizontalAlignment="Left"  VerticalAlignment="Top" Margin="0,5,0,0"  >
+                        <TextBlock x:Name="tbOutputCore" Text="CORE"  TextWrapping="Wrap" TextAlignment="Left" Foreground="Red" FontWeight="UltraBold" FontSize="13" HorizontalAlignment="Left" VerticalAlignment="Top" />
+                    </StackPanel>
+                    <!-- OUT 버튼(Refresh/확대/축소/좌우반전/상하반전) -->
+                    <Grid Grid.Row="0" Grid.Column="4" Grid.RowSpan="4">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="0.5*" />
+                            <RowDefinition Height="2.*" />
+                            <RowDefinition Height="0.5*" />
+                        </Grid.RowDefinitions>
+                        <StackPanel Grid.Column="0" Grid.Row="0" Grid.RowSpan="3" Orientation="Vertical" VerticalAlignment="Center">
+
+                            <Button x:Name="btnOutputRefresh" Width="42" Height="42" ToolTipService.ToolTip="Original size" 
+                                    Background="Transparent" 
+                                    BorderBrush="LightGray"
+                                    BorderThickness="1"
+                                    Margin="0,5,0,0"
+                                    Click="btnOutputRefresh_Click">
+                                <Path Fill="Black" Data="M12 2A10 10 0 1 0 22 12A10 10 0 0 0 12 2M18 11H13L14.81 9.19A3.94 3.94 0 0 0 12 8A4 4 0 1 0 15.86 13H17.91A6 6 0 1 1 12 6A5.91 5.91 0 0 1 16.22 7.78L18 6Z" VerticalAlignment="Center" HorizontalAlignment="Center" Stretch="Fill" Width="24" Height="24" ></Path>
+                            </Button>
+
+                            <Button x:Name="btnOutputZoomIn" Width="42" Height="42" ToolTipService.ToolTip="확대"
+                                    Background="Transparent" 
+                                    BorderBrush="LightGray"
+                                    BorderThickness="1"
+                                    Margin="0,5,0,0"
+                                    Click="btnOutputZoomIn_Click">
+                                <Path Fill="Black" Data="M9,2A7,7 0 0,1 16,9C16,10.57 15.5,12 14.61,13.19L15.41,14H16L22,20L20,22L14,16V15.41L13.19,14.61C12,15.5 10.57,16 9,16A7,7 0 0,1 2,9A7,7 0 0,1 9,2M8,5V8H5V10H8V13H10V10H13V8H10V5H8Z" VerticalAlignment="Center" HorizontalAlignment="Center" Stretch="Fill" Width="24" Height="24" ></Path>
+                            </Button>
+
+                            <Button x:Name="btnOutputZoomOut" Width="42" Height="42" ToolTipService.ToolTip="축소"
+                                    Background="Transparent" 
+                                    BorderBrush="LightGray"
+                                    BorderThickness="1"
+                                    Margin="0,5,0,0"
+                                    Click="btnOutputZoomOut_Click">
+                                <Path Fill="Black" Data="M9,2A7,7 0 0,1 16,9C16,10.57 15.5,12 14.61,13.19L15.41,14H16L22,20L20,22L14,16V15.41L13.19,14.61C12,15.5 10.57,16 9,16A7,7 0 0,1 2,9A7,7 0 0,1 9,2M5,8V10H13V8H5Z" VerticalAlignment="Center" HorizontalAlignment="Center" Stretch="Fill" Width="24" Height="24" ></Path>
+                            </Button>
+
+                            <Button x:Name="btnOutputReverseX" Width="42" Height="42" ToolTipService.ToolTip="좌우반전"
+                                    Background="Transparent" 
+                                    BorderBrush="LightGray"
+                                    BorderThickness="1"
+                                    Margin="0,5,0,0"
+                                    Visibility="Collapsed"
+                                    Click="btnOutputReverseX_Click">
+                                <Path Fill="Black" Data="M6.45,17.45L1,12L6.45,6.55L7.86,7.96L4.83,11H19.17L16.14,7.96L17.55,6.55L23,12L17.55,17.45L16.14,16.04L19.17,13H4.83L7.86,16.04L6.45,17.45Z" VerticalAlignment="Center" HorizontalAlignment="Center" Stretch="Fill" Width="24" Height="24" ></Path>
+                            </Button>
+
+                            <Button x:Name="btnOutputReverseY" Width="42" Height="42" ToolTipService.ToolTip="상하반전"
+                                    Background="Transparent" 
+                                    BorderBrush="LightGray"
+                                    BorderThickness="1"
+                                    Margin="0,5,0,0"
+                                    Visibility="Collapsed"
+                                    Click="btnOutputReverseY_Click">
+                                <Path Fill="Black" Data="M17.45,17.55L12,23L6.55,17.55L7.96,16.14L11,19.17V4.83L7.96,7.86L6.55,6.45L12,1L17.45,6.45L16.04,7.86L13,4.83V19.17L16.04,16.14L17.45,17.55Z" VerticalAlignment="Center" HorizontalAlignment="Center" Stretch="Fill" Width="24" Height="24" ></Path>
+                            </Button>
+
+                        </StackPanel>
+                    </Grid>
+
+                </Grid>
+                <!-- OUT 두께 -->
+                <Grid Grid.Row="7" x:Name="grdThickness">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="1.*" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="60"/>
+                        <ColumnDefinition Width="30"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="80"/>
+                        <ColumnDefinition Width="150"/>
+                    </Grid.ColumnDefinitions>
+                    <!-- OUT 두께 -->
+                    <Border Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" BorderThickness="1" BorderBrush="#ffbebebe" CornerRadius="5" Style="{StaticResource BorderSubTitleStyle}" Margin="0,0,5,0" Background="LightGray"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
+                        <TextBlock x:Name="txtMeasurement" Text="{Binding ConverterParameter='두께', Converter={StaticResource GlobalObjectDicConverter}, RelativeSource={RelativeSource Self}}" TextWrapping="Wrap" TextAlignment="Center" HorizontalAlignment="Stretch" Style="{StaticResource Content_InputForm_LabelStyle}" />
+                    </Border>
+                    <!-- OUT 두께 CHART -->
+                    <c1c:C1Chart x:Name="chartThickness" Grid.Row="0" Grid.Column="2" Margin="0" Style="{StaticResource C1ChartNormalStyle}">
+                        <c1c:C1Chart.Data >
+                            <c1c:ChartData>
+                                <c1c:XYDataSeries x:Name="xyDataSeriesThickness"/>
+                            </c1c:ChartData>
+                        </c1c:C1Chart.Data>
+                    </c1c:C1Chart>
+                    <!-- OUT 두께 LINE 범례(COLUMN[3]) -->
+                    <Border Grid.Column="3" Grid.Row="0" BorderBrush="Black" Background="White" BorderThickness="1" Visibility="Collapsed" />
+                    <Grid x:Name="grdLineLegend" 
+                          HorizontalAlignment="Left" 
+                          VerticalAlignment="Center" 
+                          Height="Auto" 
+                          Width="Auto" 
+                          Margin="0,0,0,0"
+                          Grid.Row="0" Grid.Column="3">
+                    </Grid>
+                    <!-- OUT 두께 LANE 범례(COLUMN[4]) -->
+                    <Grid x:Name="grdLaneLegend" 
+                          HorizontalAlignment="Left" 
+                          VerticalAlignment="Center" 
+                          Height="Auto" 
+                          Width="Auto" 
+                          Margin="0,0,0,0"
+                          Grid.Row="0" Grid.Column="4">
+                    </Grid>
+                    <!-- OUT 두께 LANE 범례(COLUMN[4]) 미사용 -->
+                    <Grid Grid.Row="0" Grid.Column="4" x:Name="grdLineAuto" Visibility="Collapsed">
+                    </Grid>
+                </Grid>
+            </Grid>
+
+            <!-- LoadingIndicator -->
+            <ctrlLib:LoadingIndicator x:Name="loadingIndicator" Grid.Row="999" Grid.Column="999" />
+        </Grid>
+    </Grid>
+</c1:C1Window>

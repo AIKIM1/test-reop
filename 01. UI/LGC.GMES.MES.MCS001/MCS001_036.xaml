@@ -1,0 +1,115 @@
+<UserControl x:Class="LGC.GMES.MES.MCS001.MCS001_036"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:c1="http://schemas.componentone.com/winfx/2006/xaml"
+             xmlns:ctrlLib="clr-namespace:LGC.GMES.MES.ControlsLibrary;assembly=LGC.GMES.MES.ControlsLibrary"
+             xmlns:uc="clr-namespace:LGC.GMES.MES.CMM001.Controls;assembly=LGC.GMES.MES.CMM001"
+             mc:Ignorable="d" 
+             d:DesignHeight="768" d:DesignWidth="1024" 
+             Loaded="UserControl_Loaded">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/LGC.GMES.MES.ControlsLibrary;component/ControlStyles.xaml" />
+                <ResourceDictionary Source="/LGC.GMES.MES.ControlsLibrary;component/ControlTemplates/LGCDatePicker.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    
+    <Grid x:Name="grdMain">
+        <ctrlLib:LGCLayout x:Name="LayoutRoot" Tag="Carrier 사용자재 변경 등록" Grid.ColumnSpan="2">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="51"/>
+                    <RowDefinition Height="8" />
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <Border Grid.Row="0" Grid.Column="0" Style="{StaticResource Content_InputForm_LabelBorderStyle}" />
+                <!--조회영역-->
+                <Grid Grid.Row="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="11" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="11" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="13"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="8"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="10"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="8"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="10"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="4"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="4"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="4"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="4"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="13"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock       Grid.Row="1"  Grid.Column="1"  Text="{Binding ConverterParameter='Carrier ID', Converter={StaticResource GlobalObjectDicConverter}, RelativeSource={RelativeSource Self}}" Style="{StaticResource Content_InputForm_LabelStyle}" />
+                    <TextBox         Grid.Row="1"  Grid.Column="3"  x:Name="txtCarrierId" Style="{StaticResource SearchCondition_TextBoxStyle}" MinWidth="120" KeyDown="txtCarrierId_KeyDown" PreviewKeyDown="txtCarrierId_PreviewKeyDown" />
+                    <TextBox         Grid.Row="1"  Grid.Column="3"  x:Name="txtCarrierType" Style="{StaticResource Content_InputForm_ReadOnlyTextBoxStyle}" MinWidth="80" Visibility="Collapsed" />
+                    <TextBox         Grid.Row="1"  Grid.Column="3"  x:Name="txtCarrierProductName" Style="{StaticResource Content_InputForm_ReadOnlyTextBoxStyle}" MinWidth="120" Visibility="Collapsed"/>
+                    <TextBlock       Grid.Row="1"  Grid.Column="5"  Text="{Binding ConverterParameter='변경 사용자재', Converter={StaticResource GlobalObjectDicConverter}, RelativeSource={RelativeSource Self}}"  Style="{StaticResource Content_InputForm_LabelStyle}" />
+                    <c1:C1ComboBox   Grid.Row="1"  Grid.Column="7"  x:Name="cboCarrierType" DisplayMemberPath="CBO_NAME" SelectedValuePath="CBO_CODE" Style="{StaticResource C1ComboBoxStyle}" AutoComplete="False" />
+                    <Button          Grid.Row="1"  Grid.Column="9"   x:Name="btnDownloadForm"  Click="btnDownloadForm_Click" Content="{Binding ConverterParameter=Export, Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{DynamicResource Content_ModuleButtonExcelExportStyle}" />
+                    <Button          Grid.Row="1"  Grid.Column="11"  x:Name="btnUpload"        Click="btnUpload_Click"       Content="{Binding ConverterParameter=Import, Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{DynamicResource Content_ModuleButtonExcelExportStyle}" />
+                    <Button          Grid.Row="1"  Grid.Column="13"  Content="{Binding ConverterParameter=SAVE, Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_MainButtonSpecialStyle}" Cursor="Hand" Click="btnSave_Click"  />
+                    <Button          Grid.Row="1"  Grid.Column="15"  Content="{Binding ConverterParameter=삭제, Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_MainButtonSpecialStyle}" Cursor="Hand" Click="btnDelete_Click"  />
+                    <Button          Grid.Row="1"  Grid.Column="17"  Content="{Binding ConverterParameter=SEARCH,    Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource SearchButtonStyle}" Cursor="Hand" Click="btnSearch_Click" />
+                </Grid>
+
+                <Border Grid.Row="2" Grid.Column="0" Style="{StaticResource Content_InputForm_ContentBorderStyle}"/>
+                <!--LOT 리스트-->
+                <Grid Grid.Row="2" Grid.Column="0">
+                    <uc:UcBaseDataGrid x:Name="dgLotList" 
+                                   HeadersVisibility="Column" 
+                                   FrozenColumnCount="3" 
+                                   SelectionMode="SingleRow"
+                                   CanUserRemoveRows="True" 
+                                   CanUserAddRows="True" 
+                                   Margin="8" 
+                                   ><!--BeginningNewRow="dgLotList_BeginningNewRow"-->
+                        <c1:C1DataGrid.Columns>
+                            <c1:DataGridCheckBoxColumn  Name = "CHK" Binding = "{Binding CHK, Mode=TwoWay}" HorizontalAlignment="Center" CanUserFilter="False" CanUserSort="False" CanUserResize="False" >
+                                <c1:DataGridCheckBoxColumn.Header>
+                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                                        <CheckBox x:Name="chkHeaderAll" Margin="0" Width="19" Checked="chkHeaderAll_Checked" Unchecked="chkHeaderAll_Unchecked"></CheckBox>
+                                    </StackPanel>
+                                </c1:DataGridCheckBoxColumn.Header>
+                            </c1:DataGridCheckBoxColumn>
+                            <c1:DataGridTextColumn	    Header = "Carrier ID"		  Binding = "{Binding CSTID}"            HorizontalAlignment="Center" IsReadOnly="True" />
+                            <c1:DataGridTextColumn      Header = "사용자재"           Binding = "{Binding CSTPROD_NAME}"     HorizontalAlignment="Center" IsReadOnly="True" />
+                            <c1:DataGridTextColumn      Header = "CSTTYPE"            Binding = "{Binding CSTTYPE}"          HorizontalAlignment="Center" IsReadOnly="True" Visibility="Collapsed" />
+                            <c1:DataGridTextColumn      Header = "CSTPROD"            Binding = "{Binding CSTPROD}"          HorizontalAlignment="Center" IsReadOnly="True" Visibility="Collapsed" />
+                            <c1:DataGridTextColumn      Header = "CSTSTAT"            Binding = "{Binding CSTSTAT}"          HorizontalAlignment="Center" Visibility="Collapsed" />
+                            <c1:DataGridTextColumn      Header = "LOTID"              Binding = "{Binding LOTID}"            HorizontalAlignment="Center" Visibility="Collapsed"/>
+                            <c1:DataGridTextColumn      Header = "PROCID"             Binding = "{Binding PROCID}"           HorizontalAlignment="Center" Visibility="Collapsed"/>
+                            <c1:DataGridTextColumn      Header = "EQPTID"             Binding = "{Binding EQPTID}"           HorizontalAlignment="Center" Visibility="Collapsed"/>
+                            <c1:DataGridTextColumn      Header = "PORT_ID"            Binding = "{Binding PORT_ID}"          HorizontalAlignment="Center" Visibility="Collapsed"/>
+                            <c1:DataGridTextColumn      Header = "RACK_ID"            Binding = "{Binding RACK_ID}"          HorizontalAlignment="Center" Visibility="Collapsed"/>
+                            <c1:DataGridTextColumn      Header = "OUTER_CSTID"        Binding = "{Binding OUTER_CSTID}"      HorizontalAlignment="Center" Visibility="Collapsed"/>
+                            <c1:DataGridTextColumn      Header = "CURR_AREAID"        Binding = "{Binding CURR_AREAID}"      HorizontalAlignment="Center" Visibility="Collapsed"/>
+                            <c1:DataGridTextColumn      Header = "CST_DFCT_FLAG"      Binding = "{Binding CST_DFCT_FLAG}"    HorizontalAlignment="Center" Visibility="Collapsed"/>
+                            <c1:DataGridTextColumn      Header = "KEY_SEQ_NO"         Binding = "{Binding KEY_SEQ_NO}"       HorizontalAlignment="Center" Visibility="Collapsed" />
+                        </c1:C1DataGrid.Columns>
+                    </uc:UcBaseDataGrid>
+                </Grid>
+
+            </Grid>
+        </ctrlLib:LGCLayout>
+
+        <ctrlLib:LoadingIndicator x:Name="loadingIndicator" Grid.Row="999" Grid.Column="999" />
+    </Grid>
+</UserControl>

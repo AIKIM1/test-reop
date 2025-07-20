@@ -1,0 +1,131 @@
+﻿<UserControl xmlns:ss="http://schemas.grapecity.com/windows/spreadsheet/2012"  x:Class="LGC.GMES.MES.FCS001.FCS001_024"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:c1="http://schemas.componentone.com/winfx/2006/xaml"
+             xmlns:ctrlLib="clr-namespace:LGC.GMES.MES.ControlsLibrary;assembly=LGC.GMES.MES.ControlsLibrary"
+             xmlns:uc="clr-namespace:LGC.GMES.MES.CMM001.Controls;assembly=LGC.GMES.MES.CMM001"
+             mc:Ignorable="d" 
+             d:DesignHeight="768" d:DesignWidth="1024"
+             Loaded="UserControl_Loaded">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/LGC.GMES.MES.ControlsLibrary;component/ControlStyles.xaml" />
+                <ResourceDictionary Source="/LGC.GMES.MES.ControlsLibrary;component/ControlTemplates/LGCDatePicker.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid>
+        <ctrlLib:LGCLayout x:Name="LayoutRoot" Tag="Tray별 Cell Data">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="5" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <Grid x:Name="SearchArea" Grid.Row="0" >
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="4" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="4" />
+                    </Grid.RowDefinitions>
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="4" />
+                    </Grid.ColumnDefinitions>
+
+                    <!--백그라운드용-->
+                    <Border     Grid.Row="0" Grid.RowSpan="99" Grid.ColumnSpan="99" Style="{StaticResource Content_InputForm_LabelBorderStyle}"/>
+                    
+                    <!--조회 버튼-->
+                    <!--조회조건-->
+                    <TextBlock Grid.Row="1" Grid.Column="0"  Text="{Binding ConverterParameter='TRAY_ID', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}"/>
+                    <TextBox x:Name="txtLotID"           Grid.Row="1" Grid.Column="1"  Style="{StaticResource SearchCondition_TextBoxStyle}" MinWidth="150" KeyDown="txtLotID_KeyDown" />
+                    <uc:UcBaseButton  Grid.Row="1" Grid.Column="3" x:Name="btnSearch"  Content="{Binding ConverterParameter=SEARCH, Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource SearchButtonStyle}" Cursor="Hand" Click="btnSearch_Click"/>
+
+                </Grid>
+
+                <Grid Grid.Row="2" Grid.Column="0" >
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1.5*" />
+                        <ColumnDefinition Width="8" />
+                        <ColumnDefinition Width="4*" />
+                    </Grid.ColumnDefinitions>
+                    <GridSplitter Grid.Column="1" ResizeDirection="Columns" ShowsPreview="True" Style="{StaticResource GridSplitterStyle}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" />
+
+
+                    <Grid x:Name="ExcArea" Grid.Row="2" Grid.Column="0" >
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="34"/>
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+
+                        <!--백그라운드용-->
+                        <Border Grid.Row="0" Grid.Column="0" Grid.RowSpan="2" Style="{StaticResource Content_InputForm_ContentBorderStyle}"/>
+                        <Border Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="99" BorderThickness="1" BorderBrush="#ffbebebe" Style="{StaticResource BorderSubTitleStyle}"/>
+
+                        <TextBlock Grid.Row="0" Style="{StaticResource Content_ModuleTitleStyle}"><Run Text="{Binding ConverterParameter='대상공정', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}"/></TextBlock>
+                        <c1:C1DataGrid Grid.Row="2" x:Name="fpsOp" IsReadOnly="False" HeadersVisibility="Column" Margin="8" LoadedColumnHeaderPresenter="fpsOp_LoadedColumnHeaderPresenter" >
+                            <c1:C1DataGrid.Columns>
+                                <c1:DataGridTemplateColumn Name="CHK" Width="40" Header = "선택"  >
+                                    <c1:DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <CheckBox IsChecked="{Binding CHK, Mode=TwoWay}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                        </DataTemplate>
+                                    </c1:DataGridTemplateColumn.CellTemplate>
+                                </c1:DataGridTemplateColumn>
+                                <c1:DataGridTextColumn      Header = "공정ID" Binding = "{Binding PROCID}"   HorizontalAlignment="Center" Visibility="Collapsed"  />
+                                <c1:DataGridTextColumn      Header = "공정명" Binding = "{Binding PROCNAME}" HorizontalAlignment="Center" />
+                                <c1:DataGridTextColumn      Header = "공정 그룹 코드" Binding = "{Binding PROC_GR_CODE}" HorizontalAlignment="Center" Visibility="Collapsed"/>
+                                <c1:DataGridTextColumn      Header = "공정 상세 유형 코드" Binding = "{Binding PROC_DETL_TYPE_CODE}" HorizontalAlignment="Center" Visibility="Collapsed"/>
+                            </c1:C1DataGrid.Columns>
+                        </c1:C1DataGrid>
+                    </Grid>
+                    <Grid x:Name="ExArea" Grid.Row="2" Grid.Column="2" >
+                        <Grid x:Name="EArea" Grid.Row="2" Grid.Column="0" >
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="34"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+
+                            <!--백그라운드용-->
+                            <Border Grid.Row="0" Grid.Column="0" Grid.RowSpan="2" Style="{StaticResource Content_InputForm_ContentBorderStyle}" Grid.ColumnSpan="4"/>
+                            <Border Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4" BorderThickness="1" BorderBrush="#ffbebebe" Style="{StaticResource BorderSubTitleStyle}"/>
+
+                            <TextBlock Grid.Row="0" Style="{StaticResource Content_ModuleTitleStyle}" Grid.ColumnSpan="4" ><Run Text="{Binding ConverterParameter='Cell Info.', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}"/></TextBlock>
+
+                            <c1:C1DataGrid Grid.Row="1" Grid.Column="1" x:Name="dgCellData" IsReadOnly="True" HeadersVisibility="Column" Margin="8" ColumnHeaderHeight ="50" SelectionMode="MultiRange">
+                                <!--<c1:C1DataGrid.Columns>
+                                --><!-- 가변처리--><!--    
+                                </c1:C1DataGrid.Columns>-->
+                            </c1:C1DataGrid>
+                        </Grid>
+                    </Grid>
+                </Grid>
+
+
+
+
+
+
+            </Grid>
+
+        </ctrlLib:LGCLayout>
+
+        <ctrlLib:LoadingIndicator x:Name="loadingIndicator" Grid.Row="999" Grid.Column="999" />
+    </Grid>
+</UserControl>

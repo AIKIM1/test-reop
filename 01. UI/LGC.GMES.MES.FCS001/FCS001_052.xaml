@@ -1,0 +1,1119 @@
+﻿<UserControl xmlns:ss="hhemas.grapecity.com/windows/spreadsheet/2012"  x:Class="LGC.GMES.MES.FCS001.FCS001_052"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:c1="http://schemas.componentone.com/winfx/2006/xaml"
+             xmlns:ctrlLib="clr-namespace:LGC.GMES.MES.ControlsLibrary;assembly=LGC.GMES.MES.ControlsLibrary"
+             xmlns:uc="clr-namespace:LGC.GMES.MES.CMM001.Controls;assembly=LGC.GMES.MES.CMM001"
+             mc:Ignorable="d" 
+             d:DesignHeight="768" d:DesignWidth="1122.4" Loaded="UserControl_Loaded">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/LGC.GMES.MES.ControlsLibrary;component/ControlStyles.xaml" />
+                <ResourceDictionary Source="/LGC.GMES.MES.ControlsLibrary;component/ControlTemplates/LGCDatePicker.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <Grid x:Name="grdMain">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="98*"/>
+            <ColumnDefinition Width="89*"/>
+        </Grid.ColumnDefinitions>
+        <ctrlLib:LGCLayout x:Name="LayoutRoot" Tag="요청 데이터 조회" Grid.ColumnSpan="2" >
+            <Grid>
+                <Grid.Resources>
+                    <DataTemplate x:Key="ResultTemplate">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" Text="{Binding}" HorizontalAlignment="Right" Padding="0,0,5,0"  />
+                        </Grid>
+                    </DataTemplate>
+                    <DataTemplate x:Key="ResultTemplateSum">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0"  Text="{Binding ConverterParameter='합계', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" HorizontalAlignment="Right" Padding="0,0,5,0"  />
+                        </Grid>
+                    </DataTemplate>
+                </Grid.Resources>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="11*"/>
+                    <RowDefinition Height="245*"/>
+                </Grid.RowDefinitions>
+
+                <c1:C1TabControl x:Name="tbcWip" SelectionChanged="tbcWip_SelectionChanged" Grid.RowSpan="2">
+                    <c1:C1TabItem x:Name="tpBeforeDegas" Header="{Binding Converter={StaticResource GlobalObjectDicConverter}, ConverterParameter='DEGAS_B_DATA'}">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <!--조회영역-->
+                            <Grid x:Name="SearchArea" Grid.Row="0" Grid.ColumnSpan="3" >
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="11" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="11" />
+                                </Grid.RowDefinitions>
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="13"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="13"/>
+                                </Grid.ColumnDefinitions>
+
+                                <Border         Grid.Row="0" Grid.Column="0" Grid.RowSpan="3" Grid.ColumnSpan="99" Background="#fff2f2f2" BorderThickness="1" BorderBrush="#ffd1d1d1"/>
+                                <TextBlock      Grid.Row="1" Grid.Column="1" Text="{Binding ConverterParameter='PKG_LOT_ID', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}" Margin="0,8,8,8" />
+                                <TextBox        Grid.Row="1" Grid.Column="2" x:Name="txtLotbefore"  MinWidth="150" Style="{StaticResource Content_InputForm_TextBoxStyle}" KeyDown="txtLotbefore_KeyDown"/>
+                                <TextBlock      Grid.Row="1" Grid.Column="3" Text="{Binding ConverterParameter='MIN_6_DIGIT', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}" Foreground="Red"/>
+                                <uc:UcBaseButton         Grid.Row="1" Grid.Column="5" x:Name="btnSearchbefore" Content="{Binding ConverterParameter='SEARCH', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource SearchButtonStyle}" Cursor="Hand" Click="btnSearchbefore_Click" />
+                            </Grid>
+
+                            <!--Cell검색-->
+                            <Grid Grid.Row="1" Grid.Column="0">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="11" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="11" />
+                                </Grid.RowDefinitions>
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="13"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="13"/>
+                                </Grid.ColumnDefinitions>
+
+                                <Border         Grid.Row="0" Grid.RowSpan="3" Grid.ColumnSpan="99" Background="#fff2f2f2" BorderThickness="1" BorderBrush="#ffd1d1d1" Margin="0"/>
+                                <!--<TextBlock      Grid.Row="1" Grid.Column="1" Text="{Binding ConverterParameter='PKG_LOT_ID', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}" Margin="0,8,8,8" />
+                                <TextBox        Grid.Row="1" Grid.Column="2" x:Name="txtLotbefore"  MinWidth="150" Style="{StaticResource Content_InputForm_MandatoryTextBoxStyle}" KeyDown="txtLotbefore_KeyDown"/>
+                                <uc:UcBaseButton         Grid.Row="1" Grid.Column="3" x:Name="btnBeforeSearchLot" Content="{Binding ConverterParameter='SEARCH', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource SearchButtonStyle}" Cursor="Hand" Click="btnSearchLot_Click" />-->
+                                <TextBlock       Grid.Row="1" Grid.Column="1" Text="{Binding ConverterParameter='INIT_ROW_NUM', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}" Margin="0,8,8,8"/>
+                                <c1:C1NumericBox Grid.Row="1" Grid.Column="2" x:Name="txtDegaasRowCntCell" Width="60" Style="{StaticResource C1NumericBoxStyle}" ShowButtons="False" CornerRadius="0" AllowNull="True" HandleUpDownKeys="False" Format="#,##0" SelectOnFocus="Always" Value="100" MinWidth="100" Background="LightYellow" Margin="3,5" />
+                                <uc:UcBaseButton          Grid.Row="1" Grid.Column="3" x:Name="btnDegasBCellReset" Content="{Binding ConverterParameter = 'REFRESH', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_MainControl03Style}" Cursor="Hand" Click="btnDegasBCellReset_Click" />
+                            </Grid>
+
+
+                            <!--검색리스트-->
+                            <Grid Grid.Row="3" Grid.Column="0">
+                                <Border    Grid.Row="0" Grid.Column="0" BorderThickness="1" BorderBrush="#ffbebebe" Style="{StaticResource BorderSubTitleStyle}"  />
+                                <uc:UcBaseDataGrid x:Name="dgBeforeSerchList" IsReadOnly="False" SelectionMode="MultiRange" HeadersVisibility="All" FrozenColumnCount="1" RowHeaderWidth="40" ClipboardPasted="dgBeforeSerchList_ClipboardPasted" VerticalScrollBarVisibility="Visible" ClipboardPasteMode="None" IsUserConfigUse="False">
+                                    <c1:C1DataGrid.Columns>
+                                        <c1:DataGridTextColumn       Header = "CELL_ID"          Binding = "{Binding SUBLOTID}"   HorizontalAlignment="Center" />
+                                    </c1:C1DataGrid.Columns>
+                                </uc:UcBaseDataGrid>
+                            </Grid>
+
+                            <!--공정 체크박스-->
+                            <Grid Grid.Row="1" Grid.Column="1" Grid.RowSpan="3" >
+                                <Border    Grid.Row="0" Grid.Column="0" Grid.RowSpan="99" BorderThickness="1" BorderBrush="#ffbebebe" Style="{StaticResource BorderSubTitleStyle}" />
+                                <c1:C1TreeView Grid.Row="1" Grid.Column="0" x:Name="tvBefore" Margin="8" ItemExpanded="trvData_ItemExpanded" VirtualizingPanel.VirtualizationMode="Recycling" VirtualizingPanel.IsVirtualizing="True"  >
+                                    <c1:C1TreeView.ItemTemplate>
+                                        <c1:C1HierarchicalDataTemplate DataType="{x:Type MenuItem}" ItemsSource="{Binding Items}">
+                                            <StackPanel Orientation="Horizontal" Name="StackPanel1">
+                                                <CheckBox IsChecked="{Binding IsChecked, Mode=TwoWay}" Name="chkbefore" HorizontalAlignment="Center" Checked="bfCheck_Checked" Unchecked="bfCheck_Unchecked" Tag="{Binding Tag}">
+                                                    <TextBlock Text="{Binding Title}"/>
+                                                </CheckBox>
+                                            </StackPanel>
+                                        </c1:C1HierarchicalDataTemplate>
+                                    </c1:C1TreeView.ItemTemplate>
+                                </c1:C1TreeView>
+                            </Grid>
+
+                            <!--조회리스트-->
+                            <Grid x:Name="gBefore" Grid.Row="1" Grid.Column="2" Grid.RowSpan="3">
+                                <Border    Grid.Row="0" Grid.Column="0" Grid.RowSpan="99" BorderThickness="1" BorderBrush="#ffbebebe" Style="{StaticResource BorderSubTitleStyle}" />
+
+                                <uc:UcBaseDataGrid x:Name="dgBefore" IsReadOnly="True" SelectionMode="MultiRange" HeadersVisibility="Row" FrozenColumnCount="1" FrozenTopRowsCount="2" RowHeaderWidth="40" IsUserConfigUse="False">
+                                    <c1:C1DataGrid.Columns>
+
+                                    </c1:C1DataGrid.Columns>
+                                </uc:UcBaseDataGrid>
+                                <!---수정 완료-->
+                            </Grid>
+                        </Grid>
+                    </c1:C1TabItem>
+
+                    <c1:C1TabItem x:Name="tpAfterDegas" Header="{Binding Converter={StaticResource GlobalObjectDicConverter}, ConverterParameter='DEGAS_A_DATA'}">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <!--조회영역-->
+                            <Grid x:Name="SearchArea2" Grid.Row="0" Grid.ColumnSpan ="3" >
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="11" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="11" />
+                                </Grid.RowDefinitions>
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="13"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="13"/>
+                                </Grid.ColumnDefinitions>
+
+                                <Border         Grid.Row="0" Grid.Column="0" Grid.RowSpan="7" Grid.ColumnSpan="9" Background="#fff2f2f2" BorderThickness="1" BorderBrush="#ffd1d1d1"></Border>
+                                <TextBlock       Grid.Row="1" Grid.Column="1" Text="{Binding ConverterParameter='PKG_LOT_ID', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}"/>
+                                <TextBox         Grid.Row="1" Grid.Column="2" x:Name="txtLotAfter"  MinWidth="100" Style="{StaticResource Content_InputForm_TextBoxStyle}" KeyDown="txtLotAfter_KeyDown"/>
+                                <TextBlock       Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="2" Text="{Binding ConverterParameter='MIN_6_DIGIT', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}" Foreground="Red" HorizontalAlignment="Left" />
+                                <TextBlock       Grid.Row="1" Grid.Column="5" Grid.ColumnSpan="2" x:Name="lblHelp" Text="{Binding ConverterParameter='UC_0003', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}" Foreground="Red" HorizontalAlignment="Left" />
+                                <TextBlock       Grid.Row="2" Grid.Column="1" Text="{Binding ConverterParameter='PRIVT_OCV_SEQ_SPAN', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}" />
+                                <c1:C1NumericBox Grid.Row="2" Grid.Column="2" x:Name="nudPOCVS" Style="{StaticResource C1NumericBoxStyle}" ShowButtons="True" CornerRadius="0" AllowNull="True" HandleUpDownKeys="False" Format="#,##0" SelectOnFocus="Always" Value="1" MinWidth="50" Minimum="1" Maximum="20" ValueChanged="nudPOCVS_ValueChanged"/>
+                                <TextBlock       Grid.Row="2" Grid.Column="3" Text="{Binding ConverterParameter='~', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}" />
+                                <c1:C1NumericBox Grid.Row="2" Grid.Column="4" x:Name="nudPOCVE" Style="{StaticResource C1NumericBoxStyle}" ShowButtons="True" CornerRadius="0" AllowNull="True" HandleUpDownKeys="False" Format="#,##0" SelectOnFocus="Always" Value="3" MinWidth="50" Minimum="1" Maximum="20" ValueChanged="nudPOCVE_ValueChanged"/>
+                                <uc:UcBaseRadioButton     Grid.Row="2" Grid.Column="6" x:Name="rdoOCV1After" Margin="4"  GroupName="rbAfter" Style="{StaticResource SearchCondition_RadioButtonStyle}" Content="{Binding ConverterParameter='DEFAULT_MEAS_DATA', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" IsChecked="True" Checked="rdoOCV1After_Checked"/>
+                                <uc:UcBaseButton          Grid.Row="2" Grid.Column="7" x:Name="btnSearchAfter" Content="{Binding ConverterParameter='SEARCH', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource SearchButtonStyle}"  Cursor="Hand" Click="btnSearchAfter_Click" />
+                                <TextBlock       Grid.Row="3" Grid.Column="1" Text="{Binding ConverterParameter='DELTA_OCV_SEQ_SPAN', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}" />
+                                <c1:C1NumericBox Grid.Row="3" Grid.Column="2" x:Name="nudDOCVS" Style="{StaticResource C1NumericBoxStyle}" ShowButtons="True" CornerRadius="0" AllowNull="True" HandleUpDownKeys="False" Format="#,##0" SelectOnFocus="Always" Value="1" MinWidth="50" Minimum="1" Maximum="20" ValueChanged="nudDOCVS_ValueChanged"/>
+                                <TextBlock       Grid.Row="3" Grid.Column="3" Text="{Binding ConverterParameter='~', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}" />
+                                <c1:C1NumericBox Grid.Row="3" Grid.Column="4" x:Name="nudDOCVE" Style="{StaticResource C1NumericBoxStyle}" ShowButtons="True" CornerRadius="0" AllowNull="True" HandleUpDownKeys="False" Format="#,##0" SelectOnFocus="Always" Value="3" MinWidth="50" Minimum="1" Maximum="20" ValueChanged="nudDOCVE_ValueChanged"/>
+                                <uc:UcBaseRadioButton     Grid.Row="3" Grid.Column="6" x:Name="rdoEOLRework" Margin="4" GroupName="rbAfter" Style="{StaticResource SearchCondition_RadioButtonStyle}" Content="{Binding ConverterParameter='EOL_REWORK_CNT', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Checked="rdoEOLRework_Checked" Visibility="Collapsed"/>
+                                <TextBlock       Grid.Row="4" Grid.Column="1" Text="{Binding ConverterParameter='SLOPE_OCV_SEQ_SPAN', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}" />
+                                <c1:C1NumericBox Grid.Row="4" Grid.Column="2" x:Name="nudSOCVS" Style="{StaticResource C1NumericBoxStyle}" ShowButtons="True" CornerRadius="0" AllowNull="True" HandleUpDownKeys="False" Format="#,##0" SelectOnFocus="Always" Value="1" MinWidth="50" Minimum="1" Maximum="20" ValueChanged="nudSOCVS_ValueChanged"/>
+                                <TextBlock       Grid.Row="4" Grid.Column="3" Text="{Binding ConverterParameter='~', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}" />
+                                <c1:C1NumericBox Grid.Row="4" Grid.Column="4" x:Name="nudSOCVE" Style="{StaticResource C1NumericBoxStyle}" ShowButtons="True" CornerRadius="0" AllowNull="True" HandleUpDownKeys="False" Format="#,##0" SelectOnFocus="Always" Value="3" MinWidth="50" Minimum="1" Maximum="20" ValueChanged="nudSOCVE_ValueChanged"/>
+                            </Grid>
+
+                            <!--Cell검색-->
+                            <Grid Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="1">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="11" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="11" />
+                                </Grid.RowDefinitions>
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="13"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="13"/>
+                                </Grid.ColumnDefinitions>
+
+                                <Border         Grid.Row="0" Grid.Column="0" Grid.RowSpan="4" Grid.ColumnSpan="99" Background="#fff2f2f2" BorderThickness="1" BorderBrush="#ffd1d1d1" Margin="0"/>
+                                <!--<TextBlock       Grid.Row="1" Grid.Column="1" Text="{Binding ConverterParameter='PKG_LOT_ID', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}"/>
+                                <TextBox         Grid.Row="1" Grid.Column="2" x:Name="txtLotAfter"  MinWidth="100" Style="{StaticResource Content_InputForm_MandatoryTextBoxStyle}" KeyDown="txtLotAfter_KeyDown"/>
+                                <uc:UcBaseButton          Grid.Row="1" Grid.Column="4" x:Name="btnAfterSearchLot" Content="{Binding ConverterParameter='SEARCH', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource SearchButtonStyle}" Cursor="Hand" Click="btnSearchLot_Click" Margin="0,0,0,2" />-->
+                                <TextBlock       Grid.Row="1" Grid.Column="1" Text="{Binding ConverterParameter='INIT_ROW_NUM', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}"/>
+                                <c1:C1NumericBox Grid.Row="1" Grid.Column="2" x:Name="txtDegRowCntCell" Style="{StaticResource C1NumericBoxStyle}" ShowButtons="False" CornerRadius="0" AllowNull="True" HandleUpDownKeys="False" Format="#,##0" SelectOnFocus="Always" Value="100" MinWidth="100" Background="LightYellow" />
+                                <uc:UcBaseButton          Grid.Row="1" Grid.Column="3" x:Name="btnDegCellReset" Content="{Binding ConverterParameter='REFRESH', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_MainControl03Style}" Cursor="Hand" Click="btnDegCellReset_Click" Margin="0,2,0,0" />
+                            </Grid>
+
+                            <!--검색리스트-->
+                            <Grid Grid.Row="2" Grid.Column="0" >
+                                <Border    Grid.Row="0" Grid.Column="0"  BorderThickness="1" Grid.RowSpan="99"  BorderBrush="#ffbebebe" Style="{StaticResource BorderSubTitleStyle}"/>
+                                <uc:UcBaseDataGrid x:Name="dgAfterSerchList" IsReadOnly="False" SelectionMode="MultiRange" HeadersVisibility="All" FrozenColumnCount="1" RowHeaderWidth="40" ClipboardPasted="dgAfterSerchList_ClipboardPasted" VerticalScrollBarVisibility="Visible" ClipboardPasteMode="None" IsUserConfigUse="False">
+                                    <c1:C1DataGrid.Columns>
+                                        <c1:DataGridTextColumn       Header = "CELL_ID"          Binding = "{Binding SUBLOTID}"   HorizontalAlignment="Center" />
+                                    </c1:C1DataGrid.Columns>
+                                </uc:UcBaseDataGrid>
+                            </Grid>
+
+                            <Grid Grid.Row="1" Grid.Column="1" Grid.RowSpan="3" >
+                                <Border    Grid.Row="0" Grid.Column="0" Grid.RowSpan="99" BorderThickness="1" BorderBrush="#ffbebebe" Style="{StaticResource BorderSubTitleStyle}" />
+                                <c1:C1TreeView Grid.Row="1" Grid.Column="0" x:Name="tvAfter" Margin="8" ItemExpanded="trvData_ItemExpanded" VirtualizingPanel.VirtualizationMode="Recycling" VirtualizingPanel.IsVirtualizing="True">
+                                    <c1:C1TreeView.ItemTemplate>
+                                        <c1:C1HierarchicalDataTemplate DataType="{x:Type MenuItem}" ItemsSource="{Binding Items}">
+                                            <StackPanel Orientation="Horizontal" Name="StackPanel1">
+                                                <CheckBox IsChecked="{Binding IsChecked, Mode=TwoWay}" Name="chkafter" HorizontalAlignment="Center" Checked="afCheck_Checked" Unchecked="afCheck_Unchecked" Tag="{Binding Tag}">
+                                                    <TextBlock Text="{Binding Title}" />
+                                                </CheckBox>
+                                            </StackPanel>
+                                        </c1:C1HierarchicalDataTemplate>
+                                    </c1:C1TreeView.ItemTemplate>
+                                </c1:C1TreeView>
+                            </Grid>
+
+                            <!--조회리스트-->
+                            <Grid x:Name="gAfter" Grid.Row="1" Grid.Column="2" Grid.RowSpan="3">
+                                <Border    Grid.Row="0" Grid.Column="0" Grid.RowSpan="99" BorderThickness="1" BorderBrush="#ffbebebe" Style="{StaticResource BorderSubTitleStyle}" />
+                                <uc:UcBaseDataGrid x:Name="dgAfter" IsReadOnly="False" SelectionMode="MultiRange" HeadersVisibility="ROW" FrozenColumnCount="1" FrozenTopRowsCount="2" RowHeaderWidth="40" IsUserConfigUse="False">
+                                    <c1:C1DataGrid.Columns>
+                                        <!--DEFAULT CELL-->
+                                        <!--
+                                        <c1:DataGridTextColumn       Header = "[DEFAULT_INFO,CELL_ID]"                     Binding = "{Binding SUBLOTID}"                        IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn       Header = "[DEFAULT_INFO,PKG_LOT_ID]"                  Binding = "{Binding PROD_LOTID}"                      IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn       Header = "[DEFAULT_INFO,LINE_ID]"                     Binding = "{Binding EQSGID}"                          IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn       Header = "[DEFAULT_INFO,PRODID]"                      Binding = "{Binding PRODID}"                          IsReadOnly="True" HorizontalAlignment="Center" />
+
+                                        -->
+                                        <!--OCV-->
+                                        <!--
+                                        <c1:DataGridTextColumn       Header = "[OCV,TRAY_LOT_ID]"                          Binding = "{Binding OCV1_LOTID}"                      IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn       Header = "[OCV,CHANNEL]"                              Binding = "{Binding OCV1_CSTSLOT}"                    IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn       Header = "[OCV,ROUTE_ID]"                             Binding = "{Binding OCV1_ROUTE}"                      IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn       Header = "[OCV,GRADE]"                                Binding = "{Binding OCV1_GRADE}"                      IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn       Header = "[OCV,BOX_ID]"                               Binding = "{Binding OCV1_EQP_ID}"                     IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridDateTimeColumn   Header = "[OCV,OCV_01_TIME]"                          Binding = "{Binding OCV1_TIME}"                       IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridNumericColumn    Header = "[OCV,OCV_01]"                               Binding = "{Binding OCV1_VAL}"                        IsReadOnly="True" HorizontalAlignment="Center" Format="###,###,##0.###"/>
+
+                                        -->
+                                        <!--CHG-->
+                                        <!--
+                                        <c1:DataGridTextColumn       Header = "[CHARGE,TRAY_LOT_ID]"                       Binding = "{Binding CHG1_LOTID}"                      IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn       Header = "[CHARGE,CHANNEL]"                           Binding = "{Binding CHG1_CSTSLOT}"                    IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn       Header = "[CHARGE,ROUTE_ID]"                          Binding = "{Binding CHG1_ROUTE}"                      IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn       Header = "[CHARGE,GRADE]"                             Binding = "{Binding CHG1_GRADE}"                      IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn       Header = "[CHARGE,BOX_ID]"                            Binding = "{Binding CHG1_EQP_ID}"                     IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridDateTimeColumn   Header = "[CHARGE,1_CHG_TIME]"                        Binding = "{Binding CHG1TIME}"                        IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridNumericColumn    Header = "[CHARGE,1_CHG_CAPA_VAL]"                    Binding = "{Binding CHG1_CAPA_VAL}"                   IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridNumericColumn    Header = "[CHARGE,1_CHG_AVG_VOLT_VAL]"                Binding = "{Binding CHG1_AVG_VLTG_VAL}"               IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridNumericColumn    Header = "[CHARGE,1_CHG_END_VOLT_VAL]"                Binding = "{Binding CHG1_END_VOLT_VAL}"               IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridNumericColumn    Header = "[CHARGE,1_CHG_END_CURNT_VAL]"               Binding = "{Binding CHG1_END_CURNT_VAL}"              IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridNumericColumn    Header = "[CHARGE,FIT_1_CHG_CAPA_VAL]"                Binding = "{Binding FITTED_CHG1_CAPA_VAL}"            IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridNumericColumn    Header = "[CHARGE,1_CHG_END_TEMP]"                    Binding = "{Binding CHG1_END_TEMP}"                   IsReadOnly="True" HorizontalAlignment="Center" />
+
+                                        <c1:DataGridTextColumn       Header = "[CHARGE,TRAY_LOT_ID]"                       Binding = "{Binding CHG2_LOTID}"                      IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn       Header = "[CHARGE,CHANNEL]"                           Binding = "{Binding CHG2_CSTSLOT}"                    IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn       Header = "[CHARGE,ROUTE_ID]"                          Binding = "{Binding CHG2_ROUTE}"                      IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn       Header = "[CHARGE,GRADE]"                             Binding = "{Binding CHG2_GRADE}"                      IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn       Header = "[CHARGE,BOX_ID]"                            Binding = "{Binding CHG2_EQP_ID}"                     IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridDateTimeColumn   Header = "[CHARGE,2_CHG_TIME]"                        Binding = "{Binding CHG2TIME}"                        IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridNumericColumn    Header = "[CHARGE,2_CHG_CAPA_VAL]"                    Binding = "{Binding CHG2_CAPA_VAL}"                   IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridNumericColumn    Header = "[CHARGE,2_CHG_AVG_VOLT_VAL]"                Binding = "{Binding CHG2_AVG_VLTG_VAL}"               IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridNumericColumn    Header = "[CHARGE,2_CHG_END_VOLT_VAL]"                Binding = "{Binding CHG2_END_VOLT_VAL}"               IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridNumericColumn    Header = "[CHARGE,2_CHG_END_CURNT_VAL]"               Binding = "{Binding CHG2_END_CURNT_VAL}"              IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridNumericColumn    Header = "[CHARGE,FIT_2_CHG_CAPA_VAL]"                Binding = "{Binding FITTED_CHG2_CAPA_VAL}"            IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridNumericColumn    Header = "[CHARGE,2_CHG_END_TEMP]"                    Binding = "{Binding CHG2_END_TEMP}"                   IsReadOnly="True" HorizontalAlignment="Center" />
+
+                                        -->
+                                        <!--DCHG-->
+                                        <!--
+                                        <c1:DataGridTextColumn       Header = "[DISCHARGE,TRAY_LOT_ID]"                    Binding = "{Binding DCHG1_LOTID}"                     IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn       Header = "[DISCHARGE,CHANNEL]"                        Binding = "{Binding DCHG1_CSTSLOT}"                   IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn       Header = "[DISCHARGE,ROUTE_ID]"                       Binding = "{Binding DCHG1_ROUTE}"                     IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn       Header = "[DISCHARGE,GRADE]"                          Binding = "{Binding DCHG1_GRADE}"                     IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn       Header = "[DISCHARGE,BOX_ID]"                         Binding = "{Binding DCHG1_EQP_ID}"                    IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridDateTimeColumn   Header = "[DISCHARGE,1_DCHG_TIME]"                    Binding = "{Binding DCHG1TIME}"                       IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridNumericColumn    Header = "[DISCHARGE,1_DCHG_CAPA_VAL]"                Binding = "{Binding DCHG1_CAPA_VAL}"                  IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridNumericColumn    Header = "[DISCHARGE,1_DCHG_AVG_VOLT_VAL]"            Binding = "{Binding DCHG1_AVG_VLTG_VAL}"              IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridNumericColumn    Header = "[DISCHARGE,1_DCHG_END_VOLT_VAL]"            Binding = "{Binding DCHG1_END_VOLT_VAL}"              IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridNumericColumn    Header = "[DISCHARGE,1_DCHG_END_CURNT_VAL]"           Binding = "{Binding DCHG1_END_CURNT_VAL}"             IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridNumericColumn    Header = "[DISCHARGE,FIT_1_DCHG_CAPA_VAL]"            Binding = "{Binding FITTED_DCHG1_CAPA_VAL}"           IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridNumericColumn    Header = "[DISCHARGE,1_DCHG_AVG_TEMP]"                Binding = "{Binding DCHG1_AVG_TEMP}"                  IsReadOnly="True" HorizontalAlignment="Center" Format="###,###,##0.#" />
+
+                                        <c1:DataGridTextColumn       Header = "[DISCHARGE,TRAY_LOT_ID]"                    Binding = "{Binding DCHG2_LOTID}"                     IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn       Header = "[DISCHARGE,CHANNEL]"                        Binding = "{Binding DCHG2_CSTSLOT}"                   IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn       Header = "[DISCHARGE,ROUTE_ID]"                       Binding = "{Binding DCHG2_ROUTE}"                     IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn       Header = "[DISCHARGE,GRADE]"                          Binding = "{Binding DCHG2_GRADE}"                     IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn       Header = "[DISCHARGE,BOX_ID]"                         Binding = "{Binding DCHG2_EQP_ID}"                    IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridDateTimeColumn   Header = "[DISCHARGE,2_DCHG_TIME]"                    Binding = "{Binding DCHG2TIME}"                       IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridNumericColumn    Header = "[DISCHARGE,2_DCHG_CAPA_VAL]"                Binding = "{Binding DCHG2_CAPA_VAL}"                  IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridNumericColumn    Header = "[DISCHARGE,2_DCHG_AVG_VOLT_VAL]"            Binding = "{Binding DCHG2_AVG_VLTG_VAL}"              IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridNumericColumn    Header = "[DISCHARGE,2_DCHG_END_VOLT_VAL]"            Binding = "{Binding DCHG2_END_VOLT_VAL}"              IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridNumericColumn    Header = "[DISCHARGE,2_DCHG_END_CURNT_VAL]"           Binding = "{Binding DCHG2_END_CURNT_VAL}"             IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridNumericColumn    Header = "[DISCHARGE,FIT_2_DCHG_CAPA_VAL]"            Binding = "{Binding FITTED_DCHG2_CAPA_VAL}"           IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridNumericColumn    Header = "[DISCHARGE,2_DCHG_AVG_TEMP]"                Binding = "{Binding DCHG2_AVG_TEMP}"                  IsReadOnly="True" HorizontalAlignment="Center" Format="###,###,##0.#" />
+
+                                        -->
+                                        <!--POWERDCHG-->
+                                        <!--
+                                        <c1:DataGridTextColumn       Header = "[POWERDISCHARGE,TRAY_LOT_ID]"                    Binding = "{Binding POWERDCHG1_LOTID}"                      IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn       Header = "[POWERDISCHARGE,CHANNEL]"                        Binding = "{Binding POWERDCHG1_CSTSLOT}"                    IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn       Header = "[POWERDISCHARGE,ROUTE_ID]"                       Binding = "{Binding POWERDCHG1_ROUTE}"                      IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn       Header = "[POWERDISCHARGE,GRADE]"                          Binding = "{Binding POWERDCHG1_GRADE}"                      IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn       Header = "[POWERDISCHARGE,BOX_ID]"                         Binding = "{Binding POWERDCHG1_EQP_ID}"                     IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridDateTimeColumn   Header = "[POWERDISCHARGE,1_POWER_DCHG_TIME]"              Binding = "{Binding POWERDCHG1TIME}"                        IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridNumericColumn    Header = "[POWERDISCHARGE,1_POWER_DCHG_IMP_VAL]"           Binding = "{Binding POWERDCHG1_IMP_VAL}"                    IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridNumericColumn    Header = "[POWERDISCHARGE,FIT_1_POWERDCHG_IMP_VAL]"        Binding = "{Binding FITTED_POWERDCHG1_IMP_VAL}"             IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridNumericColumn    Header = "[POWERDISCHARGE,ML_FIT_1_POWERDCHG_CAPA_VAL]"    Binding = "{Binding ML_FITTED_POWERDCHG1_CAPA_VAL}"         IsReadOnly="True" HorizontalAlignment="Center" />
+
+                                        -->
+                                        <!--POWERCHG-->
+                                        <!--
+                                        <c1:DataGridTextColumn       Header = "[POWERCHARGE,TRAY_LOT_ID]"                  Binding = "{Binding POWERCHG1_LOTID}"                      IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn       Header = "[POWERCHARGE,CHANNEL]"                      Binding = "{Binding POWERCHG1_CSTSLOT}"                    IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn       Header = "[POWERCHARGE,ROUTE_ID]"                     Binding = "{Binding POWERCHG1_ROUTE}"                      IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn       Header = "[POWERCHARGE,GRADE]"                        Binding = "{Binding POWERCHG1_GRADE}"                      IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn       Header = "[POWERCHARGE,BOX_ID]"                       Binding = "{Binding POWERCHG1_EQP_ID}"                     IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridDateTimeColumn   Header = "[POWERCHARGE,1_POWER_CHG_TIME]"             Binding = "{Binding POWERCHG1TIME}"                        IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridNumericColumn    Header = "[POWERCHARGE,1_POWER_CHG_IMP_VAL]"          Binding = "{Binding POWERCHG1_IMP_VAL}"                    IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridNumericColumn    Header = "[POWERCHARGE,FIT_1_POWERCHG_IMP_VAL]"       Binding = "{Binding FITTED_POWERCHG1_IMP_VAL}"             IsReadOnly="True" HorizontalAlignment="Center" />
+
+                                        -->
+                                        <!--Private OCV-->
+                                        <!--
+                                        <c1:DataGridTextColumn       Header = "[PRIVT_OCV,TRAY_LOT_ID]"                    Binding = "{Binding DEDICATE_OCV1_LOTID}"                      IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn       Header = "[PRIVT_OCV,CHANNEL]"                        Binding = "{Binding DEDICATE_OCV1_CSTSLOT}"                    IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn       Header = "[PRIVT_OCV,ROUTE_ID]"                       Binding = "{Binding DEDICATE_OCV1_ROUTE}"                      IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn       Header = "[PRIVT_OCV,GRADE]"                          Binding = "{Binding DEDICATE_OCV1_GRADE}"                      IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridDateTimeColumn   Header = "[PRIVT_OCV,DEDICATE_OCV1_TIME]"             Binding = "{Binding DEDICATE_OCV1_TIME}"                       IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridNumericColumn    Header = "[PRIVT_OCV,DEDICATE_OCV1]"                  Binding = "{Binding DEDICATE_OCV1}"                            IsReadOnly="True" HorizontalAlignment="Center" Format="###,###,##0.###" />
+                                        <c1:DataGridTextColumn       Header = "[PRIVT_OCV,TRAY_LOT_ID]"                    Binding = "{Binding DEDICATE_OCV2_LOTID}"                      IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn       Header = "[PRIVT_OCV,CHANNEL]"                        Binding = "{Binding DEDICATE_OCV2_CSTSLOT}"                    IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn       Header = "[PRIVT_OCV,ROUTE_ID]"                       Binding = "{Binding DEDICATE_OCV2_ROUTE}"                      IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn       Header = "[PRIVT_OCV,GRADE]"                          Binding = "{Binding DEDICATE_OCV2_GRADE}"                      IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridDateTimeColumn   Header = "[PRIVT_OCV,DEDICATE_OCV2_TIME]"             Binding = "{Binding DEDICATE_OCV2_TIME}"                       IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridNumericColumn    Header = "[PRIVT_OCV,DEDICATE_OCV2]"                  Binding = "{Binding DEDICATE_OCV2}"                            IsReadOnly="True" HorizontalAlignment="Center" Format="###,###,##0.###" />
+                                        <c1:DataGridTextColumn       Header = "[PRIVT_OCV,TRAY_LOT_ID]"                    Binding = "{Binding DEDICATE_OCV3_LOTID}"                      IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn       Header = "[PRIVT_OCV,CHANNEL]"                        Binding = "{Binding DEDICATE_OCV3_CSTSLOT}"                    IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn       Header = "[PRIVT_OCV,ROUTE_ID]"                       Binding = "{Binding DEDICATE_OCV3_ROUTE}"                      IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn       Header = "[PRIVT_OCV,GRADE]"                          Binding = "{Binding DEDICATE_OCV3_GRADE}"                      IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridDateTimeColumn   Header = "[PRIVT_OCV,DEDICATE_OCV3_TIME]"             Binding = "{Binding DEDICATE_OCV3_TIME}"                       IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridNumericColumn    Header = "[PRIVT_OCV,DEDICATE_OCV3]"                  Binding = "{Binding DEDICATE_OCV3}"                            IsReadOnly="True" HorizontalAlignment="Center" Format="###,###,##0.###" />
+                                        <c1:DataGridTextColumn       Header = "[PRIVT_OCV,TRAY_LOT_ID]"                    Binding = "{Binding DEDICATE_OCV4_LOTID}"                      IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn       Header = "[PRIVT_OCV,CHANNEL]"                        Binding = "{Binding DEDICATE_OCV4_CSTSLOT}"                    IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn       Header = "[PRIVT_OCV,ROUTE_ID]"                       Binding = "{Binding DEDICATE_OCV4_ROUTE}"                      IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn       Header = "[PRIVT_OCV,GRADE]"                          Binding = "{Binding DEDICATE_OCV4_GRADE}"                      IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridDateTimeColumn   Header = "[PRIVT_OCV,DEDICATE_OCV4_TIME]"             Binding = "{Binding DEDICATE_OCV4_TIME}"                       IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridNumericColumn    Header = "[PRIVT_OCV,DEDICATE_OCV4]"                  Binding = "{Binding DEDICATE_OCV4}"                            IsReadOnly="True" HorizontalAlignment="Center" Format="###,###,##0.###" />
+                                        <c1:DataGridTextColumn       Header = "[PRIVT_OCV,TRAY_LOT_ID]"                    Binding = "{Binding DEDICATE_OCV5_LOTID}"                      IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn       Header = "[PRIVT_OCV,CHANNEL]"                        Binding = "{Binding DEDICATE_OCV5_CSTSLOT}"                    IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn       Header = "[PRIVT_OCV,ROUTE_ID]"                       Binding = "{Binding DEDICATE_OCV5_ROUTE}"                      IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn       Header = "[PRIVT_OCV,GRADE]"                          Binding = "{Binding DEDICATE_OCV5_GRADE}"                      IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridDateTimeColumn   Header = "[PRIVT_OCV,DEDICATE_OCV5_TIME]"             Binding = "{Binding DEDICATE_OCV5_TIME}"                       IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridNumericColumn    Header = "[PRIVT_OCV,DEDICATE_OCV5]"                  Binding = "{Binding DEDICATE_OCV5}"                            IsReadOnly="True" HorizontalAlignment="Center" Format="###,###,##0.###" />
+                                        <c1:DataGridTextColumn       Header = "[PRIVT_OCV,TRAY_LOT_ID]"                    Binding = "{Binding DEDICATE_OCV6_LOTID}"                      IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn       Header = "[PRIVT_OCV,CHANNEL]"                        Binding = "{Binding DEDICATE_OCV6_CSTSLOT}"                    IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn       Header = "[PRIVT_OCV,ROUTE_ID]"                       Binding = "{Binding DEDICATE_OCV6_ROUTE}"                      IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn       Header = "[PRIVT_OCV,GRADE]"                          Binding = "{Binding DEDICATE_OCV6_GRADE}"                      IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridDateTimeColumn   Header = "[PRIVT_OCV,DEDICATE_OCV6_TIME]"             Binding = "{Binding DEDICATE_OCV6_TIME}"                       IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridNumericColumn    Header = "[PRIVT_OCV,DEDICATE_OCV6]"                  Binding = "{Binding DEDICATE_OCV6}"                            IsReadOnly="True" HorizontalAlignment="Center" Format="###,###,##0.###" />
+                                        <c1:DataGridTextColumn       Header = "[PRIVT_OCV,TRAY_LOT_ID]"                    Binding = "{Binding DEDICATE_OCV7_LOTID}"                      IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn       Header = "[PRIVT_OCV,CHANNEL]"                        Binding = "{Binding DEDICATE_OCV7_CSTSLOT}"                    IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn       Header = "[PRIVT_OCV,ROUTE_ID]"                       Binding = "{Binding DEDICATE_OCV7_ROUTE}"                      IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn       Header = "[PRIVT_OCV,GRADE]"                          Binding = "{Binding DEDICATE_OCV7_GRADE}"                      IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridDateTimeColumn   Header = "[PRIVT_OCV,DEDICATE_OCV7_TIME]"             Binding = "{Binding DEDICATE_OCV7_TIME}"                       IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridNumericColumn    Header = "[PRIVT_OCV,DEDICATE_OCV7]"                  Binding = "{Binding DEDICATE_OCV7}"                            IsReadOnly="True" HorizontalAlignment="Center" Format="###,###,##0.###" />
+                                        <c1:DataGridTextColumn       Header = "[PRIVT_OCV,TRAY_LOT_ID]"                    Binding = "{Binding DEDICATE_OCV8_LOTID}"                      IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn       Header = "[PRIVT_OCV,CHANNEL]"                        Binding = "{Binding DEDICATE_OCV8_CSTSLOT}"                    IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn       Header = "[PRIVT_OCV,ROUTE_ID]"                       Binding = "{Binding DEDICATE_OCV8_ROUTE}"                      IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn       Header = "[PRIVT_OCV,GRADE]"                          Binding = "{Binding DEDICATE_OCV8_GRADE}"                      IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridDateTimeColumn   Header = "[PRIVT_OCV,DEDICATE_OCV8_TIME]"             Binding = "{Binding DEDICATE_OCV8_TIME}"                       IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridNumericColumn    Header = "[PRIVT_OCV,DEDICATE_OCV8]"                  Binding = "{Binding DEDICATE_OCV8}"                            IsReadOnly="True" HorizontalAlignment="Center" Format="###,###,##0.###" />
+                                        <c1:DataGridTextColumn       Header = "[PRIVT_OCV,TRAY_LOT_ID]"                    Binding = "{Binding DEDICATE_OCV9_LOTID}"                      IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn       Header = "[PRIVT_OCV,CHANNEL]"                        Binding = "{Binding DEDICATE_OCV9_CSTSLOT}"                    IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn       Header = "[PRIVT_OCV,ROUTE_ID]"                       Binding = "{Binding DEDICATE_OCV9_ROUTE}"                      IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn       Header = "[PRIVT_OCV,GRADE]"                          Binding = "{Binding DEDICATE_OCV9_GRADE}"                      IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridDateTimeColumn   Header = "[PRIVT_OCV,DEDICATE_OCV9_TIME]"             Binding = "{Binding DEDICATE_OCV9_TIME}"                       IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridNumericColumn    Header = "[PRIVT_OCV,DEDICATE_OCV9]"                  Binding = "{Binding DEDICATE_OCV9}"                            IsReadOnly="True" HorizontalAlignment="Center" Format="###,###,##0.###" />
+                                        <c1:DataGridTextColumn       Header = "[PRIVT_OCV,TRAY_LOT_ID]"                    Binding = "{Binding DEDICATE_OCV10_LOTID}"                     IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn       Header = "[PRIVT_OCV,CHANNEL]"                        Binding = "{Binding DEDICATE_OCV10_CSTSLOT}"                   IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn       Header = "[PRIVT_OCV,ROUTE_ID]"                       Binding = "{Binding DEDICATE_OCV10_ROUTE}"                     IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn       Header = "[PRIVT_OCV,GRADE]"                          Binding = "{Binding DEDICATE_OCV10_GRADE}"                     IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridDateTimeColumn   Header = "[PRIVT_OCV,DEDICATE_OCV10_TIME]"            Binding = "{Binding DEDICATE_OCV10_TIME}"                      IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridNumericColumn    Header = "[PRIVT_OCV,DEDICATE_OCV10]"                 Binding = "{Binding DEDICATE_OCV10}"                           IsReadOnly="True" HorizontalAlignment="Center" Format="###,###,##0.###" />
+
+                                        -->
+                                        <!--DOCV-->
+                                        <!--
+                                        <c1:DataGridTextColumn       Header = "[DOCV,TRAY_LOT_ID]"                    Binding = "{Binding DOCV1_LOTID}"                      IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn       Header = "[DOCV,CHANNEL]"                        Binding = "{Binding DOCV1_CSTSLOT}"                    IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn       Header = "[DOCV,ROUTE_ID]"                       Binding = "{Binding DOCV1_ROUTE}"                      IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn       Header = "[DOCV,GRADE]"                          Binding = "{Binding DOCV1_GRADE}"                      IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn       Header = "[DOCV,BOX_ID]"                         Binding = "{Binding DOCV1_EQP_ID}"                     IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridDateTimeColumn   Header = "[DOCV,DOCV1_TIME]"                     Binding = "{Binding DOCV1_TIME}"                       IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridNumericColumn    Header = "[DOCV,DOCV1]"                          Binding = "{Binding DOCV1}"                            IsReadOnly="True" HorizontalAlignment="Center" Format="###,###,##0.###" />
+                                        <c1:DataGridTextColumn       Header = "[DOCV,TRAY_LOT_ID]"                    Binding = "{Binding DOCV2_LOTID}"                      IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn       Header = "[DOCV,CHANNEL]"                        Binding = "{Binding DOCV2_CSTSLOT}"                    IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn       Header = "[DOCV,ROUTE_ID]"                       Binding = "{Binding DOCV2_ROUTE}"                      IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn       Header = "[DOCV,GRADE]"                          Binding = "{Binding DOCV2_GRADE}"                      IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn       Header = "[DOCV,BOX_ID]"                         Binding = "{Binding DOCV2_EQP_ID}"                     IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridDateTimeColumn   Header = "[DOCV,DOCV2_TIME]"                     Binding = "{Binding DOCV2_TIME}"                       IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridNumericColumn    Header = "[DOCV,DOCV2]"                          Binding = "{Binding DOCV2}"                            IsReadOnly="True" HorizontalAlignment="Center" Format="###,###,##0.###" />
+                                        <c1:DataGridTextColumn       Header = "[DOCV,TRAY_LOT_ID]"                    Binding = "{Binding DOCV3_LOTID}"                      IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn       Header = "[DOCV,CHANNEL]"                        Binding = "{Binding DOCV3_CSTSLOT}"                    IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn       Header = "[DOCV,ROUTE_ID]"                       Binding = "{Binding DOCV3_ROUTE}"                      IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn       Header = "[DOCV,GRADE]"                          Binding = "{Binding DOCV3_GRADE}"                      IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn       Header = "[DOCV,BOX_ID]"                         Binding = "{Binding DOCV3_EQP_ID}"                     IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridDateTimeColumn   Header = "[DOCV,DOCV3_TIME]"                     Binding = "{Binding DOCV3_TIME}"                       IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridNumericColumn    Header = "[DOCV,DOCV3]"                          Binding = "{Binding DOCV3}"                            IsReadOnly="True" HorizontalAlignment="Center" Format="###,###,##0.###" />
+                                        <c1:DataGridTextColumn       Header = "[DOCV,TRAY_LOT_ID]"                    Binding = "{Binding DOCV4_LOTID}"                      IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn       Header = "[DOCV,CHANNEL]"                        Binding = "{Binding DOCV4_CSTSLOT}"                    IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn       Header = "[DOCV,ROUTE_ID]"                       Binding = "{Binding DOCV4_ROUTE}"                      IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn       Header = "[DOCV,GRADE]"                          Binding = "{Binding DOCV4_GRADE}"                      IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn       Header = "[DOCV,BOX_ID]"                         Binding = "{Binding DOCV4_EQP_ID}"                     IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridDateTimeColumn   Header = "[DOCV,DOCV4_TIME]"                     Binding = "{Binding DOCV4_TIME}"                       IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridNumericColumn    Header = "[DOCV,DOCV4]"                          Binding = "{Binding DOCV4}"                            IsReadOnly="True" HorizontalAlignment="Center" Format="###,###,##0.###" />
+                                        <c1:DataGridTextColumn       Header = "[DOCV,TRAY_LOT_ID]"                    Binding = "{Binding DOCV5_LOTID}"                      IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn       Header = "[DOCV,CHANNEL]"                        Binding = "{Binding DOCV5_CSTSLOT}"                    IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn       Header = "[DOCV,ROUTE_ID]"                       Binding = "{Binding DOCV5_ROUTE}"                      IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn       Header = "[DOCV,GRADE]"                          Binding = "{Binding DOCV5_GRADE}"                      IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn       Header = "[DOCV,BOX_ID]"                         Binding = "{Binding DOCV5_EQP_ID}"                     IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridDateTimeColumn   Header = "[DOCV,DOCV5_TIME]"                     Binding = "{Binding DOCV5_TIME}"                       IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridNumericColumn    Header = "[DOCV,DOCV5]"                          Binding = "{Binding DOCV5}"                            IsReadOnly="True" HorizontalAlignment="Center" Format="###,###,##0.###" />
+                                        <c1:DataGridTextColumn       Header = "[DOCV,TRAY_LOT_ID]"                    Binding = "{Binding DOCV6_LOTID}"                      IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn       Header = "[DOCV,CHANNEL]"                        Binding = "{Binding DOCV6_CSTSLOT}"                    IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn       Header = "[DOCV,ROUTE_ID]"                       Binding = "{Binding DOCV6_ROUTE}"                      IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn       Header = "[DOCV,GRADE]"                          Binding = "{Binding DOCV6_GRADE}"                      IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn       Header = "[DOCV,BOX_ID]"                         Binding = "{Binding DOCV6_EQP_ID}"                     IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridDateTimeColumn   Header = "[DOCV,DOCV6_TIME]"                     Binding = "{Binding DOCV6_TIME}"                       IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridNumericColumn    Header = "[DOCV,DOCV6]"                          Binding = "{Binding DOCV6}"                            IsReadOnly="True" HorizontalAlignment="Center" Format="###,###,##0.###" />
+                                        <c1:DataGridTextColumn       Header = "[DOCV,TRAY_LOT_ID]"                    Binding = "{Binding DOCV7_LOTID}"                      IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn       Header = "[DOCV,CHANNEL]"                        Binding = "{Binding DOCV7_CSTSLOT}"                    IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn       Header = "[DOCV,ROUTE_ID]"                       Binding = "{Binding DOCV7_ROUTE}"                      IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn       Header = "[DOCV,GRADE]"                          Binding = "{Binding DOCV7_GRADE}"                      IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn       Header = "[DOCV,BOX_ID]"                         Binding = "{Binding DOCV7_EQP_ID}"                     IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridDateTimeColumn   Header = "[DOCV,DOCV7_TIME]"                     Binding = "{Binding DOCV7_TIME}"                       IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridNumericColumn    Header = "[DOCV,DOCV7]"                          Binding = "{Binding DOCV7}"                            IsReadOnly="True" HorizontalAlignment="Center" Format="###,###,##0.###" />
+                                        <c1:DataGridTextColumn       Header = "[DOCV,TRAY_LOT_ID]"                    Binding = "{Binding DOCV8_LOTID}"                      IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn       Header = "[DOCV,CHANNEL]"                        Binding = "{Binding DOCV8_CSTSLOT}"                    IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn       Header = "[DOCV,ROUTE_ID]"                       Binding = "{Binding DOCV8_ROUTE}"                      IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn       Header = "[DOCV,GRADE]"                          Binding = "{Binding DOCV8_GRADE}"                      IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn       Header = "[DOCV,BOX_ID]"                         Binding = "{Binding DOCV8_EQP_ID}"                     IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridDateTimeColumn   Header = "[DOCV,DOCV8_TIME]"                     Binding = "{Binding DOCV8_TIME}"                       IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridNumericColumn    Header = "[DOCV,DOCV8]"                          Binding = "{Binding DOCV8}"                            IsReadOnly="True" HorizontalAlignment="Center" Format="###,###,##0.###" />
+                                        <c1:DataGridTextColumn       Header = "[DOCV,TRAY_LOT_ID]"                    Binding = "{Binding DOCV9_LOTID}"                      IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn       Header = "[DOCV,CHANNEL]"                        Binding = "{Binding DOCV9_CSTSLOT}"                    IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn       Header = "[DOCV,ROUTE_ID]"                       Binding = "{Binding DOCV9_ROUTE}"                      IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn       Header = "[DOCV,GRADE]"                          Binding = "{Binding DOCV9_GRADE}"                      IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn       Header = "[DOCV,BOX_ID]"                         Binding = "{Binding DOCV9_EQP_ID}"                     IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridDateTimeColumn   Header = "[DOCV,DOCV9_TIME]"                     Binding = "{Binding DOCV9_TIME}"                       IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridNumericColumn    Header = "[DOCV,DOCV9]"                          Binding = "{Binding DOCV9}"                            IsReadOnly="True" HorizontalAlignment="Center" Format="###,###,##0.###" />
+                                        <c1:DataGridTextColumn       Header = "[DOCV,TRAY_LOT_ID]"                    Binding = "{Binding DOCV10_LOTID}"                     IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn       Header = "[DOCV,CHANNEL]"                        Binding = "{Binding DOCV10_CSTSLOT}"                   IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn       Header = "[DOCV,ROUTE_ID]"                       Binding = "{Binding DOCV10_ROUTE}"                     IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn       Header = "[DOCV,GRADE]"                          Binding = "{Binding DOCV10_GRADE}"                     IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn       Header = "[DOCV,BOX_ID]"                         Binding = "{Binding DOCV10_EQP_ID}"                    IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridDateTimeColumn   Header = "[DOCV,DOCV10_TIME]"                    Binding = "{Binding DOCV10_TIME}"                      IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridNumericColumn    Header = "[DOCV,DOCV10]"                         Binding = "{Binding DOCV10}"                           IsReadOnly="True" HorizontalAlignment="Center" Format="###,###,##0.###" />
+                                        <c1:DataGridNumericColumn    Header = "[DOCV,PREDCT_DOCV2]"                   Binding = "{Binding PREDCT_DOCV2}"                     IsReadOnly="True" HorizontalAlignment="Center" Format="###,###,##0.###" />
+                                        <c1:DataGridNumericColumn    Header = "[DOCV,TRGT_DOCV2]"                     Binding = "{Binding TRGT_DOCV2}"                        IsReadOnly="True" HorizontalAlignment="Center" Format="###,###,##0.###" />
+                                        <c1:DataGridNumericColumn    Header = "[DOCV,FITTED_DOCV2]"                   Binding = "{Binding FITTED_DOCV2}"                     IsReadOnly="True" HorizontalAlignment="Center" Format="###,###,##0.###" />
+                                        <c1:DataGridTextColumn       Header = "[DOCV,DOCV2_JUDG_STATUS]"              Binding = "{Binding DOCV2_JUDG_STATUS}"                IsReadOnly="True" HorizontalAlignment="Center" />
+                                        
+                                       -->
+                                        <!--EOL-->
+                                        <!--
+                                        <c1:DataGridTextColumn       Header = "[EOL,TRAY_LOT_ID]"                          Binding = "{Binding EOL_LOTID}"                       IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn       Header = "[EOL,CHANNEL]"                              Binding = "{Binding EOL_CSTSLOT}"                     IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn       Header = "[EOL,ROUTE_ID]"                             Binding = "{Binding EOL_ROUTE}"                       IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn       Header = "[EOL,GRADE]"                                Binding = "{Binding EOL_GRADE}"                       IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn       Header = "[EOL,BOX_ID]"                               Binding = "{Binding EOL_EQP_ID}"                      IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridDateTimeColumn   Header = "[EOL,EOL_TIME]"                             Binding = "{Binding EOL_TIME}"                        IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridNumericColumn    Header = "[EOL,THICKNESS]"                            Binding = "{Binding THIC_VAL}"                        IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridNumericColumn    Header = "[EOL,WEIGHT_VAL]"                           Binding = "{Binding WEIGHT_VAL}"                      IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridNumericColumn    Header = "[EOL,EOL_COMPUTE_VAL]"                      Binding = "{Binding EOL_COMPUTE_VAL}"                 IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridNumericColumn    Header = "[EOL,EOL_FILLING_LOSS]"                     Binding = "{Binding EOL_FILLING_LOSS}"                IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridNumericColumn    Header = "[EOL,VOLT_VAL]"                             Binding = "{Binding VOLT_VAL}"                        IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridNumericColumn    Header = "[EOL,ACIR_VAL]"                             Binding = "{Binding ACIR_VAL}"                        IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridNumericColumn    Header = "[EOL,DCIR_VAL]"                             Binding = "{Binding DCIR_VAL}"                        IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridNumericColumn    Header = "[EOL,MVDAY]"                                Binding = "{Binding MVDAY}"                           IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridNumericColumn    Header = "[EOL,MVDAY_SPEC]"                           Binding = "{Binding MVDAY_SPEC}"                      IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridNumericColumn    Header = "[EOL,IV_CA_VAL]"                            Binding = "{Binding IV_CA_VAL}"                       IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridNumericColumn    Header = "[EOL,TCK_MAX_VAL]"                          Binding = "{Binding TCK_MAX_VAL}"                     IsReadOnly="True" HorizontalAlignment="Center" />
+
+                                        <c1:DataGridNumericColumn    Header = "[EOL,GRADE_2D_PRINT]"                       Binding = "{Binding VERIFY_GRADE}"                    IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn       Header = "[EOL,EOL_REWORK_CNT]"                       Binding = "{Binding EOL_REWORK_CNT}"                  IsReadOnly="True" HorizontalAlignment="Center" />-->
+
+                                    </c1:C1DataGrid.Columns>
+                                    <!--<c1:C1DataGrid.TopRows>
+                                        <c1:DataGridColumnHeaderRow />
+                                        <c1:DataGridColumnHeaderRow />
+                                    </c1:C1DataGrid.TopRows>-->
+                                </uc:UcBaseDataGrid>
+                            </Grid>
+                        </Grid>
+                    </c1:C1TabItem>
+
+                    <c1:C1TabItem x:Name="tpCellData" Header="{Binding Converter={StaticResource GlobalObjectDicConverter}, ConverterParameter='CELL_DATA'}">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="8"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+
+                            <!--조회영역-->
+                            <Grid x:Name="SearchArea3" Grid.Row="0">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="11" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="11" />
+                                </Grid.RowDefinitions>
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="13"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="4"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="13"/>
+                                </Grid.ColumnDefinitions>
+
+                                <Border          Grid.Row="0" Grid.Column="0" Grid.RowSpan="3" Grid.ColumnSpan="99" Background="#fff2f2f2" BorderThickness="1" BorderBrush="#ffd1d1d1"></Border>
+
+                                <TextBlock       Grid.Row="1" Grid.Column="1" Text="{Binding ConverterParameter='INIT_ROW_NUM', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}"/>
+                                <c1:C1NumericBox Grid.Row="1" Grid.Column="2" x:Name="txtRowCntCell" Style="{StaticResource C1NumericBoxStyle}" ShowButtons="False" CornerRadius="0" AllowNull="True" HandleUpDownKeys="False" Format="#,##0" SelectOnFocus="Always" Value="100" MinWidth="100" Background="LightYellow" />
+
+                                <uc:UcBaseButton          Grid.Row="1" Grid.Column="4" x:Name="btnCellReset" Content="{Binding ConverterParameter='REFRESH', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_MainControl03Style}" Cursor="Hand" Click="btnCellReset_Click" />
+                                <uc:UcBaseButton          Grid.Row="1" Grid.Column="6" x:Name="btnSearchCell" Content="{Binding ConverterParameter='SEARCH', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource SearchButtonStyle}" Cursor="Hand" Click="btnSearchCell_Click" />
+
+                            </Grid>
+
+                            <!--조회리스트-->
+                            <Grid Grid.Row="2">
+                                <Border    Grid.Row="0" Grid.Column="0" Grid.RowSpan="99" BorderThickness="1" BorderBrush="#ffbebebe" Style="{StaticResource BorderSubTitleStyle}" />
+                                <uc:UcBaseDataGrid x:Name="dgCellData" IsReadOnly="False" SelectionMode="MultiRange" HeadersVisibility="All" FrozenColumnCount="1" Margin="8" LoadedCellPresenter="dgCellData_LoadedCellPresenter" LoadedColumnHeaderPresenter="dgCellData_LoadedColumnHeaderPresenter" LoadedRowHeaderPresenter="dgCellData_LoadedRowHeaderPresenter" >
+                                    <c1:C1DataGrid.Columns>
+                                        <c1:DataGridTextColumn       Header = "PKG_LOT_ID"          Binding = "{Binding PROD_LOTID}"             IsReadOnly="True"  HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn       Header = "LINE_ID"             Binding = "{Binding EQSGID}"                 IsReadOnly="True"  HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn       Header = "ROUTE_ID"            Binding = "{Binding ROUTID}"                 IsReadOnly="True"  HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn       Header = "TRAY_ID"             Binding = "{Binding CSTID}"                  IsReadOnly="True"  HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn       Header = "CELL_ID"             Binding = "{Binding SUBLOTID}"               IsReadOnly="False" HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn       Header = "CHANNEL"             Binding = "{Binding CSTSLOT}"                IsReadOnly="True"  HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn       Header = "GRADE"               Binding = "{Binding GRADE}"                  IsReadOnly="True"  HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn       Header = "JIG_CHG_DCHG_EQP"    Binding = "{Binding JIG_CHG_DCHG_EQP}"       IsReadOnly="True"  HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn       Header = "CHG_DCHG_EQP"        Binding = "{Binding CHG_DCHG_EQP}"           IsReadOnly="True"  HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn       Header = "IMP_EQP"             Binding = "{Binding IMP_EQP}"                IsReadOnly="True"  HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn       Header = "CURR_OP"             Binding = "{Binding PROCNAME}"               IsReadOnly="True"  HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn       Header = "PALLETID"            Binding = "{Binding PALLETID}"               IsReadOnly="True"  HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn       Header = "OP_START_TIME"       Binding = "{Binding WRK_STRT_DTTM}"          IsReadOnly="True"  HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn       Header = "OP_END_TIME"         Binding = "{Binding WRK_END_DTTM}"           IsReadOnly="True"  HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn       Header = "OCV_01"              Binding = "{Binding OCV1}"                   IsReadOnly="True"  HorizontalAlignment="Center" />
+                                        <c1:DataGridDateTimeColumn   Header = "OCV_01_TIME"         Binding = "{Binding OCV1TIME}"               IsReadOnly="True"  HorizontalAlignment="Center" />
+                                        <c1:DataGridNumericColumn    Header = "1_CHG_END_VOLT_VAL"  Binding = "{Binding CHG1_END_VOLT_VAL}"      IsReadOnly="True"  HorizontalAlignment="Center" />
+                                        <c1:DataGridNumericColumn    Header = "1_CHG_CAPA_VAL"      Binding = "{Binding CHG1_CAPA_VAL}"          IsReadOnly="True"  HorizontalAlignment="Center" />
+                                        <c1:DataGridNumericColumn    Header = "2_CHG_END_VOLT_VAL"  Binding = "{Binding CHG2_END_VOLT_VAL}"      IsReadOnly="True"  HorizontalAlignment="Center" />
+                                        <c1:DataGridNumericColumn    Header = "2_CHG_CAPA_VAL"      Binding = "{Binding CHG2_CAPA_VAL}"          IsReadOnly="True"  HorizontalAlignment="Center" />
+                                        <c1:DataGridNumericColumn    Header = "2_CHG_END_TEMP"      Binding = "{Binding CHG2_END_TEMP}"          IsReadOnly="True"  HorizontalAlignment="Center" />
+                                        <c1:DataGridNumericColumn    Header = "1_DCHG_END_VOLT_VAL" Binding = "{Binding DCHG1_END_VOLT_VAL}"     IsReadOnly="True"  HorizontalAlignment="Center" />
+                                        <c1:DataGridNumericColumn    Header = "1_DCHG_CAPA_VAL"     Binding = "{Binding DCHG1_CAPA_VAL}"         IsReadOnly="True"  HorizontalAlignment="Center" />
+                                        <c1:DataGridNumericColumn    Header = "FIT_1_DCHG_CAPA_VAL" Binding = "{Binding FITTED_DCHG1_CAPA_VAL}"  IsReadOnly="True"  HorizontalAlignment="Center" />
+                                        <c1:DataGridNumericColumn    Header = "1_DCHG_AVG_TEMP"     Binding = "{Binding DCHG1_AVG_TEMP}"         IsReadOnly="True"  HorizontalAlignment="Center" />
+                                        <c1:DataGridNumericColumn    Header = "2_DCHG_END_VOLT_VAL" Binding = "{Binding DCHG2_END_VOLT_VAL}"     IsReadOnly="True"  HorizontalAlignment="Center" />
+                                        <c1:DataGridNumericColumn    Header = "2_DCHG_CAPA_VAL"     Binding = "{Binding DCHG2_CAPA_VAL}"         IsReadOnly="True"  HorizontalAlignment="Center" />
+                                        <c1:DataGridNumericColumn    Header = "FIT_2_DCHG_CAPA_VAL" Binding = "{Binding FITTED_DCHG2_CAPA_VAL}"  IsReadOnly="True"  HorizontalAlignment="Center" />
+                                        <c1:DataGridNumericColumn    Header = "2_DCHG_AVG_TEMP"     Binding = "{Binding DCHG2_AVG_TEMP}"         IsReadOnly="True"  HorizontalAlignment="Center" />
+                                        <c1:DataGridNumericColumn    Header = "IMP"                 Binding = "{Binding IMP}"                    IsReadOnly="True"  HorizontalAlignment="Center" />
+                                        <c1:DataGridNumericColumn    Header = "FIT_IMP"             Binding = "{Binding FITTED_DCIR_VALUE}"      IsReadOnly="True"  HorizontalAlignment="Center" />
+                                        <c1:DataGridNumericColumn    Header = "DOCV"                Binding = "{Binding DOCV}"                   IsReadOnly="True"  HorizontalAlignment="Center" />
+                                        <c1:DataGridNumericColumn    Header = "EOL"                 Binding = "{Binding VLTG_VALUE}"             IsReadOnly="True"  HorizontalAlignment="Center" />
+                                        <c1:DataGridDateTimeColumn   Header = "EOL_TIME"            Binding = "{Binding MDF_TIME}"               IsReadOnly="True"  HorizontalAlignment="Center" />
+                                        <c1:DataGridNumericColumn    Header = "WEIGHT_VAL"          Binding = "{Binding WEIGHT_VALUE}"           IsReadOnly="True"  HorizontalAlignment="Center" />
+                                        <c1:DataGridNumericColumn    Header = "THICKNESS"           Binding = "{Binding AVG_TCK_VALUE}"          IsReadOnly="True"  HorizontalAlignment="Center" />
+                                        <c1:DataGridNumericColumn    Header = "ACIR_VAL"            Binding = "{Binding ACIR_VALUE}"             IsReadOnly="True"  HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn       Header = "DCIR_VAL"            Binding = "{Binding IR_VALUE}"               IsReadOnly="True"  HorizontalAlignment="Center" />
+                                        <c1:DataGridNumericColumn    Header = "IV_VAL"              Binding = "{Binding IV_CA_VAL}"              IsReadOnly="True"  HorizontalAlignment="Center" />
+                                        <c1:DataGridNumericColumn    Header = "MVDAY"               Binding = "{Binding MVDAY_VALUE}"            IsReadOnly="True"  HorizontalAlignment="Center" />
+                                        <c1:DataGridDateTimeColumn   Header = "DSF_BEFORE_OCV_TIME" Binding = "{Binding DSF_BEFORE_OCV_DTTM}"    IsReadOnly="True"  HorizontalAlignment="Center" />
+                                        <c1:DataGridNumericColumn    Header = "OCV값"               Binding = "{Binding OCV_VAL}"                IsReadOnly="True"  HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn       Header = "EOL_WIPDTTM_ST"      Binding = "{Binding EOL_WIPDTTM_ST}"         IsReadOnly="True"  HorizontalAlignment="Center" />
+                                        <c1:DataGridNumericColumn    Header = "GRADE_2D_PRINT"      Binding = "{Binding VERIF_GRD_VALUE}"        IsReadOnly="True"  HorizontalAlignment="Center" />
+                                        <c1:DataGridNumericColumn    Header = "DEDICATE_OCV1"       Binding = "{Binding DEDICATE_OCV1}"          IsReadOnly="True"  HorizontalAlignment="Center" />
+                                        <c1:DataGridDateTimeColumn   Header = "DEDICATE_OCV1_TIME"  Binding = "{Binding DEDICATE_OCV1_TIME}"     IsReadOnly="True"  HorizontalAlignment="Center" />
+                                        <c1:DataGridNumericColumn    Header = "DEDICATE_OCV2"       Binding = "{Binding DEDICATE_OCV2}"          IsReadOnly="True"  HorizontalAlignment="Center" />
+                                        <c1:DataGridDateTimeColumn   Header = "DEDICATE_OCV2_TIME"  Binding = "{Binding DEDICATE_OCV2_TIME}"     IsReadOnly="True"  HorizontalAlignment="Center" />
+                                        <c1:DataGridNumericColumn    Header = "DEDICATE_OCV3"       Binding = "{Binding DEDICATE_OCV3}"          IsReadOnly="True"  HorizontalAlignment="Center" />
+                                        <c1:DataGridDateTimeColumn   Header = "DEDICATE_OCV3_TIME"  Binding = "{Binding DEDICATE_OCV3_TIME}"     IsReadOnly="True"  HorizontalAlignment="Center" />
+                                        <c1:DataGridNumericColumn    Header = "DEDICATE_OCV4"       Binding = "{Binding DEDICATE_OCV4}"          IsReadOnly="True"  HorizontalAlignment="Center" />
+                                        <c1:DataGridDateTimeColumn   Header = "DEDICATE_OCV4_TIME"  Binding = "{Binding DEDICATE_OCV4_TIME}"     IsReadOnly="True"  HorizontalAlignment="Center" />
+                                        <c1:DataGridNumericColumn    Header = "DEDICATE_OCV5"       Binding = "{Binding DEDICATE_OCV5}"          IsReadOnly="True"  HorizontalAlignment="Center" />
+                                        <c1:DataGridDateTimeColumn   Header = "DEDICATE_OCV5_TIME"  Binding = "{Binding DEDICATE_OCV5_TIME}"     IsReadOnly="True"  HorizontalAlignment="Center" />
+                                        <c1:DataGridNumericColumn    Header = "DEDICATE_OCV6"       Binding = "{Binding DEDICATE_OCV6}"          IsReadOnly="True"  HorizontalAlignment="Center" />
+                                        <c1:DataGridDateTimeColumn   Header = "DEDICATE_OCV6_TIME"  Binding = "{Binding DEDICATE_OCV6_TIME}"     IsReadOnly="True"  HorizontalAlignment="Center" />
+                                        <c1:DataGridNumericColumn    Header = "DEDICATE_OCV7"       Binding = "{Binding DEDICATE_OCV7}"          IsReadOnly="True"  HorizontalAlignment="Center" />
+                                        <c1:DataGridDateTimeColumn   Header = "DEDICATE_OCV7_TIME"  Binding = "{Binding DEDICATE_OCV7_TIME}"     IsReadOnly="True"  HorizontalAlignment="Center" />
+                                        <c1:DataGridNumericColumn    Header = "DEDICATE_OCV8"       Binding = "{Binding DEDICATE_OCV8}"          IsReadOnly="True"  HorizontalAlignment="Center" />
+                                        <c1:DataGridDateTimeColumn   Header = "DEDICATE_OCV8_TIME"  Binding = "{Binding DEDICATE_OCV8_TIME}"     IsReadOnly="True"  HorizontalAlignment="Center" />
+                                        <c1:DataGridNumericColumn    Header = "DEDICATE_OCV9"       Binding = "{Binding DEDICATE_OCV9}"          IsReadOnly="True"  HorizontalAlignment="Center" />
+                                        <c1:DataGridDateTimeColumn   Header = "DEDICATE_OCV9_TIME"  Binding = "{Binding DEDICATE_OCV9_TIME}"     IsReadOnly="True"  HorizontalAlignment="Center" />
+                                        <c1:DataGridNumericColumn    Header = "DEDICATE_OCV10"      Binding = "{Binding DEDICATE_OCV10}"         IsReadOnly="True"  HorizontalAlignment="Center" />
+                                        <c1:DataGridDateTimeColumn   Header = "DEDICATE_OCV10_TIME" Binding = "{Binding DEDICATE_OCV10_TIME}"    IsReadOnly="True"  HorizontalAlignment="Center" />
+                                        <c1:DataGridNumericColumn    Header = "DEDICATE_OCV11"      Binding = "{Binding DEDICATE_OCV11}"         IsReadOnly="True"  HorizontalAlignment="Center" />
+                                        <c1:DataGridDateTimeColumn   Header = "DEDICATE_OCV11_TIME" Binding = "{Binding DEDICATE_OCV11_TIME}"    IsReadOnly="True"  HorizontalAlignment="Center" />
+                                        <c1:DataGridNumericColumn    Header = "DEDICATE_OCV12"      Binding = "{Binding DEDICATE_OCV12}"         IsReadOnly="True"  HorizontalAlignment="Center" />
+                                        <c1:DataGridDateTimeColumn   Header = "DEDICATE_OCV12_TIME" Binding = "{Binding DEDICATE_OCV12_TIME}"    IsReadOnly="True"  HorizontalAlignment="Center" />
+                                        <c1:DataGridNumericColumn    Header = "DEDICATE_OCV13"      Binding = "{Binding DEDICATE_OCV13}"         IsReadOnly="True"  HorizontalAlignment="Center" />
+                                        <c1:DataGridDateTimeColumn   Header = "DEDICATE_OCV13_TIME" Binding = "{Binding DEDICATE_OCV13_TIME}"    IsReadOnly="True"  HorizontalAlignment="Center" />
+                                        <c1:DataGridNumericColumn    Header = "DEDICATE_OCV14"      Binding = "{Binding DEDICATE_OCV14}"         IsReadOnly="True"  HorizontalAlignment="Center" />
+                                        <c1:DataGridDateTimeColumn   Header = "DEDICATE_OCV14_TIME" Binding = "{Binding DEDICATE_OCV14_TIME}"    IsReadOnly="True"  HorizontalAlignment="Center" />
+                                        <c1:DataGridNumericColumn    Header = "DEDICATE_OCV15"      Binding = "{Binding DEDICATE_OCV15}"         IsReadOnly="True"  HorizontalAlignment="Center" />
+                                        <c1:DataGridDateTimeColumn   Header = "DEDICATE_OCV15_TIME" Binding = "{Binding DEDICATE_OCV15_TIME}"    IsReadOnly="True"  HorizontalAlignment="Center" />
+                                        <c1:DataGridNumericColumn    Header = "DEDICATE_OCV16"      Binding = "{Binding DEDICATE_OCV16}"         IsReadOnly="True"  HorizontalAlignment="Center" />
+                                        <c1:DataGridDateTimeColumn   Header = "DEDICATE_OCV16_TIME" Binding = "{Binding DEDICATE_OCV16_TIME}"    IsReadOnly="True"  HorizontalAlignment="Center" />
+                                        <c1:DataGridNumericColumn    Header = "DEDICATE_OCV17"      Binding = "{Binding DEDICATE_OCV17}"         IsReadOnly="True"  HorizontalAlignment="Center" />
+                                        <c1:DataGridDateTimeColumn   Header = "DEDICATE_OCV17_TIME" Binding = "{Binding DEDICATE_OCV17_TIME}"    IsReadOnly="True"  HorizontalAlignment="Center" />
+                                        <c1:DataGridNumericColumn    Header = "DEDICATE_OCV18"      Binding = "{Binding DEDICATE_OCV18}"         IsReadOnly="True"  HorizontalAlignment="Center" />
+                                        <c1:DataGridDateTimeColumn   Header = "DEDICATE_OCV18_TIME" Binding = "{Binding DEDICATE_OCV18_TIME}"    IsReadOnly="True"  HorizontalAlignment="Center" />
+                                        <c1:DataGridNumericColumn    Header = "DEDICATE_OCV19"      Binding = "{Binding DEDICATE_OCV19}"         IsReadOnly="True"  HorizontalAlignment="Center" />
+                                        <c1:DataGridDateTimeColumn   Header = "DEDICATE_OCV19_TIME" Binding = "{Binding DEDICATE_OCV19_TIME}"    IsReadOnly="True"  HorizontalAlignment="Center" />
+                                        <c1:DataGridNumericColumn    Header = "DEDICATE_OCV20"      Binding = "{Binding DEDICATE_OCV20}"         IsReadOnly="True"  HorizontalAlignment="Center" />
+                                        <c1:DataGridDateTimeColumn   Header = "DEDICATE_OCV20_TIME" Binding = "{Binding DEDICATE_OCV20_TIME}"    IsReadOnly="True"  HorizontalAlignment="Center" />
+                                        <c1:DataGridNumericColumn    Header = "DEDICATE_OCV21"      Binding = "{Binding DEDICATE_OCV21}"         IsReadOnly="True"  HorizontalAlignment="Center" />
+                                        <c1:DataGridDateTimeColumn   Header = "DEDICATE_OCV21_TIME" Binding = "{Binding DEDICATE_OCV21_TIME}"    IsReadOnly="True"  HorizontalAlignment="Center" />
+                                        <c1:DataGridNumericColumn    Header = "DEDICATE_OCV22"      Binding = "{Binding DEDICATE_OCV22}"         IsReadOnly="True"  HorizontalAlignment="Center" />
+                                        <c1:DataGridDateTimeColumn   Header = "DEDICATE_OCV22_TIME" Binding = "{Binding DEDICATE_OCV22_TIME}"    IsReadOnly="True"  HorizontalAlignment="Center" />
+                                        <c1:DataGridNumericColumn    Header = "DEDICATE_OCV23"      Binding = "{Binding DEDICATE_OCV23}"         IsReadOnly="True"  HorizontalAlignment="Center" />
+                                        <c1:DataGridDateTimeColumn   Header = "DEDICATE_OCV23_TIME" Binding = "{Binding DEDICATE_OCV23_TIME}"    IsReadOnly="True"  HorizontalAlignment="Center" />
+                                        <c1:DataGridNumericColumn    Header = "DEDICATE_OCV24"      Binding = "{Binding DEDICATE_OCV24}"         IsReadOnly="True"  HorizontalAlignment="Center" />
+                                        <c1:DataGridDateTimeColumn   Header = "DEDICATE_OCV24_TIME" Binding = "{Binding DEDICATE_OCV24_TIME}"    IsReadOnly="True"  HorizontalAlignment="Center" />
+                                        <c1:DataGridNumericColumn    Header = "DEDICATE_OCV25"      Binding = "{Binding DEDICATE_OCV25}"         IsReadOnly="True"  HorizontalAlignment="Center" />
+                                        <c1:DataGridDateTimeColumn   Header = "DEDICATE_OCV25_TIME" Binding = "{Binding DEDICATE_OCV25_TIME}"    IsReadOnly="True"  HorizontalAlignment="Center" />
+                                        <c1:DataGridNumericColumn    Header = "DEDICATE_OCV26"      Binding = "{Binding DEDICATE_OCV26}"         IsReadOnly="True"  HorizontalAlignment="Center" />
+                                        <c1:DataGridDateTimeColumn   Header = "DEDICATE_OCV26_TIME" Binding = "{Binding DEDICATE_OCV26_TIME}"    IsReadOnly="True"  HorizontalAlignment="Center" />
+                                        <c1:DataGridNumericColumn    Header = "DEDICATE_OCV27"      Binding = "{Binding DEDICATE_OCV27}"         IsReadOnly="True"  HorizontalAlignment="Center" />
+                                        <c1:DataGridDateTimeColumn   Header = "DEDICATE_OCV27_TIME" Binding = "{Binding DEDICATE_OCV27_TIME}"    IsReadOnly="True"  HorizontalAlignment="Center" />
+                                        <c1:DataGridNumericColumn    Header = "DEDICATE_OCV28"      Binding = "{Binding DEDICATE_OCV28}"         IsReadOnly="True"  HorizontalAlignment="Center" />
+                                        <c1:DataGridDateTimeColumn   Header = "DEDICATE_OCV28_TIME" Binding = "{Binding DEDICATE_OCV28_TIME}"    IsReadOnly="True"  HorizontalAlignment="Center" />
+                                        <c1:DataGridNumericColumn    Header = "DEDICATE_OCV29"      Binding = "{Binding DEDICATE_OCV29}"         IsReadOnly="True"  HorizontalAlignment="Center" />
+                                        <c1:DataGridDateTimeColumn   Header = "DEDICATE_OCV29_TIME" Binding = "{Binding DEDICATE_OCV29_TIME}"    IsReadOnly="True"  HorizontalAlignment="Center" />
+                                        <c1:DataGridNumericColumn    Header = "DEDICATE_OCV30"      Binding = "{Binding DEDICATE_OCV30}"         IsReadOnly="True"  HorizontalAlignment="Center" />
+                                        <c1:DataGridDateTimeColumn   Header = "DEDICATE_OCV30_TIME" Binding = "{Binding DEDICATE_OCV30_TIME}"    IsReadOnly="True"  HorizontalAlignment="Center" />
+                                        <c1:DataGridNumericColumn    Header = "DEDICATE_OCV31"      Binding = "{Binding DEDICATE_OCV31}"         IsReadOnly="True"  HorizontalAlignment="Center" />
+                                        <c1:DataGridDateTimeColumn   Header = "DEDICATE_OCV31_TIME" Binding = "{Binding DEDICATE_OCV31_TIME}"    IsReadOnly="True"  HorizontalAlignment="Center" />
+                                        <c1:DataGridNumericColumn    Header = "DEDICATE_OCV32"      Binding = "{Binding DEDICATE_OCV32}"         IsReadOnly="True"  HorizontalAlignment="Center" />
+                                        <c1:DataGridDateTimeColumn   Header = "DEDICATE_OCV32_TIME" Binding = "{Binding DEDICATE_OCV32_TIME}"    IsReadOnly="True"  HorizontalAlignment="Center" />
+                                        <c1:DataGridNumericColumn    Header = "DEDICATE_OCV33"      Binding = "{Binding DEDICATE_OCV33}"         IsReadOnly="True"  HorizontalAlignment="Center" />
+                                        <c1:DataGridDateTimeColumn   Header = "DEDICATE_OCV33_TIME" Binding = "{Binding DEDICATE_OCV33_TIME}"    IsReadOnly="True"  HorizontalAlignment="Center" />
+                                        <c1:DataGridNumericColumn    Header = "DEDICATE_OCV34"      Binding = "{Binding DEDICATE_OCV34}"         IsReadOnly="True"  HorizontalAlignment="Center" />
+                                        <c1:DataGridDateTimeColumn   Header = "DEDICATE_OCV34_TIME" Binding = "{Binding DEDICATE_OCV34_TIME}"    IsReadOnly="True"  HorizontalAlignment="Center" />
+                                        <c1:DataGridNumericColumn    Header = "DEDICATE_OCV35"      Binding = "{Binding DEDICATE_OCV35}"         IsReadOnly="True"  HorizontalAlignment="Center" />
+                                        <c1:DataGridDateTimeColumn   Header = "DEDICATE_OCV35_TIME" Binding = "{Binding DEDICATE_OCV35_TIME}"    IsReadOnly="True"  HorizontalAlignment="Center" />
+
+                                    </c1:C1DataGrid.Columns>
+                                </uc:UcBaseDataGrid>
+                            </Grid>
+
+                        </Grid>
+                    </c1:C1TabItem>
+
+                    <c1:C1TabItem x:Name="tpBeginWIP" Header="{Binding Converter={StaticResource GlobalObjectDicConverter}, ConverterParameter='BEGINNING_WIP'}">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="8"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+
+                            <!--조회영역-->
+                            <Grid x:Name="SearchArea4" Grid.Row="0">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="11" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="11" />
+                                </Grid.RowDefinitions>
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="13"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="13"/>
+                                </Grid.ColumnDefinitions>
+
+                                <Border                 Grid.Row="0" Grid.Column="0" Grid.RowSpan="3" Grid.ColumnSpan="99" Background="#fff2f2f2" BorderThickness="1" BorderBrush="#ffd1d1d1"></Border>
+
+                                <TextBlock              Grid.Row="1" Grid.Column="1" Text="{Binding ConverterParameter='STD_DATE', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}"/>
+                                <ctrlLib:LGCDatePicker  Grid.Row="1" Grid.Column="2" x:Name="dtpTargetBWIP"  DatepickerType="Date"/>
+
+                                <TextBlock              Grid.Row="1" Grid.Column="3" Text="{Binding ConverterParameter='PKG_LOT_ID', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}"/>
+                                <TextBox                Grid.Row="1" Grid.Column="4" x:Name="txtLotBWIP"  MinWidth="100" Style="{StaticResource Content_InputForm_TextBoxStyle}" KeyDown="txtLotBWIP_KeyDown"/>
+
+                                <uc:UcBaseButton                 Grid.Row="1" Grid.Column="6" x:Name="btnSearchBWIP" Content="{Binding ConverterParameter='SEARCH' , Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource SearchButtonStyle}"  Cursor="Hand" Click="btnSearchBWIP_Click" />
+                            </Grid>
+
+                            <!--조회리스트-->
+                            <Grid Grid.Row="2">
+                                <Border    Grid.Row="0" Grid.Column="0" Grid.RowSpan="99" BorderThickness="1" BorderBrush="#ffbebebe" Style="{StaticResource BorderSubTitleStyle}" />
+                                <uc:UcBaseDataGrid x:Name="dgBWIP" IsReadOnly="True" SelectionMode="MultiRange" FrozenTopRowsCount="2" HeadersVisibility="Row" FrozenColumnCount="1" Margin="8" LoadedCellPresenter="dgBWIP_LoadedCellPresenter" LoadedRowHeaderPresenter="dgBWIP_LoadedRowHeaderPresenter" >
+                                    <c1:C1DataGrid.Columns>
+                                        <c1:DataGridTextColumn     Header = "[STD_DATE,STD_DATE]"            Binding = "{Binding STD_DATE}"                      IsReadOnly="True" HorizontalAlignment="Center "/>
+                                        <c1:DataGridTextColumn     Header = "[LINE_ID,LINE_ID]"              Binding = "{Binding EQSGID}"                        IsReadOnly="True" HorizontalAlignment="Center "/>
+                                        <c1:DataGridTextColumn     Header = "[PKG_LOT_ID,PKG_LOT_ID]"        Binding = "{Binding PROD_LOTID}"                    IsReadOnly="True" HorizontalAlignment="Center"/>
+                                        <c1:DataGridTextColumn     Header = "[ROUTE_ID,ROUTE_ID]"            Binding = "{Binding ROUTID}"                        IsReadOnly="True" HorizontalAlignment="Center"/>
+                                        <c1:DataGridTextColumn     Header = "[ROUTE_TYPE_CD,ROUTE_TYPE_CD]"  Binding = "{Binding ROUTE_TYPE_CD}"                 IsReadOnly="True" HorizontalAlignment="Center"/>
+                                        <c1:DataGridTextColumn     Header = "[OP,OP]"                        Binding = "{Binding OP}"                            IsReadOnly="True" HorizontalAlignment="Center">
+                                            <c1:DataGridAggregate.AggregateFunctions>
+                                                <c1:DataGridAggregatesCollection>
+                                                    <c1:DataGridAggregateSum ResultTemplate="{StaticResource ResultTemplateSum}" ></c1:DataGridAggregateSum>
+                                                </c1:DataGridAggregatesCollection>
+                                            </c1:DataGridAggregate.AggregateFunctions>
+                                        </c1:DataGridTextColumn>
+                                        <c1:DataGridNumericColumn  Header = "[WORK_TRAY,TRAY]"               Binding = "{Binding WRK_LOT_QTY}"                   IsReadOnly="True" HorizontalAlignment="Center">
+                                            <c1:DataGridAggregate.AggregateFunctions>
+                                                <c1:DataGridAggregatesCollection>
+                                                    <c1:DataGridAggregateSum ResultTemplate="{StaticResource ResultTemplate}" ></c1:DataGridAggregateSum>
+                                                </c1:DataGridAggregatesCollection>
+                                            </c1:DataGridAggregate.AggregateFunctions>
+                                        </c1:DataGridNumericColumn>
+                                        <c1:DataGridNumericColumn  Header = "[WORK_TRAY,CELL]"               Binding = "{Binding WRK_SUBLOT_QTY}"                IsReadOnly="True" HorizontalAlignment="Center">
+                                            <c1:DataGridAggregate.AggregateFunctions>
+                                                <c1:DataGridAggregatesCollection>
+                                                    <c1:DataGridAggregateSum ResultTemplate="{StaticResource ResultTemplate}" ></c1:DataGridAggregateSum>
+                                                </c1:DataGridAggregatesCollection>
+                                            </c1:DataGridAggregate.AggregateFunctions>
+                                        </c1:DataGridNumericColumn>
+                                        <c1:DataGridNumericColumn  Header = "[AGING_END_WAIT,TRAY]"          Binding = "{Binding AGING_END_LOT_QTY}"             IsReadOnly="True" HorizontalAlignment="Center">
+                                            <c1:DataGridAggregate.AggregateFunctions>
+                                                <c1:DataGridAggregatesCollection>
+                                                    <c1:DataGridAggregateSum ResultTemplate="{StaticResource ResultTemplate}" ></c1:DataGridAggregateSum>
+                                                </c1:DataGridAggregatesCollection>
+                                            </c1:DataGridAggregate.AggregateFunctions>
+                                        </c1:DataGridNumericColumn>
+                                        <c1:DataGridNumericColumn  Header = "[AGING_END_WAIT,CELL]"          Binding = "{Binding AGING_END_SUBLOT_QTY}"          IsReadOnly="True" HorizontalAlignment="Center">
+                                            <c1:DataGridAggregate.AggregateFunctions>
+                                                <c1:DataGridAggregatesCollection>
+                                                    <c1:DataGridAggregateSum ResultTemplate="{StaticResource ResultTemplate}" ></c1:DataGridAggregateSum>
+                                                </c1:DataGridAggregatesCollection>
+                                            </c1:DataGridAggregate.AggregateFunctions>
+                                        </c1:DataGridNumericColumn>
+                                        <c1:DataGridNumericColumn  Header = "[AFTER_END_WAIT,TRAY]"          Binding = "{Binding WRK_END_AFTER_WAIT_LOT_QTY}"    IsReadOnly="True" HorizontalAlignment="Center">
+                                            <c1:DataGridAggregate.AggregateFunctions>
+                                                <c1:DataGridAggregatesCollection>
+                                                    <c1:DataGridAggregateSum ResultTemplate="{StaticResource ResultTemplate}" ></c1:DataGridAggregateSum>
+                                                </c1:DataGridAggregatesCollection>
+                                            </c1:DataGridAggregate.AggregateFunctions>
+                                        </c1:DataGridNumericColumn>
+                                        <c1:DataGridNumericColumn  Header = "[AFTER_END_WAIT,CELL]"          Binding = "{Binding WRK_END_AFTER_WAIT_SUBLOT_QTY}" IsReadOnly="True" HorizontalAlignment="Center">
+                                            <c1:DataGridAggregate.AggregateFunctions>
+                                                <c1:DataGridAggregatesCollection>
+                                                    <c1:DataGridAggregateSum ResultTemplate="{StaticResource ResultTemplate}" ></c1:DataGridAggregateSum>
+                                                </c1:DataGridAggregatesCollection>
+                                            </c1:DataGridAggregate.AggregateFunctions>
+                                        </c1:DataGridNumericColumn>
+                                        <c1:DataGridNumericColumn  Header = "[WORK_ERR,TRAY]"                Binding = "{Binding ABNORM_LOT_QTY}"                IsReadOnly="True" HorizontalAlignment="Center">
+                                            <c1:DataGridAggregate.AggregateFunctions>
+                                                <c1:DataGridAggregatesCollection>
+                                                    <c1:DataGridAggregateSum ResultTemplate="{StaticResource ResultTemplate}" ></c1:DataGridAggregateSum>
+                                                </c1:DataGridAggregatesCollection>
+                                            </c1:DataGridAggregate.AggregateFunctions>
+                                        </c1:DataGridNumericColumn>
+                                        <c1:DataGridNumericColumn  Header = "[WORK_ERR,CELL]"                Binding = "{Binding ABNORM_SUBLOT_QTY}"             IsReadOnly="True" HorizontalAlignment="Center">
+                                            <c1:DataGridAggregate.AggregateFunctions>
+                                                <c1:DataGridAggregatesCollection>
+                                                    <c1:DataGridAggregateSum ResultTemplate="{StaticResource ResultTemplate}" ></c1:DataGridAggregateSum>
+                                                </c1:DataGridAggregatesCollection>
+                                            </c1:DataGridAggregate.AggregateFunctions>
+                                        </c1:DataGridNumericColumn>
+                                        <c1:DataGridNumericColumn  Header = "[TOTAL,TRAY]"                   Binding = "{Binding TOTL_LOT_QTY}"                  IsReadOnly="True" HorizontalAlignment="Center">
+                                            <c1:DataGridAggregate.AggregateFunctions>
+                                                <c1:DataGridAggregatesCollection>
+                                                    <c1:DataGridAggregateSum ResultTemplate="{StaticResource ResultTemplate}" ></c1:DataGridAggregateSum>
+                                                </c1:DataGridAggregatesCollection>
+                                            </c1:DataGridAggregate.AggregateFunctions>
+                                        </c1:DataGridNumericColumn>
+                                        <c1:DataGridNumericColumn  Header = "[TOTAL,CELL_INPUT]"             Binding = "{Binding TOTL_INPUT_SUBLOT_QTY}"         IsReadOnly="True" HorizontalAlignment="Center">
+                                            <c1:DataGridAggregate.AggregateFunctions>
+                                                <c1:DataGridAggregatesCollection>
+                                                    <c1:DataGridAggregateSum ResultTemplate="{StaticResource ResultTemplate}" ></c1:DataGridAggregateSum>
+                                                </c1:DataGridAggregatesCollection>
+                                            </c1:DataGridAggregate.AggregateFunctions>
+                                        </c1:DataGridNumericColumn>
+                                        <c1:DataGridNumericColumn  Header = "[TOTAL,CELL_WIP]"               Binding = "{Binding TOTL_WIP_SUBLOT_QTY}"           IsReadOnly="True" HorizontalAlignment="Center">
+                                            <c1:DataGridAggregate.AggregateFunctions>
+                                                <c1:DataGridAggregatesCollection>
+                                                    <c1:DataGridAggregateSum ResultTemplate="{StaticResource ResultTemplate}" ></c1:DataGridAggregateSum>
+                                                </c1:DataGridAggregatesCollection>
+                                            </c1:DataGridAggregate.AggregateFunctions>
+                                        </c1:DataGridNumericColumn>
+                                        <c1:DataGridNumericColumn  Header = "[SPECIAL,TRAY]"                 Binding = "{Binding SPECIALTRAY}"                   IsReadOnly="True" HorizontalAlignment="Center">
+                                            <c1:DataGridAggregate.AggregateFunctions>
+                                                <c1:DataGridAggregatesCollection>
+                                                    <c1:DataGridAggregateSum ResultTemplate="{StaticResource ResultTemplate}" ></c1:DataGridAggregateSum>
+                                                </c1:DataGridAggregatesCollection>
+                                            </c1:DataGridAggregate.AggregateFunctions>
+                                        </c1:DataGridNumericColumn>
+                                        <c1:DataGridNumericColumn  Header = "[SPECIAL,CELL]"                 Binding = "{Binding SPECIALCELL}"                   IsReadOnly="True" HorizontalAlignment="Center">
+                                            <c1:DataGridAggregate.AggregateFunctions>
+                                                <c1:DataGridAggregatesCollection>
+                                                    <c1:DataGridAggregateSum ResultTemplate="{StaticResource ResultTemplate}" ></c1:DataGridAggregateSum>
+                                                </c1:DataGridAggregatesCollection>
+                                            </c1:DataGridAggregate.AggregateFunctions>
+                                        </c1:DataGridNumericColumn>
+                                    </c1:C1DataGrid.Columns>
+
+                                    <c1:C1DataGrid.TopRows>
+                                        <c1:DataGridColumnHeaderRow />
+                                        <c1:DataGridColumnHeaderRow />
+                                    </c1:C1DataGrid.TopRows>
+
+                                    <c1:C1DataGrid.BottomRows >
+                                        <c1:DataGridSummaryRow x:Name="summary" RowStyle="{StaticResource SummaryRowStyle}"/>
+                                    </c1:C1DataGrid.BottomRows>
+
+                                </uc:UcBaseDataGrid>
+                            </Grid>
+
+                        </Grid>
+                    </c1:C1TabItem>
+
+                    <c1:C1TabItem x:Name="tpTrayCell" Header="{Binding Converter={StaticResource GlobalObjectDicConverter}, ConverterParameter='TRAY_CELL_SEL'}">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="8"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+
+                            <!--조회영역-->
+                            <Grid x:Name="SearchArea5" Grid.Row="0">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="11" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="11" />
+                                </Grid.RowDefinitions>
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="13"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="239*"/>
+                                    <ColumnDefinition Width="45*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="4"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="13"/>
+                                </Grid.ColumnDefinitions>
+
+                                <Border           Grid.Row="0" Grid.Column="0" Grid.RowSpan="3" Grid.ColumnSpan="9" Background="#fff2f2f2" BorderThickness="1" BorderBrush="#ffd1d1d1"></Border>
+
+                                <TextBlock        Grid.Row="1" Grid.Column="1" Text="{Binding ConverterParameter='INIT_ROW_NUM', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}" Margin="0,8,8,8"/>
+                                <c1:C1NumericBox  Grid.Row="1" Grid.Column="2" x:Name="txtTCRowCntCell" Style="{StaticResource C1NumericBoxStyle}" ShowButtons="False" CornerRadius="0" AllowNull="True" HandleUpDownKeys="False" Format="#,##0" SelectOnFocus="Always" Value="100" MinWidth="80" KeyDown="txtTCRowCntCell_KeyDown" Margin="3,5" />
+
+                                <uc:UcBaseButton           Grid.Row="1" Grid.Column="5" x:Name="btnTCReset"  Content="{Binding ConverterParameter='REFRESH', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_MainControl03Style}" Cursor="Hand" Click="btnTCReset_Click" />
+                                <uc:UcBaseButton           Grid.Row="1" Grid.Column="7" x:Name="btnTCSearch" Content="{Binding ConverterParameter='SEARCH', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource SearchButtonStyle}" Cursor="Hand" Click="btnTCSearch_Click" Margin="0,1" />
+                            </Grid>
+
+                            <!--조회리스트-->
+                            <Grid Grid.Row="2">
+                                <Border    Grid.Row="0" Grid.Column="0" Grid.RowSpan="99" BorderThickness="1" BorderBrush="#ffbebebe" Style="{StaticResource BorderSubTitleStyle}" />
+                                <uc:UcBaseDataGrid x:Name="dgTrayCell" IsReadOnly="False" SelectionMode="MultiRange" HeadersVisibility="All" FrozenColumnCount="2" LoadedCellPresenter="dgTrayCell_LoadedCellPresenter" LoadedColumnHeaderPresenter="dgTrayCell_LoadedColumnHeaderPresenter" LoadedRowHeaderPresenter="dgTrayCell_LoadedRowHeaderPresenter" >
+                                    <c1:C1DataGrid.Columns>
+                                        <c1:DataGridTextColumn  Header = "TRAY_LOT_ID"  Binding = "{Binding LOTID}"     IsReadOnly="False" HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn  Header = "TRAY_ID"  Binding = "{Binding CSTID}"     IsReadOnly="False" HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn  Header = "CELL_ID"  Binding = "{Binding SUBLOTID}"  IsReadOnly="True"  HorizontalAlignment="Center" />
+                                    </c1:C1DataGrid.Columns>
+                                </uc:UcBaseDataGrid>
+                            </Grid>
+                        </Grid>
+                    </c1:C1TabItem>
+
+                    <c1:C1TabItem x:Name="tpLotTrayCell" Header="{Binding Converter={StaticResource GlobalObjectDicConverter}, ConverterParameter='BATCH_DATA_INQUIRY'}">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="8"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+
+                            <!--조회영역-->
+                            <Grid x:Name="SearchArea6" Grid.Row="0">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="11" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="11" />
+                                </Grid.RowDefinitions>
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="13"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="13"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="13"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="13"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="13"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="13"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="13"/>
+                                </Grid.ColumnDefinitions>
+
+                                <Border           Grid.Row="0" Grid.Column="0" Grid.RowSpan="3" Grid.ColumnSpan="21" Background="#fff2f2f2" BorderThickness="1" BorderBrush="#ffd1d1d1"></Border>
+
+                                <TextBlock        Grid.Row="1" Grid.Column="1"   Margin="0,0,5,0" Text="{Binding ConverterParameter='검사항목', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}"/>
+                                <uc:UcBaseComboBox      x:Name="cboSearchItems"    Grid.Row="1" Grid.Column="3"   MinWidth="150"   MinHeight="23" Width="Auto" Style="{StaticResource C1ComboBoxStyle_Mandatory}" DisplayMemberPath="CBO_NAME" SelectedValuePath="CBO_CODE" AutoComplete="False"/>
+
+                                <TextBlock        Grid.Row="1" Grid.Column="10" Text="{Binding ConverterParameter='INIT_ROW_NUM', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}" Margin="0,8,8,8"/>
+                                <c1:C1NumericBox  Grid.Row="1" Grid.Column="11" x:Name="txtLTCRowCntCell" Style="{StaticResource C1NumericBoxStyle}" ShowButtons="False" CornerRadius="0" AllowNull="True" HandleUpDownKeys="False" Format="#,##0" SelectOnFocus="Always" Value="100" MinWidth="80" KeyDown="txtTCRowCntCell_KeyDown" Margin="3,5" />
+
+                                <uc:UcBaseButton           Grid.Row="1" Grid.Column="13" x:Name="btnLTCReset"    Content="{Binding ConverterParameter='REFRESH', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_MainControl03Style}" Cursor="Hand" Click="btnLTCReset_Click" />
+                                <uc:UcBaseButton           Grid.Row="1" Grid.Column="15" x:Name="btnExcelUpload" Content="{Binding ConverterParameter='엑셀UPLOAD',  Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_ModuleButtonExcelImportStyle}" Cursor="Hand" Click="btnExcelUpload_Click"/>
+                                <uc:UcBaseButton           Grid.Row="1" Grid.Column="17" x:Name="btnExcel"       Content="{Binding ConverterParameter='Excel',  Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_ModuleButtonExcelImportStyle}" Cursor="Hand" Click="btnExcel_Click"/>
+
+                                <uc:UcBaseButton           Grid.Row="1" Grid.Column="19" x:Name="btnLTCSearch"   Content="{Binding ConverterParameter='SEARCH', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource SearchButtonStyle}" Cursor="Hand" Click="btnLTCSearch_Click" Margin="0,1" />
+                            </Grid>
+
+
+                            <Grid Grid.Row="2" Grid.Column="0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="200"/>
+                                    <ColumnDefinition Width="4"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <!--검색 리스트-->
+                                <Grid Grid.Row="0" Grid.Column="0">
+                                    <Border    Grid.Row="0" Grid.Column="0" Grid.RowSpan="99" BorderThickness="1" BorderBrush="#ffbebebe" Style="{StaticResource BorderSubTitleStyle}" />
+                                    <c1:C1DataGrid x:Name="dgLotTrayCellSearchList" IsReadOnly="False" SelectionMode="MultiRange" HeadersVisibility="All" FrozenColumnCount="2" LoadedCellPresenter="dgLotTrayCellSearchList_LoadedCellPresenter" LoadedColumnHeaderPresenter="dgLotTrayCellSearchList_LoadedColumnHeaderPresenter" LoadedRowHeaderPresenter="dgLotTrayCellSearchList_LoadedRowHeaderPresenter" >
+                                        <c1:C1DataGrid.Columns>
+                                            <c1:DataGridTextColumn  Header = "SEARCH"  Binding = "{Binding CELLID}"  IsReadOnly="False"  HorizontalAlignment="Center" />
+                                        </c1:C1DataGrid.Columns>
+                                    </c1:C1DataGrid>
+                                </Grid>
+                                <Grid Grid.Row="0" Grid.Column="2">
+                                    <Border    Grid.Row="0" Grid.Column="0" Grid.RowSpan="99" BorderThickness="1" BorderBrush="#ffbebebe" Style="{StaticResource BorderSubTitleStyle}" />
+                                    <!--조회리스트-->
+                                    <Grid x:Name="gLotTrayCellData" Grid.Row="0" Grid.Column="0" >
+                                        <Border    Grid.Row="0" Grid.Column="0" Grid.RowSpan="99" BorderThickness="1" BorderBrush="#ffbebebe" Style="{StaticResource BorderSubTitleStyle}" />
+
+                                        <uc:UcBaseDataGrid x:Name="dgLotTrayCell" IsReadOnly="True" SelectionMode="MultiRange" HeadersVisibility="Row" FrozenColumnCount="1" FrozenTopRowsCount="1" RowHeaderWidth="40" IsUserConfigUse="False">
+                                            <c1:C1DataGrid.Columns>
+                                                <!--DEFAULT CELL-->
+                                                <!--
+                                                <c1:DataGridTextColumn       Header = "CELL_ID"             Binding = "{Binding SUBLOTID}"               IsReadOnly="True" HorizontalAlignment="Center" />
+                                                <c1:DataGridTextColumn       Header = "PKG_LOT_ID"          Binding = "{Binding PROD_LOTID}"             IsReadOnly="True" HorizontalAlignment="Center" />
+                                                <c1:DataGridTextColumn       Header = "LOT_ID"              Binding = "{Binding LOT_ID}"                 IsReadOnly="True" HorizontalAlignment="Center" />
+                                                <c1:DataGridTextColumn       Header = "ASSY_LOT_ID "        Binding = "{Binding ASSY_LOT_ID}"            IsReadOnly="True" HorizontalAlignment="Center" />
+                                                
+                                                <c1:DataGridTextColumn       Header = "CSTID"           Binding = "{Binding CSTID}"        IsReadOnly="True" HorizontalAlignment="Center" />
+                                                <c1:DataGridTextColumn       Header = "SUBLOTID"        Binding = "{Binding SUBLOTID}"        IsReadOnly="True" HorizontalAlignment="Center" />
+                                                <c1:DataGridTextColumn       Header = "CSTSLOT"         Binding = "{Binding CSTSLOT}"        IsReadOnly="True" HorizontalAlignment="Center" />
+                                                <c1:DataGridTextColumn       Header = "LOTID"           Binding = "{Binding LOTID}"         IsReadOnly="True" HorizontalAlignment="Center" />
+                                                <c1:DataGridTextColumn       Header = "FINL_JUDG_CODE"  Binding = "{Binding FINL_JUDG_CODE}"IsReadOnly="True" HorizontalAlignment="Center" />
+                                                <c1:DataGridTextColumn       Header = "SPLT_FLAG"       Binding = "{Binding SPLT_FLAG}"     IsReadOnly="True" HorizontalAlignment="Center" />
+                                                <c1:DataGridTextColumn       Header = "NOW_TRAYID"      Binding = "{Binding NOW_TRAYID}"    IsReadOnly="True" HorizontalAlignment="Center" />
+                                                
+                                                <c1:DataGridTextColumn       Header = "CELLID"	            Binding = "{Binding CELLID}"               IsReadOnly="True" HorizontalAlignment="Center" />
+                                                <c1:DataGridTextColumn       Header = "CELL_POS"	          Binding = "{Binding CELL_POS}"               IsReadOnly="True" HorizontalAlignment="Center" />
+                                                <c1:DataGridTextColumn       Header = "BOXID"	              Binding = "{Binding BOXID}"               IsReadOnly="True" HorizontalAlignment="Center" />
+                                                <c1:DataGridTextColumn       Header = "TRAY_POS"	          Binding = "{Binding TRAY_POS}"               IsReadOnly="True" HorizontalAlignment="Center" />
+                                                <c1:DataGridTextColumn       Header = "PALLETID"	          Binding = "{Binding PALLETID}"               IsReadOnly="True" HorizontalAlignment="Center" />
+                                                <c1:DataGridTextColumn       Header = "BOX_STATNAME"	      Binding = "{Binding BOX_STATNAME}"               IsReadOnly="True" HorizontalAlignment="Center" />
+                                                <c1:DataGridTextColumn       Header = "SHIP_STATNAME"	      Binding = "{Binding SHIP_STATNAME}"               IsReadOnly="True" HorizontalAlignment="Center" />
+                                                <c1:DataGridTextColumn       Header = "PRODID"	            Binding = "{Binding PRODID}"               IsReadOnly="True" HorizontalAlignment="Center" />
+                                                <c1:DataGridTextColumn       Header = "PACK_EQPTID"	        Binding = "{Binding PACK_EQPTID}"               IsReadOnly="True" HorizontalAlignment="Center" />
+                                                <c1:DataGridTextColumn       Header = "MODELID"	            Binding = "{Binding MODELID}"               IsReadOnly="True" HorizontalAlignment="Center" />
+                                                <c1:DataGridTextColumn       Header = "QTY"	                Binding = "{Binding QTY}"               IsReadOnly="True" HorizontalAlignment="Center" />
+                                                <c1:DataGridTextColumn       Header = "SHIPDATE_SCHEDULE"	  Binding = "{Binding SHIPDATE_SCHEDULE}"               IsReadOnly="True" HorizontalAlignment="Center" />
+                                                <c1:DataGridTextColumn       Header = "SHIPTO_NAME"	        Binding = "{Binding SHIPTO_NAME}"               IsReadOnly="True" HorizontalAlignment="Center" />
+                                                <c1:DataGridTextColumn       Header = "RELSID"	            Binding = "{Binding RELSID}"               IsReadOnly="True" HorizontalAlignment="Center" />
+                                                <c1:DataGridTextColumn       Header = "RELSDATE"	          Binding = "{Binding RELSDATE}"               IsReadOnly="True" HorizontalAlignment="Center" />
+                                                <c1:DataGridTextColumn       Header = "LOT_TYPENAME"	      Binding = "{Binding LOT_TYPENAME}"               IsReadOnly="True" HorizontalAlignment="Center" />
+                                                <c1:DataGridTextColumn       Header = "EQSGNAME"	          Binding = "{Binding EQSGNAME}"               IsReadOnly="True" HorizontalAlignment="Center" />
+                                                <c1:DataGridTextColumn       Header = "REG_USERNAME"	      Binding = "{Binding REG_USERNAME}"               IsReadOnly="True" HorizontalAlignment="Center" />
+                                                <c1:DataGridTextColumn       Header = "PROJECTNAME"         Binding = "{Binding PROJECTNAME}"               IsReadOnly="True" HorizontalAlignment="Center" />
+                                                -->
+                                            </c1:C1DataGrid.Columns>
+                                            <!--<c1:C1DataGrid.TopRows>
+                                            <c1:DataGridColumnHeaderRow />
+                                            <c1:DataGridColumnHeaderRow />
+                                            </c1:C1DataGrid.TopRows>-->
+                                        </uc:UcBaseDataGrid>
+                                        <!---수정 완료-->
+                                    </Grid>
+                                </Grid>
+                            </Grid>
+
+
+
+                        </Grid>
+                    </c1:C1TabItem>
+
+                    <c1:C1TabItem x:Name="tpPalletCell" Header="{Binding Converter={StaticResource GlobalObjectDicConverter}, ConverterParameter='PALLET_CELL_SEL'}">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="8"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+
+                            <!--조회영역-->
+                            <Grid x:Name="SearchArea7" Grid.Row="0">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="11" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="11" />
+                                </Grid.RowDefinitions>
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="13"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="239*"/>
+                                    <ColumnDefinition Width="45*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="4"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="13"/>
+                                </Grid.ColumnDefinitions>
+
+                                <Border           Grid.Row="0" Grid.Column="0" Grid.RowSpan="3" Grid.ColumnSpan="9" Background="#fff2f2f2" BorderThickness="1" BorderBrush="#ffd1d1d1"></Border>
+
+                                <TextBlock        Grid.Row="1" Grid.Column="1" Text="{Binding ConverterParameter='INIT_ROW_NUM', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}" Margin="0,8,8,8"/>
+                                <c1:C1NumericBox  Grid.Row="1" Grid.Column="2" x:Name="txtPCRowCntCell" Style="{StaticResource C1NumericBoxStyle}" ShowButtons="False" CornerRadius="0" AllowNull="True" HandleUpDownKeys="False" Format="#,##0" SelectOnFocus="Always" Value="100" MinWidth="80" KeyDown="txtPCRowCntCell_KeyDown" Margin="3,5" />
+
+                                <uc:UcBaseButton           Grid.Row="1" Grid.Column="5" x:Name="btnPCReset"  Content="{Binding ConverterParameter='REFRESH', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_MainControl03Style}" Cursor="Hand" Click="btnPCReset_Click" />
+                                <uc:UcBaseButton           Grid.Row="1" Grid.Column="7" x:Name="btnPCSearch" Content="{Binding ConverterParameter='SEARCH', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource SearchButtonStyle}" Cursor="Hand" Click="btnPCSearch_Click" Margin="0,1" />
+                            </Grid>
+
+                            <!--조회리스트-->
+                            <Grid Grid.Row="2">
+                                <Border    Grid.Row="0" Grid.Column="0" Grid.RowSpan="99" BorderThickness="1" BorderBrush="#ffbebebe" Style="{StaticResource BorderSubTitleStyle}" />
+                                <uc:UcBaseDataGrid x:Name="dgPalletCell" IsReadOnly="False" SelectionMode="MultiRange" HeadersVisibility="All" FrozenColumnCount="2" LoadedCellPresenter="dgPalletCell_LoadedCellPresenter" LoadedColumnHeaderPresenter="dgPalletCell_LoadedColumnHeaderPresenter" LoadedRowHeaderPresenter="dgPalletCell_LoadedRowHeaderPresenter" >
+                                    <c1:C1DataGrid.Columns>
+                                        <c1:DataGridTextColumn  Header = "PALLETID"  Binding = "{Binding PALLETID}"     IsReadOnly="False" HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn  Header = "PLT_LOTTYPE"  Binding = "{Binding PLT_LOTTYPE_NAME}"     IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn  Header = "CELLID"  Binding = "{Binding CELLID}"  IsReadOnly="True"  HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn  Header = "CEL_LOTTYPE"  Binding = "{Binding CEL_LOTTYPE_NAME}"     IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn  Header = "2D바코드"  Binding = "{Binding PRT_DATA_VALUE}"     IsReadOnly="True" HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn  Header = "RCV_ISS_STAT_NAME"  Binding = "{Binding RCV_ISS_STAT_NAME}"     IsReadOnly="True" HorizontalAlignment="Center" />
+                                    </c1:C1DataGrid.Columns>
+                                </uc:UcBaseDataGrid>
+                            </Grid>
+                        </Grid>
+                    </c1:C1TabItem>
+                </c1:C1TabControl>
+            </Grid>
+        </ctrlLib:LGCLayout>
+
+        <ctrlLib:LoadingIndicator x:Name="loadingIndicator" Grid.ColumnSpan="2" Grid.RowSpan="1"/>
+    </Grid>
+</UserControl>

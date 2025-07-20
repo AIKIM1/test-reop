@@ -1,0 +1,214 @@
+﻿<UserControl xmlns:ss="http://schemas.grapecity.com/windows/spreadsheet/2012"  x:Class="LGC.GMES.MES.COM001.COM001_016_OLD"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:c1="http://schemas.componentone.com/winfx/2006/xaml"
+             xmlns:ctrlLib="clr-namespace:LGC.GMES.MES.ControlsLibrary;assembly=LGC.GMES.MES.ControlsLibrary"
+             xmlns:uc="clr-namespace:LGC.GMES.MES.CMM001.Controls;assembly=LGC.GMES.MES.CMM001"
+             mc:Ignorable="d" 
+             d:DesignHeight="768" d:DesignWidth="1024" Loaded="UserControl_Loaded">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/LGC.GMES.MES.ControlsLibrary;component/ControlStyles.xaml" />
+                <ResourceDictionary Source="/LGC.GMES.MES.ControlsLibrary;component/ControlTemplates/LGCDatePicker.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <!--<ControlTemplate x:Key="SankeyToolTipTemplate1" TargetType="ToolTip">
+                <Border Padding="5" BorderThickness="1" BorderBrush="Black" Background="White">
+                    <TextBlock HorizontalAlignment="Center" FontSize="12">
+                <Run Text="{Binding FromNode.Name}" />
+                <Run Text=" -> " />
+                <Run Text="{Binding ToNode.Name}" />
+                -->
+            <!--<Run Text=": " />
+                <Run Text="{Binding Weight}" />-->
+            <!--
+                    </TextBlock>
+                </Border>
+            </ControlTemplate>
+
+            <Style x:Key="SankeyLabelStyle1" TargetType="TextBlock">
+                <Setter Property="FontSize" Value="12" />
+                <Setter Property="Margin" Value="0" />
+                <Setter Property="Foreground" Value="Blue" />
+            </Style>
+
+
+            <Style x:Key="SankeyHighlightLabelStyle1" TargetType="TextBlock">
+                <Setter Property="FontSize" Value="12" />
+                <Setter Property="Foreground" Value="Blue" />
+                <Setter Property="Margin"  Value="0" />
+                <Setter Property="FontWeight"  Value="Bold" />
+            </Style>-->
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <!--<UserControl.DataContext>
+        <local:MainViewModel />
+    </UserControl.DataContext>-->
+
+    <Grid>
+        <ctrlLib:LGCLayout x:Name="LayoutRoot" Tag="Lot 정보조회">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="45"/>
+                    <RowDefinition Height="8" />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+
+                <!--<Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="5" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="5" />
+                </Grid.ColumnDefinitions>-->
+
+                <!--조회영역-->
+                <Grid Grid.Column="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="45" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="150" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="150" />
+                        <ColumnDefinition Width="60" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="8" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="4" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="5" />
+                    </Grid.ColumnDefinitions>
+
+                    <!--백그라운드용-->
+                    <Border     Grid.Row="0" Grid.Column="0" Grid.RowSpan="2" Grid.ColumnSpan="99" Style="{StaticResource Content_InputForm_LabelBorderStyle}"/>
+
+                    <!--조회조건-->
+                    <!--ROW1-->
+                    <TextBlock                         Grid.Row="0" Grid.Column="0" Text="{Binding ConverterParameter='LOTID', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}"/>
+                    <TextBox     x:Name="txtLotId"     Grid.Row="0" Grid.Column="1" Style="{StaticResource SearchCondition_TextBoxStyle}" CharacterCasing="Upper"  KeyDown="txtLotId_KeyDown" GotFocus="txtLotId_GotFocus"/>
+
+                    <TextBlock                         Grid.Row="0" Grid.Column="2" Text="{Binding ConverterParameter='Carrier ID', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}"/>
+                    <TextBox     x:Name="txtBoxid"     Grid.Row="0" Grid.Column="3" Style="{StaticResource SearchCondition_TextBoxStyle}" KeyDown="txtBoxid_KeyDown" GotFocus="txtBoxid_GotFocus"/>
+
+                    <uc:UcBaseRadioButton x:Name="rdoForward"   Grid.Row="0" Grid.Column="5" Style="{StaticResource SearchCondition_RadioButtonStyle}" Content="{Binding ConverterParameter='정방향', Converter={StaticResource GlobalObjectDicConverter}}"  GroupName="WAY" IsChecked="True" />
+                    <uc:UcBaseRadioButton x:Name="rdoRevers"    Grid.Row="0" Grid.Column="7" Style="{StaticResource SearchCondition_RadioButtonStyle}" Content="{Binding ConverterParameter='역방향', Converter={StaticResource GlobalObjectDicConverter}}"  GroupName="WAY" />
+
+                    <!--Text="BAPIM016C6"-->
+                    <!--ROLLMAP 버튼-->
+                    <uc:UcBaseButton Grid.Row="0" Grid.Column="9"  x:Name="btnRollMap"               Content="{Binding ConverterParameter=ROLLMAP, Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_MainButtonSpecialStyle}" Cursor="Hand" Visibility="Collapsed" IsEnabled="False" Margin="5,0,0,0" Click="btnRollMap_Click"/>
+                    <!--조회 버튼-->
+                    <uc:UcBaseButton     Grid.Row="0" Grid.Column="11"  x:Name="btnSearch" Content="{Binding ConverterParameter=SEARCH, Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource SearchButtonStyle}" Cursor="Hand" Click="btnSearch_Click" />
+
+                </Grid>
+                <Grid Grid.Row="2" Grid.Column="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="300"/>
+                        <ColumnDefinition Width="8" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <!--LOT 현재상태-->
+                    <Grid Grid.Row="0" Grid.Column="0" Name="grid1">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="34"/>
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+
+                        <!--백그라운드용-->
+                        <Border     Grid.Row="0" Grid.Column="0" Grid.RowSpan="2" Style="{StaticResource Content_InputForm_ContentBorderStyle}"/>
+                        <Border Grid.Row="0" Grid.Column="0" BorderThickness="1" BorderBrush="#ffbebebe" Style="{StaticResource BorderSubTitleStyle}"/>
+
+                        <TextBlock Grid.Row="0" Style="{StaticResource Content_ModuleTitleStyle}"><Run Text="{Binding ConverterParameter='LOTTRACKING', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}"/></TextBlock>
+
+                        <c1:C1TreeView Grid.Row="1" Grid.Column="0" x:Name="trvData" Margin="8" ItemExpanded="trvData_ItemExpanded" >
+                            <c1:C1TreeView.ItemTemplate>
+                                <c1:C1HierarchicalDataTemplate ItemsSource="{Binding Relations}">
+                                    <StackPanel Orientation="Horizontal" Name="StackPanel1">
+                                        <RadioButton GroupName="rbTracking" IsChecked="{Binding CHK, Mode=OneWay}" Name="rbCheck" HorizontalAlignment="Center" Checked="rbCheck_Checked" />
+                                        <TextBlock Text="{Binding LOTID}" />
+                                        <TextBlock Text="-" />
+                                        <TextBlock Text="{Binding PROCID}" />
+                                    </StackPanel>
+                                </c1:C1HierarchicalDataTemplate>
+                            </c1:C1TreeView.ItemTemplate>
+                        </c1:C1TreeView>
+                    </Grid>
+
+
+                    <c1:C1TabControl x:Name="TabLotControl" Grid.Row="0" Grid.Column="2">
+                        <c1:C1TabItem x:Name="TabLotInfo" Header="{Binding Converter={StaticResource GlobalObjectDicConverter}, ConverterParameter='정보'}" >
+                            <Grid Grid.Row="0" Grid.Column="0">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="34"/>
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+
+                                <!--백그라운드용-->
+                                <Border     Grid.Row="0" Grid.Column="0" Grid.RowSpan="2" Style="{StaticResource Content_InputForm_ContentBorderStyle}"/>
+                                <Border Grid.Row="0" Grid.Column="0" BorderThickness="1" BorderBrush="#ffbebebe" Style="{StaticResource BorderSubTitleStyle}"/>
+                                <TextBlock Grid.Row="0" Style="{StaticResource Content_ModuleTitleStyle}"><Run Text="{Binding ConverterParameter='LOT정보', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}"/></TextBlock>
+                                <uc:UcBaseDataGrid x:Name="dgLotInfo" Grid.Row="1" IsReadOnly="True" HeadersVisibility="Column" FrozenColumnCount="2" SelectionMode="SingleCell" Margin="8">
+                                    <c1:C1DataGrid.Columns>
+                                        <c1:DataGridTextColumn      Header = "항목"       Binding = "{Binding ITEM}"           HorizontalAlignment="Left" Width="150" />
+                                        <c1:DataGridTextColumn      Header = "데이터"     Binding = "{Binding DATA}"           HorizontalAlignment="Left" Width="300"/>
+
+                                    </c1:C1DataGrid.Columns>
+                                </uc:UcBaseDataGrid>
+                            </Grid>
+
+                        </c1:C1TabItem>
+
+
+                        <c1:C1TabItem Header="{Binding Converter={StaticResource GlobalObjectDicConverter}, ConverterParameter='변경이력'}">
+                            <Grid Grid.Row="0" Grid.Column="0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="149*"/>
+                                    <ColumnDefinition Width="567*"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="34"/>
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+
+                                <!--백그라운드용-->
+                                <Border     Grid.Row="0" Grid.Column="0" Grid.RowSpan="2" Style="{StaticResource Content_InputForm_ContentBorderStyle}" Grid.ColumnSpan="2"/>
+                                <Border Grid.Row="0" Grid.Column="0" BorderThickness="1" BorderBrush="#ffbebebe" Style="{StaticResource BorderSubTitleStyle}" Grid.ColumnSpan="2"/>
+
+                                <TextBlock Grid.Row="0" Style="{StaticResource Content_ModuleTitleStyle}" Grid.ColumnSpan="2" Margin="15,9,0,8"><Run Text="{Binding ConverterParameter='공정별 변경 이력', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}"/></TextBlock>
+                                <uc:UcBaseDataGrid x:Name="dgHistory" Grid.Row="1" IsReadOnly="True" HeadersVisibility="Column"  SelectionMode="SingleCell" Margin="8" Grid.ColumnSpan="2">
+
+                                    <c1:C1DataGrid.Columns>
+                                        <c1:DataGridTextColumn        Header = "공정명"         Binding = "{Binding PROCNAME}"   HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn        Header = "설비명"         Binding = "{Binding EQPTNAME}"   HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn        Header = "LOTID"          Binding = "{Binding LOTID}"      HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn        Header = "활동명"         Binding = "{Binding ACTNAME}"    HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn        Header = "활동시간"       Binding = "{Binding ACTDTTM}"    HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn        Header = "활동수량"       Binding = "{Binding ACTQTY}"     HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn        Header = "상태명"         Binding = "{Binding WIPSNAME}"   HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn        Header = "TO_LOTID"       Binding = "{Binding TO_LOTID}"   HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn        Header = "FROM_LOTID"     Binding = "{Binding MERGE_FROM_LOTID_LIST}"   HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn        Header = "WIPSEQ"         Binding = "{Binding WIPSEQ}"     HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn        Header = "투입위치"       Binding = "{Binding EQPT_MOUNT_PSTN_NAME}" HorizontalAlignment="Center" Visibility="Collapsed"/>
+                                        <c1:DataGridTextColumn        Header = "수정자"         Binding = "{Binding UPDUSER}"              HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn        Header = "NOTE"           Binding = "{Binding WIPNOTE}"              HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn        Header = "QA검사판정값"   Binding = "{Binding QA_INSP_JUDG_VALUE}"       HorizontalAlignment="Center" Visibility="Collapsed"/>
+                                        <c1:DataGridTextColumn        Header = "QA검사판정값"   Binding = "{Binding QA_INSP_JUDG_VALUE_NAME}"  HorizontalAlignment="Center" />
+                                    </c1:C1DataGrid.Columns>
+
+                                </uc:UcBaseDataGrid>
+                            </Grid>
+
+                        </c1:C1TabItem>
+
+                    </c1:C1TabControl>
+                </Grid>
+            </Grid>
+        </ctrlLib:LGCLayout>
+
+        <ctrlLib:LoadingIndicator x:Name="loadingIndicator" />
+    </Grid>
+</UserControl>

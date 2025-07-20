@@ -1,0 +1,332 @@
+﻿<UserControl x:Class="LGC.GMES.MES.CMM001.UserControls.UcPolymerFormProductionResultDSF"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:c1="http://schemas.componentone.com/winfx/2006/xaml"
+             xmlns:ctrlLib="clr-namespace:LGC.GMES.MES.ControlsLibrary;assembly=LGC.GMES.MES.ControlsLibrary"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="512">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/LGC.GMES.MES.ControlsLibrary;component/ControlStyles.xaml" />
+                <ResourceDictionary Source="/LGC.GMES.MES.ControlsLibrary;component/ControlTemplates/LGCDatePicker.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid>
+        <ctrlLib:LGCLayout x:Name="LayoutRoot">
+            <Grid >
+                <Grid.Resources>
+                    <DataTemplate x:Key="ResultTemplate">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="6"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" Text="{Binding}" HorizontalAlignment="Right"></TextBlock>
+                        </Grid>
+                    </DataTemplate>
+
+                    <Style TargetType="{x:Type Button}" x:Key="grButtonStyle" BasedOn="{StaticResource ButtonIconBaseStyle}">
+                        <Setter Property="Background">
+                            <Setter.Value>
+                                <ImageBrush ImageSource="/LGC.GMES.MES.CMM001;component/Images/btn_i_print.png" Stretch="Uniform"/>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </Grid.Resources>
+
+                <!--start -->
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="8"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="8"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="8"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="8"/>
+                </Grid.ColumnDefinitions>
+
+                <Border Grid.Row="0" Grid.Column="0" Grid.RowSpan="99" Grid.ColumnSpan="99" Background="#e8ebed" BorderThickness="1" BorderBrush="#8a8a8a"></Border>
+
+                <c1:C1TabControl Name="tcProduction" Grid.Row="1" Grid.Column="1" >
+                    <c1:C1TabItem Name="tiInbox" Header="{Binding Converter={StaticResource GlobalObjectDicConverter}, ConverterParameter='완성InBox'}">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="8"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="8"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="8"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="8"/>
+                            </Grid.ColumnDefinitions>
+                            
+                            <!--<Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="4"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="4"/>
+                                <ColumnDefinition Width="Auto"/>                                
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>                                
+                            </Grid.ColumnDefinitions>-->
+
+                            <Grid Grid.Row="1" Grid.Column="1">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="28" />
+                                    <RowDefinition Height="3" />
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="4"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="4"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="4"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="4"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="4"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+
+                                <Grid Grid.Row="0" Grid.Column="0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <TextBlock                         Grid.Column="0"  Text="{Binding ConverterParameter='InBox 유형', Converter={StaticResource GlobalObjectDicConverter}, RelativeSource={RelativeSource Self}}" HorizontalAlignment="Right" Style="{StaticResource SearchCondition_LabelStyle}" />
+                                    <TextBox    x:Name="txtInboxType"  Grid.Column="1" Style="{StaticResource Content_InputForm_TextBoxStyle}" Width="120" IsEnabled="False" />
+                                </Grid>
+
+                                <Button        x:Name="btnCartChange"   Grid.Row="0" Grid.Column="2" Content="{Binding ConverterParameter='대차변경',    Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{DynamicResource Content_MainButtonNoMinWidthSpecialStyle}"  Click="btnCartChange_Click" />
+
+                                <!-- 용량등급 -->
+                                <Grid Grid.Row="0" Grid.Column="4">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <TextBlock                           Grid.Column="0"  Text="{Binding ConverterParameter='용량등급', Converter={StaticResource GlobalObjectDicConverter}, RelativeSource={RelativeSource Self}}" HorizontalAlignment="Right" Style="{StaticResource SearchCondition_LabelStyle}" />
+                                    <c1:C1ComboBox x:Name="cboCapaType"  Grid.Column="1" Style="{StaticResource C1ComboBoxStyle}" AutoComplete="False"  DisplayMemberPath="CBO_NAME" SelectedValuePath="CBO_CODE" />
+                                </Grid>
+
+                                <Button        x:Name="btnInboxCreate"  Grid.Row="0" Grid.Column="6"  Content="{Binding ConverterParameter='Inbox생성',   Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{DynamicResource Content_MainButtonNoMinWidthStyle}"  Click="btnInboxCreate_Click"/>
+                                <Button        x:Name="btnInboxDelete"  Grid.Row="0" Grid.Column="8"  Content="{Binding ConverterParameter='Inbox삭제',   Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{DynamicResource Content_MainButtonNoMinWidthStyle}"  Click="btnInboxDelete_Click" />
+                                <Button        x:Name="btnInboxSave"    Grid.Row="0" Grid.Column="10" Content="{Binding ConverterParameter='Inbox수정',   Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{DynamicResource Content_MainButtonNoMinWidthStyle}"  Click="btnInboxSave_Click"/>
+                                <Button        x:Name="btnTagPrint"     Grid.Row="0" Grid.Column="12" Content="{Binding ConverterParameter='태그발행',    Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{DynamicResource Content_MainButtonNoMinWidthSpecialStyle}"  Click="btnTagPrint_Click"/>
+
+                                <c1:C1DataGrid Grid.Row="2" 
+                                           Grid.Column="0" 
+                                           Grid.ColumnSpan="99" 
+                                           x:Name="dgProductionInbox" 
+                                           IsReadOnly="False" 
+                                           HeadersVisibility="Column"
+                                           SelectionMode="SingleCell" 
+                                           FrozenColumnCount="1"
+                                           FrozenBottomRowsCount="1" 
+                                           LoadedCellPresenter="dgProductionInbox_LoadedCellPresenter" 
+                                           UnloadedCellPresenter="dgProductionInbox_UnloadedCellPresenter" 
+                                           >
+                                    <c1:C1DataGrid.Columns>
+                                        <c1:DataGridCheckBoxColumn  Name = "CHK" Binding = "{Binding CHK, Mode=TwoWay}" HorizontalAlignment="Center" CanUserFilter="False" CanUserSort="False" CanUserResize="False" >
+                                            <c1:DataGridCheckBoxColumn.Header>
+                                                <StackPanel Orientation="Horizontal" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                                                    <CheckBox x:Name="chkAllInbox" Margin="0" Width="19" Checked="chkAllInbox_Checked" Unchecked="chkAllInbox_Unchecked"></CheckBox>
+                                                </StackPanel>
+                                            </c1:DataGridCheckBoxColumn.Header>
+                                        </c1:DataGridCheckBoxColumn>
+
+                                        <c1:DataGridTextColumn        Header = "No"                  Binding = "{Binding SEQ}"                HorizontalAlignment="Center" IsReadOnly="True" />
+                                        <c1:DataGridTextColumn        Header = "InBox ID"            Binding = "{Binding INBOX_ID}"           HorizontalAlignment="Center" IsReadOnly="True" />
+                                        <c1:DataGridTextColumn        Header = "WIPSEQ"              Binding = "{Binding WIPSEQ}"             HorizontalAlignment="Center" IsReadOnly="True" Visibility="Collapsed"/>
+                                        <c1:DataGridTextColumn        Header = "보류"                Binding = "{Binding WIPHOLD}"            HorizontalAlignment="Center" IsReadOnly="True" />
+                                        <c1:DataGridTextColumn        Header = "QLTY_TYPE_CODE"      Binding = "{Binding QLTY_TYPE_CODE}"     HorizontalAlignment="Center" IsReadOnly="True" Visibility="Collapsed"/>
+                                        <c1:DataGridTextColumn        Header = "QLTY_TYPE_NAME"      Binding = "{Binding QLTY_TYPE_NAME}"     HorizontalAlignment="Center" IsReadOnly="True" Visibility="Collapsed"/>
+                                        <c1:DataGridNumericColumn     Header = "Cell 수량"           Binding = "{Binding CELL_QTY}"           HorizontalAlignment="Right"  Format="#,##0" EditOnSelection="True" Minimum="0" ShowButtons="False" >
+                                            <c1:DataGridAggregate.AggregateFunctions>
+                                                <c1:DataGridAggregatesCollection>
+                                                    <c1:DataGridAggregateSum ResultTemplate="{StaticResource ResultTemplate}" ></c1:DataGridAggregateSum>
+                                                </c1:DataGridAggregatesCollection>
+                                            </c1:DataGridAggregate.AggregateFunctions>
+                                        </c1:DataGridNumericColumn>
+                                        <c1:DataGridNumericColumn     Header = "InBox 수량"          Binding = "{Binding INBOX_QTY}"          HorizontalAlignment="Right" Format="#,##0" IsReadOnly="True">
+                                            <c1:DataGridAggregate.AggregateFunctions>
+                                                <c1:DataGridAggregatesCollection>
+                                                    <c1:DataGridAggregateSum ResultTemplate="{StaticResource ResultTemplate}" ></c1:DataGridAggregateSum>
+                                                </c1:DataGridAggregatesCollection>
+                                            </c1:DataGridAggregate.AggregateFunctions>
+                                        </c1:DataGridNumericColumn>
+                                        <c1:DataGridComboBoxColumn    Header = "용량"                Binding = "{Binding CAPA_GRD_CODE}"      HorizontalAlignment="Left"   DisplayMemberPath="CBO_NAME" SelectedValuePath="CBO_CODE" EditOnSelection="True" CellContentStyle="{StaticResource Grid_CellContentStyle}" />
+                                        <c1:DataGridTextColumn        Header = "발행"                Binding = "{Binding PRINT_YN}"           HorizontalAlignment="Center" IsReadOnly="True" />
+                                        <c1:DataGridTextColumn        Header = "INBOX_TYPE_CODE"     Binding = "{Binding INBOX_TYPE_CODE}"    HorizontalAlignment="Center" IsReadOnly="True" Visibility="Collapsed"/>
+                                        <c1:DataGridTextColumn        Header = "InBox 유형"          Binding = "{Binding INBOX_TYPE_NAME}"    HorizontalAlignment="Center" IsReadOnly="True" />
+                                        <c1:DataGridNumericColumn     Header = "INBOX_LOAD_QTY"      Binding = "{Binding INBOX_LOAD_QTY}"     HorizontalAlignment="Right" Format="#,##0" IsReadOnly="True" Visibility="Collapsed"/>
+                                        <c1:DataGridTextColumn        Header = "대차 ID"             Binding = "{Binding CTNR_ID}"            HorizontalAlignment="Center" IsReadOnly="True" />
+                                        <c1:DataGridTextColumn        Header = "생성일시"            Binding = "{Binding WIPDTTM_ST}"         HorizontalAlignment="Center" IsReadOnly="True" />
+                                        <c1:DataGridTextColumn        Header = "인수여부"            Binding = "{Binding TAKEOVER_YN}"        HorizontalAlignment="Center" IsReadOnly="True" />
+                                        <c1:DataGridTextColumn        Header = "WIP_NOTE"            Binding = "{Binding WIP_NOTE}"           HorizontalAlignment="Center" IsReadOnly="True" Visibility="Collapsed"/>
+
+                                    </c1:C1DataGrid.Columns>
+                                    <c1:C1DataGrid.BottomRows>
+                                        <c1:DataGridSummaryRow x:Name="summary" RowStyle="{StaticResource SummaryRowStyle}"/>
+                                    </c1:C1DataGrid.BottomRows>
+                                </c1:C1DataGrid>
+                                </Grid>
+                        </Grid>
+                    </c1:C1TabItem>
+
+                    <c1:C1TabItem Name="tiDefectExternal" Header="{Binding Converter={StaticResource GlobalObjectDicConverter}, ConverterParameter='불량(외관)'}">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="8" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="8" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+
+                            <Button  Grid.Row="1"  Grid.Column="2"  x:Name="btnDefectExternalPrint"    Margin="0,0,4,0" Content="{Binding ConverterParameter='발행',    Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{DynamicResource Content_MainButtonNoMinWidthStyle}" Click="btnDefectExternalPrint_Click"/>
+                            <Button  Grid.Row="1"  Grid.Column="3"  x:Name="btnDefectExternalSave"                      Content="{Binding ConverterParameter='저장',    Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{DynamicResource Content_MainButtonNoMinWidthStyle}" Click="btnDefectExternalSave_Click"/>
+
+                            <c1:C1DataGrid Grid.Row="3" 
+                                           Grid.Column="0" 
+                                           Grid.ColumnSpan="99" 
+                                           x:Name="dgDefectExternal" 
+                                           IsReadOnly="False" 
+                                           HeadersVisibility="Column"
+                                           SelectionMode="SingleCell" 
+                                           FrozenColumnCount="1"
+                                           FrozenBottomRowsCount="1" 
+                                           LoadedCellPresenter="dgDefectExternal_LoadedCellPresenter" 
+                                           UnloadedCellPresenter="dgDefectExternal_UnloadedCellPresenter" 
+                                           BeginningEdit="dgDefectExternal_BeginningEdit"                                            
+                                           >
+                                <c1:C1DataGrid.Columns>
+                                    <c1:DataGridTextColumn        Header = "구분"                  Binding = "{Binding SEQ}"                HorizontalAlignment="Center" IsReadOnly="True" />
+                                    <c1:DataGridCheckBoxColumn  Name = "CHK" Binding = "{Binding CHK, Mode=TwoWay}" HorizontalAlignment="Center" CanUserFilter="False" CanUserSort="False" CanUserResize="False" >
+                                        <c1:DataGridCheckBoxColumn.Header>
+                                            <StackPanel Orientation="Horizontal" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                                                <CheckBox x:Name="chkDefectExternalHeaderAll" Margin="0" Width="19" Checked="chkDefectExternalHeaderAll_Checked" Unchecked="chkDefectExternalHeaderAll_Unchecked"></CheckBox>
+                                            </StackPanel>
+                                        </c1:DataGridCheckBoxColumn.Header>
+                                    </c1:DataGridCheckBoxColumn>
+                                    <c1:DataGridTextColumn        Header = "불량명"            Binding = "{Binding PALLETE_ID}"         HorizontalAlignment="Center" IsReadOnly="True" />
+                                    <c1:DataGridTextColumn        Header = "부품"              Binding = "{Binding WIPSEQ}"             HorizontalAlignment="Center" IsReadOnly="True" Visibility="Collapsed"/>
+                                    <c1:DataGridNumericColumn     Header = "수량"              Binding = "{Binding CELL_QTY}"           HorizontalAlignment="Right" Format="#,##0" IsReadOnly="True">
+                                        <c1:DataGridAggregate.AggregateFunctions>
+                                            <c1:DataGridAggregatesCollection>
+                                                <c1:DataGridAggregateSum ResultTemplate="{StaticResource ResultTemplate}" ></c1:DataGridAggregateSum>
+                                            </c1:DataGridAggregatesCollection>
+                                        </c1:DataGridAggregate.AggregateFunctions>
+                                    </c1:DataGridNumericColumn>
+                                    <c1:DataGridTemplateColumn    Header ="Cell등록"     Name="btnCellSave"    Width="50" >
+                                        <c1:DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Button Click="btnCellSave_Click" Style="{StaticResource grButtonStyle}" />
+                                            </DataTemplate>
+                                        </c1:DataGridTemplateColumn.CellTemplate>
+                                    </c1:DataGridTemplateColumn>
+
+                                </c1:C1DataGrid.Columns>
+                                <c1:C1DataGrid.BottomRows>
+                                    <c1:DataGridSummaryRow x:Name="summaryDefectExternal" RowStyle="{StaticResource SummaryRowStyle}"/>
+                                </c1:C1DataGrid.BottomRows>
+                            </c1:C1DataGrid>
+                        </Grid>
+                    </c1:C1TabItem>
+
+                    <c1:C1TabItem Name="tiDefectEquipment" Header="{Binding Converter={StaticResource GlobalObjectDicConverter}, ConverterParameter='불량(설비)'}">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="8" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="8" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+
+                            <Button  Grid.Row="1"  Grid.Column="2"  x:Name="btnDefectPrintEquipment"    Margin="0,0,4,0" Content="{Binding ConverterParameter='발행',    Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{DynamicResource Content_MainButtonNoMinWidthStyle}" Click="btnDefectPrintEquipment_Click"/>
+                            <Button  Grid.Row="1"  Grid.Column="3"  x:Name="btnDefectSaveEquipment"                      Content="{Binding ConverterParameter='저장',    Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{DynamicResource Content_MainButtonNoMinWidthStyle}" Click="btnDefectSaveEquipment_Click"/>
+
+                            <c1:C1DataGrid Grid.Row="3" 
+                                           Grid.Column="0" 
+                                           Grid.ColumnSpan="99" 
+                                           x:Name="dgDefectEquipment" 
+                                           IsReadOnly="False" 
+                                           HeadersVisibility="Column"
+                                           SelectionMode="SingleCell" 
+                                           FrozenColumnCount="1"
+                                           FrozenBottomRowsCount="1" 
+                                           LoadedCellPresenter="dgDefectEquipment_LoadedCellPresenter" 
+                                           UnloadedCellPresenter="dgDefectEquipment_UnloadedCellPresenter" 
+                                           BeginningEdit="dgDefectEquipment_BeginningEdit" 
+                                           >
+                                <c1:C1DataGrid.Columns>
+                                    <c1:DataGridTextColumn        Header = "구분"                  Binding = "{Binding SEQ}"                HorizontalAlignment="Center" IsReadOnly="True" />
+                                    <c1:DataGridCheckBoxColumn  Name = "CHK" Binding = "{Binding CHK, Mode=TwoWay}" HorizontalAlignment="Center" CanUserFilter="False" CanUserSort="False" CanUserResize="False" >
+                                        <c1:DataGridCheckBoxColumn.Header>
+                                            <StackPanel Orientation="Horizontal" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                                                <CheckBox x:Name="chkDefectEquipmentHeaderAll" Margin="0" Width="19" Checked="chkDefectEquipmentHeaderAll_Checked" Unchecked="chkDefectEquipmentHeaderAll_Unchecked"></CheckBox>
+                                            </StackPanel>
+                                        </c1:DataGridCheckBoxColumn.Header>
+                                    </c1:DataGridCheckBoxColumn>
+                                    <c1:DataGridTextColumn        Header = "불량명"            Binding = "{Binding PALLETE_ID}"         HorizontalAlignment="Center" IsReadOnly="True" />
+                                    <c1:DataGridTextColumn        Header = "부품"              Binding = "{Binding WIPSEQ}"             HorizontalAlignment="Center" IsReadOnly="True" Visibility="Collapsed"/>
+                                    <c1:DataGridNumericColumn     Header = "수량"              Binding = "{Binding CELL_QTY}"           HorizontalAlignment="Right" Format="#,##0" IsReadOnly="True">
+                                        <c1:DataGridAggregate.AggregateFunctions>
+                                            <c1:DataGridAggregatesCollection>
+                                                <c1:DataGridAggregateSum ResultTemplate="{StaticResource ResultTemplate}" ></c1:DataGridAggregateSum>
+                                            </c1:DataGridAggregatesCollection>
+                                        </c1:DataGridAggregate.AggregateFunctions>
+                                    </c1:DataGridNumericColumn>
+                                    <c1:DataGridTemplateColumn    Header ="Cell등록"     Name="btnCellSave"    Width="50" >
+                                        <c1:DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Button Click="btnCellSave_Click" Style="{StaticResource grButtonStyle}" />
+                                            </DataTemplate>
+                                        </c1:DataGridTemplateColumn.CellTemplate>
+                                    </c1:DataGridTemplateColumn>
+
+                                </c1:C1DataGrid.Columns>
+                                <c1:C1DataGrid.BottomRows>
+                                    <c1:DataGridSummaryRow x:Name="summaryDefectEquipment" RowStyle="{StaticResource SummaryRowStyle}"/>
+                                </c1:C1DataGrid.BottomRows>
+                            </c1:C1DataGrid>
+                        </Grid>
+                    </c1:C1TabItem>
+                    
+                </c1:C1TabControl>
+                
+            </Grid>
+                
+        </ctrlLib:LGCLayout>
+    </Grid>
+</UserControl>

@@ -1,0 +1,96 @@
+﻿<c1:C1Window x:Class="LGC.GMES.MES.PACK001.PACK003_024_ABNORMALOUTPUT_POPUP"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:c1="http://schemas.componentone.com/winfx/2006/xaml"
+		     xmlns:System="clr-namespace:System;assembly=mscorlib"
+             xmlns:ctrlLib="clr-namespace:LGC.GMES.MES.ControlsLibrary;assembly=LGC.GMES.MES.ControlsLibrary"        
+             xmlns:Controls="clr-namespace:LGC.GMES.MES.PACK001.Controls" 
+             ctrlLib:LGCPopupWindowExtension.ApplyStyle="True"
+             Header="{Binding Converter={StaticResource GlobalObjectDicConverter}, ConverterParameter='Abnormal Module Output'}" 
+             Tag="ProtoType01Windows01" Height="500" Width="600" IsResizable="True" Loaded="C1Window_Loaded" Initialized="C1Window_Initialized" >
+
+    <c1:C1Window.Resources>
+        <ResourceDictionary Source="/LGC.GMES.MES.ControlsLibrary;Component/ControlStyles.xaml"/>
+    </c1:C1Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="8" />
+            <RowDefinition Height="40" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <!--content area-->
+        <Border Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Grid.RowSpan="3" Background="#fff2f2f2" BorderThickness="1" BorderBrush="#ffd1d1d1"></Border>
+        <Grid Grid.Row="0" Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="8" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="8" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="8" />
+            </Grid.ColumnDefinitions>
+            <Grid x:Name="dgAbnormalList" Grid.Row ="0" Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="8" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="8" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <c1:C1DataGrid Grid.Row="1" 
+                               Grid.Column="0"  
+                               x:Name="dgList" 
+                               IsReadOnly="False" 
+                               HeadersVisibility="Column" 
+                               SelectionMode="SingleCell"  
+                               CanUserAddRows="True" 
+                               >
+                    <c1:C1DataGrid.Resources>
+                        <Style TargetType="{x:Type Button}" x:Key="grList" BasedOn="{StaticResource ButtonIconBaseStyle}">
+                            <Setter Property="Background">
+                                <Setter.Value>
+                                    <ImageBrush ImageSource="/LGC.GMES.MES.CMM001;component/Images/btn_i_print.png" Stretch="Uniform"/>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </c1:C1DataGrid.Resources>
+                    <c1:C1DataGrid.Columns>
+                        <c1:DataGridTextColumn Header = "창고ID"       Binding = "{Binding EQPTID}"   Width="Auto" HorizontalAlignment="Center" IsReadOnly="True" />
+                        <c1:DataGridTextColumn Header = "비정상수량"       Binding = "{Binding LOT_CNT}"   Width="Auto" HorizontalAlignment="Center" IsReadOnly="True"/>
+                    </c1:C1DataGrid.Columns>
+                </c1:C1DataGrid>
+            </Grid>
+        </Grid>
+        <!--button area-->
+        <Grid Grid.Row ="2" Grid.Column="3">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="10"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="10"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
+                <TextBlock Text="{Binding ConverterParameter='창고', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}" HorizontalAlignment="Right" VerticalAlignment="Center" />
+            </StackPanel>
+            <c1:C1ComboBox Grid.Row="0" Grid.Column="2" x:Name="cboStockerID" MinWidth="80" Height="25" VerticalAlignment="Center" SelectedValueChanged="cboStockerID_SelectedValueChanged" />
+
+            <StackPanel Grid.Column="3" Orientation="Horizontal" HorizontalAlignment="Right">
+                <TextBlock Text="{Binding ConverterParameter=수량, Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}" HorizontalAlignment="Right"/>
+            </StackPanel>
+            <c1:C1NumericBox Grid.Row="0" Grid.Column="4" x:Name="txtCountQty" Style="{StaticResource C1NumericBoxStyle}" Width="55" Minimum="1" Value="1" IsEnabled="False" />
+            <Button Grid.Column="6" x:Name="btnSavebtm"   Content="{Binding ConverterParameter=처리, Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}"         Style="{StaticResource Content_MainButtonNoMinWidthSpecialStyle}" Cursor="Hand" Click="btnSavebtm_Click" />
+            <Button Grid.Column="8" x:Name="btnClose" Content="{Binding ConverterParameter='닫기', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{DynamicResource Content_MainButtonNoMinWidthSpecialStyle}" Cursor="Hand" Click="btnClose_Click"  />
+        </Grid>
+        <ctrlLib:LoadingIndicator x:Name="loadingIndicator" Margin="4,0,-4,0"  />
+    </Grid>
+</c1:C1Window>

@@ -1,0 +1,167 @@
+﻿<c1:C1Window x:Class="LGC.GMES.MES.CMM001.Popup.CMM_ROLLMAP_COATER_DATACOLLECT"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:c1="http://schemas.componentone.com/winfx/2006/xaml"
+		     xmlns:System="clr-namespace:System;assembly=mscorlib"
+             xmlns:ctrlLib="clr-namespace:LGC.GMES.MES.ControlsLibrary;assembly=LGC.GMES.MES.ControlsLibrary"        
+             ctrlLib:LGCPopupWindowExtension.ApplyStyle="True"
+             Header="{Binding Converter={StaticResource GlobalObjectDicConverter}, ConverterParameter='Data Collect'}" 
+             Height="700" Width="Auto" IsResizable="True" Loaded="C1Window_Loaded"   >
+
+    <c1:C1Window.Resources>
+        <ResourceDictionary Source="/LGC.GMES.MES.ControlsLibrary;Component/ControlStyles.xaml"/>
+    </c1:C1Window.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="4" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <Border Grid.Row="0" BorderThickness="1" BorderBrush="#ffbebebe" Style="{StaticResource BorderSubTitleStyle}"/>
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="15"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Row="0" Grid.Column="1"  Text="{Binding ConverterParameter='불량정보',   Converter={StaticResource GlobalObjectDicConverter}, RelativeSource={RelativeSource Self}}" Style="{StaticResource Content_Search_LabelStyle}" HorizontalAlignment="Left" />
+        </Grid>
+
+        <Grid Grid.Row="1" x:Name="ContentsRow">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+            
+            
+            <Border Grid.Row="0" Grid.Column="0" BorderThickness="1,0,1,1" BorderBrush="#ffbebebe" Style="{StaticResource BorderSubTitleStyle}"/>
+            <Grid Grid.Row="0" Grid.Column="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="34" />
+                    <RowDefinition Height="1.*" />
+                    <RowDefinition Height="4" />
+                    <RowDefinition Height="4.*" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Left">
+                    <TextBlock Name="lblDefect" Text="{Binding ConverterParameter='불량합계', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}" x:FieldModifier="public"/>
+                </StackPanel>
+
+
+                <Grid Name="gdDefect" Grid.Row="1" Grid.Column="0">
+                    <c1:C1DataGrid x:Name="dgDefect" 
+                                   IsReadOnly="True" 
+                                   HeadersVisibility="Column" 
+                                   SelectionMode="SingleCell" 
+                                   CanUserSort="False" 
+                                   CanUserFilter="False" 
+                                   ClipboardPasteMode="None" 
+                                   Margin="0" 
+                                   >
+                        <c1:C1DataGrid.Columns>
+                            <c1:DataGridTextColumn Header="LOTID"        Binding="{Binding LOTID}"             HorizontalAlignment="Center" Visibility="Collapsed" />
+                            <c1:DataGridTextColumn Header="WIPSEQ"       Binding="{Binding WIPSEQ}"            HorizontalAlignment="Center" Visibility="Collapsed" />
+                            <c1:DataGridTextColumn Header="대상"         Binding="{Binding TRGT_NAME}"         HorizontalAlignment="Center" />
+                            <c1:DataGridNumericColumn Header="생산량"    Binding="{Binding INPUT_QTY}"         Format="F2" Minimum="0" ShowButtons="False" HandleUpDownKeys="False" />
+                            <c1:DataGridNumericColumn Header="양품량"    Binding="{Binding WIPQTY_ED}"         Format="F2" Minimum="0" ShowButtons="False" HandleUpDownKeys="False" />
+                            <c1:DataGridNumericColumn Header="불량"      Binding="{Binding CNFM_DFCT_QTY}"     Format="F2" Minimum="0" ShowButtons="False" HandleUpDownKeys="False" />
+                            <c1:DataGridNumericColumn Header="LOSS"      Binding="{Binding CNFM_LOSS_QTY}"     Format="F2" Minimum="0" ShowButtons="False" HandleUpDownKeys="False" />
+                            <c1:DataGridNumericColumn Header="물품청구"  Binding="{Binding CNFM_PRDT_REQ_QTY}" Format="F2" Minimum="0" ShowButtons="False" HandleUpDownKeys="False" />
+                            <c1:DataGridNumericColumn Header="TOP_LOSS"  Binding="{Binding TOP_LOSS}"          Format="F2" Minimum="0" ShowButtons="False" HandleUpDownKeys="False" />
+                            
+                        </c1:C1DataGrid.Columns>
+                    </c1:C1DataGrid>
+                </Grid>
+
+                <Grid Name="gdDefectDetail" Grid.Row="3" Grid.Column="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="34" />
+                        <RowDefinition Height="1.*" />
+                    </Grid.RowDefinitions>                    
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="4"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Border Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Grid.RowSpan="3" BorderThickness="1" BorderBrush="#ffbebebe" Style="{StaticResource BorderSubTitleStyle}"/>
+                    <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Left">
+                        <TextBlock Name="lblTop" Text="{Binding ConverterParameter='TOP', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}" x:FieldModifier="public"/>
+                    </StackPanel>
+
+                    <StackPanel Grid.Row="0" Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Left">
+                        <TextBlock Name="lblBack" Text="{Binding ConverterParameter='BACK', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}" x:FieldModifier="public"/>
+                    </StackPanel>
+
+                    <Grid Name="gdDefectTop" Grid.Row="1" Grid.Column="0">
+                        <c1:C1DataGrid x:Name="dgDefectTop" 
+                                       Tag="DEFECT_TOP" 
+                                       IsReadOnly="True" 
+                                       HeadersVisibility="Column" 
+                                       SelectionMode="SingleCell" 
+                                       CanUserSort="False" 
+                                       CanUserFilter="False" 
+                                       ClipboardPasteMode="None" 
+                                       Margin="0" 
+                                       LoadedCellPresenter="dgDefect_LoadedCellPresenter"
+                                       UnloadedCellPresenter= "dgDefect_UnloadedCellPresenter">
+                            <c1:C1DataGrid.Columns>
+                                <c1:DataGridTextColumn Header="ACTID"             Binding="{Binding ACTID}"        HorizontalAlignment="Center" Visibility="Collapsed" />
+                                <c1:DataGridTextColumn Header="ACTNAME"           Binding="{Binding ACTNAME}"      HorizontalAlignment="Center" />
+                                <c1:DataGridTextColumn Header="불량코드"          Binding="{Binding RESNCODE}"     HorizontalAlignment="Center" Visibility="Collapsed" />
+                                <c1:DataGridTextColumn Header="불량요인"          Binding="{Binding RESNNAME}"     HorizontalAlignment="Left" />
+                                <c1:DataGridNumericColumn Header="MES_QTY"        Binding="{Binding MES_RESNQTY}"  Format="F2" Minimum="0" ShowButtons="False" HandleUpDownKeys="False" />
+                                <c1:DataGridNumericColumn Header="ROLLMAP_QTY"    Binding="{Binding RM_RESNQTY}"   Format="F2" Minimum="0" ShowButtons="False" HandleUpDownKeys="False" />
+                                <c1:DataGridTextColumn Header="DIFF_YN"           Binding="{Binding DIFF_YN}"      HorizontalAlignment="Center" Visibility="Collapsed" />
+                            </c1:C1DataGrid.Columns>
+                        </c1:C1DataGrid>
+                    </Grid>
+
+                    <Grid Name="gdDefectBack" Grid.Row="1" Grid.Column="2">
+                        <c1:C1DataGrid x:Name="dgDefectBack" 
+                                       Tag="DEFECT_BACK" 
+                                       IsReadOnly="True" 
+                                       HeadersVisibility="Column" 
+                                       SelectionMode="SingleCell" 
+                                       CanUserSort="False" 
+                                       CanUserFilter="False" 
+                                       ClipboardPasteMode="None" 
+                                       Margin="0" 
+                                       LoadedCellPresenter="dgDefect_LoadedCellPresenter"
+                                       UnloadedCellPresenter= "dgDefect_UnloadedCellPresenter">
+                            <c1:C1DataGrid.Columns>
+                                <c1:DataGridTextColumn Header="ACTID"             Binding="{Binding ACTID}"        HorizontalAlignment="Center" Visibility="Collapsed" />
+                                <c1:DataGridTextColumn Header="ACTNAME"           Binding="{Binding ACTNAME}"      HorizontalAlignment="Center" />
+                                <c1:DataGridTextColumn Header="불량코드"          Binding="{Binding RESNCODE}"     HorizontalAlignment="Center" Visibility="Collapsed" />
+                                <c1:DataGridTextColumn Header="불량요인"          Binding="{Binding RESNNAME}"     HorizontalAlignment="Left" />
+                                <c1:DataGridNumericColumn Header="MES_QTY"        Binding="{Binding MES_RESNQTY}"  Format="F2" Minimum="0" ShowButtons="False" HandleUpDownKeys="False" />
+                                <c1:DataGridNumericColumn Header="ROLLMAP_QTY"    Binding="{Binding RM_RESNQTY}"   Format="F2" Minimum="0" ShowButtons="False" HandleUpDownKeys="False" />
+                                <c1:DataGridTextColumn Header="DIFF_YN"           Binding="{Binding DIFF_YN}"      HorizontalAlignment="Center" Visibility="Collapsed" />
+                            </c1:C1DataGrid.Columns>
+                        </c1:C1DataGrid>                        
+                    </Grid>
+                </Grid>
+            </Grid>
+
+        </Grid>
+
+        <Border Grid.Row="3" BorderThickness="1" BorderBrush="#ffbebebe" Style="{StaticResource BorderSubTitleStyle}"/>
+        <Grid Grid.Row ="3">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <Button x:Name="btnClose" Grid.Column="1" Content="{Binding ConverterParameter='닫기', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{DynamicResource Content_MainButtonStyle}" Click="btnClose_Click"/>
+        </Grid>
+
+        <ctrlLib:LoadingIndicator x:Name="loadingIndicator" />
+    </Grid>
+</c1:C1Window>

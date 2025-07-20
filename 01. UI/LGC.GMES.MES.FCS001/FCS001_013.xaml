@@ -1,0 +1,103 @@
+﻿<UserControl x:Class="LGC.GMES.MES.FCS001.FCS001_013"
+             xmlns:ss="http://schemas.grapecity.com/windows/spreadsheet/2012"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:c1="http://schemas.componentone.com/winfx/2006/xaml"
+             xmlns:ctrlLib="clr-namespace:LGC.GMES.MES.ControlsLibrary;assembly=LGC.GMES.MES.ControlsLibrary"
+             xmlns:uc="clr-namespace:LGC.GMES.MES.CMM001.Controls;assembly=LGC.GMES.MES.CMM001"
+             mc:Ignorable="d" 
+             d:DesignHeight="768" d:DesignWidth="1024"  Loaded="UserControl_Loaded" >
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/LGC.GMES.MES.ControlsLibrary;component/ControlStyles.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+     
+    <Grid x:Name="grdMain">
+        <ctrlLib:LGCLayout x:Name="LayoutRoot" Tag="Aging Rack 예약현황" Grid.ColumnSpan="2">
+            <ctrlLib:LGCLayout.Content>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="8"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <Border Grid.Row="0" Grid.Column="0" Background="#fff2f2f2" BorderThickness="1" BorderBrush="#ffd1d1d1" />
+                    <Grid   Grid.Row="0" Grid.Column="0" >
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="11" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="11" />
+                        </Grid.RowDefinitions>
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="13" />
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="13"/>
+                        </Grid.ColumnDefinitions>
+
+                        <!--조회조건 ROW1-->
+                        
+                        
+                        <TextBlock                          Grid.Row="1" Grid.Column="1" Text="{Binding ConverterParameter='LINE_ID', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}" />
+                        <uc:UcBaseComboBox  x:Name="cboLine"    Grid.Row="1" Grid.Column="2" Style="{StaticResource C1ComboBoxStyle}" AutoComplete="False" />
+
+                        <TextBlock                          Grid.Row="1" Grid.Column="3" Text="{Binding ConverterParameter='EQP_FLAG', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}"/>
+                        <uc:UcBaseComboBox  x:Name="cboEqpKind" Grid.Row="1" Grid.Column="4" Style="{StaticResource C1ComboBoxStyle}" AutoComplete="False" />
+
+                        <TextBlock                          Grid.Row="1" Grid.Column="5" Text="{Binding ConverterParameter='열', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}"/>
+                        <uc:UcBaseComboBox  x:Name="cboRow"     Grid.Row="1" Grid.Column="6" Style="{StaticResource C1ComboBoxStyle}" AutoComplete="False" />
+
+                        <!--Aging Type combo 추가-->
+                        <TextBlock                             Grid.Row="1" Grid.Column="7" Text="{Binding ConverterParameter='AGING_FLAG', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}" VerticalAlignment="Center" />
+                        <uc:UcBaseComboBox  x:Name="cboAgingType"  Grid.Row="1" Grid.Column="8" MinHeight="23" Style="{StaticResource C1ComboBoxStyle}" AutoComplete="False" />
+
+                        <!--조회 버튼-->
+                        <uc:UcBaseButton         x:Name="btnSearch"  Grid.Row="1" Grid.Column="10" Content="{Binding ConverterParameter='SEARCH', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource SearchButtonStyle}" Cursor="Hand" Click="btnSearch_Click" />
+                    </Grid>
+                    
+                    <!--조회 영역-->
+                    <!--ROW 03-->
+                    <Border Grid.Row="2" Background="#fff2f2f2" BorderThickness="1" BorderBrush="#ffbebebe"></Border>
+                    <Grid   Grid.Row="2" Grid.Column="0" >
+                        <uc:UcBaseDataGrid x:Name="dgAgingRes" Grid.Row="0" Grid.Column="0" Margin="5" IsReadOnly="True" HeadersVisibility="None" FrozenColumnCount="3" FrozenTopRowsCount="2" SelectionMode="MultiRange" >
+                            <c1:C1DataGrid.Columns>
+                                <c1:DataGridTextColumn      Header = "[LINE_ID,LINE_ID]"              Binding = "{Binding LINE_NAME}"      HorizontalAlignment="Center" />
+                                <c1:DataGridTextColumn      Header = "[EQP_TYPE,EQP_TYPE]"            Binding = "{Binding EQP_KIND_NAME}"  HorizontalAlignment="Center" />
+                                <!--Aging Type combo 추가-->
+                                <c1:DataGridTextColumn      Header = "[AGING_FLAG,AGING_FLAG]"        Binding = "{Binding AGING_TYPE_NAME}" HorizontalAlignment="Center" />                                
+                                <c1:DataGridTextColumn      Header = "[열,열]"                        Binding = "{Binding EQP_ROW_LOC}"    HorizontalAlignment="Center" />
+                                <c1:DataGridNumericColumn   Header = "[RESV,RACK]"                    Binding = "{Binding RESVRACK}"       HorizontalAlignment="Right" Format="###,###,##0" />
+                                <c1:DataGridNumericColumn   Header = "[RESV,TRAY]"                    Binding = "{Binding RESVTRAY}"       HorizontalAlignment="Right" Format="###,###,##0" />
+                                <c1:DataGridNumericColumn   Header = "[RESV_WAIT,RACK]"               Binding = "{Binding WAITRACK}"       HorizontalAlignment="Right" Format="###,###,##0" />
+                                <c1:DataGridNumericColumn   Header = "[RESV_WAIT,TRAY]"               Binding = "{Binding WAITTRAY}"       HorizontalAlignment="Right" Format="###,###,##0" />
+                                <c1:DataGridTextColumn      Header = "[EQP_STATUS_CD,EQP_STATUS_CD]"  Binding = "{Binding EQPSTATUS}"      HorizontalAlignment="Center" />
+                            </c1:C1DataGrid.Columns>
+
+                            <c1:C1DataGrid.TopRows>
+                                <c1:DataGridColumnHeaderRow />
+                                <c1:DataGridColumnHeaderRow />
+                            </c1:C1DataGrid.TopRows>
+                        </uc:UcBaseDataGrid>
+                    </Grid>
+                </Grid>
+            </ctrlLib:LGCLayout.Content>
+        </ctrlLib:LGCLayout>
+
+        <ctrlLib:LoadingIndicator x:Name="loadingIndicator" Grid.Row="999" Grid.Column="999" />
+    </Grid>
+</UserControl>

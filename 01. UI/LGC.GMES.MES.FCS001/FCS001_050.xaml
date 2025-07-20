@@ -1,0 +1,200 @@
+﻿<UserControl x:Class="LGC.GMES.MES.FCS001.FCS001_050"
+             xmlns:ss="http://schemas.grapecity.com/windows/spreadsheet/2012"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:c1="http://schemas.componentone.com/winfx/2006/xaml"
+             xmlns:ctrlLib="clr-namespace:LGC.GMES.MES.ControlsLibrary;assembly=LGC.GMES.MES.ControlsLibrary"
+             xmlns:uc="clr-namespace:LGC.GMES.MES.CMM001.Controls;assembly=LGC.GMES.MES.CMM001"
+             mc:Ignorable="d" 
+             d:DesignHeight="768" d:DesignWidth="1920"  Loaded="UserControl_Loaded" >
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/LGC.GMES.MES.ControlsLibrary;component/ControlStyles.xaml" />
+                <ResourceDictionary Source="/LGC.GMES.MES.ControlsLibrary;component/ControlTemplates/LGCDatePicker.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    
+    <Grid x:Name="grdMain">
+        <Grid.Resources>
+            <DataTemplate x:Key="ResultTemplate">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <!--<ColumnDefinition Width="*"/>-->
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Text="{Binding}" HorizontalAlignment="Center" Padding="0,0,5,0"  />
+                </Grid>
+            </DataTemplate>
+            <DataTemplate x:Key="ResultTemplateSum">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0"  Text="{Binding ConverterParameter='합계', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" HorizontalAlignment="Right" Padding="0,0,5,0"  />
+                </Grid>
+            </DataTemplate>
+        </Grid.Resources>
+        <ctrlLib:LGCLayout x:Name="LayoutRoot" Tag="부적합율 실적조회" Grid.ColumnSpan="2">
+            <ctrlLib:LGCLayout.Content>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="51"/>
+                        <RowDefinition Height="8"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <Border Grid.Row="0" Background="#fff2f2f2" BorderThickness="1" BorderBrush="#ffd1d1d1"/>
+                    <Grid   Grid.Row="0" Grid.Column="0" >
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="11" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="11" />
+                        </Grid.RowDefinitions>
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="13" />
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="1.5*"/>
+                            <ColumnDefinition Width="10" />
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="1.5*"/>
+                            <ColumnDefinition Width="10" />
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="1.5*"/>
+                            <ColumnDefinition Width="10" />
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="auto" />
+                            <ColumnDefinition Width="10" />
+                            <ColumnDefinition Width="1.5*"/>
+                            <ColumnDefinition Width="13"/>
+                        </Grid.ColumnDefinitions>
+
+                        <!--조회조건 ROW1-->
+                        <TextBlock       Grid.Row="1"  Grid.Column="1" Text="{Binding ConverterParameter='LINE_ID', Converter={StaticResource GlobalObjectDicConverter}, RelativeSource={RelativeSource Self}}" Style="{StaticResource Content_InputForm_LabelStyle}" />
+                        <uc:UcBaseComboBox   Grid.Row="1"  Grid.Column="2" x:Name="cboLine" Style="{StaticResource C1ComboBoxStyle}" AutoComplete="False"/>
+                        <TextBlock       Grid.Row="1"  Grid.Column="4" Text="{Binding ConverterParameter='MODEL', Converter={StaticResource GlobalObjectDicConverter}, RelativeSource={RelativeSource Self}}" Style="{StaticResource Content_InputForm_LabelStyle}" />
+                        <uc:UcBaseComboBox   Grid.Row="1"  Grid.Column="5" x:Name="cboModel" Style="{StaticResource C1ComboBoxStyle}" AutoComplete="False"/>
+                        <TextBlock       Grid.Row="1"  Grid.Column="7" Text="{Binding ConverterParameter='ROUTE_ID', Converter={StaticResource GlobalObjectDicConverter}, RelativeSource={RelativeSource Self}}" Style="{StaticResource Content_InputForm_LabelStyle}" />
+                        <uc:UcBaseComboBox   Grid.Row="1"  Grid.Column="8" x:Name="cboRoute" Style="{StaticResource C1ComboBoxStyle}" AutoComplete="False"/>
+                        <TextBlock       Grid.Row="1"  Grid.Column="10" Text="{Binding ConverterParameter='SEL_PERIOD', Converter={StaticResource GlobalObjectDicConverter}, RelativeSource={RelativeSource Self}}" Style="{StaticResource Content_InputForm_LabelStyle}" />
+                        <ctrlLib:LGCDatePicker  Grid.Row="1" Grid.Column="11" x:Name="dtpFromDate" DatepickerType="Date" />
+                        <c1:C1DateTimePicker    Grid.Row="1" Grid.Column="12"   x:Name="dtpFromTime" CustomTimeFormat="HH:mm" HorizontalAlignment="Left" Margin="4,0,0,0" VerticalAlignment="Center" EditMode="Time" Background="LightYellow"/>
+                        <TextBlock              Grid.Row="1" Grid.Column="13" HorizontalAlignment="Center" Text="~" Style="{StaticResource Content_InputForm_LabelStyle}" />
+                        <ctrlLib:LGCDatePicker  Grid.Row="1" Grid.Column="14" x:Name="dtpToDate" DatepickerType="Date" />
+                        <c1:C1DateTimePicker    Grid.Row="1" Grid.Column="15"   x:Name="dtpToTime" CustomTimeFormat="HH:mm" HorizontalAlignment="Left" Margin="4,0,0,0" VerticalAlignment="Center" EditMode="Time" Background="LightYellow"/>
+                        <Grid Grid.Row="1" Grid.Column="17">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="auto"/>
+                            </Grid.ColumnDefinitions>
+                            <uc:UcBaseButton   Grid.Column="1" x:Name="btnSearch" Content="{Binding ConverterParameter=SEARCH, Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource SearchButtonStyle}" Click="btnSearch_Click"/>
+                        </Grid>
+                    </Grid>
+                    <!--조회 영역-->
+                    <!--ROW 02-->
+                    <Border Grid.Row="2" Background="#fff2f2f2" BorderThickness="1" BorderBrush="#ffbebebe"></Border>
+                    <Grid   Grid.Row="2" Grid.Column="0" >
+                        <uc:UcBaseDataGrid x:Name="dgList" Grid.Row="0" Grid.Column="0" Margin="5" IsReadOnly="True" HeadersVisibility="Row" FrozenColumnCount="3" FrozenTopRowsCount="2" SelectionMode="MultiRange" LoadedCellPresenter="dgList_LoadedCellPresenter" LoadedRowHeaderPresenter="dgList_LoadedRowHeaderPresenter">
+                            <c1:C1DataGrid.Columns>
+                                <c1:DataGridTextColumn      Header = "[MODEL,MODEL]"             Binding = "{Binding SEL_MODEL}"     HorizontalAlignment="Center" />
+                                <c1:DataGridTextColumn      Header = "[ROUTE_ID,ROUTE_ID]"       Binding = "{Binding SEL_ROUTE}"        HorizontalAlignment="Center" />
+                                <c1:DataGridTextColumn      Header = "[JUDG_OP_ID,JUDG_OP_ID]"   Binding = "{Binding JUDG_OP_ID}"    HorizontalAlignment="Center">
+                                </c1:DataGridTextColumn>
+                                <c1:DataGridTextColumn      Header = "[INPUT,INPUT]"             Binding = "{Binding SEL_IN_CNT}"    HorizontalAlignment="Center">
+                                </c1:DataGridTextColumn>
+                                <c1:DataGridNumericColumn   Header = "[GOOD_PRD,GOOD_PRD]"       Binding = "{Binding SEL_NOW_CNT}"   HorizontalAlignment="Center">
+                                </c1:DataGridNumericColumn>
+                                <c1:DataGridNumericColumn   Header = "[DEFECT,QTY]"              Binding = "{Binding SEL_NG_CNT}"    HorizontalAlignment="Center">
+                                </c1:DataGridNumericColumn>
+                                <c1:DataGridNumericColumn   Header = "[DEFECT,PERCENT_VAL]"      Binding = "{Binding SEL_NG_RATE}"   HorizontalAlignment="Right" Format="###,###,##0.##"/>
+                                <c1:DataGridNumericColumn   Header = "[D_GR,QTY]"                Binding = "{Binding D_GR_CNT}"      HorizontalAlignment="Center">
+                                </c1:DataGridNumericColumn>
+                                <c1:DataGridNumericColumn   Header = "[D_GR,PERCENT_VAL]"        Binding = "{Binding D_GR_RATE}"     HorizontalAlignment="Right" Format="###,###,##0.##"/>
+                                <c1:DataGridNumericColumn   Header = "[E_GR,QTY]"                Binding = "{Binding E_GR_CNT}"      HorizontalAlignment="Center">
+                                </c1:DataGridNumericColumn>
+                                <c1:DataGridNumericColumn   Header = "[E_GR,PERCENT_VAL]"        Binding = "{Binding E_GR_RATE}"     HorizontalAlignment="Right" Format="###,###,##0.##"/>
+                                <c1:DataGridNumericColumn   Header = "[F_GR,QTY]"                Binding = "{Binding F_GR_CNT}"      HorizontalAlignment="Center">
+                                </c1:DataGridNumericColumn>
+                                <c1:DataGridNumericColumn   Header = "[F_GR,PERCENT_VAL]"        Binding = "{Binding F_GR_RATE}"     HorizontalAlignment="Right" Format="###,###,##0.##"/>
+                                <c1:DataGridNumericColumn   Header = "[H_GR,QTY]"                Binding = "{Binding H_GR_CNT}"      HorizontalAlignment="Center">
+                                </c1:DataGridNumericColumn>
+                                <c1:DataGridNumericColumn   Header = "[H_GR,PERCENT_VAL]"        Binding = "{Binding H_GR_RATE}"     HorizontalAlignment="Right" Format="###,###,##0.##"/>
+                                <c1:DataGridNumericColumn   Header = "[I_GR,QTY]"                Binding = "{Binding I_GR_CNT}"      HorizontalAlignment="Center">
+                                    
+                                </c1:DataGridNumericColumn>
+                                <c1:DataGridNumericColumn   Header = "[I_GR,PERCENT_VAL]"        Binding = "{Binding I_GR_RATE}"     HorizontalAlignment="Right" Format="###,###,##0.##"/>
+                                
+                                <!-- ADD J_GR_CNT, J_GR_RATE -->
+                                <c1:DataGridNumericColumn   Header = "[J_GR,QTY]"                Binding = "{Binding J_GR_CNT}"      HorizontalAlignment="Center">
+
+                                </c1:DataGridNumericColumn>
+                                <c1:DataGridNumericColumn   Header = "[J_GR,PERCENT_VAL]"        Binding = "{Binding J_GR_RATE}"     HorizontalAlignment="Right" Format="###,###,##0.##"/>
+                                
+                                
+                                <c1:DataGridNumericColumn   Header = "[L_GR,QTY]"                Binding = "{Binding L_GR_CNT}"      HorizontalAlignment="Center">
+                                   
+                                </c1:DataGridNumericColumn>
+                                <c1:DataGridNumericColumn   Header = "[L_GR,PERCENT_VAL]"        Binding = "{Binding L_GR_RATE}"     HorizontalAlignment="Right" Format="###,###,##0.##"/>
+                                <c1:DataGridNumericColumn   Header = "[K_GR,QTY]"                Binding = "{Binding K_GR_CNT}"      HorizontalAlignment="Center">
+                                    
+                                </c1:DataGridNumericColumn>
+                                <c1:DataGridNumericColumn   Header = "[K_GR,PERCENT_VAL]"        Binding = "{Binding K_GR_RATE}"     HorizontalAlignment="Right" Format="###,###,##0.##"/>
+                                <c1:DataGridNumericColumn   Header = "[M_GR,QTY]"                Binding = "{Binding M_GR_CNT}"      HorizontalAlignment="Center">
+                                    
+                                </c1:DataGridNumericColumn>
+                                <c1:DataGridNumericColumn   Header = "[M_GR,PERCENT_VAL]"        Binding = "{Binding M_GR_RATE}"     HorizontalAlignment="Right" Format="###,###,##0.##"/>
+                                <c1:DataGridNumericColumn   Header = "[N_GR,QTY]"                Binding = "{Binding N_GR_CNT}"      HorizontalAlignment="Center">
+                                    
+                                </c1:DataGridNumericColumn>
+                                <c1:DataGridNumericColumn   Header = "[N_GR,PERCENT_VAL]"        Binding = "{Binding N_GR_RATE}"     HorizontalAlignment="Right" Format="###,###,##0.##"/>
+                                <c1:DataGridNumericColumn   Header = "[P_GR,QTY]"                Binding = "{Binding P_GR_CNT}"      HorizontalAlignment="Center">
+                                   
+                                </c1:DataGridNumericColumn>
+                                <c1:DataGridNumericColumn   Header = "[P_GR,PERCENT_VAL]"        Binding = "{Binding P_GR_RATE}"     HorizontalAlignment="Right" Format="###,###,##0.##"/>
+                                <c1:DataGridNumericColumn   Header = "[Q_GR,QTY]"                Binding = "{Binding Q_GR_CNT}"      HorizontalAlignment="Center">
+                                    
+                                </c1:DataGridNumericColumn>
+                                <c1:DataGridNumericColumn   Header = "[Q_GR,PERCENT_VAL]"        Binding = "{Binding Q_GR_RATE}"     HorizontalAlignment="Right" Format="###,###,##0.##"/>
+                                <c1:DataGridNumericColumn   Header = "[R_GR,QTY]"                Binding = "{Binding R_GR_CNT}"      HorizontalAlignment="Center">
+                                    
+                                </c1:DataGridNumericColumn>
+                                <c1:DataGridNumericColumn   Header = "[R_GR,PERCENT_VAL]"        Binding = "{Binding R_GR_RATE}"     HorizontalAlignment="Right" Format="###,###,##0.##"/>
+                                <c1:DataGridNumericColumn   Header = "[S_GR,QTY]"                Binding = "{Binding S_GR_CNT}"      HorizontalAlignment="Center">
+                                    
+                                </c1:DataGridNumericColumn>
+                                <c1:DataGridNumericColumn   Header = "[S_GR,PERCENT_VAL]"        Binding = "{Binding S_GR_RATE}"     HorizontalAlignment="Right" Format="###,###,##0.##"/>
+                                <c1:DataGridNumericColumn   Header = "[T_GR,QTY]"                Binding = "{Binding T_GR_CNT}"      HorizontalAlignment="Center">
+                                   
+                                </c1:DataGridNumericColumn>
+                                <c1:DataGridNumericColumn   Header = "[T_GR,PERCENT_VAL]"        Binding = "{Binding T_GR_RATE}"     HorizontalAlignment="Right" Format="###,###,##0.##"/>
+                                <c1:DataGridNumericColumn   Header = "[U_GR,QTY]"                Binding = "{Binding U_GR_CNT}"      HorizontalAlignment="Center">
+                                  
+                                </c1:DataGridNumericColumn>
+                                <c1:DataGridNumericColumn   Header = "[U_GR,PERCENT_VAL]"        Binding = "{Binding U_GR_RATE}"     HorizontalAlignment="Right" Format="###,###,##0.##"/>
+                                <c1:DataGridNumericColumn   Header = "[W_GR,QTY]"                Binding = "{Binding W_GR_CNT}"      HorizontalAlignment="Center">
+                                   
+                                </c1:DataGridNumericColumn>
+                                <c1:DataGridNumericColumn   Header = "[W_GR,PERCENT_VAL]"        Binding = "{Binding W_GR_RATE}"     HorizontalAlignment="Right" Format="###,###,##0.##"/>
+                            </c1:C1DataGrid.Columns>
+
+                            <c1:C1DataGrid.TopRows>
+                                <c1:DataGridColumnHeaderRow />
+                                <c1:DataGridColumnHeaderRow />
+                            </c1:C1DataGrid.TopRows>
+                        </uc:UcBaseDataGrid>
+                    </Grid>
+                </Grid>
+            </ctrlLib:LGCLayout.Content>
+        </ctrlLib:LGCLayout>
+
+        <ctrlLib:LoadingIndicator x:Name="loadingIndicator" Grid.Row="999" Grid.Column="999" />
+    </Grid>
+</UserControl>

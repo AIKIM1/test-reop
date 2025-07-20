@@ -1,0 +1,153 @@
+﻿<c1:C1Window x:Class="LGC.GMES.MES.CMM001.CMM_ASSY_LOSS_CELL_INPUT"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:c1="http://schemas.componentone.com/winfx/2006/xaml"
+		     xmlns:System="clr-namespace:System;assembly=mscorlib"
+             xmlns:ctrlLib="clr-namespace:LGC.GMES.MES.ControlsLibrary;assembly=LGC.GMES.MES.ControlsLibrary"        
+             ctrlLib:LGCPopupWindowExtension.ApplyStyle="True"
+             Header="{Binding Converter={StaticResource GlobalObjectDicConverter}, ConverterParameter='LOSS CELL등록'}" 
+             Tag="ProtoType01Windows01"  Height="650" Width="700"  IsResizable="True" Loaded="C1Window_Loaded"  >
+
+    <c1:C1Window.Resources>
+        <ResourceDictionary Source="/LGC.GMES.MES.ControlsLibrary;Component/ControlStyles.xaml"/>
+    </c1:C1Window.Resources>
+    <Grid x:Name="grdMain">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="8" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="8" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="8" />
+            </Grid.RowDefinitions>
+
+            <Border Grid.Row="0" BorderThickness="1" Grid.RowSpan="99" Grid.ColumnSpan="99" BorderBrush="#ffbebebe" Style="{StaticResource BorderSubTitleStyle}"/>
+            <Border Grid.Row="2" BorderThickness="1,0,1,1" Grid.ColumnSpan="99" BorderBrush="#ffbebebe" Style="{StaticResource BorderSubTitleStyle}"/>
+            <!--<Border Grid.Row="4" BorderThickness="1,0,1,1" Grid.ColumnSpan="99" BorderBrush="#ffbebebe" Style="{StaticResource BorderSubTitleStyle}"/>-->
+            <!--<Border Grid.Row="6" BorderThickness="1,0,1,1" Grid.ColumnSpan="99" BorderBrush="#ffbebebe" Style="{StaticResource BorderSubTitleStyle}"/>-->
+
+            <Grid Grid.Row ="1">
+                <Grid.RowDefinitions>
+
+                    <RowDefinition Height="8" />
+                    <RowDefinition Height="70" />
+                    <RowDefinition Height="8" />
+                    <RowDefinition Height="0.1*" />
+                    <RowDefinition Height="8" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="8" />
+                    <RowDefinition Height="0.3*" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="8" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="8" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="8" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="8" />
+                </Grid.ColumnDefinitions>
+
+                <c1:C1DataGrid Grid.Row="1" 
+                           Grid.Column="1"
+                           Grid.ColumnSpan="7"
+                           x:Name="dgCtnr" 
+                           IsReadOnly="False" 
+                           HeadersVisibility="Column" 
+                           SelectionMode="SingleRow" 
+                           HorizontalScrollBarVisibility="Hidden"  
+                           CanUserFilter="False" 
+                           CanUserSort="False">
+                    <c1:C1DataGrid.Columns>
+                        <c1:DataGridTextColumn      Header = "대차ID"           Binding = "{Binding CTNR_ID}"          Width="Auto"     HorizontalAlignment="Center" IsReadOnly="True" />
+                        <c1:DataGridTextColumn      Header = "비재공ID"         Binding = "{Binding NON_WIP_ID}"       Width="Auto"     HorizontalAlignment="Center" IsReadOnly="True" Visibility="Collapsed"/>
+                        <c1:DataGridTextColumn      Header = "PJT"              Binding = "{Binding PRJT_NAME}"        Width="Auto"    HorizontalAlignment="Center" IsReadOnly="True" />
+                        <c1:DataGridTextColumn      Header = "제품ID"           Binding = "{Binding PRODID}"           Width="Auto"    HorizontalAlignment="Center" IsReadOnly="True" />
+                        <c1:DataGridTextColumn      Header = "시장유형"         Binding = "{Binding MKT_TYPE_NAME}"    Width="Auto"    HorizontalAlignment="Center" IsReadOnly="True" />
+                        <c1:DataGridNumericColumn   Header = "비재공수량"       Binding = "{Binding NON_WIP_QTY}"           Width="Auto"   HorizontalAlignment="Right"  Format="###,###,##0.##" IsReadOnly="True" Visibility="Collapsed" />
+                        <c1:DataGridNumericColumn   Header = "Cell수량"         Binding = "{Binding WIPQTY}"           Width="Auto"   HorizontalAlignment="Right"  Format="###,###,##0.##" IsReadOnly="True" />
+                        <c1:DataGridNumericColumn   Header = "Scan Cell수량"    Binding = "{Binding SCAN_QTY}"         Width="Auto"    HorizontalAlignment="Right"  IsReadOnly="True" Format="#,##0" />
+                        <c1:DataGridNumericColumn   Header = "미Scan Cell수량"  Binding = "{Binding NON_SCAN_QTY}"     Width="Auto"    HorizontalAlignment="Right"  IsReadOnly="True" Format="#,##0" />
+                        <c1:DataGridNumericColumn   Header = "Cell ID 관리 여부"  Binding = "{Binding CELL_ID_MNGT_FLAG}"     Width="Auto"    HorizontalAlignment="Center"  IsReadOnly="True" Visibility="Collapsed" />
+                    </c1:C1DataGrid.Columns>
+                </c1:C1DataGrid>
+
+                <c1:C1DataGrid Grid.Row="3" 
+                           Grid.Column="1"
+                           x:Name="dgAssyLot" 
+                           IsReadOnly="False" 
+                           Grid.ColumnSpan="7"
+                           HeadersVisibility="Column" 
+                           SelectionMode="SingleRow" 
+                           CanUserFilter="False" 
+                           CanUserSort="False" Margin="0,5,0,3" Grid.RowSpan="2">
+                    <c1:C1DataGrid.Columns>
+                        <!--<c1:DataGridCheckBoxColumn  Header = "선택"             Binding = "{Binding CHK}"               HorizontalAlignment="Center" Width="40" />-->
+                        <c1:DataGridTextColumn      Header = "조립LOT"          Binding = "{Binding LOTID_RT}"            HorizontalAlignment="Center" IsReadOnly="True" />
+                        <c1:DataGridNumericColumn   Header = "Scan Cell수량"    Binding = "{Binding SUBLOTQTY}"            HorizontalAlignment="Right"  IsReadOnly="True" Format="#,##0" />
+
+                    </c1:C1DataGrid.Columns>
+                </c1:C1DataGrid>
+
+
+                <TextBlock                  Grid.Row="5" Grid.Column="1" Text="{Binding ConverterParameter='Cell ID', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}"/>
+                <TextBox x:Name="txtCellID" Grid.Row="5" Grid.Column="2" MinWidth="180"  CharacterCasing="Upper" Style="{StaticResource Content_InputForm_TextBoxStyle}" Background="Yellow" KeyDown="txtCellID_KeyDown" GotFocus="txtCellID_GotFocus"/>
+                <Button                     Grid.Row="5" Grid.Column="4" x:Name="btnExcelUpload" Content="{Binding ConverterParameter=Excel Upload, Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_ModuleButtonExcelImportStyle}" Height="25" Cursor="Hand" Click="ExcelUpload_Click" />
+
+
+                <c1:C1DataGrid Grid.Row="7" 
+                           Grid.Column="1"
+                           x:Name="dgCell" 
+                           IsReadOnly="False" 
+                           Grid.ColumnSpan="7"
+                           HeadersVisibility="Column" 
+                           SelectionMode="SingleRow" 
+                           CanUserFilter="False" 
+                           CanUserSort="False">
+                    <c1:C1DataGrid.Columns>
+                        <!--<c1:DataGridCheckBoxColumn  Header = "선택"             Binding = "{Binding CHK}"              HorizontalAlignment="Center" Width="40" />-->
+                        <c1:DataGridCheckBoxColumn  Name = "CHK" Binding = "{Binding CHK, Mode=TwoWay}" HorizontalAlignment="Center" CanUserFilter="False" CanUserSort="False" CanUserResize="False" Width="40" >
+                            <c1:DataGridCheckBoxColumn.Header>
+                                <StackPanel Width="30" Margin="-5" Orientation="Horizontal" >
+                                    <TextBlock x:Name="tbCheckHeaderAll" Padding="0" MouseLeftButtonDown="tbCheckHeaderAll_MouseLeftButtonDown" Text="" Width="40"/>
+                                </StackPanel>
+                            </c1:DataGridCheckBoxColumn.Header>
+                        </c1:DataGridCheckBoxColumn>
+
+                        <c1:DataGridTextColumn      Header = "조립LOT"          Binding = "{Binding LOTID_RT}"         HorizontalAlignment="Center" IsReadOnly="True" />
+                        <c1:DataGridTextColumn      Header = "CELL ID"          Binding = "{Binding CELLID}"           HorizontalAlignment="Center" IsReadOnly="True" />
+                        <c1:DataGridNumericColumn   Header = "Scan Cell수량"    Binding = "{Binding SUBLOTQTY}"        HorizontalAlignment="Right"  IsReadOnly="True" Format="#,##0" Visibility="Collapsed" />
+                    </c1:C1DataGrid.Columns>
+                </c1:C1DataGrid>
+            </Grid>
+
+            <Grid Grid.Row ="3" >
+                <Grid.RowDefinitions>
+
+                    <RowDefinition Height="8" />
+                    <RowDefinition Height="Auto" />
+
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="8"/>
+                    <ColumnDefinition Width="100"/>
+                    <ColumnDefinition Width="8"/>
+                    <ColumnDefinition Width="100"/>
+                    <ColumnDefinition Width="8"/>
+                    <ColumnDefinition Width="100"/>
+                    <ColumnDefinition Width="8"/>
+                </Grid.ColumnDefinitions>
+
+                <Button x:Name="btnDelete" Grid.Row="1" Grid.Column="4" Content="{Binding ConverterParameter=삭제, Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{DynamicResource Content_MainButtonSpecialStyle}" Click="btnDelete_Click" />
+                <Button x:Name="btnClose"  Grid.Row="1" Grid.Column="6" Content="{Binding ConverterParameter=닫기,     Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{DynamicResource Content_MainButtonStyle}" Click="btnClose_Click" />
+            </Grid>
+
+            <ctrlLib:LoadingIndicator x:Name="loadingIndicator" Grid.Row="0" Grid.RowSpan="999" Grid.Column="0" Grid.ColumnSpan="999" />
+
+        </Grid>
+    </Grid>
+</c1:C1Window>

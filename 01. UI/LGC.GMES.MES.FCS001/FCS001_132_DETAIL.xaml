@@ -1,0 +1,88 @@
+﻿<c1:C1Window x:Class="LGC.GMES.MES.FCS001.FCS001_132_DETAIL"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:c1="http://schemas.componentone.com/winfx/2006/xaml"
+		     xmlns:System="clr-namespace:System;assembly=mscorlib"
+             xmlns:ctrlLib="clr-namespace:LGC.GMES.MES.ControlsLibrary;assembly=LGC.GMES.MES.ControlsLibrary"
+             xmlns:uc="clr-namespace:LGC.GMES.MES.CMM001.Controls;assembly=LGC.GMES.MES.CMM001"
+             ctrlLib:LGCPopupWindowExtension.ApplyStyle="True"
+             Header="{Binding Converter={StaticResource GlobalObjectDicConverter}, ConverterParameter='PKG LOT HOLD 상세 현황'}" 
+             Tag="ProtoType01Windows01" Height="650" Width="1300" IsResizable="True" Loaded="C1Window_Loaded">
+    <c1:C1Window.Resources>
+        <ResourceDictionary Source="/LGC.GMES.MES.ControlsLibrary;Component/ControlStyles.xaml"/>
+    </c1:C1Window.Resources>
+    <Grid x:Name="grdMain">
+        <ctrlLib:LGCLayout x:Name="LayoutRoot" Tag="HOLD 상세 현황" Grid.ColumnSpan="2">
+            <Grid>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="8"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <!--조회영역-->
+                    <Grid x:Name="SearchArea" Grid.Row="0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="11" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="11" />
+                        </Grid.RowDefinitions>
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="13"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                             <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="13"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Border                 Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="99" Grid.RowSpan="4" BorderThickness="1" BorderBrush="#ffd1d1d1"></Border>
+
+                        <TextBlock                                     Grid.Row="1" Grid.Column="1" Text="{Binding ConverterParameter='WORK ORDER', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}"/>
+                        <TextBox                x:Name="txtWorkOrder"  Grid.Row="1" Grid.Column="2" MinWidth="100" Style="{StaticResource Content_InputForm_ReadOnlyTextBoxStyle}" KeyDown="txtCellId_KeyDown" />
+
+
+                        <TextBlock                                     Grid.Row="1" Grid.Column="3" Text="{Binding ConverterParameter='MODEL', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}"/>
+                        <uc:UcBaseComboBox          x:Name="cboModel"      Grid.Row="1" Grid.Column="4" MinWidth="100" Style="{StaticResource C1ComboBoxStyle_Mandatory}" AutoComplete="True"  SelectedValueChanged="cboModel_SelectedValueChanged"/>
+
+                        <TextBlock                                     Grid.Row="1" Grid.Column="5" Text="{Binding ConverterParameter='PKGLotID', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}"/>
+                        <TextBox                x:Name="txtPKGLotID"   Grid.Row="1" Grid.Column="6" MinWidth="100" Style="{StaticResource SearchCondition_TextBoxStyle}" KeyDown="txtCellId_KeyDown" />
+                                                                       
+                        <!--<TextBlock                                     Grid.Row="1" Grid.Column="8" Text="{Binding ConverterParameter='TRAY', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}"/>
+                        <TextBox                x:Name="txtTrayCnt"    Grid.Row="1" Grid.Column="9" MinWidth="100" Style="{StaticResource Content_InputForm_ReadOnlyTextBoxStyle}" KeyDown="txtCellId_KeyDown" />
+                                                                       
+                        <TextBlock                                     Grid.Row="1" Grid.Column="10" Text="{Binding ConverterParameter='CELL', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}"/>
+                        <TextBox                x:Name="txtCellCnt"    Grid.Row="1" Grid.Column="11" MinWidth="100" Style="{StaticResource Content_InputForm_ReadOnlyTextBoxStyle}" KeyDown="txtCellId_KeyDown" />-->
+                    </Grid>
+                    
+                    <!--조회리스트-->
+                    <Grid Grid.Row="2">
+                        <Border Style="{StaticResource Content_InputForm_ContentBorderStyle}"/>
+                        <Border Grid.Row="0" Grid.Column="0" BorderThickness="1"/>
+                        <uc:UcBaseDataGrid x:Name="dgHoldDetail" IsReadOnly="False" HeadersVisibility="Column" SelectionMode="SingleRow" >
+                            <c1:C1DataGrid.Columns>
+                                <c1:DataGridTextColumn    Header = "PKG LOT ID"                   Binding = "{Binding HOLD_ID}"                 IsReadOnly="True"  />
+                                <c1:DataGridTextColumn    Header = "MODEL"                       Binding = "{Binding MODEL}"                   IsReadOnly="True"  />
+                                <c1:DataGridTextColumn    Header = "HOLD_TIME"                   Binding = "{Binding HOLD_TIME}"               IsReadOnly="True"  />
+                                <c1:DataGridTextColumn    Header = "경과시간(분)"                Binding = "{Binding ELAP_TIME}"               IsReadOnly="True"  />
+                                <c1:DataGridTextColumn    Header = "QMSHOLD등록자"               Binding = "{Binding QMS_QMS_REG_USERID}"      IsReadOnly="True"  />
+                                <c1:DataGridTextColumn    Header = "QMSHOLD수정자"               Binding = "{Binding QMS_UPDUSER}"             IsReadOnly="True"  />
+                                <c1:DataGridTextColumn    Header = "FORM_UPDUSER"                Binding = "{Binding FORM_UPDUSER}"            IsReadOnly="True"  />
+                                <c1:DataGridTextColumn    Header = "Hold 사유"                   Binding = "{Binding HOLD_RSN_CNTT}"           IsReadOnly="True"  />
+                            </c1:C1DataGrid.Columns>
+                        </uc:UcBaseDataGrid>
+                    </Grid>
+                </Grid>
+            </Grid>
+        </ctrlLib:LGCLayout>
+        <ctrlLib:LoadingIndicator x:Name="loadingIndicator" Grid.Row="999" Grid.Column="999"/>
+    </Grid>
+</c1:C1Window>

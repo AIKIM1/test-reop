@@ -1,0 +1,487 @@
+﻿<UserControl xmlns:ss="hhemas.grapecity.com/windows/spreadsheet/2012"  x:Class="LGC.GMES.MES.FCS002.FCS002_021"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:c1="http://schemas.componentone.com/winfx/2006/xaml"
+             xmlns:ctrlLib="clr-namespace:LGC.GMES.MES.ControlsLibrary;assembly=LGC.GMES.MES.ControlsLibrary"
+             xmlns:uc="clr-namespace:LGC.GMES.MES.CMM001.Controls;assembly=LGC.GMES.MES.CMM001"
+             mc:Ignorable="d" 
+             d:DesignHeight="768" d:DesignWidth="1920"
+             Loaded="UserControl_Loaded">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/LGC.GMES.MES.ControlsLibrary;component/ControlStyles.xaml" />
+                <ResourceDictionary Source="/LGC.GMES.MES.ControlsLibrary;component/ControlTemplates/LGCDatePicker.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid x:Name="grdMain">
+        <ctrlLib:LGCLayout x:Name="LayoutRoot" Tag="Tray 정보조회" Grid.ColumnSpan="2">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="160"/>
+                    <RowDefinition Height="8" />
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1.1*"/>
+                    <ColumnDefinition Width="8"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <!--조회영역-->
+                <Grid x:Name="SearchArea" Grid.Row="0" Grid.Column="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="11" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="11" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="13"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="5"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="5"/>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="5"/>
+                        <ColumnDefinition Width="0.5*"/>
+                        <ColumnDefinition Width="13"/>
+                    </Grid.ColumnDefinitions>
+                    <!--백그라운드용-->
+                    <Border     Grid.Row="0" Grid.RowSpan="99" Grid.Column="0" Grid.ColumnSpan="99" Style="{StaticResource Content_InputForm_ContentBorderStyle}"/>
+                    <!--조회조건 ROW1-->
+                    <Grid Grid.Row="1" Grid.Column="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width = "4*"/>
+                            <ColumnDefinition Width = "6*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock   Grid.Column="0" Text="{Binding ConverterParameter='TRAY_ID', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}"/>
+                        <Grid Grid.Column="1">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBox     Grid.Column="0" x:Name="txtTrayID" Style="{StaticResource Content_InputForm_MandatoryTextBoxStyle}" KeyDown="txtTrayID_KeyDown" CharacterCasing="Upper" MaxLength="10" />
+                            <CheckBox   Grid.Row="1" Grid.Column="2" x:Name="chkHist" />
+                        </Grid>
+                    </Grid>
+                    <Grid Grid.Row="1" Grid.Column="4">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width = "4*"/>
+                            <ColumnDefinition Width = "6*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock  Grid.Column="0"  Text="{Binding ConverterParameter='TRAY_LOT_ID', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}"/>
+                        <TextBox    Grid.Column="1" x:Name="txtTrayNo"  Style="{StaticResource Content_InputForm_MandatoryTextBoxStyle}" KeyDown="txtTrayNo_KeyDown" CharacterCasing="Upper" MaxLength="16"/>
+                    </Grid>
+                    <Grid Grid.Row = "1" Grid.Column ="6">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="4*"/>
+                            <ColumnDefinition Width="6*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock  Grid.Column="0" Text="{Binding ConverterParameter='ROUTE', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}"/>
+                        <TextBox    Grid.Column="1" x:Name="txtROUTID" Style="{StaticResource Content_InputForm_ReadOnlyTextBoxStyle}" PreviewMouseDoubleClick="txtROUTID_PreviewMouseDoubleClick" Foreground="Blue" />
+                    </Grid>
+                    <Grid Grid.Row="1" Grid.Column="8">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="4*"/>
+                            <ColumnDefinition Width="6*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock  Grid.Column="0" Text="{Binding ConverterParameter='INPUT', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}"/>
+                        <TextBox    Grid.Column="1" x:Name="txtInCellCnt" MinWidth="50" Style="{StaticResource Content_InputForm_ReadOnlyTextBoxStyle}"/>
+                    </Grid>
+                    <!--조회조건 ROW2-->
+                    <Grid Grid.Row="2" Grid.Column="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="4*"/>
+                            <ColumnDefinition Width="6*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock   Grid.Column="0"  Text="{Binding ConverterParameter='ASSEMBLY_LOT_ID', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}"/>
+                        <TextBox     Grid.Column="1" Grid.ColumnSpan="2"  x:Name="txtLotID" Style="{StaticResource Content_InputForm_ReadOnlyTextBoxStyle}"/>
+                    </Grid>
+                    <Grid Grid.Row="2" Grid.Column="4">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="4*"/>
+                            <ColumnDefinition Width="6*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock  Grid.Column="0"  Text="{Binding ConverterParameter='PROD_CD', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}"/>
+                        <TextBox    Grid.Column="1"  x:Name="txtPRODID"  MinWidth="100"  Style="{StaticResource Content_InputForm_ReadOnlyTextBoxStyle}"/>
+                    </Grid>
+                    <Grid Grid.Row="2" Grid.Column="6">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="8*"/>
+                            <ColumnDefinition Width="2*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock   Grid.Column="0"  Text="{Binding ConverterParameter='DFCT_LIMIT_OVER_FLAG', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}"/>
+                        <TextBox     Grid.Column="1"  x:Name="txtDfctLmtOverFlag"   Style="{StaticResource Content_InputForm_ReadOnlyTextBoxStyle}"/>
+                    </Grid>
+                    <Grid Grid.Row="2" Grid.Column="8">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="4*"/>
+                            <ColumnDefinition Width="6*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock   Grid.Column="0"  Text="{Binding ConverterParameter='재공', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}"/>
+                        <TextBox     Grid.Column="1"  x:Name="txtNowCellCnt"   Style="{StaticResource Content_InputForm_ReadOnlyTextBoxStyle}"/>
+                    </Grid>
+
+                    <!--조회조건 ROW3-->
+                    <Grid Grid.Row="3" Grid.Column="1" >
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="4*"/>
+                            <ColumnDefinition Width="6*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0"  Text="{Binding ConverterParameter='CURR_OP', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}"/>
+                        <Grid Grid.Column="1">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1.5*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBox  Grid.Column="0"  x:Name="txtOper" Style="{StaticResource Content_InputForm_ReadOnlyTextBoxStyle}" />
+                            <TextBox  Grid.Column="1"   x:Name="txtTrayOpStatus" Style="{StaticResource Content_InputForm_ReadOnlyTextBoxStyle}" />
+                        </Grid>
+                    </Grid>
+                    <Grid Grid.Row="3" Grid.Column="4">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="4*"/>
+                            <ColumnDefinition Width="6*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock   Grid.Column="0"  Text="{Binding ConverterParameter='NEXT_OP', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}"/>
+                        <TextBox     Grid.Column="1"  x:Name="txtNextOp" Grid.ColumnSpan="2"  Style="{StaticResource Content_InputForm_ReadOnlyTextBoxStyle}"/>
+                    </Grid>
+                    <Grid Grid.Row="3" Grid.Column="6" >
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="4*"/>
+                            <ColumnDefinition Width="6*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock  Grid.Column="0"  Text="{Binding ConverterParameter='SHIPNG_PLAN_DATE', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}" />
+                        <TextBox    Grid.Column="1"  x:Name="txtOpPlanTime" MinWidth="80"  Style="{StaticResource Content_InputForm_ReadOnlyTextBoxStyle}"/>
+                    </Grid>
+                    <Grid Grid.Row="3" Grid.Column="8">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="4*"/>
+                            <ColumnDefinition Width="6*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock   Grid.Column="0"  Visibility="Hidden" Text="{Binding ConverterParameter='Good', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}"/>
+                        <TextBox     Grid.Column="1"  Visibility="Hidden" x:Name="txtGoodCellCnt"   Style="{StaticResource Content_InputForm_ReadOnlyTextBoxStyle}"/>
+                    </Grid>
+
+                    <!--조회조건 ROW4-->
+                    <Grid Grid.Row="4" Grid.Column="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="6*"/>
+                            <ColumnDefinition Width="4*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock   Grid.Column="0"  Text="{Binding ConverterParameter='ABNORM_TRF_RSN_CODE', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}"/>
+                        <TextBox     Grid.Column="1"  x:Name="txtAbnormTrfRsnCode"   Style="{StaticResource Content_InputForm_ReadOnlyTextBoxStyle}"/>
+                    </Grid>
+                    <Grid Grid.Row="4" Grid.Column="4">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="4*"/>
+                            <ColumnDefinition Width="6*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock   Grid.Column="0"  Text="{Binding ConverterParameter='LOT_WEEK', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}"/>
+                        <TextBox     Grid.Column="1"  x:Name="txtLotWeek" Grid.ColumnSpan="2"  Style="{StaticResource Content_InputForm_ReadOnlyTextBoxStyle}"/>
+                    </Grid>
+                    <Grid Grid.Row="4" Grid.Column="6" >
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="4*"/>
+                            <ColumnDefinition Width="6*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock  Grid.Column="0"  Text="{Binding ConverterParameter='LINE_ID', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}" />
+                        <TextBox    Grid.Column="1"  x:Name="txtTrayLine" MinWidth="80"  Style="{StaticResource Content_InputForm_ReadOnlyTextBoxStyle}"/>
+                    </Grid>
+                    <Grid Grid.Row="4" Grid.Column="8">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="4*"/>
+                            <ColumnDefinition Width="6*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock   Grid.Column="0" Text="{Binding ConverterParameter='MODEL_QTY', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}"/>
+                        <TextBox     Grid.Column="1" x:Name="txtTrayCellCnt"   Style="{StaticResource Content_InputForm_ReadOnlyTextBoxStyle}"/>
+                    </Grid>
+
+                    <!--조회조건 ROW5-->
+                    <Grid Grid.Row="5" Grid.Column="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="4*"/>
+                            <ColumnDefinition Width="6*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock   Grid.Column="0"  Text="{Binding ConverterParameter='CST_ECCEN_DISTANCE', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}"/>
+                        <TextBox     Grid.Column="1"  x:Name="txtDecentration" Grid.ColumnSpan="2"  Style="{StaticResource Content_InputForm_ReadOnlyTextBoxStyle}"/>
+                    </Grid>
+                    <Grid Grid.Row="5" Grid.Column="4">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="4*"/>
+                            <ColumnDefinition Width="6*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock   Grid.Column="0"  Text="{Binding ConverterParameter='CURR_LOC', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}"/>
+                        <TextBox     Grid.Column="1"  x:Name="txtEQPT_CUR" Grid.ColumnSpan="2"  Style="{StaticResource Content_InputForm_ReadOnlyTextBoxStyle}"/>
+                    </Grid>
+                </Grid>
+
+                <!--Tray 조회 리스트-->
+                <Grid Grid.Row="2" Grid.Column="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="3*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                    </Grid.RowDefinitions>
+                    <!--백그라운드용-->
+                    <Border Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Style="{StaticResource Content_InputForm_ContentBorderStyle}"/>
+                    <Border Grid.Row="0" Grid.Column="0" BorderThickness="1" Grid.ColumnSpan="3" BorderBrush="#ffbebebe" Style="{StaticResource BorderSubTitleStyle}"/>
+                    <c1:C1DataGrid x:Name="dgProcess" Grid.Row="0" Grid.ColumnSpan="3" IsReadOnly="True" HeadersVisibility="All" CanUserSort="False" SelectionMode="SingleRow"
+                                   PreviewMouseLeftButtonDown="dgProcess_MouseLeftButtonDown" MouseLeftButtonDown="dgProcess_MouseLeftButtonDown" MouseRightButtonDown="dgProcess_MouseRightButtonDown"
+                                   LoadedCellPresenter="dgProcess_LoadedCellPresenter" LoadedRowHeaderPresenter="dgProcess_LoadedRowHeaderPresenter">
+                        <c1:C1DataGrid.Columns>
+                            <c1:DataGridTextColumn         Header = "OP_NAME"             Binding = "{Binding PROCNAME}"           IsReadOnly="True" HorizontalAlignment="Left" />
+                            <c1:DataGridTextColumn         Header = "START_TIME"          Binding = "{Binding WIPDTTM_ST}"         IsReadOnly="True" HorizontalAlignment="Center" Format ="yyyy-MM-dd HH:mm:ss" />
+                            <c1:DataGridTextColumn         Header = "END_TIME"            Binding = "{Binding WIPDTTM_ED}"         IsReadOnly="True" HorizontalAlignment="Center" Format ="yyyy-MM-dd HH:mm:ss" />
+                            <c1:DataGridTextColumn         Header = "MINUTE"              Binding = "{Binding WORKTIME}"           IsReadOnly="True" HorizontalAlignment="Center" Width="70" />
+                            <c1:DataGridTextColumn         Header = "REMARK"              Binding = "{Binding EQP_ID}"             IsReadOnly="True" HorizontalAlignment="Left" />
+                            <c1:DataGridTextColumn         Header = "OP_ID"               Binding = "{Binding PROCID}"             IsReadOnly="True" HorizontalAlignment="Center" Visibility="Collapsed" />
+                            <c1:DataGridTextColumn         Header = "CURR_YN"             Binding = "{Binding CURR_YN}"            IsReadOnly="True" HorizontalAlignment="Center" Visibility="Collapsed"/>
+                            <c1:DataGridTextColumn         Header = "JUDG_OP_YN"          Binding = "{Binding JUDG_OP_YN}"         IsReadOnly="True" HorizontalAlignment="Center" Visibility="Collapsed"/>
+                            <c1:DataGridTextColumn         Header = "IRR_HIST_YN"         Binding = "{Binding IRR_HIST_YN}"        IsReadOnly="True" HorizontalAlignment="Center" Visibility="Collapsed"/>
+                            <c1:DataGridTextColumn         Header = "TIME_OVER_YN"        Binding = "{Binding TIME_OVER_YN}"       IsReadOnly="True" HorizontalAlignment="Center" Visibility="Collapsed"/>
+                            <c1:DataGridTextColumn         Header = "PROCESS_GROUP"       Binding = "{Binding PROC_GR_ID}"         IsReadOnly="True" HorizontalAlignment="Center" Visibility="Collapsed" />
+                            <c1:DataGridTextColumn         Header = "PROC_DETL_TYPE_CODE" Binding = "{Binding PROC_DETL_TYPE_CD}"  IsReadOnly="True" HorizontalAlignment="Center" Visibility="Collapsed" />
+                            <c1:DataGridTextColumn         Header = "ROUTID"              Binding = "{Binding ROUTID}"             IsReadOnly="True" HorizontalAlignment="Center" Visibility="Collapsed" />
+                        </c1:C1DataGrid.Columns>
+                    </c1:C1DataGrid>
+                    <Border Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Style="{StaticResource Content_InputForm_ContentBorderStyle}"/>
+                    <Border Grid.Row="1" Grid.Column="0" BorderThickness="1" Grid.ColumnSpan="3" BorderBrush="#ffbebebe" Style="{StaticResource BorderSubTitleStyle}"/>
+                    <c1:C1DataGrid x:Name="dgDOCV" Grid.Row="1" Grid.ColumnSpan="3" IsReadOnly="True" HeadersVisibility="Column" FrozenColumnCount="3" SelectionMode="SingleRow" PreviewMouseLeftButtonDown="dgDOCV_MouseLeftButtonDown" MouseLeftButtonDown="dgDOCV_MouseLeftButtonDown" >
+                        <c1:C1DataGrid.Columns>
+                            <c1:DataGridTextColumn      Header = "DOCV_ALT_OP"             Binding = "{Binding DOCV_OP_NAME}"       IsReadOnly="True"   HorizontalAlignment="Left" />
+                            <c1:DataGridTextColumn      Header = "START_OCV_ALT_OP"        Binding = "{Binding START_OP_NAME}"      IsReadOnly="True"   HorizontalAlignment="Left" />
+                            <c1:DataGridTextColumn      Header = "END_OCV_ALT_OP"          Binding = "{Binding END_OP_NAME}"        IsReadOnly="True"   HorizontalAlignment="Left" />
+                            <c1:DataGridTextColumn      Header = "END_TIME"            Binding = "{Binding END_TIME}"           IsReadOnly="True"   HorizontalAlignment="Center" Format ="yyyy-MM-dd HH:mm:ss" />
+                            <c1:DataGridTextColumn      Header = "PROCESS_GROUP"       Binding = "{Binding PROC_GR_ID}"         IsReadOnly="True"   HorizontalAlignment="Center" Visibility="Collapsed" />
+                            <c1:DataGridTextColumn      Header = "PROC_DETL_TYPE_CODE" Binding = "{Binding PROC_DETL_TYPE_CD}"  IsReadOnly="True"   HorizontalAlignment="Center" Visibility="Collapsed" />
+                            <c1:DataGridTextColumn      Header = "ROUTID"              Binding = "{Binding ROUTID}"             IsReadOnly="True"   HorizontalAlignment="Center" Visibility="Collapsed" />
+                        </c1:C1DataGrid.Columns>
+                    </c1:C1DataGrid>
+                    <Border Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" Style="{StaticResource Content_InputForm_ContentBorderStyle}"/>
+                    <Border Grid.Row="2" Grid.Column="0" BorderThickness="1" Grid.ColumnSpan="3" BorderBrush="#ffbebebe" Style="{StaticResource BorderSubTitleStyle}"/>
+                    <c1:C1DataGrid x:Name="dgSampleOCV" Grid.Row="2" Grid.ColumnSpan="3" IsReadOnly="True" HeadersVisibility="Column" FrozenColumnCount="3" SelectionMode="SingleRow" >
+                        <c1:C1DataGrid.Columns>
+                            <c1:DataGridTextColumn      Header = "공정명"        Binding = "{Binding PROCNAME}"    IsReadOnly="True"    HorizontalAlignment="Center" />
+                            <c1:DataGridTextColumn      Header = "시작"          Binding = "{Binding STARTTIME}"   IsReadOnly="True"    HorizontalAlignment="Center" />
+                            <c1:DataGridTextColumn      Header = "종료"          Binding = "{Binding ENDTIME}"     IsReadOnly="True"    HorizontalAlignment="Center" />
+                            <c1:DataGridTextColumn      Header = "작업시간(분)"  Binding = "{Binding WORKTIME}"    IsReadOnly="True"    HorizontalAlignment="Center" />
+                            <c1:DataGridTextColumn      Header = "비고"          Binding = "{Binding EQP_ID}"      IsReadOnly="True"    HorizontalAlignment="Center" Visibility="Collapsed" />
+                        </c1:C1DataGrid.Columns>
+                    </c1:C1DataGrid>
+                </Grid>
+
+                <GridSplitter Grid.Row="0" Grid.Column="1" Grid.RowSpan="99" ResizeDirection="Columns" ShowsPreview="True" Style="{StaticResource GridSplitterStyle}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+
+                <!--작업-->
+                <Grid Grid.Row="0" Grid.Column="2" >
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="11"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="4"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="4"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="4"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="4"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="11"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="13"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="10"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="10"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="10"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="10"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="10"/>
+                        <ColumnDefinition Width="1.2*"/>
+                        <ColumnDefinition Width="13"/>
+                    </Grid.ColumnDefinitions>
+
+                    <!--백그라운드용-->
+                    <Border     Grid.Row="0"  Grid.RowSpan="99" Grid.ColumnSpan="99" Style="{StaticResource Content_InputForm_LabelBorderStyle}"/>
+                    <!--작업 ROW1-->
+                    <Button    Grid.Row="1"   Grid.Column="1" x:Name="btnSpecial"     FontSize="11"  Content="{Binding ConverterParameter='SPECIAL_CHG', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{DynamicResource Content_MainButtonNoMinWidthSpecialStyle}" Click="btnSpecial_Click"/>
+                    <TextBox   Grid.Row="1"   Grid.Column="3" Grid.ColumnSpan="5"     FontSize="11" x:Name="txtSpDes"  Style="{StaticResource Content_InputForm_ReadOnlyTextBoxStyle}"/>
+                    <TextBox   Grid.Row="1"   Grid.Column="9" Grid.ColumnSpan="3"     FontSize="11" x:Name="txtSpSelect"      Style="{StaticResource Content_InputForm_ReadOnlyTextBoxStyle}"/>
+                    <!--작업 ROW2-->
+                    <TextBlock Grid.Row="3"   Grid.Column="1" x:Name="lblSpecial"     FontSize="11"  Text="{Binding ConverterParameter='SPECIAL_NO', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}"/>
+                    <TextBox   Grid.Row="3"   Grid.Column="3" FontSize="11" x:Name="txtSpc"  Style="{StaticResource Content_InputForm_ReadOnlyTextBoxStyle}" />
+                    <TextBlock Grid.Row="3"   Grid.Column="5" FontSize="11" x:Name="lblSpclRelDate" Text="{Binding ConverterParameter='예상해제일', Converter={StaticResource GlobalObjectDicConverter},Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}"/>
+                    <TextBox   Grid.Row="3"   Grid.Column="7" FontSize="11" x:Name="txtSpclRelDate"  Style="{StaticResource Content_InputForm_ReadOnlyTextBoxStyle}" />
+                    <Button    Grid.Row="3"   Grid.Column="9" x:Name="btnSampleOut"   FontSize="11" Content="{Binding ConverterParameter='SAMPLE_SHIP', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{DynamicResource Content_MainButtonNoMinWidthSpecialStyle}" Click="btnSampleOut_Click"/>
+                    <TextBox   Grid.Row="3"   Grid.Column="11" x:Name="txtSample"     FontSize="11" Style="{StaticResource Content_InputForm_ReadOnlyTextBoxStyle}" />
+
+                    <!--작업 ROW3-->
+                    <Button    Grid.Row="5"   Grid.Column="1" x:Name="btnForceOut"    FontSize="11" Content="{Binding ConverterParameter='FORCE_SHIP', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{DynamicResource Content_MainButtonNoMinWidthSpecialStyle}" Click="btnForceOut_Click"/>
+                    <Button    Grid.Row="5"   Grid.Column="3" x:Name="btnManual"      FontSize="11" Content="{Binding ConverterParameter='MANUAL_JUDG', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{DynamicResource Content_MainButtonNoMinWidthSpecialStyle}"   Click="btnManual_Click"/>
+                    <Button    Grid.Row="5"   Grid.Column="5" x:Name="btnRecipe"      FontSize="11" Content="{Binding ConverterParameter='작업조건목록', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{DynamicResource Content_MainButtonNoMinWidthSpecialStyle}"   Click="btnRecipe_Click"/>
+                    <Button    Grid.Row="5"   Grid.Column="5" x:Name="btnRelFDS"      FontSize="11" Content="{Binding ConverterParameter='REL_FDS_CELL', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{DynamicResource Content_MainButtonNoMinWidthSpecialStyle}"   Click="btnRelFDS_Click"/>
+                    <Button    Grid.Row="5"   Grid.Column="7" x:Name="btnKVAL"        FontSize="11" Content="{Binding ConverterParameter='K_Value', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{DynamicResource Content_MainButtonNoMinWidthSpecialStyle}"   Click="btnKVAL_Click"/>
+                    <Button    Grid.Row="5"   Grid.Column="9" x:Name="btnResetS"      FontSize="11" Content="{Binding ConverterParameter='S_Reset', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{DynamicResource Content_MainButtonNoMinWidthSpecialStyle}"   Click="btnResetS_Click" IsEnabled="False" Visibility="Collapsed"/>
+
+                    <Button    Grid.Row="5"   Grid.Column="9" x:Name="btnALTVAL"      FontSize="11" Content="{Binding ConverterParameter='대체용량', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{DynamicResource Content_MainButtonNoMinWidthSpecialStyle}"   Click="btnALTVAL_Click"  />
+                    <Button    Grid.Row="5"   Grid.Column="11" x:Name="btnForcOutReset"      FontSize="11" Content="{Binding ConverterParameter='수동 포트 출고 초기화', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{DynamicResource Content_MainButtonNoMinWidthSpecialStyle}"   Click="btnForcOutReset_Click"  />
+                    <!--작업 ROW4-->
+                    <Button    Grid.Row="7"   Grid.Column="1" x:Name="btnGrade"       FontSize="11" Content="{Binding ConverterParameter='GRADE_DISTR', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{DynamicResource Content_MainButtonNoMinWidthSpecialStyle}"   Click="btnGrade_Click"/>
+                    <Button    Grid.Row="7"   Grid.Column="3" x:Name="btnCell"        FontSize="11" Content="{Binding ConverterParameter='CELL_SEL', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{DynamicResource Content_MainButtonNoMinWidthSpecialStyle}"   Click="btnCell_Click"/>
+                    <Button    Grid.Row="7"   Grid.Column="5" x:Name="btnDOCV"        FontSize="11" Content="{Binding ConverterParameter='DOCV', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{DynamicResource Content_MainButtonNoMinWidthSpecialStyle}" Click="btnDOCV_Click"/>
+                    <Button    Grid.Row="7"   Grid.Column="7" x:Name="btnChgHist"     FontSize="11" Content="{Binding ConverterParameter='CHG_HIS', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{DynamicResource Content_MainButtonNoMinWidthSpecialStyle}" Click="btnChgHist_Click"/>
+                    <Button    Grid.Row="7"   Grid.Column="9" x:Name="btnCellJudge"   FontSize="11" Content="{Binding ConverterParameter='RELATIVE_JUDG', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{DynamicResource Content_MainButtonNoMinWidthSpecialStyle}" Click="btnCellJudge_Click"/>
+                    <Button    Grid.Row="7"   Grid.Column="11" x:Name="btnAging"      FontSize="11" Content="{Binding ConverterParameter='AGING_RCV', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{DynamicResource Content_MainButtonNoMinWidthSpecialStyle}" Click="btnAging_Click"/>
+
+                    <!--작업 ROW5-->
+                    <!--정상종료-->
+                    <Button    Grid.Row="9"   Grid.Column="1" x:Name="btnChgDfctLmtOverFlag"  FontSize="11" Content="{Binding ConverterParameter='CHG_DFCT_LIMIT_OVER_FLAG', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{DynamicResource Content_MainButtonNoMinWidthSpecialStyle}" Click="btnChgDfctLmtOverFlag_Click"/>
+                    <Button    Grid.Row="9"   Grid.Column="1" x:Name="btnCellSample"  FontSize="11" Content="{Binding ConverterParameter='Cell_Sample', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{DynamicResource Content_MainButtonNoMinWidthSpecialStyle}" Click="btnCellSample_Click"/>
+                    <Button    Grid.Row="9"   Grid.Column="3" x:Name="btnRlsTrfRsnCode"       FontSize="11" Content="{Binding ConverterParameter='RLS_TRF_RSN_CODE', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{DynamicResource Content_MainButtonNoMinWidthSpecialStyle}"   Click="btnRlsTrfRsnCode_Click"/>
+                    <Button    Grid.Row="9"   Grid.Column="5" x:Name="btnHistory"     FontSize="11" Content="{Binding ConverterParameter='NORMAL_END', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{DynamicResource Content_MainButtonNoMinWidthSpecialStyle}"  Click="btnHistory_Click"/>
+                    <Button    Grid.Row="9"   Grid.Column="7" x:Name="btnWGradeJudge" FontSize="11" Content="{Binding ConverterParameter='W_RE_JUDG', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{DynamicResource Content_MainButtonNoMinWidthSpecialStyle}"  Click="btnWGradeJudge_Click"/>
+                    <Grid Grid.Row="9" Grid.Column="9" Grid.ColumnSpan="3">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <RadioButton Grid.Column="0" FontSize="11" Margin="0,0,5,0" Style="{StaticResource SearchCondition_RadioButtonStyle}" Content="{Binding ConverterParameter='MANUAL_COND', Converter={StaticResource GlobalObjectDicConverter}}" Name="rdoManual" GroupName="JudgeCondition" IsChecked="True"/>
+                        <RadioButton Grid.Column="1" FontSize="11" Style="{StaticResource SearchCondition_RadioButtonStyle}" Content="{Binding ConverterParameter='AUTO_COND', Converter={StaticResource GlobalObjectDicConverter}}" Name="rdoAuto" GroupName="JudgeCondition" />
+                    </Grid>
+                </Grid>
+              
+                <!--Cell 조회 리스트-->
+                <Grid Grid.Row="2" Grid.Column="2">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="8"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="13"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="8"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="13"/>
+                    </Grid.ColumnDefinitions>
+                    <!--백그라운드용-->
+                    <Border   Grid.Row="0" Grid.RowSpan="99" Grid.ColumnSpan="99" Style="{StaticResource Content_InputForm_ContentBorderStyle}"/>
+                    <!--Cell 조회조건-->
+                    
+                    
+                    <!--Cell 조회조건 Row1-->
+                    <TextBlock  Grid.Row="0" Grid.Column="3"  Text="{Binding ConverterParameter='RANGE_SET', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}"/>
+                    <Grid Grid.Row="0" Grid.Column="4" Grid.ColumnSpan="99">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBox    Grid.Row="0" Grid.Column="1"  x:Name="txtRange1" MinWidth="80" MaxWidth="200"  Style="{StaticResource Content_InputForm_TextBoxStyle}" KeyDown="txtRange_KeyPress" />
+                        <TextBlock  Grid.Row="0" Grid.Column="2"  Text="{Binding ConverterParameter='~', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}"/>
+                        <TextBox    Grid.Row="0" Grid.Column="3"  x:Name="txtRange2" MinWidth="80" MaxWidth="200" Style="{StaticResource Content_InputForm_TextBoxStyle}" KeyDown="txtRange_KeyPress" />
+                        <Button     Grid.Row="0" Grid.Column="4"  x:Name="btnSetRange"  Margin="0,0,8,0" Content="{Binding ConverterParameter=SETTING, Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_MainButtonNoMinWidthStyle }" Click="btnSetRange_Click" />
+                        <CheckBox         Grid.Row="0" Grid.Column="5"  x:Name="chkColor" Content="{Binding ConverterParameter='색조', Converter={StaticResource GlobalObjectDicConverter}}" Style="{StaticResource SearchCondition_CheckBoxStyle}" IsChecked="False" Checked="chkColor_Checked"  Unchecked="chkColor_Unchecked"/>
+                    </Grid>
+                    
+                    <!--Cell 조회조건 Row2-->
+                    <TextBlock      Grid.Row="1" Grid.Column="3"  Text="{Binding ConverterParameter='CELL_ID', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}"/>
+                    <Grid Grid.Row="1" Grid.Column="4" Grid.ColumnSpan="99">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="13" />
+                        </Grid.ColumnDefinitions>
+                        <uc:UcBaseTextBox Grid.Row="0" Grid.Column="1"  x:Name="txtCellList" MinWidth="190" MaxWidth="320"  Style="{StaticResource Content_InputForm_TextBoxStyle}" IsPasteCommaConvert="True" KeyDown="txtRange_KeyPress" />
+                        <TextBlock        Grid.Row="0" Grid.Column="2"  MinWidth="100" Text="{Binding ConverterParameter='CSV', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource SearchCondition_MandatoryMarkStyle}"/>
+                        <Button           Grid.Row="0" Grid.Column="3"  x:Name="btnSetCell" Content="{Binding ConverterParameter=SETTING, Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{DynamicResource Content_MainButtonNoMinWidthStyle}" Click ="btnSetCell_Click" Margin="0,0,8,0" />
+                        <CheckBox         Grid.Row="0" Grid.Column="5"  x:Name="chkSize" Content="{Binding ConverterParameter='확장', Converter={StaticResource GlobalObjectDicConverter}}" Style="{StaticResource SearchCondition_CheckBoxStyle}" IsChecked="False" Checked="chkSize_Checked" Unchecked="chkSize_Unchecked" />
+                    </Grid>
+                    
+                    
+                    <!--표기방식-->
+                    <StackPanel x:Name="rdoGroup" Grid.Row="2" Grid.Column="1">
+                        <RadioButton Grid.Row="1" Grid.Column="1" Style="{StaticResource SearchCondition_RadioButtonStyle}" Content="{Binding ConverterParameter='CAPA_VAL', Converter={StaticResource GlobalObjectDicConverter}}"         Name="rdoCapa" GroupName="Cell_Notation" Click="rdo_Click"/>
+                        <RadioButton Grid.Row="2" Grid.Column="1" Style="{StaticResource SearchCondition_RadioButtonStyle}" Content="{Binding ConverterParameter='CURR_VAL_MA', Converter={StaticResource GlobalObjectDicConverter}}"      Name="rdoCurr" GroupName="Cell_Notation" Click="rdo_Click" />
+                        <RadioButton Grid.Row="3" Grid.Column="1" Style="{StaticResource SearchCondition_RadioButtonStyle}" Content="{Binding ConverterParameter='OCV_VAL_MV', Converter={StaticResource GlobalObjectDicConverter}}"       Name="rdoOCV" GroupName="Cell_Notation" Click="rdo_Click" />
+                        <RadioButton Grid.Row="4" Grid.Column="1" Style="{StaticResource SearchCondition_RadioButtonStyle}" Content="{Binding ConverterParameter='IMP_VAL_MU', Converter={StaticResource GlobalObjectDicConverter}}"       Name="rdoImp" GroupName="Cell_Notation" Click="rdo_Click" />
+                        <RadioButton Grid.Row="5" Grid.Column="1" Style="{StaticResource SearchCondition_RadioButtonStyle}" Content="{Binding ConverterParameter='VOLT_VAL_MV', Converter={StaticResource GlobalObjectDicConverter}}"      Name="rdoVolt" GroupName="Cell_Notation" Click="rdo_Click" />
+                        <RadioButton Grid.Row="6" Grid.Column="1" Style="{StaticResource SearchCondition_RadioButtonStyle}" Content="{Binding ConverterParameter='GRADE', Converter={StaticResource GlobalObjectDicConverter}}"            Name="rdoGrade" GroupName="Cell_Notation" Click="rdo_Click" />
+                        <RadioButton Grid.Row="7" Grid.Column="1" Style="{StaticResource SearchCondition_RadioButtonStyle}" Content="{Binding ConverterParameter='POWER', Converter={StaticResource GlobalObjectDicConverter}}"            Name="rdoPower" GroupName="Cell_Notation" Click="rdo_Click" />
+                        <RadioButton Grid.Row="8" Grid.Column="1" Style="{StaticResource SearchCondition_RadioButtonStyle}" Content="{Binding ConverterParameter='CELL_ID', Converter={StaticResource GlobalObjectDicConverter}}"          Name="rdoCellID" GroupName="Cell_Notation" Click="rdo_Click" />
+                        <RadioButton Grid.Row="9" Grid.Column="1" Style="{StaticResource SearchCondition_RadioButtonStyle}" Content="{Binding ConverterParameter='VENT_ID', Converter={StaticResource GlobalObjectDicConverter}}"          Name="rdoVentID" GroupName="Cell_Notation" Click="rdo_Click" />
+                        <RadioButton Grid.Row="10" Grid.Column="1" Style="{StaticResource SearchCondition_RadioButtonStyle}" Content="{Binding ConverterParameter='CAN_ID', Converter={StaticResource GlobalObjectDicConverter}}"          Name="rdoCanID" GroupName="Cell_Notation" Click="rdo_Click" />
+                        <RadioButton Grid.Row="11" Grid.Column="1" Style="{StaticResource SearchCondition_RadioButtonStyle}" Content="{Binding ConverterParameter='PRESS', Converter={StaticResource GlobalObjectDicConverter}}"             Name="rdoPresure" GroupName="Cell_Notation" Click="rdo_Click" />
+                        <RadioButton Grid.Row="12" Grid.Column="1" Style="{StaticResource SearchCondition_RadioButtonStyle}" Content="{Binding ConverterParameter='온도', Converter={StaticResource GlobalObjectDicConverter}}"            Name="rdoTemp" GroupName="Cell_Notation" Click="rdo_Click"  Unchecked="rdoTemp_Unchecked"/>
+                        <RadioButton Grid.Row="13" Grid.Column="1" Style="{StaticResource SearchCondition_RadioButtonStyle}" Content="{Binding ConverterParameter='BAD_CHANNEL', Converter={StaticResource GlobalObjectDicConverter}}"         Name="rdoBadChannel" GroupName="Cell_Notation" Click="rdo_Click" />
+                        <RadioButton Grid.Row="14" Grid.Column="1" Style="{StaticResource SearchCondition_RadioButtonStyle}" Content="{Binding ConverterParameter='IR_OCV_JUDG', Converter={StaticResource GlobalObjectDicConverter}}"      Name="rdoIrOcvJudg" GroupName="Cell_Notation" Click="rdo_Click" />
+                        <RadioButton Grid.Row="15" Grid.Column="1" Style="{StaticResource SearchCondition_RadioButtonStyle}" Content="{Binding ConverterParameter='IR_OCV_VALUE', Converter={StaticResource GlobalObjectDicConverter}}"      Name="rdoIrOcvIR" GroupName="Cell_Notation" Click="rdo_Click" />
+                        <RadioButton Grid.Row="16" Grid.Column="1" Style="{StaticResource SearchCondition_RadioButtonStyle}" Content="{Binding ConverterParameter='IR_OCV_VOLT', Converter={StaticResource GlobalObjectDicConverter}}"      Name="rdoIrOcvV" GroupName="Cell_Notation" Click="rdo_Click" />
+                        <RadioButton Grid.Row="17" Grid.Column="1" Style="{StaticResource SearchCondition_RadioButtonStyle}" Content="{Binding ConverterParameter='VISION_GRADE', Converter={StaticResource GlobalObjectDicConverter}}"      Name="rdoVisionGrade" GroupName="Cell_Notation" Click="rdo_Click" />
+                        <RadioButton Grid.Row="18" Grid.Column="1" Style="{StaticResource SearchCondition_RadioButtonStyle}" Content="{Binding ConverterParameter='X1_GRADE', Converter={StaticResource GlobalObjectDicConverter}}"         Name="rdoODGrade" GroupName="Cell_Notation" Click="rdo_Click" />
+                        <RadioButton Grid.Row="19" Grid.Column="1" Style="{StaticResource SearchCondition_RadioButtonStyle}" Content="{Binding ConverterParameter='X1_YN', Converter={StaticResource GlobalObjectDicConverter}}"         Name="rdoODYN" GroupName="Cell_Notation" Click="rdo_Click" />
+                        <RadioButton Grid.Row="20" Grid.Column="1" Style="{StaticResource SearchCondition_RadioButtonStyle}" Content="{Binding ConverterParameter='AVG_VOLT_VAL', Converter={StaticResource GlobalObjectDicConverter}}"        Name="rdoAvgVolt" GroupName="Cell_Notation" Click="rdo_Click" />
+                        <RadioButton Grid.Row="21" Grid.Column="1" Style="{StaticResource SearchCondition_RadioButtonStyle}" Content="{Binding ConverterParameter='FIT_CAPA', Converter={StaticResource GlobalObjectDicConverter}}"         Name="rdoFitCapa" GroupName="Cell_Notation" Click="rdo_Click"/>
+                        <RadioButton Grid.Row="22" Grid.Column="1" Style="{StaticResource SearchCondition_RadioButtonStyle}" Content="{Binding ConverterParameter='X_GR', Converter={StaticResource GlobalObjectDicConverter}}"           Name="rdoXgrade" GroupName="Cell_Notation" Click="rdo_Click"/>
+                        <RadioButton Grid.Row="23" Grid.Column="1" Style="{StaticResource SearchCondition_RadioButtonStyle}" Content="{Binding ConverterParameter='DQDV_AVG_VALUE', Converter={StaticResource GlobalObjectDicConverter}}"      Name="rdoDQDVAVG" GroupName="Cell_Notation" Click="rdo_Click"/>
+                        <!--2025.01.10 scpark [E20241011-001270] 양극 lane 판정 추가에 따른 WINDER LANE 조회-->
+                        <RadioButton Grid.Row="24" Grid.Column="1" Style="{StaticResource SearchCondition_RadioButtonStyle}" Content="{Binding ConverterParameter='WND_LANE_ID', Converter={StaticResource GlobalObjectDicConverter}}"      Name="rdoWndLot" GroupName="Cell_Notation" Click="rdo_Click"/>
+                         </StackPanel>
+                    <!--Cell List-->
+                    <Grid Grid.Row="2" Grid.RowSpan="99" Grid.Column="3" Grid.ColumnSpan="99">
+                        <c1:C1DataGrid x:Name="dgCell" Grid.Row="3" Grid.RowSpan="99" Grid.Column="3" IsReadOnly="True" HeadersVisibility="All" SelectionMode="MultiRange" Width="auto" MouseDoubleClick="dgCell_MouseDoubleClick" CanUserSort="False"  LoadedCellPresenter="dgCell_LoadedCellPresenter" LoadedRowHeaderPresenter="dgCell_LoadedRowHeaderPresenter" ColumnHeaderClickAction="Select" >
+                            <c1:C1DataGrid.Columns>
+                            </c1:C1DataGrid.Columns>
+                        </c1:C1DataGrid>
+                    </Grid>
+                </Grid>
+            </Grid>
+        </ctrlLib:LGCLayout>
+    </Grid>
+</UserControl>
+    

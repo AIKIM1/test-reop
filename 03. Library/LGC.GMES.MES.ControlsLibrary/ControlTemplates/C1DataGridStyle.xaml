@@ -1,0 +1,1668 @@
+﻿<ResourceDictionary x:Class="LGC.GMES.MES.ControlsLibrary.C1DataGridEventHandlers"
+                    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:c1="http://schemas.componentone.com/winfx/2006/xaml"
+                    xmlns:ctrlLib="clr-namespace:LGC.GMES.MES.ControlsLibrary">
+
+    <Style TargetType="c1:C1DataGrid">
+        <Setter Property="CanUserAddRows" Value="False" />
+        <Setter Property="CanUserRemoveRows" Value="False" />
+        <EventSetter Event="Loaded" Handler="dg_Loaded" />
+        <Setter Property="AutoGenerateColumns" Value="False" />
+        <Setter Property="ClipboardCopyMode" Value="None" />
+        <Setter Property="ClipboardPasteMode" Value="ExcludeHeader" />
+        <Setter Property="HeadersVisibility" Value="Column" />
+        <Setter Property="SelectionMode" Value="SingleRow" />
+        <Setter Property="FontWeight" Value="Normal" />
+        <Setter Property="GridLinesVisibility" Value="None" />
+        <Setter Property="HorizontalGridLinesBrush" Value="#ffd8d8d8" />
+        <Setter Property="VerticalGridLinesBrush" Value="#ffd8d8d8" />
+        <Setter Property="HeaderBackground" Value="#ffe9e9e9" />
+        <Setter Property="RowBackground" Value="#ffffffff" />
+        <Setter Property="AlternatingRowBackground" Value="#FFF9F9F9" />
+        <Setter Property="SelectedBackground" Value="#FFFFD0DA" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderBrush" Value="#ffd8d8d8" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="MouseOverBrush" Value="#FFDCE9EF" />
+        <Setter Property="HeaderForeground" Value="#FF333333" />
+        <Setter Property="FontSize" Value="12" />
+        <Setter Property="RowForeground" Value="#FF333333" />
+        <Setter Property="AlternatingRowForeground" Value="#FF333333"/>
+        <Setter Property="RowHeight" Value="Auto" />
+        <Setter Property="ColumnHeaderStyle">
+            <Setter.Value>
+                <Style TargetType="c1:DataGridColumnHeaderPresenter">
+                    <Setter Property="HorizontalContentAlignment" Value="Center" />
+                    <Setter Property="VerticalContentAlignment" Value="Stretch" />
+                    <Setter Property="VerticalAlignment" Value="Stretch" />
+                    <Setter Property="HorizontalAlignment" Value="Stretch" />
+                    <Setter Property="Padding" Value="0" />
+                    <Setter Property="Margin" Value="0" />
+                    <Setter Property="FontWeight" Value="SemiBold" />
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type c1:DataGridColumnHeaderPresenter}">
+                                <Grid x:Name="RootElement">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+                                    <VisualStateManager.VisualStateGroups>
+                                        <VisualStateGroup x:Name="CommonStates">
+                                            <VisualState x:Name="Normal"/>
+                                            <VisualState x:Name="Disabled"/>
+                                            <VisualState x:Name="MouseOver">
+                                                <Storyboard>
+                                                    <ObjectAnimationUsingKeyFrames Duration="0" Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="MouseOverElement">
+                                                        <DiscreteObjectKeyFrame KeyTime="0">
+                                                            <DiscreteObjectKeyFrame.Value>
+                                                                <Visibility>Visible</Visibility>
+                                                            </DiscreteObjectKeyFrame.Value>
+                                                        </DiscreteObjectKeyFrame>
+                                                    </ObjectAnimationUsingKeyFrames>
+                                                </Storyboard>
+                                            </VisualState>
+                                        </VisualStateGroup>
+                                        <VisualStateGroup x:Name="SelectionStates">
+                                            <VisualState x:Name="Selected">
+                                                <Storyboard>
+                                                    <ObjectAnimationUsingKeyFrames Duration="0" Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="SelectedElement">
+                                                        <DiscreteObjectKeyFrame KeyTime="0">
+                                                            <DiscreteObjectKeyFrame.Value>
+                                                                <Visibility>Visible</Visibility>
+                                                            </DiscreteObjectKeyFrame.Value>
+                                                        </DiscreteObjectKeyFrame>
+                                                    </ObjectAnimationUsingKeyFrames>
+                                                </Storyboard>
+                                            </VisualState>
+                                            <VisualState x:Name="Editing">
+                                                <Storyboard>
+                                                    <ObjectAnimationUsingKeyFrames Duration="0" Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="SelectedElement">
+                                                        <DiscreteObjectKeyFrame KeyTime="0">
+                                                            <DiscreteObjectKeyFrame.Value>
+                                                                <Visibility>Visible</Visibility>
+                                                            </DiscreteObjectKeyFrame.Value>
+                                                        </DiscreteObjectKeyFrame>
+                                                    </ObjectAnimationUsingKeyFrames>
+                                                </Storyboard>
+                                            </VisualState>
+                                            <VisualState x:Name="Unselected">
+                                                <Storyboard/>
+                                            </VisualState>
+                                        </VisualStateGroup>
+                                        <VisualStateGroup x:Name="OptionsStates">
+                                            <VisualState x:Name="Filtering">
+                                                <Storyboard>
+                                                    <DoubleAnimationUsingKeyFrames Duration="0" Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="OptionsArrow">
+                                                        <DiscreteDoubleKeyFrame KeyTime="0" Value="0"/>
+                                                    </DoubleAnimationUsingKeyFrames>
+                                                    <DoubleAnimationUsingKeyFrames Duration="0" Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="Filter">
+                                                        <DiscreteDoubleKeyFrame KeyTime="0" Value="0.6"/>
+                                                    </DoubleAnimationUsingKeyFrames>
+                                                </Storyboard>
+                                            </VisualState>
+                                            <VisualState x:Name="Undefined">
+                                                <Storyboard>
+                                                    <DoubleAnimationUsingKeyFrames Duration="0" Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="OptionsArrow">
+                                                        <DiscreteDoubleKeyFrame KeyTime="0" Value="1"/>
+                                                    </DoubleAnimationUsingKeyFrames>
+                                                    <DoubleAnimationUsingKeyFrames Duration="0" Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="Filter">
+                                                        <DiscreteDoubleKeyFrame KeyTime="0" Value="0"/>
+                                                    </DoubleAnimationUsingKeyFrames>
+                                                </Storyboard>
+                                            </VisualState>
+                                        </VisualStateGroup>
+                                        <VisualStateGroup x:Name="MergingStates">
+                                            <VisualState x:Name="Merging">
+                                            </VisualState>
+                                            <VisualState x:Name="NotMerging"/>
+                                        </VisualStateGroup>
+                                    </VisualStateManager.VisualStateGroups>
+                                    <c1:C1BrushBuilder x:Name="IconBrush" DesignBrush="#FF5E5E5E" DesignColor="Black" ExtrapolationMethod="Absolute" IsHitTestVisible="False" Input="{TemplateBinding Foreground}" Visibility="Collapsed"/>
+                                    <c1:C1BrushBuilder x:Name="IconBorderBrush" DesignColor="Black" ExtrapolationMethod="Absolute" IsHitTestVisible="False" Input="{TemplateBinding Foreground}" Visibility="Collapsed">
+                                        <c1:C1BrushBuilder.DesignBrush>
+                                            <LinearGradientBrush EndPoint="1,0" StartPoint="0,0">
+                                                <GradientStop Color="#FF333333" Offset="0"/>
+                                                <GradientStop Color="#FF222222" Offset="0.496"/>
+                                                <GradientStop Color="#FF3B3B3B" Offset="0.5"/>
+                                                <GradientStop Color="#FF3B3B3B" Offset="1"/>
+                                            </LinearGradientBrush>
+                                        </c1:C1BrushBuilder.DesignBrush>
+                                    </c1:C1BrushBuilder>
+                                    <Border x:Name="BackgroundElement" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="0.5,0,0.5,1" Background="#FFEEEEEE" Grid.ColumnSpan="4" Grid.RowSpan="2"/>
+                                    <Border x:Name="SelectedElement" BorderBrush="#D8D8D8" BorderThickness="{TemplateBinding BorderThickness}" Background="#ffe9e9e9" Grid.ColumnSpan="4" Grid.RowSpan="2" Visibility="Collapsed"/>
+                                    <Border x:Name="MouseOverElement" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="#FFFEFEFE" Grid.ColumnSpan="4" Grid.RowSpan="2" Visibility="Collapsed"/>
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                        <ContentPresenter x:Name="ContentPresenter" Content="{TemplateBinding Content}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="6,0" Visibility="Visible" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                                        <ToggleButton x:Name="Sort" Grid.ColumnSpan="2" Foreground="{TemplateBinding Foreground}" IsHitTestVisible="True" IsTabStop="False" Margin="0,0,6,0" Grid.RowSpan="2">
+                                            <ToggleButton.Style>
+                                                <Style TargetType="{x:Type ToggleButton}">
+                                                    <Setter Property="Padding" Value="3"/>
+                                                    <Setter Property="Template">
+                                                        <Setter.Value>
+                                                            <ControlTemplate TargetType="{x:Type ToggleButton}">
+                                                                <Grid>
+                                                                    <VisualStateManager.VisualStateGroups>
+                                                                        <VisualStateGroup x:Name="CommonStates">
+                                                                            <VisualState x:Name="Normal"/>
+                                                                            <VisualState x:Name="MouseOver"/>
+                                                                            <VisualState x:Name="Pressed"/>
+                                                                            <VisualState x:Name="Disabled"/>
+                                                                        </VisualStateGroup>
+                                                                        <VisualStateGroup x:Name="CheckStates">
+                                                                            <VisualState x:Name="Indeterminate"/>
+                                                                            <VisualState x:Name="Checked">
+                                                                                <Storyboard>
+                                                                                    <ObjectAnimationUsingKeyFrames Duration="0" Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="SortbyAscElement">
+                                                                                        <DiscreteObjectKeyFrame KeyTime="0">
+                                                                                            <DiscreteObjectKeyFrame.Value>
+                                                                                                <Visibility>Visible</Visibility>
+                                                                                            </DiscreteObjectKeyFrame.Value>
+                                                                                        </DiscreteObjectKeyFrame>
+                                                                                    </ObjectAnimationUsingKeyFrames>
+                                                                                </Storyboard>
+                                                                            </VisualState>
+                                                                            <VisualState x:Name="Unchecked">
+                                                                                <Storyboard>
+                                                                                    <ObjectAnimationUsingKeyFrames Duration="0" Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="SortbyDescElement">
+                                                                                        <DiscreteObjectKeyFrame KeyTime="0">
+                                                                                            <DiscreteObjectKeyFrame.Value>
+                                                                                                <Visibility>Visible</Visibility>
+                                                                                            </DiscreteObjectKeyFrame.Value>
+                                                                                        </DiscreteObjectKeyFrame>
+                                                                                    </ObjectAnimationUsingKeyFrames>
+                                                                                </Storyboard>
+                                                                            </VisualState>
+                                                                        </VisualStateGroup>
+                                                                        <VisualStateGroup x:Name="FocusStates">
+                                                                            <VisualState x:Name="Focused"/>
+                                                                            <VisualState x:Name="Unfocused"/>
+                                                                        </VisualStateGroup>
+                                                                    </VisualStateManager.VisualStateGroups>
+                                                                    <Image x:Name="SortbyAscElement" Width="7" Height="5" Stretch="Fill" Visibility="Collapsed" Source="/LGC.GMES.MES.ControlsLibrary;component/Images/LGC/table_sort_asc.png"/>
+                                                                    <Image x:Name="SortbyDescElement" Width="7" Height="5" Stretch="Fill" Visibility="Collapsed" Source="/LGC.GMES.MES.ControlsLibrary;component/Images/LGC/table_sort_desc.png"/>
+                                                                </Grid>
+                                                            </ControlTemplate>
+                                                        </Setter.Value>
+                                                    </Setter>
+                                                </Style>
+                                            </ToggleButton.Style>
+                                        </ToggleButton>
+                                    </StackPanel>
+                                    <c1:C1DropDown x:Name="Options" AutoSizeMode="GrowHorizontally" BorderBrush="{TemplateBinding BorderBrush}" Background="#ffe9e9e9" HorizontalAlignment="Right" IsTabStop="False" Margin="{TemplateBinding BorderThickness}" MouseOverBrush="{TemplateBinding MouseOverBrush}" Padding="0" PressedBrush="#ffe9e9e9" Visibility="Collapsed">
+                                        <c1:C1DropDown.Header>
+                                            <Grid>
+                                                <Path x:Name="Filter" Data="M3.5,0.5L4.5,0.5 4.5,0.5 7.5,0.5 7.5,1.5 7.5,1.5 4.5,4.3 4.5,7.5 3.5,7.5 3.5,4.3 0.5,1.5 0.5,0.5 3.5,0.5z" Fill="{Binding Output, ElementName=IconBrush}" Stroke="{Binding Output, ElementName=IconBorderBrush}">
+                                                    <Path.Style>
+                                                        <Style TargetType="{x:Type Path}">
+                                                            <Setter Property="Stretch" Value="None"/>
+                                                            <Setter Property="Height" Value="8"/>
+                                                            <Setter Property="Width" Value="8"/>
+                                                            <Setter Property="StrokeThickness" Value="1"/>
+                                                            <Setter Property="Opacity" Value="0.6"/>
+                                                        </Style>
+                                                    </Path.Style>
+                                                </Path>
+                                                <Polygon x:Name="OptionsArrow" Fill="{Binding Output, ElementName=IconBrush}" Points="0,0 2,0 1,1" Stretch="Uniform" Stroke="{Binding Output, ElementName=IconBorderBrush}">
+                                                    <Polygon.Style>
+                                                        <Style TargetType="{x:Type Polygon}">
+                                                            <Setter Property="Width" Value="7"/>
+                                                            <Setter Property="StrokeThickness" Value="1"/>
+                                                            <Setter Property="Opacity" Value="0.6"/>
+                                                        </Style>
+                                                    </Polygon.Style>
+                                                </Polygon>
+                                            </Grid>
+                                        </c1:C1DropDown.Header>
+                                        <c1:C1DropDown.Template>
+                                            <ControlTemplate TargetType="{x:Type c1:C1DropDown}">
+                                                <Grid>
+                                                    <VisualStateManager.VisualStateGroups>
+                                                        <VisualStateGroup x:Name="DropDownOpenStates">
+                                                            <VisualState x:Name="Closed">
+                                                                <Storyboard/>
+                                                            </VisualState>
+                                                            <VisualState x:Name="Opened"/>
+                                                        </VisualStateGroup>
+                                                        <VisualStateGroup x:Name="CommonStates">
+                                                            <VisualState x:Name="Normal"/>
+                                                            <VisualState x:Name="Disabled"/>
+                                                            <VisualState x:Name="MouseOver"/>
+                                                        </VisualStateGroup>
+                                                        <VisualStateGroup x:Name="FocusStates">
+                                                            <VisualState x:Name="Unfocused"/>
+                                                            <VisualState x:Name="Focused">
+                                                                <Storyboard/>
+                                                            </VisualState>
+                                                        </VisualStateGroup>
+                                                    </VisualStateManager.VisualStateGroups>
+                                                    <ToggleButton x:Name="ArrowToggle" BorderBrush="{TemplateBinding BorderBrush}" Background="{TemplateBinding Background}" Content="{TemplateBinding Header}" IsTabStop="False" IsEnabled="{TemplateBinding IsEnabled}" c1:ClearStyleExtensions.MouseOverBrush="{TemplateBinding MouseOverBrush}" c1:ClearStyleExtensions.PressedBrush="{TemplateBinding PressedBrush}" Width="14">
+                                                        <ToggleButton.Style>
+                                                            <Style TargetType="{x:Type ToggleButton}">
+                                                                <Setter Property="Template">
+                                                                    <Setter.Value>
+                                                                        <ControlTemplate TargetType="{x:Type ToggleButton}">
+                                                                            <Grid>
+                                                                                <VisualStateManager.VisualStateGroups>
+                                                                                    <VisualStateGroup x:Name="CommonStates">
+                                                                                        <VisualState x:Name="Normal"/>
+                                                                                        <VisualState x:Name="MouseOver">
+                                                                                            <Storyboard>
+                                                                                                <ObjectAnimationUsingKeyFrames Duration="0" Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="MouseOverElement">
+                                                                                                    <DiscreteObjectKeyFrame KeyTime="0">
+                                                                                                        <DiscreteObjectKeyFrame.Value>
+                                                                                                            <Visibility>Visible</Visibility>
+                                                                                                        </DiscreteObjectKeyFrame.Value>
+                                                                                                    </DiscreteObjectKeyFrame>
+                                                                                                </ObjectAnimationUsingKeyFrames>
+                                                                                            </Storyboard>
+                                                                                        </VisualState>
+                                                                                        <VisualState x:Name="Pressed">
+                                                                                            <Storyboard>
+                                                                                                <ObjectAnimationUsingKeyFrames Duration="0" Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="PressedElement">
+                                                                                                    <DiscreteObjectKeyFrame KeyTime="0">
+                                                                                                        <DiscreteObjectKeyFrame.Value>
+                                                                                                            <Visibility>Visible</Visibility>
+                                                                                                        </DiscreteObjectKeyFrame.Value>
+                                                                                                    </DiscreteObjectKeyFrame>
+                                                                                                </ObjectAnimationUsingKeyFrames>
+                                                                                            </Storyboard>
+                                                                                        </VisualState>
+                                                                                        <VisualState x:Name="Disabled"/>
+                                                                                    </VisualStateGroup>
+                                                                                    <VisualStateGroup x:Name="CheckStates">
+                                                                                        <VisualState x:Name="Unchecked"/>
+                                                                                    </VisualStateGroup>
+                                                                                    <VisualStateGroup x:Name="FocusStates">
+                                                                                        <VisualState x:Name="Focused"/>
+                                                                                        <VisualState x:Name="Unfocused"/>
+                                                                                    </VisualStateGroup>
+                                                                                </VisualStateManager.VisualStateGroups>
+                                                                                <Border Background="{TemplateBinding Background}"/>
+                                                                                <Border x:Name="BackgroundElement" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="1,0,0,0" Background="{TemplateBinding Background}"/>
+                                                                                <Border x:Name="PressedElement" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="1,0,0,0" Background="{TemplateBinding Background}" Visibility="Collapsed"/>
+                                                                                <Border x:Name="MouseOverElement" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="1,0,0,0" Background="{TemplateBinding Background}" Visibility="Collapsed"/>
+                                                                                <ContentPresenter ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" HorizontalAlignment="Center" IsHitTestVisible="True" Margin="{TemplateBinding Padding}" VerticalAlignment="Center"/>
+                                                                            </Grid>
+                                                                        </ControlTemplate>
+                                                                    </Setter.Value>
+                                                                </Setter>
+                                                            </Style>
+                                                        </ToggleButton.Style>
+                                                    </ToggleButton>
+                                                    <Popup x:Name="DropDownPopup" VerticalAlignment="Bottom">
+                                                        <ContentPresenter ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" ContentStringFormat="{TemplateBinding ContentStringFormat}"/>
+                                                    </Popup>
+                                                </Grid>
+                                            </ControlTemplate>
+                                        </c1:C1DropDown.Template>
+                                    </c1:C1DropDown>
+                                    <Rectangle x:Name="Resize" Cursor="SizeWE" Grid.ColumnSpan="3" Fill="White" HorizontalAlignment="Right" Margin="0,0,-2,0" Opacity="0" Grid.RowSpan="2" Visibility="Visible" Width="4"/>
+                                </Grid>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="ColumnHeaderHeight" Value="31" />
+        <Setter Property="GroupingPanelBackground" Value="White" />
+        <Setter Property="GroupingPanelForeground" Value="#ffb7b7b7" />
+        <Setter Property="GroupingPanelStyle">
+            <Setter.Value>
+                <Style TargetType="c1:DataGridGroupingPresenter">
+                    <Setter Property="Margin" Value="0,0,0,5" />
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type c1:DataGridGroupingPresenter}">
+                                <Grid x:Name="GroupingContent" Grid.ColumnSpan="2" Height="36">
+                                    <VisualStateManager.VisualStateGroups>
+                                        <VisualStateGroup x:Name="GroupsStates">
+                                            <VisualState x:Name="Grouped">
+                                                <Storyboard>
+                                                    <ObjectAnimationUsingKeyFrames Duration="0" Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="Grouping">
+                                                        <DiscreteObjectKeyFrame KeyTime="0">
+                                                            <DiscreteObjectKeyFrame.Value>
+                                                                <Visibility>Visible</Visibility>
+                                                            </DiscreteObjectKeyFrame.Value>
+                                                        </DiscreteObjectKeyFrame>
+                                                    </ObjectAnimationUsingKeyFrames>
+                                                    <ObjectAnimationUsingKeyFrames Duration="0" Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="Empty">
+                                                        <DiscreteObjectKeyFrame KeyTime="0">
+                                                            <DiscreteObjectKeyFrame.Value>
+                                                                <Visibility>Collapsed</Visibility>
+                                                            </DiscreteObjectKeyFrame.Value>
+                                                        </DiscreteObjectKeyFrame>
+                                                    </ObjectAnimationUsingKeyFrames>
+                                                </Storyboard>
+                                            </VisualState>
+                                            <VisualState x:Name="Ungrouped">
+                                                <Storyboard/>
+                                            </VisualState>
+                                        </VisualStateGroup>
+                                    </VisualStateManager.VisualStateGroups>
+                                    <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="0,0,0,1" Background="{TemplateBinding Background}" CornerRadius="0"/>
+                                    <Grid VerticalAlignment="Center">
+                                        <c1:DataGridGroupingPanel x:Name="Grouping" ColumnsHeaderGap="5" Visibility="Collapsed" IndentHeight="0" Margin="5,0"/>
+                                        <TextBlock x:Name="Empty" Opacity="0.7" FontWeight="SemiBold" Foreground="{TemplateBinding Foreground}" FontSize="12" Text="Drop Columns Here" TextTrimming="WordEllipsis" HorizontalAlignment="Center"></TextBlock>
+                                    </Grid>
+                                </Grid>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="GroupColumnHeaderStyle">
+            <Setter.Value>
+                <Style TargetType="c1:DataGridGroupColumnHeaderPresenter">
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                    <Setter Property="VerticalContentAlignment" Value="Stretch"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type c1:DataGridGroupColumnHeaderPresenter}">
+                                <Grid x:Name="RootElement" Height="22" ShowGridLines="False">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <VisualStateManager.VisualStateGroups>
+                                        <VisualStateGroup x:Name="CommonStates">
+                                            <VisualState x:Name="Normal"/>
+                                            <VisualState x:Name="Disabled"/>
+                                            <VisualState x:Name="MouseOver">
+                                                <Storyboard>
+                                                    <ObjectAnimationUsingKeyFrames Duration="0" Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="MouseOverElement">
+                                                        <DiscreteObjectKeyFrame KeyTime="0">
+                                                            <DiscreteObjectKeyFrame.Value>
+                                                                <Visibility>Visible</Visibility>
+                                                            </DiscreteObjectKeyFrame.Value>
+                                                        </DiscreteObjectKeyFrame>
+                                                    </ObjectAnimationUsingKeyFrames>
+                                                </Storyboard>
+                                            </VisualState>
+                                        </VisualStateGroup>
+                                        <VisualStateGroup x:Name="SelectedOptionsStates">
+                                            <VisualState x:Name="Filtering"/>
+                                            <VisualState x:Name="NotAvailable"/>
+                                            <VisualState x:Name="Available"/>
+                                        </VisualStateGroup>
+                                    </VisualStateManager.VisualStateGroups>
+                                    <Border x:Name="BackgroundElement" BorderBrush="#ffd4d4d4" BorderThickness="1" Background="#fff9f9f9" Grid.ColumnSpan="2" CornerRadius="2"/>
+                                    <Border x:Name="MouseOverElement" BorderBrush="#ffd4d4d4" BorderThickness="1" Background="{TemplateBinding MouseOverBrush}" Grid.ColumnSpan="2" CornerRadius="2" Visibility="Collapsed"/>
+                                    <ToggleButton x:Name="Sort" Grid.ColumnSpan="2" Foreground="{TemplateBinding Foreground}" IsHitTestVisible="True" IsTabStop="False" Margin="1" Grid.RowSpan="2">
+                                        <ToggleButton.Style>
+                                            <Style TargetType="{x:Type ToggleButton}">
+                                                <Setter Property="Padding" Value="3"/>
+                                                <Setter Property="Template">
+                                                    <Setter.Value>
+                                                        <ControlTemplate TargetType="{x:Type ToggleButton}">
+                                                            <Grid>
+                                                                <VisualStateManager.VisualStateGroups>
+                                                                    <VisualStateGroup x:Name="CommonStates">
+                                                                        <VisualState x:Name="Normal"/>
+                                                                        <VisualState x:Name="MouseOver"/>
+                                                                        <VisualState x:Name="Pressed"/>
+                                                                        <VisualState x:Name="Disabled"/>
+                                                                    </VisualStateGroup>
+                                                                    <VisualStateGroup x:Name="CheckStates">
+                                                                        <VisualState x:Name="Indeterminate"/>
+                                                                        <VisualState x:Name="Checked">
+                                                                            <Storyboard>
+                                                                                <ObjectAnimationUsingKeyFrames Duration="0" Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="SortbyElement">
+                                                                                    <DiscreteObjectKeyFrame KeyTime="0">
+                                                                                        <DiscreteObjectKeyFrame.Value>
+                                                                                            <Visibility>Visible</Visibility>
+                                                                                        </DiscreteObjectKeyFrame.Value>
+                                                                                    </DiscreteObjectKeyFrame>
+                                                                                </ObjectAnimationUsingKeyFrames>
+                                                                            </Storyboard>
+                                                                        </VisualState>
+                                                                        <VisualState x:Name="Unchecked">
+                                                                            <Storyboard>
+                                                                                <DoubleAnimationUsingKeyFrames BeginTime="0" Duration="0:0:0.001" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[2].(RotateTransform.Angle)" Storyboard.TargetName="SortbyElement">
+                                                                                    <SplineDoubleKeyFrame KeyTime="0" Value="180"/>
+                                                                                </DoubleAnimationUsingKeyFrames>
+                                                                                <ObjectAnimationUsingKeyFrames Duration="0" Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="SortbyElement">
+                                                                                    <DiscreteObjectKeyFrame KeyTime="0">
+                                                                                        <DiscreteObjectKeyFrame.Value>
+                                                                                            <Visibility>Visible</Visibility>
+                                                                                        </DiscreteObjectKeyFrame.Value>
+                                                                                    </DiscreteObjectKeyFrame>
+                                                                                </ObjectAnimationUsingKeyFrames>
+                                                                            </Storyboard>
+                                                                        </VisualState>
+                                                                    </VisualStateGroup>
+                                                                    <VisualStateGroup x:Name="FocusStates">
+                                                                        <VisualState x:Name="Focused"/>
+                                                                        <VisualState x:Name="Unfocused"/>
+                                                                    </VisualStateGroup>
+                                                                </VisualStateManager.VisualStateGroups>
+                                                                <c1:C1BrushBuilder x:Name="SortbyElementBrush" DesignBrush="#FF5E5E5E" DesignColor="Black" ExtrapolationMethod="Absolute" IsHitTestVisible="False" Input="{TemplateBinding Foreground}" Visibility="Collapsed"/>
+                                                                <Path x:Name="SortbyElement" Data="M0,0L7,0 3.5,4 3.5,4z" Fill="{Binding Output, ElementName=SortbyElementBrush}" Opacity="0.6" Grid.Row="1" RenderTransformOrigin="0.5,0.5" Stretch="None">
+                                                                    <Path.RenderTransform>
+                                                                        <TransformGroup>
+                                                                            <ScaleTransform/>
+                                                                            <SkewTransform/>
+                                                                            <RotateTransform/>
+                                                                            <TranslateTransform/>
+                                                                        </TransformGroup>
+                                                                    </Path.RenderTransform>
+                                                                    <Path.Style>
+                                                                        <Style TargetType="{x:Type Path}">
+                                                                            <Setter Property="Height" Value="4"/>
+                                                                            <Setter Property="Width" Value="7"/>
+                                                                            <Setter Property="VerticalAlignment" Value="Top"/>
+                                                                            <Setter Property="HorizontalAlignment" Value="Center"/>
+                                                                            <Setter Property="Margin" Value="0,0.5,0,0"/>
+                                                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                                                        </Style>
+                                                                    </Path.Style>
+                                                                </Path>
+                                                            </Grid>
+                                                        </ControlTemplate>
+                                                    </Setter.Value>
+                                                </Setter>
+                                            </Style>
+                                        </ToggleButton.Style>
+                                    </ToggleButton>
+                                    <ContentPresenter Content="{TemplateBinding Content}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="5,0,0,0" Visibility="Visible" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                                    <Button x:Name="Remove" BorderBrush="{TemplateBinding BorderBrush}" Background="{Binding Output, ElementName=MouseOverBrush}" Grid.Column="1" Margin="8,0" Visibility="{TemplateBinding RemoveButtonVisibility}">
+                                        <Button.Style>
+                                            <Style TargetType="{x:Type Button}">
+                                                <Setter Property="Padding" Value="0"/>
+                                                <Setter Property="BorderThickness" Value="1"/>
+                                                <Setter Property="Height" Value="9"/>
+                                                <Setter Property="Width" Value="9"/>
+                                                <Setter Property="Template">
+                                                    <Setter.Value>
+                                                        <ControlTemplate TargetType="{x:Type Button}">
+                                                            <Grid>
+                                                                <VisualStateManager.VisualStateGroups>
+                                                                    <VisualStateGroup x:Name="CommonStates">
+                                                                        <VisualState x:Name="Normal"/>
+                                                                        <VisualState x:Name="MouseOver">
+                                                                            <Storyboard>
+                                                                                <DoubleAnimationUsingKeyFrames Duration="0" Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="MouseOverElement">
+                                                                                    <DiscreteDoubleKeyFrame KeyTime="0" Value="1"/>
+                                                                                </DoubleAnimationUsingKeyFrames>
+                                                                                <DoubleAnimationUsingKeyFrames Duration="0" Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="contentPresenter">
+                                                                                    <DiscreteDoubleKeyFrame KeyTime="0" Value="1"/>
+                                                                                </DoubleAnimationUsingKeyFrames>
+                                                                            </Storyboard>
+                                                                        </VisualState>
+                                                                        <VisualState x:Name="Pressed"/>
+                                                                        <VisualState x:Name="Disabled"/>
+                                                                    </VisualStateGroup>
+                                                                    <VisualStateGroup x:Name="FocusStates">
+                                                                        <VisualState x:Name="Focused"/>
+                                                                        <VisualState x:Name="Unfocused"/>
+                                                                    </VisualStateGroup>
+                                                                </VisualStateManager.VisualStateGroups>
+                                                                <Border x:Name="MouseOverElement" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="0" Background="{TemplateBinding Background}" CornerRadius="0" Opacity="0"/>
+                                                                <ContentPresenter x:Name="contentPresenter" ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="0" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                                                            </Grid>
+                                                        </ControlTemplate>
+                                                    </Setter.Value>
+                                                </Setter>
+                                            </Style>
+                                        </Button.Style>
+                                        <Image Height="9" Width="9" Stretch="Uniform" VerticalAlignment="Center" Source="/LGC.GMES.MES.ControlsLibrary;component/Images/LGC/icon_pivot_erase.png" />
+                                    </Button>
+                                </Grid>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="GroupRowHeight" Value="27" />
+        <Setter Property="GroupRowStyle">
+            <Setter.Value>
+                <Style TargetType="c1:DataGridGroupRowPresenter">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type c1:DataGridGroupRowPresenter}">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+                                    <VisualStateManager.VisualStateGroups>
+                                        <VisualStateGroup x:Name="CommonStates">
+                                            <VisualState x:Name="Normal"/>
+                                            <VisualState x:Name="Disabled"/>
+                                            <VisualState x:Name="MouseOver">
+                                                <Storyboard>
+                                                    <ObjectAnimationUsingKeyFrames Duration="0" Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="MouseOverElement">
+                                                        <DiscreteObjectKeyFrame KeyTime="0">
+                                                            <DiscreteObjectKeyFrame.Value>
+                                                                <Visibility>Visible</Visibility>
+                                                            </DiscreteObjectKeyFrame.Value>
+                                                        </DiscreteObjectKeyFrame>
+                                                    </ObjectAnimationUsingKeyFrames>
+                                                </Storyboard>
+                                            </VisualState>
+                                        </VisualStateGroup>
+                                        <VisualStateGroup x:Name="SelectionStates">
+                                            <VisualState x:Name="Selected">
+                                                <Storyboard>
+                                                    <ObjectAnimationUsingKeyFrames Duration="0" Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="SelectedElement">
+                                                        <DiscreteObjectKeyFrame KeyTime="0">
+                                                            <DiscreteObjectKeyFrame.Value>
+                                                                <Visibility>Visible</Visibility>
+                                                            </DiscreteObjectKeyFrame.Value>
+                                                        </DiscreteObjectKeyFrame>
+                                                    </ObjectAnimationUsingKeyFrames>
+                                                </Storyboard>
+                                            </VisualState>
+                                            <VisualState x:Name="Unselected"/>
+                                        </VisualStateGroup>
+                                    </VisualStateManager.VisualStateGroups>
+                                    <Grid >
+                                        <Border x:Name="BackgroundElement" Background="#ffe9e9e9"/>
+                                        <Border x:Name="UserBackground" Background="Orange"/>
+                                        <Border x:Name="SelectedElement" Background="#fffff1f1" Visibility="Collapsed"/>
+                                        <Border x:Name="MouseOverElement" Background="{TemplateBinding MouseOverBrush}" Visibility="Collapsed"/>
+                                        <Grid Margin="{TemplateBinding RowAreaMargin}">
+                                            <Grid HorizontalAlignment="Left" Margin="{TemplateBinding GroupContentMargin}" VerticalAlignment="Center">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="Auto"/>
+                                                    <ColumnDefinition Width="*"/>
+                                                </Grid.ColumnDefinitions>
+                                                <c1:DataGridToggleGroupButton x:Name="ToggleGroup" BorderBrush="Transparent" BorderThickness="0" Background="Transparent" Foreground="{TemplateBinding ButtonForeground}" Height="8" IsTabStop="False" Width="7">
+                                                    <c1:DataGridToggleGroupButton.Style>
+                                                        <Style TargetType="{x:Type c1:DataGridToggleGroupButton}">
+                                                            <Setter Property="Margin" Value="6,0"/>
+                                                            <Setter Property="Template">
+                                                                <Setter.Value>
+                                                                    <ControlTemplate TargetType="{x:Type c1:DataGridToggleGroupButton}">
+                                                                        <Grid>
+                                                                            <VisualStateManager.VisualStateGroups>
+                                                                                <VisualStateGroup x:Name="CommonStates">
+                                                                                    <VisualState x:Name="Normal"/>
+                                                                                    <VisualState x:Name="MouseOver"/>
+                                                                                    <VisualState x:Name="Pressed"/>
+                                                                                    <VisualState x:Name="Disabled"/>
+                                                                                </VisualStateGroup>
+                                                                                <VisualStateGroup x:Name="CheckStates">
+                                                                                    <VisualState x:Name="Checked">
+                                                                                        <Storyboard>
+                                                                                            <ObjectAnimationUsingKeyFrames Duration="0" Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="imgChecked">
+                                                                                                <DiscreteObjectKeyFrame KeyTime="0">
+                                                                                                    <DiscreteObjectKeyFrame.Value>
+                                                                                                        <Visibility>Visible</Visibility>
+                                                                                                    </DiscreteObjectKeyFrame.Value>
+                                                                                                </DiscreteObjectKeyFrame>
+                                                                                            </ObjectAnimationUsingKeyFrames>
+                                                                                        </Storyboard>
+                                                                                    </VisualState>
+                                                                                    <VisualState x:Name="Unchecked">
+                                                                                        <Storyboard>
+                                                                                            <ObjectAnimationUsingKeyFrames Duration="0" Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="imgUnchecked">
+                                                                                                <DiscreteObjectKeyFrame KeyTime="0">
+                                                                                                    <DiscreteObjectKeyFrame.Value>
+                                                                                                        <Visibility>Visible</Visibility>
+                                                                                                    </DiscreteObjectKeyFrame.Value>
+                                                                                                </DiscreteObjectKeyFrame>
+                                                                                            </ObjectAnimationUsingKeyFrames>
+                                                                                        </Storyboard>
+                                                                                    </VisualState>
+                                                                                </VisualStateGroup>
+                                                                                <VisualStateGroup x:Name="FocusStates">
+                                                                                    <VisualState x:Name="Focused"/>
+                                                                                    <VisualState x:Name="Unfocused"/>
+                                                                                </VisualStateGroup>
+                                                                            </VisualStateManager.VisualStateGroups>
+                                                                            <Grid>
+                                                                                <Image x:Name="imgChecked" Width="7" Height="8" Stretch="Uniform" Source="/LGC.GMES.MES.ControlsLibrary;component/Images/LGC/icon_column_close.png" Visibility="Collapsed" />
+                                                                                <Image x:Name="imgUnchecked" Width="7" Height="8" Stretch="Uniform" Source="/LGC.GMES.MES.ControlsLibrary;component/Images/LGC/icon_column_open.png" Visibility="Collapsed" />
+                                                                            </Grid>
+                                                                            <ContentPresenter x:Name="contentPresenter" ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}"/>
+                                                                        </Grid>
+                                                                    </ControlTemplate>
+                                                                </Setter.Value>
+                                                            </Setter>
+                                                        </Style>
+                                                    </c1:DataGridToggleGroupButton.Style>
+                                                </c1:DataGridToggleGroupButton>
+                                                <ContentPresenter x:Name="GroupName" Grid.Column="1"/>
+                                            </Grid>
+                                        </Grid>
+                                    </Grid>
+                                    <c1:DataGridCellsPanel x:Name="Cells" Margin="{TemplateBinding CellsAreaMargin}"/>
+                                    <Rectangle x:Name="HorizontalGridLine" Fill="#ffd8d8d8" Height="1" Grid.Row="1" Visibility="Visible"/>
+                                </Grid>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="ScrollBarStyle">
+            <Setter.Value>
+                <Style TargetType="{x:Type ScrollBar}">
+                    <Setter Property="Background" Value="Gainsboro"/>
+                    <Setter Property="BorderBrush" Value="#FF707070"/>
+                    <Setter Property="BorderThickness" Value="1"/>
+                    <Setter Property="Foreground" Value="Black"/>
+                    <Setter Property="c1:ClearStyleExtensions.CornerRadius" Value="0"/>
+                    <Setter Property="c1:ClearStyleExtensions.ButtonCornerRadius" Value="2"/>
+                    <Setter Property="Width" Value="{DynamicResource {x:Static SystemParameters.VerticalScrollBarWidthKey}}"/>
+                    <Setter Property="MinWidth" Value="{DynamicResource {x:Static SystemParameters.VerticalScrollBarWidthKey}}"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type ScrollBar}">
+                                <Grid x:Name="Bg" SnapsToDevicePixels="True">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition MaxHeight="{DynamicResource {x:Static SystemParameters.VerticalScrollBarButtonHeightKey}}"/>
+                                        <RowDefinition Height="1E-05*"/>
+                                        <RowDefinition MaxHeight="{DynamicResource {x:Static SystemParameters.VerticalScrollBarButtonHeightKey}}"/>
+                                    </Grid.RowDefinitions>
+                                    <c1:C1BrushBuilder x:Name="VBackgroundBrush" ExtrapolationMethod="Absolute" IsHitTestVisible="False" Input="{TemplateBinding Background}" Visibility="Collapsed">
+                                        <c1:C1BrushBuilder.Style>
+                                            <Style TargetType="{x:Type c1:C1BrushBuilder}">
+                                                <Setter Property="DesignBrush">
+                                                    <Setter.Value>
+                                                        <LinearGradientBrush EndPoint="1,0" StartPoint="0,0">
+                                                            <GradientStop Color="#FFE1E1E1" Offset="0"/>
+                                                            <GradientStop Color="#FFEDEDED" Offset="0.2"/>
+                                                            <GradientStop Color="#FFEDEDED" Offset="0.8"/>
+                                                            <GradientStop Color="#FFE3E3E3" Offset="1"/>
+                                                        </LinearGradientBrush>
+                                                    </Setter.Value>
+                                                </Setter>
+                                                <Setter Property="DesignColor" Value="Gainsboro"/>
+                                            </Style>
+                                        </c1:C1BrushBuilder.Style>
+                                    </c1:C1BrushBuilder>
+                                    <c1:ScrollBarCornerRadiusBuilder x:Name="TopButtonCornerRadius" ButtonCornerRadius="{TemplateBinding c1:ClearStyleExtensions.ButtonCornerRadius}" ScrollBarCornerRadius="{TemplateBinding c1:ClearStyleExtensions.CornerRadius}" TopRight="True"/>
+                                    <c1:ScrollBarCornerRadiusBuilder x:Name="BottomButtonCornerRadius" BottomRight="True" ButtonCornerRadius="{TemplateBinding c1:ClearStyleExtensions.ButtonCornerRadius}" ScrollBarCornerRadius="{TemplateBinding c1:ClearStyleExtensions.CornerRadius}"/>
+                                    <Border Background="{Binding Output, ElementName=VBackgroundBrush}" CornerRadius="{TemplateBinding c1:ClearStyleExtensions.CornerRadius}" Grid.RowSpan="5"/>
+                                    <RepeatButton BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" c1:ClearStyleExtensions.CornerRadius="{Binding Output, ElementName=TopButtonCornerRadius}" Command="ScrollBar.LineUpCommand" HorizontalContentAlignment="Center" c1:ClearStyleExtensions.MouseOverBrush="{TemplateBinding c1:ClearStyleExtensions.MouseOverBrush}" c1:ClearStyleExtensions.PressedBrush="{TemplateBinding c1:ClearStyleExtensions.PressedBrush}" VerticalContentAlignment="Center">
+                                        <RepeatButton.Style>
+                                            <Style TargetType="{x:Type RepeatButton}">
+                                                <Setter Property="OverridesDefaultStyle" Value="True"/>
+                                                <Setter Property="Focusable" Value="False"/>
+                                                <Setter Property="IsTabStop" Value="False"/>
+                                                <Setter Property="Template">
+                                                    <Setter.Value>
+                                                        <ControlTemplate TargetType="{x:Type RepeatButton}">
+                                                            <Grid x:Name="Root" Background="Transparent">
+                                                                <VisualStateManager.VisualStateGroups>
+                                                                    <VisualStateGroup x:Name="CommonStates">
+                                                                        <VisualState x:Name="Normal"/>
+                                                                        <VisualState x:Name="MouseOver">
+                                                                            <Storyboard>
+                                                                                <ObjectAnimationUsingKeyFrames Duration="0" Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="MouseOverElement">
+                                                                                    <DiscreteObjectKeyFrame KeyTime="0">
+                                                                                        <DiscreteObjectKeyFrame.Value>
+                                                                                            <Visibility>Visible</Visibility>
+                                                                                        </DiscreteObjectKeyFrame.Value>
+                                                                                    </DiscreteObjectKeyFrame>
+                                                                                </ObjectAnimationUsingKeyFrames>
+                                                                            </Storyboard>
+                                                                        </VisualState>
+                                                                        <VisualState x:Name="Pressed">
+                                                                            <Storyboard>
+                                                                                <ObjectAnimationUsingKeyFrames Duration="0" Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="PressedElement">
+                                                                                    <DiscreteObjectKeyFrame KeyTime="0">
+                                                                                        <DiscreteObjectKeyFrame.Value>
+                                                                                            <Visibility>Visible</Visibility>
+                                                                                        </DiscreteObjectKeyFrame.Value>
+                                                                                    </DiscreteObjectKeyFrame>
+                                                                                </ObjectAnimationUsingKeyFrames>
+                                                                            </Storyboard>
+                                                                        </VisualState>
+                                                                        <VisualState x:Name="Disabled">
+                                                                            <Storyboard>
+                                                                                <ObjectAnimationUsingKeyFrames Duration="0" Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="DisabledVisualElement">
+                                                                                    <DiscreteObjectKeyFrame KeyTime="0">
+                                                                                        <DiscreteObjectKeyFrame.Value>
+                                                                                            <Visibility>Visible</Visibility>
+                                                                                        </DiscreteObjectKeyFrame.Value>
+                                                                                    </DiscreteObjectKeyFrame>
+                                                                                </ObjectAnimationUsingKeyFrames>
+                                                                            </Storyboard>
+                                                                        </VisualState>
+                                                                    </VisualStateGroup>
+                                                                </VisualStateManager.VisualStateGroups>
+                                                                <c1:C1BrushBuilder x:Name="MouseOverBrush" DesignColor="#FFBFE1EA" ExtrapolationMethod="Absolute" IsHitTestVisible="False" Input="{TemplateBinding c1:ClearStyleExtensions.MouseOverBrush}" Visibility="Collapsed">
+                                                                    <c1:C1BrushBuilder.DesignBrush>
+                                                                        <LinearGradientBrush EndPoint="1,0.5" StartPoint="0,0.5">
+                                                                            <GradientStop Color="#FFE7F5FD" Offset="0"/>
+                                                                            <GradientStop Color="#FFDCF0FC" Offset="0.5"/>
+                                                                            <GradientStop Color="#FFBDE6FD" Offset="0.5"/>
+                                                                            <GradientStop Color="#FFA9D9F5" Offset="1"/>
+                                                                        </LinearGradientBrush>
+                                                                    </c1:C1BrushBuilder.DesignBrush>
+                                                                </c1:C1BrushBuilder>
+                                                                <c1:C1BrushBuilder x:Name="PressedBrush" DesignColor="#FF8ED1E2" ExtrapolationMethod="Absolute" IsHitTestVisible="False" Input="{TemplateBinding c1:ClearStyleExtensions.PressedBrush}" Visibility="Collapsed">
+                                                                    <c1:C1BrushBuilder.DesignBrush>
+                                                                        <LinearGradientBrush EndPoint="1,0.5" StartPoint="0,0.5">
+                                                                            <GradientStop Color="#FFA9D9F5" Offset="0"/>
+                                                                            <GradientStop Color="#FFC1E4F5" Offset="0.5"/>
+                                                                            <GradientStop Color="#FFA9DAF3" Offset="0.5"/>
+                                                                            <GradientStop Color="#FF91CDEB" Offset="1"/>
+                                                                        </LinearGradientBrush>
+                                                                    </c1:C1BrushBuilder.DesignBrush>
+                                                                </c1:C1BrushBuilder>
+                                                                <Border x:Name="MouseOverElement" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{Binding Output, ElementName=MouseOverBrush}" CornerRadius="{TemplateBinding c1:ClearStyleExtensions.CornerRadius}" Visibility="Collapsed"/>
+                                                                <Border x:Name="PressedElement" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{Binding Output, ElementName=PressedBrush}" CornerRadius="{TemplateBinding c1:ClearStyleExtensions.CornerRadius}" Visibility="Collapsed"/>
+                                                                <ContentPresenter ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" ContentStringFormat="{TemplateBinding ContentStringFormat}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                                                                <Border x:Name="DisabledVisualElement" Background="#77E8E8E8" CornerRadius="{TemplateBinding c1:ClearStyleExtensions.CornerRadius}" IsHitTestVisible="False" Visibility="Collapsed"/>
+                                                            </Grid>
+                                                        </ControlTemplate>
+                                                    </Setter.Value>
+                                                </Setter>
+                                            </Style>
+                                        </RepeatButton.Style>
+                                        <Path Data="F1M541.537,173.589L531.107,173.589 536.322,167.49 541.537,173.589z" Fill="{TemplateBinding Foreground}" Height="4" Stretch="Fill" Width="8"/>
+                                    </RepeatButton>
+                                    <Track x:Name="PART_Track" IsDirectionReversed="True" Grid.Row="1">
+                                        <Track.DecreaseRepeatButton>
+                                            <RepeatButton Command="ScrollBar.PageUpCommand">
+                                                <RepeatButton.Style>
+                                                    <Style TargetType="{x:Type RepeatButton}">
+                                                        <Setter Property="OverridesDefaultStyle" Value="True"/>
+                                                        <Setter Property="Background" Value="Transparent"/>
+                                                        <Setter Property="Focusable" Value="False"/>
+                                                        <Setter Property="IsTabStop" Value="False"/>
+                                                        <Setter Property="Template">
+                                                            <Setter.Value>
+                                                                <ControlTemplate TargetType="{x:Type RepeatButton}">
+                                                                    <Rectangle Fill="{TemplateBinding Background}" Height="{TemplateBinding Height}" Width="{TemplateBinding Width}"/>
+                                                                </ControlTemplate>
+                                                            </Setter.Value>
+                                                        </Setter>
+                                                    </Style>
+                                                </RepeatButton.Style>
+                                            </RepeatButton>
+                                        </Track.DecreaseRepeatButton>
+                                        <Track.IncreaseRepeatButton>
+                                            <RepeatButton Command="ScrollBar.PageDownCommand">
+                                                <RepeatButton.Style>
+                                                    <Style TargetType="{x:Type RepeatButton}">
+                                                        <Setter Property="OverridesDefaultStyle" Value="True"/>
+                                                        <Setter Property="Background" Value="Transparent"/>
+                                                        <Setter Property="Focusable" Value="False"/>
+                                                        <Setter Property="IsTabStop" Value="False"/>
+                                                        <Setter Property="Template">
+                                                            <Setter.Value>
+                                                                <ControlTemplate TargetType="{x:Type RepeatButton}">
+                                                                    <Rectangle Fill="{TemplateBinding Background}" Height="{TemplateBinding Height}" Width="{TemplateBinding Width}"/>
+                                                                </ControlTemplate>
+                                                            </Setter.Value>
+                                                        </Setter>
+                                                    </Style>
+                                                </RepeatButton.Style>
+                                            </RepeatButton>
+                                        </Track.IncreaseRepeatButton>
+                                        <Track.Thumb>
+                                            <Thumb BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" c1:ClearStyleExtensions.CornerRadius="{TemplateBinding c1:ClearStyleExtensions.ButtonCornerRadius}" c1:ClearStyleExtensions.MouseOverBrush="{TemplateBinding c1:ClearStyleExtensions.MouseOverBrush}" c1:ClearStyleExtensions.PressedBrush="{TemplateBinding c1:ClearStyleExtensions.PressedBrush}">
+                                                <Thumb.Style>
+                                                    <Style TargetType="{x:Type Thumb}">
+                                                        <Setter Property="OverridesDefaultStyle" Value="True"/>
+                                                        <Setter Property="IsTabStop" Value="False"/>
+                                                        <Setter Property="Template">
+                                                            <Setter.Value>
+                                                                <ControlTemplate TargetType="{x:Type Thumb}">
+                                                                    <Grid>
+                                                                        <VisualStateManager.VisualStateGroups>
+                                                                            <VisualStateGroup x:Name="CommonStates">
+                                                                                <VisualState x:Name="Normal"/>
+                                                                                <VisualState x:Name="MouseOver">
+                                                                                </VisualState>
+                                                                                <VisualState x:Name="Pressed">
+                                                                                    <Storyboard>
+                                                                                        <ObjectAnimationUsingKeyFrames Duration="0" Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="PressedElement">
+                                                                                            <DiscreteObjectKeyFrame KeyTime="0">
+                                                                                                <DiscreteObjectKeyFrame.Value>
+                                                                                                    <Visibility>Visible</Visibility>
+                                                                                                </DiscreteObjectKeyFrame.Value>
+                                                                                            </DiscreteObjectKeyFrame>
+                                                                                        </ObjectAnimationUsingKeyFrames>
+                                                                                    </Storyboard>
+                                                                                </VisualState>
+                                                                                <VisualState x:Name="Disabled">
+                                                                                    <Storyboard>
+                                                                                        <ObjectAnimationUsingKeyFrames Duration="0" Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="DisabledVisualElement">
+                                                                                            <DiscreteObjectKeyFrame KeyTime="0">
+                                                                                                <DiscreteObjectKeyFrame.Value>
+                                                                                                    <Visibility>Visible</Visibility>
+                                                                                                </DiscreteObjectKeyFrame.Value>
+                                                                                            </DiscreteObjectKeyFrame>
+                                                                                        </ObjectAnimationUsingKeyFrames>
+                                                                                    </Storyboard>
+                                                                                </VisualState>
+                                                                            </VisualStateGroup>
+                                                                        </VisualStateManager.VisualStateGroups>
+                                                                        <Grid x:Name="ThumbVisual" Margin="0,1">
+                                                                            <c1:C1BrushBuilder x:Name="BackgroundBrush" DesignColor="Gainsboro" ExtrapolationMethod="Absolute" IsHitTestVisible="False" Input="{TemplateBinding Background}" Visibility="Collapsed">
+                                                                                <c1:C1BrushBuilder.DesignBrush>
+                                                                                    <LinearGradientBrush EndPoint="1,0.5" StartPoint="0,0.5">
+                                                                                        <GradientStop Color="#FFF2F2F2" Offset="0"/>
+                                                                                        <GradientStop Color="#FFEBEBEB" Offset="0.5"/>
+                                                                                        <GradientStop Color="Gainsboro" Offset="0.5"/>
+                                                                                        <GradientStop Color="#FFD0D0D0" Offset="1"/>
+                                                                                    </LinearGradientBrush>
+                                                                                </c1:C1BrushBuilder.DesignBrush>
+                                                                            </c1:C1BrushBuilder>
+                                                                            <c1:C1BrushBuilder x:Name="MouseOverBrush" DesignColor="#FFBFE1EA" ExtrapolationMethod="Absolute" IsHitTestVisible="False" Input="{TemplateBinding c1:ClearStyleExtensions.MouseOverBrush}" Visibility="Collapsed">
+                                                                                <c1:C1BrushBuilder.DesignBrush>
+                                                                                    <LinearGradientBrush EndPoint="1,0.5" StartPoint="0,0.5">
+                                                                                        <GradientStop Color="#FFE7F5FD" Offset="0"/>
+                                                                                        <GradientStop Color="#FFDCF0FC" Offset="0.5"/>
+                                                                                        <GradientStop Color="#FFBDE6FD" Offset="0.5"/>
+                                                                                        <GradientStop Color="#FFA9D9F5" Offset="1"/>
+                                                                                    </LinearGradientBrush>
+                                                                                </c1:C1BrushBuilder.DesignBrush>
+                                                                            </c1:C1BrushBuilder>
+                                                                            <c1:C1BrushBuilder x:Name="PressedBrush" DesignColor="#FF8ED1E2" ExtrapolationMethod="Absolute" IsHitTestVisible="False" Input="{TemplateBinding c1:ClearStyleExtensions.PressedBrush}" Visibility="Collapsed">
+                                                                                <c1:C1BrushBuilder.DesignBrush>
+                                                                                    <LinearGradientBrush EndPoint="1,0.5" StartPoint="0,0.5">
+                                                                                        <GradientStop Color="#FFA9D9F5" Offset="0"/>
+                                                                                        <GradientStop Color="#FFC1E4F5" Offset="0.5"/>
+                                                                                        <GradientStop Color="#FFA9DAF3" Offset="0.5"/>
+                                                                                        <GradientStop Color="#FF91CDEB" Offset="1"/>
+                                                                                    </LinearGradientBrush>
+                                                                                </c1:C1BrushBuilder.DesignBrush>
+                                                                            </c1:C1BrushBuilder>
+                                                                            <Border x:Name="BackgroundElement" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{Binding Output, ElementName=BackgroundBrush}" CornerRadius="{TemplateBinding c1:ClearStyleExtensions.CornerRadius}"/>
+                                                                            <Border x:Name="MouseOverElement" BorderThickness="{TemplateBinding BorderThickness}" Background="{Binding Output, ElementName=MouseOverBrush}" CornerRadius="{TemplateBinding c1:ClearStyleExtensions.CornerRadius}" Visibility="Collapsed"/>
+                                                                            <Border x:Name="PressedElement" BorderThickness="{TemplateBinding BorderThickness}" Background="{Binding Output, ElementName=PressedBrush}" CornerRadius="{TemplateBinding c1:ClearStyleExtensions.CornerRadius}" Visibility="Collapsed"/>
+                                                                            <Border x:Name="DisabledVisualElement" Background="#77E8E8E8" CornerRadius="{TemplateBinding c1:ClearStyleExtensions.CornerRadius}" IsHitTestVisible="False" Visibility="Collapsed"/>
+                                                                        </Grid>
+                                                                    </Grid>
+                                                                </ControlTemplate>
+                                                            </Setter.Value>
+                                                        </Setter>
+                                                    </Style>
+                                                </Thumb.Style>
+                                            </Thumb>
+                                        </Track.Thumb>
+                                    </Track>
+                                    <RepeatButton BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" c1:ClearStyleExtensions.CornerRadius="{Binding Output, ElementName=BottomButtonCornerRadius}" Command="ScrollBar.LineDownCommand" HorizontalContentAlignment="Center" c1:ClearStyleExtensions.MouseOverBrush="{TemplateBinding c1:ClearStyleExtensions.MouseOverBrush}" c1:ClearStyleExtensions.PressedBrush="{TemplateBinding c1:ClearStyleExtensions.PressedBrush}" Grid.Row="2" VerticalContentAlignment="Center">
+                                        <RepeatButton.Style>
+                                            <Style TargetType="{x:Type RepeatButton}">
+                                                <Setter Property="OverridesDefaultStyle" Value="True"/>
+                                                <Setter Property="Focusable" Value="False"/>
+                                                <Setter Property="IsTabStop" Value="False"/>
+                                                <Setter Property="Template">
+                                                    <Setter.Value>
+                                                        <ControlTemplate TargetType="{x:Type RepeatButton}">
+                                                            <Grid x:Name="Root" Background="Transparent">
+                                                                <VisualStateManager.VisualStateGroups>
+                                                                    <VisualStateGroup x:Name="CommonStates">
+                                                                        <VisualState x:Name="Normal"/>
+                                                                        <VisualState x:Name="MouseOver">
+                                                                            <Storyboard>
+                                                                                <ObjectAnimationUsingKeyFrames Duration="0" Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="MouseOverElement">
+                                                                                    <DiscreteObjectKeyFrame KeyTime="0">
+                                                                                        <DiscreteObjectKeyFrame.Value>
+                                                                                            <Visibility>Visible</Visibility>
+                                                                                        </DiscreteObjectKeyFrame.Value>
+                                                                                    </DiscreteObjectKeyFrame>
+                                                                                </ObjectAnimationUsingKeyFrames>
+                                                                            </Storyboard>
+                                                                        </VisualState>
+                                                                        <VisualState x:Name="Pressed">
+                                                                            <Storyboard>
+                                                                                <ObjectAnimationUsingKeyFrames Duration="0" Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="PressedElement">
+                                                                                    <DiscreteObjectKeyFrame KeyTime="0">
+                                                                                        <DiscreteObjectKeyFrame.Value>
+                                                                                            <Visibility>Visible</Visibility>
+                                                                                        </DiscreteObjectKeyFrame.Value>
+                                                                                    </DiscreteObjectKeyFrame>
+                                                                                </ObjectAnimationUsingKeyFrames>
+                                                                            </Storyboard>
+                                                                        </VisualState>
+                                                                        <VisualState x:Name="Disabled">
+                                                                            <Storyboard>
+                                                                                <ObjectAnimationUsingKeyFrames Duration="0" Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="DisabledVisualElement">
+                                                                                    <DiscreteObjectKeyFrame KeyTime="0">
+                                                                                        <DiscreteObjectKeyFrame.Value>
+                                                                                            <Visibility>Visible</Visibility>
+                                                                                        </DiscreteObjectKeyFrame.Value>
+                                                                                    </DiscreteObjectKeyFrame>
+                                                                                </ObjectAnimationUsingKeyFrames>
+                                                                            </Storyboard>
+                                                                        </VisualState>
+                                                                    </VisualStateGroup>
+                                                                </VisualStateManager.VisualStateGroups>
+                                                                <c1:C1BrushBuilder x:Name="MouseOverBrush" DesignColor="#FFBFE1EA" ExtrapolationMethod="Absolute" IsHitTestVisible="False" Input="{TemplateBinding c1:ClearStyleExtensions.MouseOverBrush}" Visibility="Collapsed">
+                                                                    <c1:C1BrushBuilder.DesignBrush>
+                                                                        <LinearGradientBrush EndPoint="1,0.5" StartPoint="0,0.5">
+                                                                            <GradientStop Color="#FFE7F5FD" Offset="0"/>
+                                                                            <GradientStop Color="#FFDCF0FC" Offset="0.5"/>
+                                                                            <GradientStop Color="#FFBDE6FD" Offset="0.5"/>
+                                                                            <GradientStop Color="#FFA9D9F5" Offset="1"/>
+                                                                        </LinearGradientBrush>
+                                                                    </c1:C1BrushBuilder.DesignBrush>
+                                                                </c1:C1BrushBuilder>
+                                                                <c1:C1BrushBuilder x:Name="PressedBrush" DesignColor="#FF8ED1E2" ExtrapolationMethod="Absolute" IsHitTestVisible="False" Input="{TemplateBinding c1:ClearStyleExtensions.PressedBrush}" Visibility="Collapsed">
+                                                                    <c1:C1BrushBuilder.DesignBrush>
+                                                                        <LinearGradientBrush EndPoint="1,0.5" StartPoint="0,0.5">
+                                                                            <GradientStop Color="#FFA9D9F5" Offset="0"/>
+                                                                            <GradientStop Color="#FFC1E4F5" Offset="0.5"/>
+                                                                            <GradientStop Color="#FFA9DAF3" Offset="0.5"/>
+                                                                            <GradientStop Color="#FF91CDEB" Offset="1"/>
+                                                                        </LinearGradientBrush>
+                                                                    </c1:C1BrushBuilder.DesignBrush>
+                                                                </c1:C1BrushBuilder>
+                                                                <Border x:Name="MouseOverElement" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{Binding Output, ElementName=MouseOverBrush}" CornerRadius="{TemplateBinding c1:ClearStyleExtensions.CornerRadius}" Visibility="Collapsed"/>
+                                                                <Border x:Name="PressedElement" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{Binding Output, ElementName=PressedBrush}" CornerRadius="{TemplateBinding c1:ClearStyleExtensions.CornerRadius}" Visibility="Collapsed"/>
+                                                                <ContentPresenter ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" ContentStringFormat="{TemplateBinding ContentStringFormat}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                                                                <Border x:Name="DisabledVisualElement" Background="#77E8E8E8" CornerRadius="{TemplateBinding c1:ClearStyleExtensions.CornerRadius}" IsHitTestVisible="False" Visibility="Collapsed"/>
+                                                            </Grid>
+                                                        </ControlTemplate>
+                                                    </Setter.Value>
+                                                </Setter>
+                                            </Style>
+                                        </RepeatButton.Style>
+                                        <Path Data="F1M531.107,321.943L541.537,321.943 536.322,328.042 531.107,321.943z" Fill="{TemplateBinding Foreground}" Height="4" Stretch="Fill" Width="8"/>
+                                    </RepeatButton>
+                                </Grid>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                    <Style.Triggers>
+                        <Trigger Property="Orientation" Value="Horizontal">
+                            <Setter Property="BorderThickness" Value="1"/>
+                            <Setter Property="Foreground" Value="Black"/>
+                            <Setter Property="c1:ClearStyleExtensions.CornerRadius" Value="0"/>
+                            <Setter Property="Width" Value="Auto"/>
+                            <Setter Property="MinWidth" Value="0"/>
+                            <Setter Property="Height" Value="{DynamicResource {x:Static SystemParameters.HorizontalScrollBarHeightKey}}"/>
+                            <Setter Property="MinHeight" Value="{DynamicResource {x:Static SystemParameters.HorizontalScrollBarHeightKey}}"/>
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type ScrollBar}">
+                                        <Grid x:Name="Bg" SnapsToDevicePixels="True">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition MaxWidth="{DynamicResource {x:Static SystemParameters.HorizontalScrollBarButtonWidthKey}}"/>
+                                                <ColumnDefinition Width="1E-05*"/>
+                                                <ColumnDefinition MaxWidth="{DynamicResource {x:Static SystemParameters.HorizontalScrollBarButtonWidthKey}}"/>
+                                            </Grid.ColumnDefinitions>
+                                            <c1:C1BrushBuilder x:Name="BackgroundBrush" ExtrapolationMethod="Absolute" IsHitTestVisible="False" Input="{TemplateBinding Background}" Visibility="Collapsed">
+                                                <c1:C1BrushBuilder.Style>
+                                                    <Style TargetType="{x:Type c1:C1BrushBuilder}">
+                                                        <Setter Property="DesignBrush">
+                                                            <Setter.Value>
+                                                                <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
+                                                                    <GradientStop Color="#FFE1E1E1" Offset="0"/>
+                                                                    <GradientStop Color="#FFEDEDED" Offset="0.2"/>
+                                                                    <GradientStop Color="#FFEDEDED" Offset="0.8"/>
+                                                                    <GradientStop Color="#FFE3E3E3" Offset="1"/>
+                                                                </LinearGradientBrush>
+                                                            </Setter.Value>
+                                                        </Setter>
+                                                        <Setter Property="DesignColor" Value="Gainsboro"/>
+                                                    </Style>
+                                                </c1:C1BrushBuilder.Style>
+                                            </c1:C1BrushBuilder>
+                                            <c1:ScrollBarCornerRadiusBuilder x:Name="LeftButtonCornerRadius" BottomLeft="True" ButtonCornerRadius="{TemplateBinding c1:ClearStyleExtensions.ButtonCornerRadius}" ScrollBarCornerRadius="{TemplateBinding c1:ClearStyleExtensions.CornerRadius}"/>
+                                            <c1:ScrollBarCornerRadiusBuilder x:Name="RightButtonCornerRadius" BottomRight="True" ButtonCornerRadius="{TemplateBinding c1:ClearStyleExtensions.ButtonCornerRadius}" ScrollBarCornerRadius="{TemplateBinding c1:ClearStyleExtensions.CornerRadius}"/>
+                                            <Border Background="{Binding Output, ElementName=BackgroundBrush}" Grid.ColumnSpan="5" CornerRadius="{TemplateBinding c1:ClearStyleExtensions.CornerRadius}"/>
+                                            <RepeatButton BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" c1:ClearStyleExtensions.CornerRadius="{Binding Output, ElementName=LeftButtonCornerRadius}" Command="ScrollBar.LineLeftCommand" HorizontalContentAlignment="Center" c1:ClearStyleExtensions.MouseOverBrush="{TemplateBinding c1:ClearStyleExtensions.MouseOverBrush}" c1:ClearStyleExtensions.PressedBrush="{TemplateBinding c1:ClearStyleExtensions.PressedBrush}" VerticalContentAlignment="Center">
+                                                <RepeatButton.Style>
+                                                    <Style TargetType="{x:Type RepeatButton}">
+                                                        <Setter Property="OverridesDefaultStyle" Value="True"/>
+                                                        <Setter Property="Focusable" Value="False"/>
+                                                        <Setter Property="IsTabStop" Value="False"/>
+                                                        <Setter Property="Template">
+                                                            <Setter.Value>
+                                                                <ControlTemplate TargetType="{x:Type RepeatButton}">
+                                                                    <Grid x:Name="Root" Background="Transparent">
+                                                                        <VisualStateManager.VisualStateGroups>
+                                                                            <VisualStateGroup x:Name="CommonStates">
+                                                                                <VisualState x:Name="Normal"/>
+                                                                                <VisualState x:Name="MouseOver">
+                                                                                    <Storyboard>
+                                                                                        <ObjectAnimationUsingKeyFrames Duration="0" Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="MouseOverElement">
+                                                                                            <DiscreteObjectKeyFrame KeyTime="0">
+                                                                                                <DiscreteObjectKeyFrame.Value>
+                                                                                                    <Visibility>Visible</Visibility>
+                                                                                                </DiscreteObjectKeyFrame.Value>
+                                                                                            </DiscreteObjectKeyFrame>
+                                                                                        </ObjectAnimationUsingKeyFrames>
+                                                                                    </Storyboard>
+                                                                                </VisualState>
+                                                                                <VisualState x:Name="Pressed">
+                                                                                    <Storyboard>
+                                                                                        <ObjectAnimationUsingKeyFrames Duration="0" Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="PressedElement">
+                                                                                            <DiscreteObjectKeyFrame KeyTime="0">
+                                                                                                <DiscreteObjectKeyFrame.Value>
+                                                                                                    <Visibility>Visible</Visibility>
+                                                                                                </DiscreteObjectKeyFrame.Value>
+                                                                                            </DiscreteObjectKeyFrame>
+                                                                                        </ObjectAnimationUsingKeyFrames>
+                                                                                    </Storyboard>
+                                                                                </VisualState>
+                                                                                <VisualState x:Name="Disabled">
+                                                                                    <Storyboard>
+                                                                                        <ObjectAnimationUsingKeyFrames Duration="0" Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="DisabledVisualElement">
+                                                                                            <DiscreteObjectKeyFrame KeyTime="0">
+                                                                                                <DiscreteObjectKeyFrame.Value>
+                                                                                                    <Visibility>Visible</Visibility>
+                                                                                                </DiscreteObjectKeyFrame.Value>
+                                                                                            </DiscreteObjectKeyFrame>
+                                                                                        </ObjectAnimationUsingKeyFrames>
+                                                                                    </Storyboard>
+                                                                                </VisualState>
+                                                                            </VisualStateGroup>
+                                                                        </VisualStateManager.VisualStateGroups>
+                                                                        <c1:C1BrushBuilder x:Name="MouseOverBrush" DesignColor="#FFBFE1EA" ExtrapolationMethod="Absolute" IsHitTestVisible="False" Input="{TemplateBinding c1:ClearStyleExtensions.MouseOverBrush}" Visibility="Collapsed">
+                                                                            <c1:C1BrushBuilder.DesignBrush>
+                                                                                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                                                                    <GradientStop Color="#FFE7F5FD" Offset="0"/>
+                                                                                    <GradientStop Color="#FFDCF0FC" Offset="0.5"/>
+                                                                                    <GradientStop Color="#FFBDE6FD" Offset="0.5"/>
+                                                                                    <GradientStop Color="#FFA9D9F5" Offset="1"/>
+                                                                                </LinearGradientBrush>
+                                                                            </c1:C1BrushBuilder.DesignBrush>
+                                                                        </c1:C1BrushBuilder>
+                                                                        <c1:C1BrushBuilder x:Name="PressedBrush" DesignColor="#FF8ED1E2" ExtrapolationMethod="Absolute" IsHitTestVisible="False" Input="{TemplateBinding c1:ClearStyleExtensions.PressedBrush}" Visibility="Collapsed">
+                                                                            <c1:C1BrushBuilder.DesignBrush>
+                                                                                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                                                                    <GradientStop Color="#FFA9D9F5" Offset="0"/>
+                                                                                    <GradientStop Color="#FFC1E4F5" Offset="0.5"/>
+                                                                                    <GradientStop Color="#FFA9DAF3" Offset="0.5"/>
+                                                                                    <GradientStop Color="#FF91CDEB" Offset="1"/>
+                                                                                </LinearGradientBrush>
+                                                                            </c1:C1BrushBuilder.DesignBrush>
+                                                                        </c1:C1BrushBuilder>
+                                                                        <Border x:Name="MouseOverElement" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{Binding Output, ElementName=MouseOverBrush}" CornerRadius="{TemplateBinding c1:ClearStyleExtensions.CornerRadius}" Visibility="Collapsed"/>
+                                                                        <Border x:Name="PressedElement" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{Binding Output, ElementName=PressedBrush}" CornerRadius="{TemplateBinding c1:ClearStyleExtensions.CornerRadius}" Visibility="Collapsed"/>
+                                                                        <ContentPresenter ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" ContentStringFormat="{TemplateBinding ContentStringFormat}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                                                                        <Border x:Name="DisabledVisualElement" Background="#77E8E8E8" CornerRadius="{TemplateBinding c1:ClearStyleExtensions.CornerRadius}" IsHitTestVisible="False" Visibility="Collapsed"/>
+                                                                    </Grid>
+                                                                </ControlTemplate>
+                                                            </Setter.Value>
+                                                        </Setter>
+                                                    </Style>
+                                                </RepeatButton.Style>
+                                                <Path Data="F1M110.692,342.252L110.692,352.682 104.594,347.467 110.692,342.252z" Fill="{TemplateBinding Foreground}" Height="8" Stretch="Fill" Width="4"/>
+                                            </RepeatButton>
+                                            <Track x:Name="PART_Track" Grid.Column="1">
+                                                <Track.DecreaseRepeatButton>
+                                                    <RepeatButton Command="ScrollBar.PageLeftCommand">
+                                                        <RepeatButton.Style>
+                                                            <Style TargetType="{x:Type RepeatButton}">
+                                                                <Setter Property="OverridesDefaultStyle" Value="True"/>
+                                                                <Setter Property="Background" Value="Transparent"/>
+                                                                <Setter Property="Focusable" Value="False"/>
+                                                                <Setter Property="IsTabStop" Value="False"/>
+                                                                <Setter Property="Template">
+                                                                    <Setter.Value>
+                                                                        <ControlTemplate TargetType="{x:Type RepeatButton}">
+                                                                            <Rectangle Fill="{TemplateBinding Background}" Height="{TemplateBinding Height}" Width="{TemplateBinding Width}"/>
+                                                                        </ControlTemplate>
+                                                                    </Setter.Value>
+                                                                </Setter>
+                                                            </Style>
+                                                        </RepeatButton.Style>
+                                                    </RepeatButton>
+                                                </Track.DecreaseRepeatButton>
+                                                <Track.IncreaseRepeatButton>
+                                                    <RepeatButton Command="ScrollBar.PageRightCommand">
+                                                        <RepeatButton.Style>
+                                                            <Style TargetType="{x:Type RepeatButton}">
+                                                                <Setter Property="OverridesDefaultStyle" Value="True"/>
+                                                                <Setter Property="Background" Value="Transparent"/>
+                                                                <Setter Property="Focusable" Value="False"/>
+                                                                <Setter Property="IsTabStop" Value="False"/>
+                                                                <Setter Property="Template">
+                                                                    <Setter.Value>
+                                                                        <ControlTemplate TargetType="{x:Type RepeatButton}">
+                                                                            <Rectangle Fill="{TemplateBinding Background}" Height="{TemplateBinding Height}" Width="{TemplateBinding Width}"/>
+                                                                        </ControlTemplate>
+                                                                    </Setter.Value>
+                                                                </Setter>
+                                                            </Style>
+                                                        </RepeatButton.Style>
+                                                    </RepeatButton>
+                                                </Track.IncreaseRepeatButton>
+                                                <Track.Thumb>
+                                                    <Thumb BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" c1:ClearStyleExtensions.CornerRadius="{TemplateBinding c1:ClearStyleExtensions.ButtonCornerRadius}" c1:ClearStyleExtensions.MouseOverBrush="{TemplateBinding c1:ClearStyleExtensions.MouseOverBrush}" c1:ClearStyleExtensions.PressedBrush="{TemplateBinding c1:ClearStyleExtensions.PressedBrush}">
+                                                        <Thumb.Style>
+                                                            <Style TargetType="{x:Type Thumb}">
+                                                                <Setter Property="OverridesDefaultStyle" Value="True"/>
+                                                                <Setter Property="IsTabStop" Value="False"/>
+                                                                <Setter Property="Template">
+                                                                    <Setter.Value>
+                                                                        <ControlTemplate TargetType="{x:Type Thumb}">
+                                                                            <Grid>
+                                                                                <VisualStateManager.VisualStateGroups>
+                                                                                    <VisualStateGroup x:Name="CommonStates">
+                                                                                        <VisualState x:Name="Normal"/>
+                                                                                        <VisualState x:Name="MouseOver">
+                                                                                        </VisualState>
+                                                                                        <VisualState x:Name="Pressed">
+                                                                                            <Storyboard>
+                                                                                                <ObjectAnimationUsingKeyFrames Duration="0" Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="PressedElement">
+                                                                                                    <DiscreteObjectKeyFrame KeyTime="0">
+                                                                                                        <DiscreteObjectKeyFrame.Value>
+                                                                                                            <Visibility>Visible</Visibility>
+                                                                                                        </DiscreteObjectKeyFrame.Value>
+                                                                                                    </DiscreteObjectKeyFrame>
+                                                                                                </ObjectAnimationUsingKeyFrames>
+                                                                                            </Storyboard>
+                                                                                        </VisualState>
+                                                                                        <VisualState x:Name="Disabled">
+                                                                                            <Storyboard>
+                                                                                                <ObjectAnimationUsingKeyFrames Duration="0" Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="DisabledVisualElement">
+                                                                                                    <DiscreteObjectKeyFrame KeyTime="0">
+                                                                                                        <DiscreteObjectKeyFrame.Value>
+                                                                                                            <Visibility>Visible</Visibility>
+                                                                                                        </DiscreteObjectKeyFrame.Value>
+                                                                                                    </DiscreteObjectKeyFrame>
+                                                                                                </ObjectAnimationUsingKeyFrames>
+                                                                                            </Storyboard>
+                                                                                        </VisualState>
+                                                                                    </VisualStateGroup>
+                                                                                </VisualStateManager.VisualStateGroups>
+                                                                                <Grid x:Name="ThumbVisual" Margin="0,1">
+                                                                                    <c1:C1BrushBuilder x:Name="BackgroundBrush" DesignColor="Gainsboro" ExtrapolationMethod="Absolute" IsHitTestVisible="False" Input="{TemplateBinding Background}" Visibility="Collapsed">
+                                                                                        <c1:C1BrushBuilder.DesignBrush>
+                                                                                            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                                                                                <GradientStop Color="#FFF2F2F2" Offset="0"/>
+                                                                                                <GradientStop Color="#FFEBEBEB" Offset="0.5"/>
+                                                                                                <GradientStop Color="Gainsboro" Offset="0.5"/>
+                                                                                                <GradientStop Color="#FFD0D0D0" Offset="1"/>
+                                                                                            </LinearGradientBrush>
+                                                                                        </c1:C1BrushBuilder.DesignBrush>
+                                                                                    </c1:C1BrushBuilder>
+                                                                                    <c1:C1BrushBuilder x:Name="MouseOverBrush" DesignColor="#FFBFE1EA" ExtrapolationMethod="Absolute" IsHitTestVisible="False" Input="{TemplateBinding c1:ClearStyleExtensions.MouseOverBrush}" Visibility="Collapsed">
+                                                                                        <c1:C1BrushBuilder.DesignBrush>
+                                                                                            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                                                                                <GradientStop Color="#FFE7F5FD" Offset="0"/>
+                                                                                                <GradientStop Color="#FFDCF0FC" Offset="0.5"/>
+                                                                                                <GradientStop Color="#FFBDE6FD" Offset="0.5"/>
+                                                                                                <GradientStop Color="#FFA9D9F5" Offset="1"/>
+                                                                                            </LinearGradientBrush>
+                                                                                        </c1:C1BrushBuilder.DesignBrush>
+                                                                                    </c1:C1BrushBuilder>
+                                                                                    <c1:C1BrushBuilder x:Name="PressedBrush" DesignColor="#FF8ED1E2" ExtrapolationMethod="Absolute" IsHitTestVisible="False" Input="{TemplateBinding c1:ClearStyleExtensions.PressedBrush}" Visibility="Collapsed">
+                                                                                        <c1:C1BrushBuilder.DesignBrush>
+                                                                                            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                                                                                <GradientStop Color="#FFA9D9F5" Offset="0"/>
+                                                                                                <GradientStop Color="#FFC1E4F5" Offset="0.5"/>
+                                                                                                <GradientStop Color="#FFA9DAF3" Offset="0.5"/>
+                                                                                                <GradientStop Color="#FF91CDEB" Offset="1"/>
+                                                                                            </LinearGradientBrush>
+                                                                                        </c1:C1BrushBuilder.DesignBrush>
+                                                                                    </c1:C1BrushBuilder>
+                                                                                    <Border x:Name="BackgroundElement" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{Binding Output, ElementName=BackgroundBrush}" CornerRadius="{TemplateBinding c1:ClearStyleExtensions.CornerRadius}"/>
+                                                                                    <Border x:Name="MouseOverElement" BorderThickness="{TemplateBinding BorderThickness}" Background="{Binding Output, ElementName=MouseOverBrush}" CornerRadius="{TemplateBinding c1:ClearStyleExtensions.CornerRadius}" Visibility="Collapsed"/>
+                                                                                    <Border x:Name="PressedElement" BorderThickness="{TemplateBinding BorderThickness}" Background="{Binding Output, ElementName=PressedBrush}" CornerRadius="{TemplateBinding c1:ClearStyleExtensions.CornerRadius}" Visibility="Collapsed"/>
+                                                                                    <Border x:Name="DisabledVisualElement" Background="#77E8E8E8" CornerRadius="{TemplateBinding c1:ClearStyleExtensions.CornerRadius}" IsHitTestVisible="False" Visibility="Collapsed"/>
+                                                                                </Grid>
+                                                                            </Grid>
+                                                                        </ControlTemplate>
+                                                                    </Setter.Value>
+                                                                </Setter>
+                                                            </Style>
+                                                        </Thumb.Style>
+                                                    </Thumb>
+                                                </Track.Thumb>
+                                            </Track>
+                                            <RepeatButton BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Grid.Column="2" c1:ClearStyleExtensions.CornerRadius="{Binding Output, ElementName=RightButtonCornerRadius}" Command="ScrollBar.LineRightCommand" HorizontalContentAlignment="Center" c1:ClearStyleExtensions.MouseOverBrush="{TemplateBinding c1:ClearStyleExtensions.MouseOverBrush}" c1:ClearStyleExtensions.PressedBrush="{TemplateBinding c1:ClearStyleExtensions.PressedBrush}" VerticalContentAlignment="Center">
+                                                <RepeatButton.Style>
+                                                    <Style TargetType="{x:Type RepeatButton}">
+                                                        <Setter Property="OverridesDefaultStyle" Value="True"/>
+                                                        <Setter Property="Focusable" Value="False"/>
+                                                        <Setter Property="IsTabStop" Value="False"/>
+                                                        <Setter Property="Template">
+                                                            <Setter.Value>
+                                                                <ControlTemplate TargetType="{x:Type RepeatButton}">
+                                                                    <Grid x:Name="Root" Background="Transparent">
+                                                                        <VisualStateManager.VisualStateGroups>
+                                                                            <VisualStateGroup x:Name="CommonStates">
+                                                                                <VisualState x:Name="Normal"/>
+                                                                                <VisualState x:Name="MouseOver">
+                                                                                    <Storyboard>
+                                                                                        <ObjectAnimationUsingKeyFrames Duration="0" Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="MouseOverElement">
+                                                                                            <DiscreteObjectKeyFrame KeyTime="0">
+                                                                                                <DiscreteObjectKeyFrame.Value>
+                                                                                                    <Visibility>Visible</Visibility>
+                                                                                                </DiscreteObjectKeyFrame.Value>
+                                                                                            </DiscreteObjectKeyFrame>
+                                                                                        </ObjectAnimationUsingKeyFrames>
+                                                                                    </Storyboard>
+                                                                                </VisualState>
+                                                                                <VisualState x:Name="Pressed">
+                                                                                    <Storyboard>
+                                                                                        <ObjectAnimationUsingKeyFrames Duration="0" Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="PressedElement">
+                                                                                            <DiscreteObjectKeyFrame KeyTime="0">
+                                                                                                <DiscreteObjectKeyFrame.Value>
+                                                                                                    <Visibility>Visible</Visibility>
+                                                                                                </DiscreteObjectKeyFrame.Value>
+                                                                                            </DiscreteObjectKeyFrame>
+                                                                                        </ObjectAnimationUsingKeyFrames>
+                                                                                    </Storyboard>
+                                                                                </VisualState>
+                                                                                <VisualState x:Name="Disabled">
+                                                                                    <Storyboard>
+                                                                                        <ObjectAnimationUsingKeyFrames Duration="0" Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="DisabledVisualElement">
+                                                                                            <DiscreteObjectKeyFrame KeyTime="0">
+                                                                                                <DiscreteObjectKeyFrame.Value>
+                                                                                                    <Visibility>Visible</Visibility>
+                                                                                                </DiscreteObjectKeyFrame.Value>
+                                                                                            </DiscreteObjectKeyFrame>
+                                                                                        </ObjectAnimationUsingKeyFrames>
+                                                                                    </Storyboard>
+                                                                                </VisualState>
+                                                                            </VisualStateGroup>
+                                                                        </VisualStateManager.VisualStateGroups>
+                                                                        <c1:C1BrushBuilder x:Name="MouseOverBrush" DesignColor="#FFBFE1EA" ExtrapolationMethod="Absolute" IsHitTestVisible="False" Input="{TemplateBinding c1:ClearStyleExtensions.MouseOverBrush}" Visibility="Collapsed">
+                                                                            <c1:C1BrushBuilder.DesignBrush>
+                                                                                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                                                                    <GradientStop Color="#FFE7F5FD" Offset="0"/>
+                                                                                    <GradientStop Color="#FFDCF0FC" Offset="0.5"/>
+                                                                                    <GradientStop Color="#FFBDE6FD" Offset="0.5"/>
+                                                                                    <GradientStop Color="#FFA9D9F5" Offset="1"/>
+                                                                                </LinearGradientBrush>
+                                                                            </c1:C1BrushBuilder.DesignBrush>
+                                                                        </c1:C1BrushBuilder>
+                                                                        <c1:C1BrushBuilder x:Name="PressedBrush" DesignColor="#FF8ED1E2" ExtrapolationMethod="Absolute" IsHitTestVisible="False" Input="{TemplateBinding c1:ClearStyleExtensions.PressedBrush}" Visibility="Collapsed">
+                                                                            <c1:C1BrushBuilder.DesignBrush>
+                                                                                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                                                                    <GradientStop Color="#FFA9D9F5" Offset="0"/>
+                                                                                    <GradientStop Color="#FFC1E4F5" Offset="0.5"/>
+                                                                                    <GradientStop Color="#FFA9DAF3" Offset="0.5"/>
+                                                                                    <GradientStop Color="#FF91CDEB" Offset="1"/>
+                                                                                </LinearGradientBrush>
+                                                                            </c1:C1BrushBuilder.DesignBrush>
+                                                                        </c1:C1BrushBuilder>
+                                                                        <Border x:Name="MouseOverElement" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{Binding Output, ElementName=MouseOverBrush}" CornerRadius="{TemplateBinding c1:ClearStyleExtensions.CornerRadius}" Visibility="Collapsed"/>
+                                                                        <Border x:Name="PressedElement" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{Binding Output, ElementName=PressedBrush}" CornerRadius="{TemplateBinding c1:ClearStyleExtensions.CornerRadius}" Visibility="Collapsed"/>
+                                                                        <ContentPresenter ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" ContentStringFormat="{TemplateBinding ContentStringFormat}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                                                                        <Border x:Name="DisabledVisualElement" Background="#77E8E8E8" CornerRadius="{TemplateBinding c1:ClearStyleExtensions.CornerRadius}" IsHitTestVisible="False" Visibility="Collapsed"/>
+                                                                    </Grid>
+                                                                </ControlTemplate>
+                                                            </Setter.Value>
+                                                        </Setter>
+                                                    </Style>
+                                                </RepeatButton.Style>
+                                                <Path Data="F1M511.047,352.682L511.047,342.252 517.145,347.467 511.047,352.682z" Fill="{TemplateBinding Foreground}" Height="8" Stretch="Fill" Width="4"/>
+                                            </RepeatButton>
+                                        </Grid>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type c1:C1DataGrid}">
+                    <Border x:Name="GridBorder" BorderBrush="#EB336E" BorderThickness="0,2,0,0" Background="{TemplateBinding Background}" CornerRadius="0">
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualState x:Name="Normal"/>
+                                <VisualState x:Name="MouseOver">
+                                    <Storyboard/>
+                                </VisualState>
+                                <VisualState x:Name="Disabled">
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames Duration="0" Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="DisabledVisualElement">
+                                            <DiscreteObjectKeyFrame KeyTime="0">
+                                                <DiscreteObjectKeyFrame.Value>
+                                                    <Visibility>Visible</Visibility>
+                                                </DiscreteObjectKeyFrame.Value>
+                                            </DiscreteObjectKeyFrame>
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="ReadOnly">
+                                    <Storyboard/>
+                                </VisualState>
+                            </VisualStateGroup>
+                            <VisualStateGroup x:Name="LoadingStates">
+                                <VisualState x:Name="Ready"/>
+                                <VisualState x:Name="Loading">
+                                    <Storyboard>
+                                        <BooleanAnimationUsingKeyFrames Duration="0" Storyboard.TargetProperty="IsActive" Storyboard.TargetName="LoadingBackground">
+                                            <DiscreteBooleanKeyFrame KeyTime="0" Value="True"/>
+                                        </BooleanAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                        <Grid>
+                            <Grid x:Name="GridControl">
+                                <Grid.Resources>
+                                    <ControlTemplate x:Key="TopLeftCornerTemplate" TargetType="{x:Type Button}">
+                                        <Grid x:Name="RootElement">
+                                            <VisualStateManager.VisualStateGroups>
+                                                <VisualStateGroup x:Name="CommonStates">
+                                                    <VisualState x:Name="Normal"/>
+                                                    <VisualState x:Name="MouseOver">
+                                                        <Storyboard>
+                                                            <ObjectAnimationUsingKeyFrames Duration="0" Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="MouseOverElement">
+                                                                <DiscreteObjectKeyFrame KeyTime="0">
+                                                                    <DiscreteObjectKeyFrame.Value>
+                                                                        <Visibility>Visible</Visibility>
+                                                                    </DiscreteObjectKeyFrame.Value>
+                                                                </DiscreteObjectKeyFrame>
+                                                            </ObjectAnimationUsingKeyFrames>
+                                                        </Storyboard>
+                                                    </VisualState>
+                                                    <VisualState x:Name="Pressed">
+                                                        <Storyboard/>
+                                                    </VisualState>
+                                                    <VisualState x:Name="Disabled">
+                                                        <Storyboard>
+                                                            <DoubleAnimationUsingKeyFrames BeginTime="0" Duration="0:0:0.001" Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="contentPresenter">
+                                                                <DiscreteDoubleKeyFrame KeyTime="0" Value="0"/>
+                                                                <LinearDoubleKeyFrame KeyTime="0" Value="0"/>
+                                                            </DoubleAnimationUsingKeyFrames>
+                                                        </Storyboard>
+                                                    </VisualState>
+                                                </VisualStateGroup>
+                                                <VisualStateGroup x:Name="FocusStates">
+                                                    <VisualState x:Name="Focused"/>
+                                                    <VisualState x:Name="Unfocused"/>
+                                                </VisualStateGroup>
+                                            </VisualStateManager.VisualStateGroups>
+                                            <c1:C1BrushBuilder x:Name="TopLeftCornerBackgroundBrush" DesignColor="#FFD1DCE8" ExtrapolationMethod="Absolute" IsHitTestVisible="False" Input="{TemplateBinding Background}" Visibility="Collapsed">
+                                                <c1:C1BrushBuilder.DesignBrush>
+                                                    <RadialGradientBrush>
+                                                        <RadialGradientBrush.RelativeTransform>
+                                                            <TransformGroup>
+                                                                <ScaleTransform CenterY="0.5" CenterX="0.5" ScaleY="1.984" ScaleX="1.984"/>
+                                                                <SkewTransform CenterY="0.5" CenterX="0.5"/>
+                                                                <RotateTransform CenterY="0.5" CenterX="0.5"/>
+                                                                <TranslateTransform X="0.502" Y="0.508"/>
+                                                            </TransformGroup>
+                                                        </RadialGradientBrush.RelativeTransform>
+                                                        <GradientStop Color="#FFD1DCE8" Offset="1"/>
+                                                    </RadialGradientBrush>
+                                                </c1:C1BrushBuilder.DesignBrush>
+                                            </c1:C1BrushBuilder>
+                                            <c1:C1BrushBuilder x:Name="TopLeftCornerOverBrush" DesignColor="#FFBFE1EA" ExtrapolationMethod="Absolute" IsHitTestVisible="False" Input="{TemplateBinding c1:ClearStyleExtensions.MouseOverBrush}" Visibility="Collapsed">
+                                                <c1:C1BrushBuilder.DesignBrush>
+                                                    <RadialGradientBrush>
+                                                        <RadialGradientBrush.RelativeTransform>
+                                                            <TransformGroup>
+                                                                <ScaleTransform CenterY="0.5" CenterX="0.5" ScaleY="1.984" ScaleX="1.984"/>
+                                                                <SkewTransform CenterY="0.5" CenterX="0.5"/>
+                                                                <RotateTransform CenterY="0.5" CenterX="0.5"/>
+                                                                <TranslateTransform X="0.502" Y="0.508"/>
+                                                            </TransformGroup>
+                                                        </RadialGradientBrush.RelativeTransform>
+                                                        <GradientStop Color="#FFBFE1EA" Offset="1"/>
+                                                    </RadialGradientBrush>
+                                                </c1:C1BrushBuilder.DesignBrush>
+                                            </c1:C1BrushBuilder>
+                                            <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="0,0,1,1" Background="{Binding Output, ElementName=TopLeftCornerBackgroundBrush}" CornerRadius="0"/>
+                                            <Border x:Name="MouseOverElement" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="0,0,1,1" Background="{Binding Output, ElementName=TopLeftCornerOverBrush}" CornerRadius="0" Visibility="Collapsed"/>
+                                            <ContentPresenter x:Name="contentPresenter" ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" HorizontalAlignment="Right" Margin="3" VerticalAlignment="Bottom"/>
+                                        </Grid>
+                                    </ControlTemplate>
+                                </Grid.Resources>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+                                <c1:C1BrushBuilder x:Name="BottomRightCornerBackgroundBrush" DesignColor="#FFD1DCE8" ExtrapolationMethod="Absolute" IsHitTestVisible="False" Input="{TemplateBinding HeaderBackground}" Visibility="Collapsed">
+                                    <c1:C1BrushBuilder.DesignBrush>
+                                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                            <GradientStop Color="#FFD1DCE8" Offset="1"/>
+                                        </LinearGradientBrush>
+                                    </c1:C1BrushBuilder.DesignBrush>
+                                </c1:C1BrushBuilder>
+                                <Grid x:Name="BottomRightCorner" Grid.Column="1" Grid.Row="2">
+                                    <Border x:Name="BackgroundElement" Background="{Binding Output, ElementName=BottomRightCornerBackgroundBrush}" CornerRadius="0"/>
+                                </Grid>
+                                <c1:DataGridGroupingPresenter x:Name="Grouping" BorderThickness="0,0,2,1" Grid.ColumnSpan="2" IsTabStop="False"/>
+                                <Border x:Name="GridContent" BorderBrush="{TemplateBinding BorderBrush}" Background="{TemplateBinding Background}" CornerRadius="0" Grid.Row="1">
+                                    <Grid x:Name="Root">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="*"/>
+                                        </Grid.RowDefinitions>
+                                        <Button x:Name="TopLeftCorner" Background="{TemplateBinding HeaderBackground}" c1:ClearStyleExtensions.MouseOverBrush="{TemplateBinding MouseOverBrush}">
+                                            <Button.Template>
+                                                <ControlTemplate TargetType="{x:Type Button}">
+                                                    <Grid x:Name="RootElement">
+                                                        <VisualStateManager.VisualStateGroups>
+                                                            <VisualStateGroup x:Name="CommonStates">
+                                                                <VisualState x:Name="Normal"/>
+                                                                <VisualState x:Name="MouseOver">
+                                                                    <Storyboard>
+                                                                        <ObjectAnimationUsingKeyFrames Duration="0" Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="MouseOverElement">
+                                                                            <DiscreteObjectKeyFrame KeyTime="0">
+                                                                                <DiscreteObjectKeyFrame.Value>
+                                                                                    <Visibility>Visible</Visibility>
+                                                                                </DiscreteObjectKeyFrame.Value>
+                                                                            </DiscreteObjectKeyFrame>
+                                                                        </ObjectAnimationUsingKeyFrames>
+                                                                    </Storyboard>
+                                                                </VisualState>
+                                                                <VisualState x:Name="Pressed">
+                                                                    <Storyboard/>
+                                                                </VisualState>
+                                                                <VisualState x:Name="Disabled">
+                                                                    <Storyboard>
+                                                                        <DoubleAnimationUsingKeyFrames BeginTime="0" Duration="0:0:0.001" Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="contentPresenter">
+                                                                            <DiscreteDoubleKeyFrame KeyTime="0" Value="0"/>
+                                                                            <LinearDoubleKeyFrame KeyTime="0" Value="0"/>
+                                                                        </DoubleAnimationUsingKeyFrames>
+                                                                    </Storyboard>
+                                                                </VisualState>
+                                                            </VisualStateGroup>
+                                                            <VisualStateGroup x:Name="FocusStates">
+                                                                <VisualState x:Name="Focused"/>
+                                                                <VisualState x:Name="Unfocused"/>
+                                                            </VisualStateGroup>
+                                                        </VisualStateManager.VisualStateGroups>
+                                                        <c1:C1BrushBuilder x:Name="TopLeftCornerBackgroundBrush" DesignColor="#FFD1DCE8" ExtrapolationMethod="Absolute" IsHitTestVisible="False" Input="{TemplateBinding Background}" Visibility="Collapsed">
+                                                            <c1:C1BrushBuilder.DesignBrush>
+                                                                <RadialGradientBrush>
+                                                                    <RadialGradientBrush.RelativeTransform>
+                                                                        <TransformGroup>
+                                                                            <ScaleTransform CenterY="0.5" CenterX="0.5" ScaleY="1.984" ScaleX="1.984"/>
+                                                                            <SkewTransform CenterY="0.5" CenterX="0.5"/>
+                                                                            <RotateTransform CenterY="0.5" CenterX="0.5"/>
+                                                                            <TranslateTransform X="0.502" Y="0.508"/>
+                                                                        </TransformGroup>
+                                                                    </RadialGradientBrush.RelativeTransform>
+                                                                    <GradientStop Color="#FFD1DCE8" Offset="1"/>
+                                                                </RadialGradientBrush>
+                                                            </c1:C1BrushBuilder.DesignBrush>
+                                                        </c1:C1BrushBuilder>
+                                                        <c1:C1BrushBuilder x:Name="TopLeftCornerOverBrush" DesignColor="#FFBFE1EA" ExtrapolationMethod="Absolute" IsHitTestVisible="False" Input="{TemplateBinding c1:ClearStyleExtensions.MouseOverBrush}" Visibility="Collapsed">
+                                                            <c1:C1BrushBuilder.DesignBrush>
+                                                                <RadialGradientBrush>
+                                                                    <RadialGradientBrush.RelativeTransform>
+                                                                        <TransformGroup>
+                                                                            <ScaleTransform CenterY="0.5" CenterX="0.5" ScaleY="1.984" ScaleX="1.984"/>
+                                                                            <SkewTransform CenterY="0.5" CenterX="0.5"/>
+                                                                            <RotateTransform CenterY="0.5" CenterX="0.5"/>
+                                                                            <TranslateTransform X="0.502" Y="0.508"/>
+                                                                        </TransformGroup>
+                                                                    </RadialGradientBrush.RelativeTransform>
+                                                                    <GradientStop Color="#FFBFE1EA" Offset="1"/>
+                                                                </RadialGradientBrush>
+                                                            </c1:C1BrushBuilder.DesignBrush>
+                                                        </c1:C1BrushBuilder>
+                                                        <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="0,0,1,1" Background="{Binding Output, ElementName=TopLeftCornerBackgroundBrush}" CornerRadius="0"/>
+                                                        <Border x:Name="MouseOverElement" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="0,0,1,1" Background="{Binding Output, ElementName=TopLeftCornerOverBrush}" CornerRadius="0" Visibility="Collapsed"/>
+                                                        <ContentPresenter x:Name="contentPresenter" ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" HorizontalAlignment="Right" Margin="3" VerticalAlignment="Bottom"/>
+                                                    </Grid>
+                                                </ControlTemplate>
+                                            </Button.Template>
+                                            <Path Data="M10,0L10,10 0,10z" Fill="{TemplateBinding Foreground}" HorizontalAlignment="Right" Height="10" Opacity="0.3" Stretch="None" VerticalAlignment="Bottom" Width="10"/>
+                                        </Button>
+                                        <c1:DataGridColumnsHeaderPanel x:Name="ColumnsHeader" Background="{TemplateBinding HeaderBackground}" Grid.Column="1" MinHeight="16"/>
+                                        <c1:DataGridRowsPanel x:Name="Body" Background="{TemplateBinding Background}" Grid.Column="1" Grid.Row="1"/>
+                                        <c1:DataGridRowsHeaderPanel x:Name="RowsHeader" Background="{TemplateBinding HeaderBackground}" Grid.Row="1"/>
+                                    </Grid>
+                                </Border>
+                                <Border x:Name="Border_VerticalScrollBar" Grid.Column="1" Grid.Row="1">
+                                    <ScrollBar x:Name="VerticalScrollBar" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="1" Background="{TemplateBinding HeaderBackground}" Foreground="{TemplateBinding HeaderForeground}" c1:ClearStyleExtensions.MouseOverBrush="{TemplateBinding MouseOverBrush}" Orientation="Vertical" c1:ClearStyleExtensions.PressedBrush="{TemplateBinding PressedBrush}" Style="{TemplateBinding ScrollBarStyle}" Visibility="Collapsed" Width="Auto"/>
+                                </Border>
+                                <Grid x:Name="GridRowCountAndHorizontalScrollBar" Grid.Row="2">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid x:Name="GridRowCount" Grid.Column="0" Visibility="Collapsed">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="10"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="10"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Image     Grid.Column="0" Stretch="Fill" Source="/LGC.GMES.MES.ControlsLibrary;component/Images/LGC/top_bg_allmenu_left.png"/>
+                                        <TextBlock Grid.Column="1" x:Name="RowCountText" Text=" Row Count : 0 " Foreground="White" Background="#68686F" Margin="-1,0,-1,1" />
+                                        <Image     Grid.Column="2" Stretch="Fill" Source="/LGC.GMES.MES.ControlsLibrary;component/Images/LGC/top_bg_allmenu_right.png" />
+                                    </Grid>
+                                    <Border x:Name="Border_HorizontalScrollBar" Grid.Column="1" >
+                                        <ScrollBar x:Name="HorizontalScrollBar" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="1" Background="{TemplateBinding HeaderBackground}" Foreground="{TemplateBinding HeaderForeground}" Height="Auto" c1:ClearStyleExtensions.MouseOverBrush="{TemplateBinding MouseOverBrush}" Orientation="Horizontal" c1:ClearStyleExtensions.PressedBrush="{TemplateBinding PressedBrush}" Style="{TemplateBinding ScrollBarStyle}" Visibility="Collapsed"/>
+                                    </Border>
+                                </Grid>
+                                <Popup x:Name="Popup"/>
+                            </Grid>
+                            <ctrlLib:LoadingIndicator x:Name="LoadingBackground" Grid.Row="999" Grid.Column="999" Visibility="Collapsed" />
+                            <Border x:Name="DisabledVisualElement" Background="#77E8E8E8" CornerRadius="0" IsHitTestVisible="False" Visibility="Collapsed"/>
+                        </Grid>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="c1:C1DataGrid.ContextMenu">
+            <Setter.Value>
+                <ContextMenu>
+                    <MenuItem x:Name="cmnuCopyAllWithHeader" Header="CopyAllWithHeader" IsEnabled="True" />
+                    <MenuItem x:Name="cmnuCopyWithHeader" Header="COPYWITHHEADER" IsEnabled="True" />
+                    <Separator x:Name="cmnuSeparator" IsEnabled="True" />
+                    <MenuItem x:Name="cmnuExcel" Header="EXCELSAVE" IsEnabled="True" />
+                    <MenuItem x:Name="cmnuExcelOpen" Header="EXCELSAVEANDOPEN" IsEnabled="True" />
+                </ContextMenu>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="c1:DataGridCellPresenter" >
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="VerticalAlignment" Value="Stretch" />
+        <Setter Property="Padding" Value="6,0" />
+        <Setter Property="Margin" Value="0" />
+        <Setter Property="MinHeight" Value="27" />
+        <Setter Property="Height" Value="Auto" />
+        <Setter Property="BorderBrush" Value="#ffd8d8d8" />
+        <Setter Property="BorderThickness" Value="0.5,0,0.5,1" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type c1:DataGridCellPresenter}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualState x:Name="Normal"/>
+                                <VisualState x:Name="Disabled"/>
+                                <VisualState x:Name="MouseOver">
+                                    <Storyboard>
+                                        <DoubleAnimationUsingKeyFrames BeginTime="0" Duration="0:0:0.001" Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="MouseOverElement">
+                                            <DiscreteDoubleKeyFrame KeyTime="0" Value="1"/>
+                                            <LinearDoubleKeyFrame KeyTime="0" Value="1"/>
+                                        </DoubleAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                            </VisualStateGroup>
+                            <VisualStateGroup x:Name="SelectionStates">
+                                <VisualState x:Name="Unselected"/>
+                                <VisualState x:Name="Editing"/>
+                                <VisualState x:Name="Current">
+                                    <Storyboard>
+                                        <DoubleAnimationUsingKeyFrames Duration="0" Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="FocusElement">
+                                            <DiscreteDoubleKeyFrame KeyTime="0" Value="1"/>
+                                        </DoubleAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="CurrentSelected">
+                                    <Storyboard>
+                                        <DoubleAnimationUsingKeyFrames Duration="0" Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="FocusElement">
+                                            <DiscreteDoubleKeyFrame KeyTime="0" Value="1"/>
+                                        </DoubleAnimationUsingKeyFrames>
+                                        <DoubleAnimationUsingKeyFrames Duration="0" Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="SelectedElement">
+                                            <DiscreteDoubleKeyFrame KeyTime="0" Value="1"/>
+                                        </DoubleAnimationUsingKeyFrames>
+                                        <DoubleAnimationUsingKeyFrames Duration="0" Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="CurrentSelectedElement">
+                                            <DiscreteDoubleKeyFrame KeyTime="0" Value="1"/>
+                                        </DoubleAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="Selected">
+                                    <Storyboard>
+                                        <DoubleAnimationUsingKeyFrames Duration="0" Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="SelectedElement">
+                                            <DiscreteDoubleKeyFrame KeyTime="0" Value="1"/>
+                                        </DoubleAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                            </VisualStateGroup>
+                            <VisualStateGroup x:Name="ValidationStates">
+                                <VisualState x:Name="Valid"/>
+                                <VisualState x:Name="InvalidUnfocused">
+                                    <Storyboard>
+                                        <DoubleAnimationUsingKeyFrames Duration="0" Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="Validation">
+                                            <DiscreteDoubleKeyFrame KeyTime="0" Value="1"/>
+                                        </DoubleAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="InvalidFocused"/>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                        <Grid Background="{TemplateBinding Background}" Grid.Column="1" Grid.Row="1">
+                            <Border x:Name="SelectedElement" Background="{TemplateBinding SelectedBackground}" Opacity="0"/>
+                            <Border x:Name="CurrentSelectedElement" Background="{TemplateBinding SelectedBackground}" Opacity="0"/>
+                            <c1:DataGridFocusPresenter x:Name="FocusElement" BorderBrush="{TemplateBinding SelectedBackground}" IsTabStop="False" Opacity="0" Style="{TemplateBinding FocusStyle}"/>
+                            <Border x:Name="MouseOverElement" BorderBrush="{TemplateBinding SelectedBackground}" Background="{TemplateBinding MouseOverBrush}" Opacity="0"/>
+                            <ContentPresenter Content="{TemplateBinding Content}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                            <Border x:Name="Validation" BorderBrush="{TemplateBinding ValidationBackground}" BorderThickness="1" Opacity="0"/>
+                        </Grid>
+                        <Rectangle x:Name="LeftLine" Grid.Column="0" Grid.RowSpan="3" StrokeThickness="0"/>
+                        <Rectangle x:Name="TopLine" Grid.ColumnSpan="3" Grid.Row="0" StrokeThickness="0"/>
+                        <Rectangle x:Name="RightLine" Grid.Column="2" Grid.RowSpan="3" StrokeThickness="0"/>
+                        <Rectangle x:Name="BottomLine" Grid.ColumnSpan="3" Grid.Row="2" StrokeThickness="0"/>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="c1:DataGridNewRowPresenter">
+        <Setter Property="Visibility" Value="Collapsed" />
+        <Setter Property="MinHeight" Value="27" />
+        <Setter Property="Height" Value="Auto" />
+    </Style>
+
+</ResourceDictionary>

@@ -1,0 +1,101 @@
+﻿<c1:C1Window x:Class="LGC.GMES.MES.FCS002.FCS002_400_RECHECK"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:c1="http://schemas.componentone.com/winfx/2006/xaml"
+		     xmlns:System="clr-namespace:System;assembly=mscorlib"
+             xmlns:ctrlLib="clr-namespace:LGC.GMES.MES.ControlsLibrary;assembly=LGC.GMES.MES.ControlsLibrary"        
+             ctrlLib:LGCPopupWindowExtension.ApplyStyle="True"
+             Header="{Binding Converter={StaticResource GlobalObjectDicConverter}, ConverterParameter='RECHECK_PROC'}" 
+             Tag="BOX해체" Height="500" Width="600" IsResizable="True" Loaded="C1Window_Loaded"   >
+
+    <c1:C1Window.Resources>
+        <ResourceDictionary Source="/LGC.GMES.MES.ControlsLibrary;Component/ControlStyles.xaml"/>
+    </c1:C1Window.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40" />
+            <RowDefinition Height="15" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="15" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <Border Grid.Row="0" BorderThickness="1" BorderBrush="#ffbebebe" Style="{StaticResource BorderSubTitleStyle}"/>
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="8"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="4"/>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="8"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="8" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="20" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="20" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="4" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="8" />
+            </Grid.RowDefinitions>
+            <TextBlock   Grid.Row="1"   Grid.Column="1" Text="Cell (Can, Vent) ID" HorizontalAlignment="Center" Style="{StaticResource SearchCondition_LabelStyle}" />
+            <TextBox     Grid.Row="1"   Grid.Column="3"  x:Name="txtCellID" Style="{StaticResource SearchCondition_TextBoxStyle}"   CharacterCasing="Upper"  KeyDown="txtCellID_KeyDown"/>
+
+        </Grid>
+        <c1:C1DataGrid Grid.Row="2" 
+                           Grid.Column="1"
+                           x:Name="dgBox" 
+                           IsReadOnly="False" 
+                           Grid.ColumnSpan="7"
+                           HeadersVisibility="Column" 
+                           SelectionMode="SingleRow" 
+                           CanUserFilter="False" 
+                           CanUserSort="False">
+            <c1:C1DataGrid.Columns>
+                <c1:DataGridCheckBoxColumn  Header = "선택"    Visibility="Hidden"       Binding = "{Binding CHK}"              HorizontalAlignment="Center" Width="40" />
+                   <c1:DataGridTemplateColumn Header="DELETE" Name="DELETE" Width="90"  HorizontalAlignment="Center" >
+                    <c1:DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button  x:Name="btnDelete" Width="Auto" Content="{Binding ConverterParameter=DELETE, Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" 
+                                                                 Style="{DynamicResource Content_MainButtonNoMinWidthSpecialStyle}" Margin="3,2,3,2" Click="btnDelete_Click"/>
+                        </DataTemplate>
+                    </c1:DataGridTemplateColumn.CellTemplate>
+                    
+                    
+                </c1:DataGridTemplateColumn>
+                <c1:DataGridTextColumn        Header = "CELL ID"      Binding = "{Binding SUBLOTID}"            HorizontalAlignment="Center" />
+                <c1:DataGridTextColumn        Header = "CANID"      Binding = "{Binding SUBLOTID}"            HorizontalAlignment="Center" />
+                <c1:DataGridTextColumn        Header = "VENT ID"      Binding = "{Binding SUBLOTID}"            HorizontalAlignment="Center" />
+            </c1:C1DataGrid.Columns>
+        </c1:C1DataGrid>
+
+        <!--button area-->
+        <Grid Grid.Row ="4">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="8"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="5"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="5"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="5"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            
+            <Button x:Name="btnExcelUpload" Visibility="Collapsed" Grid.Column="3" Content="{Binding ConverterParameter=Excel, Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_ModuleButtonExcelImportStyle}" Height="25" Cursor="Hand" Click="ExcelUpload_Click" Margin="0,2" />
+            <Button x:Name="btnDelete"     Grid.Column="5" Content="{Binding ConverterParameter=삭제, Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{DynamicResource Content_MainButtonSpecialStyle}" Click="btnDelete_Click" Visibility="Collapsed" />
+            <Button x:Name="btnUnMap"       Grid.Column="7" Content="{Binding ConverterParameter='진행', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{DynamicResource Content_MainButtonSpecialStyle}" Click="btnUnPack_Click" />
+            <Button x:Name="btnClose"       Grid.Column="9" Content="{Binding ConverterParameter='닫기', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{DynamicResource Content_MainButtonStyle}" Click="btnClose_Click" />
+        </Grid>
+
+      
+
+        <ctrlLib:LoadingIndicator x:Name="loadingIndicator" />
+    </Grid>
+</c1:C1Window>

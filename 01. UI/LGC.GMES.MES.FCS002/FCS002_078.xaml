@@ -1,0 +1,107 @@
+<UserControl xmlns:ss="http://schemas.grapecity.com/windows/spreadsheet/2012"  x:Class="LGC.GMES.MES.FCS002.FCS002_078"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:c1="http://schemas.componentone.com/winfx/2006/xaml"
+             xmlns:ctrlLib="clr-namespace:LGC.GMES.MES.ControlsLibrary;assembly=LGC.GMES.MES.ControlsLibrary"
+             mc:Ignorable="d" 
+             d:DesignHeight="768" d:DesignWidth="1324"
+             Loaded="UserControl_Loaded">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/LGC.GMES.MES.ControlsLibrary;component/ControlStyles.xaml" />
+                <ResourceDictionary Source="/LGC.GMES.MES.ControlsLibrary;component/ControlTemplates/LGCDatePicker.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid>
+        <ctrlLib:LGCLayout x:Name="LayoutRoot" Tag="FCS-FP 계획연동 Report">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="8"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <Grid x:Name="SearchArea" Grid.Row="0">
+                    <Border Grid.Row="0" Grid.Column="0" Background="#fff2f2f2" BorderThickness="1" BorderBrush="#ffd1d1d1"></Border>
+                    <Grid   Grid.Row="0" Grid.Column="0" >
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="11" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="11" />
+                        </Grid.RowDefinitions>
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="13"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="13"/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock             Grid.Row="1" Grid.Column="1"  Text="{Binding ConverterParameter='SEL_PERIOD', Converter={StaticResource GlobalObjectDicConverter}, RelativeSource={RelativeSource Self}}" Style="{StaticResource Content_InputForm_LabelStyle}" />
+                        <ctrlLib:LGCDatePicker Grid.Row="1" Grid.Column="2"  x:Name="dtpFromDate" DatepickerType="Date" />
+                        <TextBlock             Grid.Row="1" Grid.Column="3"  Text="~" Style="{StaticResource Content_InputForm_LabelStyle}" />
+                        <ctrlLib:LGCDatePicker Grid.Row="1" Grid.Column="4"  x:Name="dtpToDate" DatepickerType="Date" />
+
+                        <TextBlock             Grid.Row="1" Grid.Column="5"  Text="{Binding ConverterParameter='FACTORY_ID', Converter={StaticResource GlobalObjectDicConverter}, RelativeSource={RelativeSource Self}}" Style="{StaticResource Content_InputForm_LabelStyle}" />
+                        <c1:C1ComboBox         Grid.Row="1" Grid.Column="6"  x:Name="cboPlant" Style="{StaticResource C1ComboBoxStyle}" AutoComplete="False" />
+
+                        <TextBlock             Grid.Row="1" Grid.Column="7"  Text="{Binding ConverterParameter='LINE_ID', Converter={StaticResource GlobalObjectDicConverter}, RelativeSource={RelativeSource Self}}" Style="{StaticResource Content_InputForm_LabelStyle}" />
+                        <c1:C1ComboBox         Grid.Row="1" Grid.Column="8"  x:Name="cboLine" Style="{StaticResource C1ComboBoxStyle}" AutoComplete="False"/>
+                        
+                        <TextBlock             Grid.Row="1" Grid.Column="9" Text="{Binding ConverterParameter='OP', Converter={StaticResource GlobalObjectDicConverter}, RelativeSource={RelativeSource Self}}" Style="{StaticResource Content_InputForm_LabelStyle}" />
+                        <c1:C1ComboBox         Grid.Row="1" Grid.Column="10" x:Name="cboEqpKind" Style="{StaticResource C1ComboBoxStyle}" AutoComplete="False"/>
+                        
+                        <TextBlock             Grid.Row="1" Grid.Column="11" Text="{Binding ConverterParameter='MODEL', Converter={StaticResource GlobalObjectDicConverter}, RelativeSource={RelativeSource Self}}" Style="{StaticResource Content_InputForm_LabelStyle}" />
+                        <c1:C1ComboBox         Grid.Row="1" Grid.Column="12" x:Name="cboModel" Style="{StaticResource C1ComboBoxStyle}" AutoComplete="False" />
+                        
+                        <Button                Grid.Row="1" Grid.Column="14" x:Name="btnSearch" Content="{Binding ConverterParameter='SEARCH',    Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource SearchButtonStyle}" Cursor="Hand" Click="btnSearch_Click" />
+                    </Grid>
+                </Grid>
+
+                <Grid x:Name="GridArea" Grid.Row="3">
+                    <Border        Grid.Row="1" Grid.Column="0" Style="{StaticResource Content_InputForm_GroupBorderStyle}"/>
+                    <c1:C1DataGrid x:Name="dgFP" IsReadOnly="True" HeadersVisibility="None" CanUserRemoveRows="True" CanUserAddRows="True" SelectionMode="MultiRange" Margin="8" LoadedCellPresenter="dgFP_LoadedCellPresenter" >
+                        <c1:C1DataGrid.Columns>
+                            <c1:DataGridTextColumn     Header = "[AREA_ID,AREA_ID]"            Binding = "{Binding AREAID}"        HorizontalAlignment="Center" />
+                            <c1:DataGridTextColumn     Header = "[OP,OP]"                      Binding = "{Binding PROD_PROCID}"   HorizontalAlignment="Center" />
+                            <c1:DataGridTextColumn     Header = "[LINE_ID,LINE_ID]"            Binding = "{Binding EQSGNAME}"      HorizontalAlignment="Center" />
+                            <c1:DataGridTextColumn     Header = "[DATE,DATE]"                  Binding = "{Binding PLAN_DTTM}"     HorizontalAlignment="Center" />
+                            <c1:DataGridTextColumn     Header = "[PROD_CD,PROD_CD]"            Binding = "{Binding PROD_CD}"       HorizontalAlignment="Center" />
+                            <c1:DataGridTextColumn     Header = "[NICK_NAME,NICK_NAME]"        Binding = "{Binding PJT_CD}"        HorizontalAlignment="Center" />
+                            <c1:DataGridNumericColumn  Header = "[WPP_PLAN,QTY]"               Binding = "{Binding WPP_QTY}"       HorizontalAlignment="Right" Format="###,###,##0" />
+                            <c1:DataGridNumericColumn  Header = "[PROD_PLAN,QTY]"              Binding = "{Binding DPP_QTY}"       HorizontalAlignment="Right" Format="###,###,##0" />
+                            <c1:DataGridNumericColumn  Header = "[OFF_TIME,OFF_TIME]"          Binding = "{Binding OFF_TIME}"      HorizontalAlignment="Right" Format="###,###,##0" />
+                            <c1:DataGridTextColumn     Header = "[MODEL_CHG_YN,MODEL_CHG_YN]"  Binding = "{Binding MDL_CHG_FLAG}"  HorizontalAlignment="Center" />
+                            <c1:DataGridNumericColumn  Header = "[OPER_RATE,OPER_RATE]"        Binding = "{Binding OPER_RATE}"     HorizontalAlignment="Right" Format="###,###,##0" />
+                            <c1:DataGridTextColumn     Header = "[DESC,DESC]"                  Binding = "{Binding MEMO_CNTT}"     HorizontalAlignment="Left" />
+                        </c1:C1DataGrid.Columns>
+
+                        <c1:C1DataGrid.TopRows>
+                            <c1:DataGridColumnHeaderRow />
+                            <c1:DataGridColumnHeaderRow />
+                        </c1:C1DataGrid.TopRows>
+                    </c1:C1DataGrid>
+                </Grid>
+            </Grid>
+
+        </ctrlLib:LGCLayout>
+
+        <ctrlLib:LoadingIndicator x:Name="loadingIndicator" Grid.Row="999" Grid.Column="999" />
+    </Grid>
+</UserControl>

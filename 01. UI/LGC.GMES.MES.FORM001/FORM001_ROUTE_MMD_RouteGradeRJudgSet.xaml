@@ -1,0 +1,114 @@
+﻿<c1:C1Window x:Class="LGC.GMES.MES.FORM001.FORM001_ROUTE_MMD_RouteGradeRJudgSet"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:c1="http://schemas.componentone.com/winfx/2006/xaml"
+             xmlns:System="clr-namespace:System;assembly=mscorlib"
+             xmlns:ctrlLib="clr-namespace:LGC.GMES.MES.ControlsLibrary;assembly=LGC.GMES.MES.ControlsLibrary"
+             xmlns:uc="clr-namespace:LGC.GMES.MES.CMM001.Controls;assembly=LGC.GMES.MES.CMM001"
+             ctrlLib:LGCPopupWindowExtension.ApplyStyle="True"
+             Header="{Binding Converter={StaticResource GlobalObjectDicConverter}, ConverterParameter='RJUDG_GRADE_SEL'}" 
+             Tag="ProtoType01Windows01" Height="Auto" MinHeight="500" MaxHeight="1024" Width="Auto" MinWidth="500" MaxWidth="1280" IsResizable="True" Loaded="C1Window_Loaded">
+ 
+    <c1:C1Window.Resources>
+        <ResourceDictionary Source="/LGC.GMES.MES.ControlsLibrary;Component/ControlStyles.xaml"/>
+    </c1:C1Window.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="100" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="10" />
+            <RowDefinition Height="44" />
+        </Grid.RowDefinitions>
+
+        <ctrlLib:LoadingIndicator x:Name="loadingIndicator" Grid.Row="0" Panel.ZIndex="999" />
+
+        <Grid Grid.Row="0" Grid.Column="0" Margin="0,8,0,8">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="13"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="13"/>
+            </Grid.ColumnDefinitions>
+
+            <Border Grid.Row="0" Grid.Column="0" Grid.RowSpan="2" BorderThickness="1" Grid.ColumnSpan="12" BorderBrush="#FF9DA0A3" Background="#FFE0E0E0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+            <!--<Border Grid.Row="1" Grid.Column="0" BorderThickness="1" Grid.ColumnSpan="12" BorderBrush="#FF9DA0A3" Background="#FFE0E0E0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>-->
+
+
+            <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding ConverterParameter='AREA', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}"/>
+            <TextBox   Grid.Row="0" Grid.Column="2" x:Name="txtAREA" Style="{StaticResource Content_InputForm_TextBoxStyle}" CharacterCasing="Upper" IsReadOnly="True"/>
+
+            <TextBlock Grid.Row="0" Grid.Column="3" Text="{Binding ConverterParameter='생산라인', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}"/>
+            <TextBox   Grid.Row="0" Grid.Column="4" x:Name="txtEQSG" Style="{StaticResource Content_InputForm_TextBoxStyle}" CharacterCasing="Upper" IsReadOnly="True"/>
+
+            <TextBlock Grid.Row="0" Grid.Column="5" Text="{Binding ConverterParameter='모델', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}"/>
+            <TextBox   Grid.Row="0" Grid.Column="6" x:Name="txtMODL" Style="{StaticResource Content_InputForm_TextBoxStyle}" CharacterCasing="Upper" IsReadOnly="True"/>
+
+            <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding ConverterParameter='경로', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}"/>
+            <TextBox   Grid.Row="1" Grid.Column="2" x:Name="txtROUT" Style="{StaticResource Content_InputForm_TextBoxStyle}" CharacterCasing="Upper" IsReadOnly="True"/>
+
+            <TextBlock Grid.Row="1" Grid.Column="3" Text="{Binding ConverterParameter='경로유형', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}"/>
+            <TextBox   Grid.Row="1" Grid.Column="4" x:Name="txtROUT_TYPE" Style="{StaticResource Content_InputForm_TextBoxStyle}" CharacterCasing="Upper" IsReadOnly="True"/>
+        </Grid>
+
+        <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Border Grid.Column ="0" Background="#ffffffff" BorderThickness="1" BorderBrush="#ffbebebe"></Border>
+            <uc:UcBaseDataGrid Grid.Row="0" Grid.Column="0" Margin="8" x:Name="dgRjudg" IsReadOnly="True" HeadersVisibility="Column" SelectionMode="SingleCell" 
+                           LoadedCellPresenter="dgRjudg_LoadedCellPresenter" UnloadedCellPresenter="dgRjudg_UnloadedCellPresenter" >
+                <c1:C1DataGrid.Columns>
+                    <c1:DataGridTextColumn          Header="ACT_OP"                 Binding="{Binding ACT_OP_NAME}"             HorizontalAlignment="Center"    IsReadOnly="True"/>
+                    <c1:DataGridTextColumn          Header="SEQ"                    Binding="{Binding JUDG_PRIORITY}"           HorizontalAlignment="Center"    IsReadOnly="True"/>
+                    <c1:DataGridTextColumn          Header="JUDG_GRADE_CD"          Binding="{Binding SUBLOT_GRD_CODE}"         HorizontalAlignment="Center"    IsReadOnly="True"/>
+                    <c1:DataGridTextColumn          Header="JUDG_OP"                Binding="{Binding JUDG_OP_NAME}"            HorizontalAlignment="Left"      IsReadOnly="True"/>
+                    <c1:DataGridTextColumn          Header="WORK_PER2"              Binding="{Binding SPEC_OUTPUT_STRT_RATE}"   HorizontalAlignment="Left"      IsReadOnly="True"/>
+                    <c1:DataGridComboBoxColumn      Header="JUDG_TYPE"              Binding="{Binding JUDG_MTHD_CODE}"          HorizontalAlignment="Left"      EditOnSelection="True" DisplayMemberPath="CMCDNAME1" SelectedValuePath="CMCODE" IsReadOnly="True"/>
+                    <c1:DataGridTextColumn          Header="CASE_ID"                Binding="{Binding JUDG_CASE_ID}"            HorizontalAlignment="Left"      IsReadOnly="True"/>
+                    <c1:DataGridComboBoxColumn      Header="MEAS_TYPE_CD"           Binding="{Binding MEASR_TYPE_CODE}"         HorizontalAlignment="Left"      EditOnSelection="True" DisplayMemberPath="CMCDNAME1" SelectedValuePath="CMCODE" IsReadOnly="True"/>
+                    <c1:DataGridTextColumn          Header="UNIT_OP"                Binding="{Binding MEAS_OP_NAME}"            HorizontalAlignment="Left"      IsReadOnly="True"/>
+                    <c1:DataGridComboBoxColumn      Header="JUDG_STD"               Binding="{Binding REF_VALUE_CODE}"          HorizontalAlignment="Left"      EditOnSelection="True" DisplayMemberPath="CMCDNAME1" SelectedValuePath="CMCODE" IsReadOnly="True"/>
+                    <c1:DataGridComboBoxColumn      Header="JUDG_RANGE"             Binding="{Binding RJUDG_BAS_CODE}"          HorizontalAlignment="Left"      EditOnSelection="True" DisplayMemberPath="CMCDNAME1" SelectedValuePath="CMCODE" IsReadOnly="True"/>
+                    <c1:DataGridNumericColumn       Header="STD_DEV_UREL_CONST"     Binding="{Binding STDEV_MAX_CONST_VALUE}"   HorizontalAlignment="Right"     IsReadOnly="True"/>
+                    <c1:DataGridNumericColumn       Header="STD_DEV_LREL_CONST"     Binding="{Binding STDEV_MIN_CONST_VALUE}"   HorizontalAlignment="Right"     IsReadOnly="True"/>
+                    <c1:DataGridNumericColumn       Header="UABS_VAL"               Binding="{Binding ABS_MAX_VALUE}"           HorizontalAlignment="Right"     IsReadOnly="True"/>
+                    <c1:DataGridNumericColumn       Header="LABS_VAL"               Binding="{Binding ABS_MIN_VALUE}"           HorizontalAlignment="Right"     IsReadOnly="True"/>
+                    <c1:DataGridNumericColumn       Header="PERCENT_VAL"            Binding="{Binding PCT_VALUE}"               HorizontalAlignment="Right"     IsReadOnly="True"/>
+                    <c1:DataGridNumericColumn       Header="BICELL_VAL"             Binding="{Binding BICELL_REG_VALUE}"        HorizontalAlignment="Right"     IsReadOnly="True"/>
+                    <c1:DataGridComboBoxColumn      Header="STD_DEV_FIX_YN"         Binding="{Binding STDEV1_FIX_FLAG}"         HorizontalAlignment="Left"      EditOnSelection="True" DisplayMemberPath="CMCDNAME1" SelectedValuePath="CMCODE" IsReadOnly="True"/>
+                    <c1:DataGridComboBoxColumn      Header="PAUSE_USE_YN"           Binding="{Binding PAUSE_YN}"                HorizontalAlignment="Left"      EditOnSelection="True" DisplayMemberPath="CMCDNAME1" SelectedValuePath="CMCODE" IsReadOnly="True"/>
+                    <c1:DataGridComboBoxColumn      Header="OUT_PROTECT_USE_YN"     Binding="{Binding OUT_PROTECT_YN}"          HorizontalAlignment="Left"      EditOnSelection="True" DisplayMemberPath="CMCDNAME1" SelectedValuePath="CMCODE" IsReadOnly="True"/>
+
+
+                </c1:C1DataGrid.Columns>
+            </uc:UcBaseDataGrid>
+        </Grid>
+
+        <Grid Grid.Row ="3">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="120"/>
+                <ColumnDefinition Width="10"/>
+                <ColumnDefinition Width="120"/>
+            </Grid.ColumnDefinitions>
+            <Button x:Name="btnSave"    Grid.Column="1" Content="{Binding ConverterParameter=SAVE, Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{DynamicResource Content_MainButtonSpecialStyle}" Click="btnSave_Click" Visibility="Hidden"/>
+            <Button x:Name="btnClose" Grid.Column="3" Content="{Binding ConverterParameter=CLOSE, Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{DynamicResource Content_MainButtonStyle}" Click="btnClose_Click" />
+        </Grid>
+
+
+
+    </Grid>
+</c1:C1Window>

@@ -1,0 +1,106 @@
+﻿<c1:C1Window x:Class="LGC.GMES.MES.ProtoType04.PGM_GUI_206_SPECCHANGEHISTORY"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:c1="http://schemas.componentone.com/winfx/2006/xaml"
+		     xmlns:System="clr-namespace:System;assembly=mscorlib"
+             xmlns:ctrlLib="clr-namespace:LGC.GMES.MES.ControlsLibrary;assembly=LGC.GMES.MES.ControlsLibrary"        
+             ctrlLib:LGCPopupWindowExtension.ApplyStyle="True"
+             Header="{Binding Converter={StaticResource GlobalObjectDicConverter}, ConverterParameter='SPEC HISTORY'}" 
+             Tag="ProtoType01Windows01" Height="700" Width="1000" IsResizable="True" Loaded="C1Window_Loaded" 
+             >
+
+    <c1:C1Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/LGC.GMES.MES.ControlsLibrary;Component/ControlStyles.xaml"/>
+                <ResourceDictionary Source="/LGC.GMES.MES.ControlsLibrary;component/ControlTemplates/C1DataGridStyle.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </c1:C1Window.Resources>
+
+    <Grid>
+        <Grid x:Name="Content" >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="6"/>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="6"/>
+                <RowDefinition Height="34"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="6"/>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="6"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="6"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="6"/>
+            </Grid.ColumnDefinitions>
+
+            <!--1Row-->
+            <Border Grid.Row="1" Grid.Column="1" Style="{StaticResource Content_InputForm_LabelBorderStyle}" />
+            <Grid x:Name="ContentLotInput" Grid.Row="1" Grid.Column="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="100"/>
+                    <ColumnDefinition Width="250"/>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="70"/>
+                    <ColumnDefinition Width="6"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Grid.Column="0" Text="{Binding ConverterParameter='PRODUCT ID', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}" HorizontalAlignment="Right"/>
+                <TextBox  Grid.Column="1"   x:Name="txtSearchSpec"         Style="{StaticResource SearchCondition_TextBoxStyle}"   Height="30" />
+                <Button    Grid.Column="3" Grid.Row="0" x:Name="btnExcel"       Content="{Binding ConverterParameter=EXCEL,   Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{DynamicResource Content_MainButtonNoMinWidthSpecialStyle}" />
+
+            </Grid>
+
+            <!--2Row-->
+            <TextBlock  Grid.Row="3" Grid.Column="1" Style="{StaticResource Content_ModuleTitleStyle}">
+                                    <Run Text="{Binding ConverterParameter='변동 이력', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}"/>
+            </TextBlock>
+
+            <!--3Row-->
+            <c1:C1DataGrid x:Name="dgChangeHistory" Grid.Row="4" Grid.Column="1" IsReadOnly="False" HeadersVisibility="Column" SelectionMode="MultiRange" >
+                <c1:C1DataGrid.Columns>
+                    <c1:DataGridTextColumn        Header = "NO"                Binding = "{Binding NO}"              HorizontalAlignment="Center" Width="35"/>
+                    <c1:DataGridTextColumn        Header = "제품 ID"           Binding = "{Binding PRODID}"          HorizontalAlignment="Center" Width="120" />
+                    <c1:DataGridTextColumn        Header = "경로 ID"           Binding = "{Binding ROUTID}"          HorizontalAlignment="Center"  Width="70"/>
+                    <c1:DataGridTextColumn        Header = "흐름 ID"           Binding = "{Binding FLOWID}"          HorizontalAlignment="Center" Width="*"/>
+                    <c1:DataGridTextColumn        Header = "MA"                Binding = "{Binding MA}"              HorizontalAlignment="Center" Width="*"/>
+                    <c1:DataGridTextColumn        Header = "SubGroup Size"     Binding = "{Binding SUBGRP_SIZE}"     HorizontalAlignment="Center" Width="*"/>
+                    <c1:DataGridTextColumn        Header = "OOCRULEID"         Binding = "{Binding OOCRULEID}"       HorizontalAlignment="Center" Width="*"/>
+                    <c1:DataGridTextColumn        Header = "실시간 SPC"        Binding = "{Binding REAL_SPC}"        HorizontalAlignment="Center" Width="*"/>
+                    <c1:DataGridTextColumn        Header = "LCL-P"             Binding = "{Binding LCL_P}"           HorizontalAlignment="Center" Width="*"/>
+                    <c1:DataGridTextColumn        Header = "CCL-P"             Binding = "{Binding CCL_P}"           HorizontalAlignment="Center" Width="*"/>
+                    <c1:DataGridTextColumn        Header = "UCL-P"             Binding = "{Binding UCL_P}"           HorizontalAlignment="Center" Width="*"/>
+                    <c1:DataGridTextColumn        Header = "Sample Size"       Binding = "{Binding SAMPLE_SIZE}"     HorizontalAlignment="Center" Width="*"/>
+                    <c1:DataGridTextColumn        Header = "변경타입"          Binding = "{Binding CHANGE_TYPE}"     HorizontalAlignment="Center" Width="*"/>
+                    <c1:DataGridTextColumn        Header = "변경인"            Binding = "{Binding CHANGE_USER}"     HorizontalAlignment="Center" Width="*"/>
+                    <c1:DataGridTextColumn        Header = "변경일"            Binding = "{Binding CHANGE_DATE}"     HorizontalAlignment="Center" Width="*"/>
+                </c1:C1DataGrid.Columns>
+            </c1:C1DataGrid>
+            <!--5Row-->
+            <Border Grid.Row="6" Grid.Column="1" Style="{StaticResource Content_InputForm_LabelBorderStyle}" />
+            <Grid x:Name="ContentLotConfirm" Grid.Row="6" Grid.Column="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="50"/>
+                    <ColumnDefinition Width="150"/>
+                    <ColumnDefinition Width="50"/>
+                    <ColumnDefinition Width="150"/>
+                    <ColumnDefinition Width="30"/>
+                    <ColumnDefinition Width="120"/>
+                    <ColumnDefinition Width="6"/>
+                    <ColumnDefinition Width="120"/>
+                    <ColumnDefinition Width="6"/>
+                </Grid.ColumnDefinitions>
+
+                
+                <Button x:Name="btnClose" Grid.Column="8" Content="{Binding ConverterParameter=닫기, Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{DynamicResource Content_MainButtonStyle}" Click="btnClose_Click" />
+
+            </Grid>
+
+        </Grid>
+        <ctrlLib:LoadingIndicator x:Name="loadingIndicator" Grid.Row="999" Grid.Column="999" />
+    </Grid>
+    
+</c1:C1Window>

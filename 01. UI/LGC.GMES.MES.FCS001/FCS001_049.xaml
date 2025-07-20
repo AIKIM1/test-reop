@@ -1,0 +1,509 @@
+﻿<UserControl x:Class="LGC.GMES.MES.FCS001.FCS001_049"
+             xmlns:ss="http://schemas.grapecity.com/windows/spreadsheet/2012"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:c1="http://schemas.componentone.com/winfx/2006/xaml"
+             xmlns:c1c="clr-namespace:C1.WPF.C1Chart;assembly=C1.WPF.C1Chart.4"
+             xmlns:ctrlLib="clr-namespace:LGC.GMES.MES.ControlsLibrary;assembly=LGC.GMES.MES.ControlsLibrary"
+             xmlns:uc="clr-namespace:LGC.GMES.MES.CMM001.Controls;assembly=LGC.GMES.MES.CMM001"
+             mc:Ignorable="d" 
+             d:DesignHeight="768" d:DesignWidth="1920"  Loaded="UserControl_Loaded" >
+    <UserControl.Resources>
+          <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/LGC.GMES.MES.ControlsLibrary;component/ControlStyles.xaml" />
+                <ResourceDictionary Source="/LGC.GMES.MES.ControlsLibrary;component/ControlTemplates/LGCDatePicker.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>            
+    </UserControl.Resources>
+    
+    <Grid x:Name="grdMain">
+        <ctrlLib:LGCLayout x:Name="LayoutRoot" Tag="충방전기 온도 모니터링" Grid.ColumnSpan="2">
+            <ctrlLib:LGCLayout.Content>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="51"/>
+                        <RowDefinition Height="8"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <Border Grid.Row="0" Background="#fff2f2f2" BorderThickness="1" BorderBrush="#ffd1d1d1"/>
+                    <Grid   Grid.Row="0" Grid.Column="0" >
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="11" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="11" />
+                        </Grid.RowDefinitions>
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="13" />
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="10" />
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="1.5*"/>
+                            <ColumnDefinition Width="10" />
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="1.5*"/>
+                            <ColumnDefinition Width="10" />
+                            <ColumnDefinition Width="1.5*"/>
+                            <ColumnDefinition Width="13"/>
+
+
+                        </Grid.ColumnDefinitions>
+
+                        <!--조회조건 ROW1-->
+                        <TextBlock    Grid.Row="1" Grid.Column="1" Text="{Binding ConverterParameter='SEL_PERIOD', Converter={StaticResource GlobalObjectDicConverter}, RelativeSource={RelativeSource Self}}" Style="{StaticResource Content_InputForm_LabelStyle}" />
+                        <Grid Grid.Row="1" Grid.Column="2">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="auto"/>
+                            </Grid.ColumnDefinitions>
+                            <ctrlLib:LGCDatePicker  Grid.Column="0" x:Name="dtpFromDate" DatepickerType="Date"  DateFormat="YYYY-MM-DD" />
+                        </Grid>
+                        <TextBlock Grid.Row="1" Grid.Column="3" Text="~" Style="{StaticResource Content_InputForm_LabelStyle}" HorizontalAlignment="Center" />
+                        <Grid Grid.Row="1" Grid.Column="4">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="auto"/>
+                            </Grid.ColumnDefinitions>
+                            <ctrlLib:LGCDatePicker  Grid.Column="0" x:Name="dtpToDate" DatepickerType="Date"  DateFormat="YYYY-MM-DD" />
+                        </Grid>
+                        <TextBlock      Grid.Row="1" Grid.Column="6" Text="{Binding ConverterParameter='LANE_ID', Converter={StaticResource GlobalObjectDicConverter}, RelativeSource={RelativeSource Self}}" Style="{StaticResource Content_InputForm_LabelStyle}" />
+                        <uc:UcBaseComboBox  Grid.Row="1" Grid.Column="7" x:Name="cboLane" Style="{StaticResource C1ComboBoxStyle}" AutoComplete="False" SelectionCommitted="cboLane_SelectionCommitted"/>
+
+                        <TextBlock      Grid.Row="1" Grid.Column="9" Text="{Binding ConverterParameter='EQP', Converter={StaticResource GlobalObjectDicConverter}, RelativeSource={RelativeSource Self}}" Style="{StaticResource Content_InputForm_LabelStyle}" />
+                        <uc:UcBaseComboBox  Grid.Row="1" Grid.Column="10" x:Name="cboEqp" Style="{StaticResource C1ComboBoxStyle}" AutoComplete="False" />
+                        <Grid Grid.Row="1" Grid.Column="12">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="10"/>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="10"/>
+                                <ColumnDefinition Width="auto"/>
+                            </Grid.ColumnDefinitions>
+                            <uc:UcBaseButton    Grid.Column="1" x:Name="btnSearch" Content="{Binding ConverterParameter=SEARCH, Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource SearchButtonStyle}" Click="btnSearch_Click"/>
+                            <uc:UcBaseButton    Grid.Column="3" x:Name="btnStandardSearch" Content="{Binding ConverterParameter=BAS_INQ, Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource SearchButtonStyle}" Click="btnStandardSearch_Click" Visibility="Collapsed"/>
+                            <uc:UcBaseButton    Grid.Column="5" x:Name="btnStandardSave" Content="{Binding ConverterParameter=SAVE, Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource SearchButtonStyle}" Click="btnStandrdSave_Click" Visibility="Collapsed" />
+                        </Grid>
+
+                    </Grid>
+                    <!--조회 영역-->
+                    <!--ROW 02-->
+                    <Grid   Grid.Row="2" Grid.Column="0" >
+                        <c1:C1TabControl x:Name="TabEqp" Margin="0">
+                            <c1:C1TabItem x:Name="TabEqpTemp" Header="{Binding Converter={StaticResource GlobalObjectDicConverter}, ConverterParameter='EQP_TEMP'}" >
+                                <Grid>
+                                    <Border     Grid.Row="0" Grid.RowSpan="99" Grid.Column="0" Grid.ColumnSpan="99" Style="{StaticResource Content_InputForm_ContentBorderStyle}"/>
+                                    <uc:UcBaseDataGrid x:Name="dgEqpTemp" Margin="0,10,10,0" IsReadOnly="True" HeadersVisibility="Row" FrozenColumnCount="3" FrozenTopRowsCount="2" SelectionMode="MultiRange"
+                                                       LoadedRowHeaderPresenter="dgEqpTemp_LoadedRowHeaderPresenter"
+                                                       ExecuteDataCompleted="dgEqpTemp_ExecuteDataCompleted">
+                                        <c1:C1DataGrid.Columns>
+                                            <c1:DataGridTextColumn         Header = "[EQP_NAME,EQP_NAME]"      Binding = "{Binding EQPTNAME}"     HorizontalAlignment="Center" />
+                                            <c1:DataGridTextColumn         Header = "[OP_NAME,OP_NAME]"        Binding = "{Binding PROCNAME}"     HorizontalAlignment="Center" />
+                                            <c1:DataGridTextColumn         Header = "[MEAS_TIME,MEAS_TIME]"    Binding = "{Binding MEAS_TIME}"     HorizontalAlignment="Center" />
+                                            <c1:DataGridTextColumn         Header = "[UPPER,TRAY_ID]"          Binding = "{Binding UPPER_TRAY_ID}"     HorizontalAlignment="Center" />
+                                            <c1:DataGridNumericColumn      Header = "[UPPER,JIG01]"            Binding = "{Binding UPPER_JIG_TEMP01_VAL}"     HorizontalAlignment="Center" />
+                                            <c1:DataGridNumericColumn      Header = "[UPPER,JIG02]"            Binding = "{Binding UPPER_JIG_TEMP02_VAL}"     HorizontalAlignment="Center" />
+                                            <c1:DataGridNumericColumn      Header = "[UPPER,JIG03]"            Binding = "{Binding UPPER_JIG_TEMP03_VAL}"     HorizontalAlignment="Center" />
+                                            <c1:DataGridNumericColumn      Header = "[UPPER,JIG04]"            Binding = "{Binding UPPER_JIG_TEMP04_VAL}"     HorizontalAlignment="Center" />
+                                            <c1:DataGridNumericColumn      Header = "[UPPER,JIG05]"            Binding = "{Binding UPPER_JIG_TEMP05_VAL}"     HorizontalAlignment="Center" />
+                                            <c1:DataGridNumericColumn      Header = "[UPPER,JIG06]"            Binding = "{Binding UPPER_JIG_TEMP06_VAL}"     HorizontalAlignment="Center" />
+                                            <c1:DataGridNumericColumn      Header = "[UPPER,JIG07]"            Binding = "{Binding UPPER_JIG_TEMP07_VAL}"     HorizontalAlignment="Center" />
+                                            <c1:DataGridNumericColumn      Header = "[UPPER,JIG08]"            Binding = "{Binding UPPER_JIG_TEMP08_VAL}"     HorizontalAlignment="Center" />
+                                            <c1:DataGridNumericColumn      Header = "[UPPER,JIG09]"            Binding = "{Binding UPPER_JIG_TEMP09_VAL}"     HorizontalAlignment="Center" />
+                                            <c1:DataGridNumericColumn      Header = "[UPPER,JIG10]"            Binding = "{Binding UPPER_JIG_TEMP10_VAL}"     HorizontalAlignment="Center" />
+                                            <c1:DataGridNumericColumn      Header = "[UPPER,JIG11]"            Binding = "{Binding UPPER_JIG_TEMP11_VAL}"     HorizontalAlignment="Center" />
+                                            <c1:DataGridNumericColumn      Header = "[UPPER,JIG12]"            Binding = "{Binding UPPER_JIG_TEMP12_VAL}"     HorizontalAlignment="Center" />
+                                            <c1:DataGridNumericColumn      Header = "[UPPER,POWER01]"          Binding = "{Binding UPPER_POWER_TEMP01_VAL}"     HorizontalAlignment="Center" />
+                                            <c1:DataGridNumericColumn      Header = "[UPPER,POWER02]"          Binding = "{Binding UPPER_POWER_TEMP02_VAL}"     HorizontalAlignment="Center" />
+                                            <c1:DataGridNumericColumn      Header = "[UPPER,POWER03]"          Binding = "{Binding UPPER_POWER_TEMP03_VAL}"     HorizontalAlignment="Center" />
+                                            <c1:DataGridNumericColumn      Header = "[UPPER,POWER04]"          Binding = "{Binding UPPER_POWER_TEMP04_VAL}"     HorizontalAlignment="Center" />
+                                            <c1:DataGridNumericColumn      Header = "[UPPER,POWER05]"          Binding = "{Binding UPPER_POWER_TEMP05_VAL}"     HorizontalAlignment="Center" />
+                                            <c1:DataGridNumericColumn      Header = "[UPPER,POWER06]"          Binding = "{Binding UPPER_POWER_TEMP06_VAL}"     HorizontalAlignment="Center" />
+                                            <c1:DataGridNumericColumn      Header = "[UPPER,POWER07]"          Binding = "{Binding UPPER_POWER_TEMP07_VAL}"     HorizontalAlignment="Center" />
+                                            <c1:DataGridNumericColumn      Header = "[UPPER,POWER08]"          Binding = "{Binding UPPER_POWER_TEMP08_VAL}"     HorizontalAlignment="Center" />
+                                            <c1:DataGridNumericColumn      Header = "[UPPER,POWER09]"          Binding = "{Binding UPPER_POWER_TEMP09_VAL}"     HorizontalAlignment="Center" />
+                                            <c1:DataGridNumericColumn      Header = "[UPPER,POWER10]"          Binding = "{Binding UPPER_POWER_TEMP10_VAL}"     HorizontalAlignment="Center" />
+                                            <c1:DataGridNumericColumn      Header = "[UPPER,POWER11]"          Binding = "{Binding UPPER_POWER_TEMP11_VAL}"     HorizontalAlignment="Center" />
+                                            <c1:DataGridNumericColumn      Header = "[UPPER,POWER12]"          Binding = "{Binding UPPER_POWER_TEMP12_VAL}"     HorizontalAlignment="Center" />
+                                            <c1:DataGridNumericColumn      Header = "[UPPER,POWER13]"          Binding = "{Binding UPPER_POWER_TEMP13_VAL}"     HorizontalAlignment="Center" />
+                                            <c1:DataGridNumericColumn      Header = "[UPPER,POWER14]"          Binding = "{Binding UPPER_POWER_TEMP14_VAL}"     HorizontalAlignment="Center" />
+                                            <c1:DataGridNumericColumn      Header = "[UPPER,POWER15]"          Binding = "{Binding UPPER_POWER_TEMP15_VAL}"     HorizontalAlignment="Center" />
+                                            <c1:DataGridNumericColumn      Header = "[UPPER,POWER16]"          Binding = "{Binding UPPER_POWER_TEMP16_VAL}"     HorizontalAlignment="Center" />
+                                            <c1:DataGridNumericColumn      Header = "[UPPER,POWER17]"          Binding = "{Binding UPPER_POWER_TEMP17_VAL}"     HorizontalAlignment="Center" />
+                                            <c1:DataGridNumericColumn      Header = "[UPPER,POWER18]"          Binding = "{Binding UPPER_POWER_TEMP18_VAL}"     HorizontalAlignment="Center" />
+                                            <c1:DataGridTextColumn         Header = "[LOWER,TRAY_ID]"          Binding = "{Binding LOWER_TRAY_ID}"             HorizontalAlignment="Center" />
+                                            <c1:DataGridNumericColumn      Header = "[LOWER,JIG01]"            Binding = "{Binding LOWER_JIG_TEMP01_VAL}"     HorizontalAlignment="Center" />
+                                            <c1:DataGridNumericColumn      Header = "[LOWER,JIG02]"            Binding = "{Binding LOWER_JIG_TEMP02_VAL}"     HorizontalAlignment="Center" />
+                                            <c1:DataGridNumericColumn      Header = "[LOWER,JIG03]"            Binding = "{Binding LOWER_JIG_TEMP03_VAL}"     HorizontalAlignment="Center" />
+                                            <c1:DataGridNumericColumn      Header = "[LOWER,JIG04]"            Binding = "{Binding LOWER_JIG_TEMP04_VAL}"     HorizontalAlignment="Center" />
+                                            <c1:DataGridNumericColumn      Header = "[LOWER,JIG05]"            Binding = "{Binding LOWER_JIG_TEMP05_VAL}"     HorizontalAlignment="Center" />
+                                            <c1:DataGridNumericColumn      Header = "[LOWER,JIG06]"            Binding = "{Binding LOWER_JIG_TEMP06_VAL}"     HorizontalAlignment="Center" />
+                                            <c1:DataGridNumericColumn      Header = "[LOWER,JIG07]"            Binding = "{Binding LOWER_JIG_TEMP07_VAL}"     HorizontalAlignment="Center" />
+                                            <c1:DataGridNumericColumn      Header = "[LOWER,JIG08]"            Binding = "{Binding LOWER_JIG_TEMP08_VAL}"     HorizontalAlignment="Center" />
+                                            <c1:DataGridNumericColumn      Header = "[LOWER,JIG09]"            Binding = "{Binding LOWER_JIG_TEMP09_VAL}"     HorizontalAlignment="Center" />
+                                            <c1:DataGridNumericColumn      Header = "[LOWER,JIG10]"            Binding = "{Binding LOWER_JIG_TEMP10_VAL}"     HorizontalAlignment="Center" />
+                                            <c1:DataGridNumericColumn      Header = "[LOWER,JIG11]"            Binding = "{Binding LOWER_JIG_TEMP11_VAL}"     HorizontalAlignment="Center" />
+                                            <c1:DataGridNumericColumn      Header = "[LOWER,JIG12]"            Binding = "{Binding LOWER_JIG_TEMP12_VAL}"     HorizontalAlignment="Center" />
+                                            <c1:DataGridNumericColumn      Header = "[LOWER,POWER01]"          Binding = "{Binding LOWER_POWER_TEMP01_VAL}"     HorizontalAlignment="Center" />
+                                            <c1:DataGridNumericColumn      Header = "[LOWER,POWER02]"          Binding = "{Binding LOWER_POWER_TEMP02_VAL}"     HorizontalAlignment="Center" />
+                                            <c1:DataGridNumericColumn      Header = "[LOWER,POWER03]"          Binding = "{Binding LOWER_POWER_TEMP03_VAL}"     HorizontalAlignment="Center" />
+                                            <c1:DataGridNumericColumn      Header = "[LOWER,POWER04]"          Binding = "{Binding LOWER_POWER_TEMP04_VAL}"     HorizontalAlignment="Center" />
+                                            <c1:DataGridNumericColumn      Header = "[LOWER,POWER05]"          Binding = "{Binding LOWER_POWER_TEMP05_VAL}"     HorizontalAlignment="Center" />
+                                            <c1:DataGridNumericColumn      Header = "[LOWER,POWER06]"          Binding = "{Binding LOWER_POWER_TEMP06_VAL}"     HorizontalAlignment="Center" />
+                                            <c1:DataGridNumericColumn      Header = "[LOWER,POWER07]"          Binding = "{Binding LOWER_POWER_TEMP07_VAL}"     HorizontalAlignment="Center" />
+                                            <c1:DataGridNumericColumn      Header = "[LOWER,POWER08]"          Binding = "{Binding LOWER_POWER_TEMP08_VAL}"     HorizontalAlignment="Center" />
+                                            <c1:DataGridNumericColumn      Header = "[LOWER,POWER09]"          Binding = "{Binding LOWER_POWER_TEMP09_VAL}"     HorizontalAlignment="Center" />
+                                            <c1:DataGridNumericColumn      Header = "[LOWER,POWER10]"          Binding = "{Binding LOWER_POWER_TEMP10_VAL}"     HorizontalAlignment="Center" />
+                                            <c1:DataGridNumericColumn      Header = "[LOWER,POWER11]"          Binding = "{Binding LOWER_POWER_TEMP11_VAL}"     HorizontalAlignment="Center" />
+                                            <c1:DataGridNumericColumn      Header = "[LOWER,POWER12]"          Binding = "{Binding LOWER_POWER_TEMP12_VAL}"     HorizontalAlignment="Center" />
+                                            <c1:DataGridNumericColumn      Header = "[LOWER,POWER13]"          Binding = "{Binding LOWER_POWER_TEMP13_VAL}"     HorizontalAlignment="Center" />
+                                            <c1:DataGridNumericColumn      Header = "[LOWER,POWER14]"          Binding = "{Binding LOWER_POWER_TEMP14_VAL}"     HorizontalAlignment="Center" />
+                                            <c1:DataGridNumericColumn      Header = "[LOWER,POWER15]"          Binding = "{Binding LOWER_POWER_TEMP15_VAL}"     HorizontalAlignment="Center" />
+                                            <c1:DataGridNumericColumn      Header = "[LOWER,POWER16]"          Binding = "{Binding LOWER_POWER_TEMP16_VAL}"     HorizontalAlignment="Center" />
+                                            <c1:DataGridNumericColumn      Header = "[LOWER,POWER17]"          Binding = "{Binding LOWER_POWER_TEMP17_VAL}"     HorizontalAlignment="Center" />
+                                            <c1:DataGridNumericColumn      Header = "[LOWER,POWER18]"          Binding = "{Binding LOWER_POWER_TEMP18_VAL}"     HorizontalAlignment="Center" />
+                                        </c1:C1DataGrid.Columns>
+                                        <c1:C1DataGrid.TopRows>
+                                            <c1:DataGridColumnHeaderRow />
+                                            <c1:DataGridColumnHeaderRow />
+                                        </c1:C1DataGrid.TopRows>
+                                    </uc:UcBaseDataGrid>
+                                </Grid>
+                            </c1:C1TabItem>
+                            <c1:C1TabItem x:Name="TabTempGraph" Header="{Binding Converter={StaticResource GlobalObjectDicConverter}, ConverterParameter='TEMP_GRAPH'}" Margin="0" >
+                                <Grid x:Name="grdChrtMain">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="auto"/>
+                                        <RowDefinition Height="auto"/>
+                                        <RowDefinition Height="auto"/>
+                                        <RowDefinition Height="auto"/>
+                                        <RowDefinition Height="*"/>
+                                    </Grid.RowDefinitions>
+                                    <Border     Grid.Row="0" Grid.RowSpan="99" Grid.Column="0" Grid.ColumnSpan="99" Style="{StaticResource Content_InputForm_ContentBorderStyle}"/>
+                                    <Grid Grid.Row ="1" x:Name="gr0" Height="180" >
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="8"/>
+                                            <RowDefinition Height="auto"/>
+                                            <RowDefinition Height="*"/>
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        
+                                        <TextBlock Grid.Row="1" Grid.Column="0" HorizontalAlignment="Left" Text="{Binding ConverterParameter='UPPER_JIG', Converter={StaticResource GlobalObjectDicConverter}, RelativeSource={RelativeSource Self}}" Style="{StaticResource Content_InputForm_LabelStyle}" Foreground="Blue" />
+                                        <Grid Grid.Row ="1" Grid.Column="1" x:Name="gdConfig0" HorizontalAlignment="Right">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="80"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="80"/>
+                                                <ColumnDefinition Width="30"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="80"/>
+                                                <ColumnDefinition Width="8"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="30"/>
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Grid.Column="0" Text="{Binding ConverterParameter='UPPER_LOW_LIMIT', Converter={StaticResource GlobalObjectDicConverter}, RelativeSource={RelativeSource Self}}" Style="{StaticResource Content_InputForm_LabelStyle}" />
+                                            <uc:UcBaseNumericBox Grid.Column="1" x:Name="numLowLimit0" Minimum="0" Maximum="99999" />
+                                            <TextBlock Grid.Column="2" Text="{Binding ConverterParameter='~', Converter={StaticResource GlobalObjectDicConverter}, RelativeSource={RelativeSource Self}}" Style="{StaticResource Content_InputForm_LabelStyle}" />
+                                            <uc:UcBaseNumericBox Grid.Column="3" x:Name="numMaxLimit0" Minimum="0" Maximum="99999" />
+                                            <TextBlock Grid.Column="5" Text="{Binding ConverterParameter='STEP_CONFIG', Converter={StaticResource GlobalObjectDicConverter}, RelativeSource={RelativeSource Self}}" Style="{StaticResource Content_InputForm_LabelStyle}" />
+                                            <uc:UcBaseNumericBox Grid.Column="6" x:Name="numStep0" Minimum="0" Maximum="99999" Increment="0.1" Format="F1" />
+                                            <uc:UcBaseButton     Grid.Column="8" x:Name="btnConfig0" Content="{Binding ConverterParameter='설정' , Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_MainButtonSpecialStyle}" Click="btnConfig0_Click" />
+                                        </Grid>
+                                        
+                                        <uc:UcBaseChart Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="10" Tag="all" x:Name="chrUpperJig" ChartType="Line"  Margin="20,0,30,0" Style="{StaticResource C1ChartNormalStyle}"  MouseDown="chart_MouseDown">
+                                            <c1c:C1Chart.Data>
+                                                <c1c:ChartData ItemNameBinding="{Binding MEAS_TIME}" >
+                                                    <c1:XYDataSeries Label="JIG01" RenderMode="Default" ValueBinding="{Binding TEMP01}" />
+                                                    <c1:XYDataSeries Label="JIG02" RenderMode="Default" ValueBinding="{Binding TEMP02}" />
+                                                    <c1:XYDataSeries Label="JIG03" RenderMode="Default" ValueBinding="{Binding TEMP03}" />
+                                                    <c1:XYDataSeries Label="JIG04" RenderMode="Default" ValueBinding="{Binding TEMP04}" />
+                                                    <c1:XYDataSeries Label="JIG05" RenderMode="Default" ValueBinding="{Binding TEMP05}" />
+                                                    <c1:XYDataSeries Label="JIG06" RenderMode="Default" ValueBinding="{Binding TEMP06}" />
+                                                    <c1:XYDataSeries Label="JIG07" RenderMode="Default" ValueBinding="{Binding TEMP07}" />
+                                                    <c1:XYDataSeries Label="JIG08" RenderMode="Default" ValueBinding="{Binding TEMP08}" />
+                                                    <c1:XYDataSeries Label="JIG09" RenderMode="Default" ValueBinding="{Binding TEMP09}" />
+                                                    <c1:XYDataSeries Label="JIG10" RenderMode="Default" ValueBinding="{Binding TEMP10}" />
+                                                    <c1:XYDataSeries Label="JIG11" RenderMode="Default" ValueBinding="{Binding TEMP11}" />
+                                                    <c1:XYDataSeries Label="JIG12" RenderMode="Default" ValueBinding="{Binding TEMP12}" />
+                                                </c1c:ChartData>
+                                            </c1c:C1Chart.Data>
+                                            <c1c:Legend  IsEnabled="True" x:Name="cl1" BorderBrush="Black" Foreground="Black" Width="120" Height="110" VerticalAlignment="Top" VerticalContentAlignment="Center"  />
+                                        </uc:UcBaseChart>
+                                    </Grid>
+                                    <Grid Grid.Row="2" x:Name="gr1" Height="180" >
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="8"/>
+                                            <RowDefinition Height="auto"/>
+                                            <RowDefinition Height="*"/>
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        
+                                        <TextBlock Grid.Row="1" HorizontalAlignment="Left" Text="{Binding ConverterParameter='UPPER_POWER', Converter={StaticResource GlobalObjectDicConverter}, RelativeSource={RelativeSource Self}}" Style="{StaticResource Content_InputForm_LabelStyle}" Foreground="Blue" />
+                                        <Grid Grid.Row ="1" Grid.Column="1" x:Name="gdConfig1" HorizontalAlignment="Right">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="80"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="80"/>
+                                                <ColumnDefinition Width="30"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="80"/>
+                                                <ColumnDefinition Width="8"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="30"/>
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Grid.Column="0" Text="{Binding ConverterParameter='UPPER_LOW_LIMIT', Converter={StaticResource GlobalObjectDicConverter}, RelativeSource={RelativeSource Self}}" Style="{StaticResource Content_InputForm_LabelStyle}" />
+                                            <uc:UcBaseNumericBox Grid.Column="1" x:Name="numLowLimit1" Minimum="0" Maximum="99999" />
+                                            <TextBlock Grid.Column="2" Text="{Binding ConverterParameter='~', Converter={StaticResource GlobalObjectDicConverter}, RelativeSource={RelativeSource Self}}" Style="{StaticResource Content_InputForm_LabelStyle}" />
+                                            <uc:UcBaseNumericBox Grid.Column="3" x:Name="numMaxLimit1" Minimum="0" Maximum="99999" />
+                                            <TextBlock Grid.Column="5" Text="{Binding ConverterParameter='STEP_CONFIG', Converter={StaticResource GlobalObjectDicConverter}, RelativeSource={RelativeSource Self}}" Style="{StaticResource Content_InputForm_LabelStyle}" />
+                                            <uc:UcBaseNumericBox Grid.Column="6" x:Name="numStep1" Minimum="0" Maximum="99999" Increment="0.1" Format="F1" />
+                                            <uc:UcBaseButton     Grid.Column="8" x:Name="btnConfig1" Content="{Binding ConverterParameter='설정' , Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_MainButtonSpecialStyle}" Click="btnConfig1_Click" />
+                                        </Grid>
+                                        
+                                        <uc:UcBaseChart Grid.Row="2" Grid.ColumnSpan="10" Tag="all"  x:Name="chrUpperPower" ChartType="Line" Margin="20,0,30,0" Style="{StaticResource C1ChartNormalStyle}"  MouseDown="chart_MouseDown">
+                                            <c1c:C1Chart.Data>
+                                                <c1c:ChartData ItemNameBinding="{Binding Path=MEAS_TIME}" >
+                                                    <c1:XYDataSeries Label="POW01" RenderMode="Default" ValueBinding="{Binding TEMP01}" />
+                                                    <c1:XYDataSeries Label="POW02" RenderMode="Default" ValueBinding="{Binding TEMP02}" />
+                                                    <c1:XYDataSeries Label="POW03" RenderMode="Default" ValueBinding="{Binding TEMP03}" />
+                                                    <c1:XYDataSeries Label="POW04" RenderMode="Default" ValueBinding="{Binding TEMP04}" />
+                                                    <c1:XYDataSeries Label="POW05" RenderMode="Default" ValueBinding="{Binding TEMP05}" />
+                                                    <c1:XYDataSeries Label="POW06" RenderMode="Default" ValueBinding="{Binding TEMP06}" />
+                                                    <c1:XYDataSeries Label="POW07" RenderMode="Default" ValueBinding="{Binding TEMP07}" />
+                                                    <c1:XYDataSeries Label="POW08" RenderMode="Default" ValueBinding="{Binding TEMP08}" />
+                                                    <c1:XYDataSeries Label="POW09" RenderMode="Default" ValueBinding="{Binding TEMP09}" />
+                                                    <c1:XYDataSeries Label="POW10" RenderMode="Default" ValueBinding="{Binding TEMP10}" />
+                                                    <c1:XYDataSeries Label="POW11" RenderMode="Default" ValueBinding="{Binding TEMP11}" />
+                                                    <c1:XYDataSeries Label="POW12" RenderMode="Default" ValueBinding="{Binding TEMP12}" />
+                                                    <c1:XYDataSeries Label="POW13" RenderMode="Default" ValueBinding="{Binding TEMP13}" />
+                                                    <c1:XYDataSeries Label="POW14" RenderMode="Default" ValueBinding="{Binding TEMP14}" />
+                                                    <c1:XYDataSeries Label="POW15" RenderMode="Default" ValueBinding="{Binding TEMP15}" />
+                                                    <c1:XYDataSeries Label="POW16" RenderMode="Default" ValueBinding="{Binding TEMP16}" />
+                                                    <c1:XYDataSeries Label="POW17" RenderMode="Default" ValueBinding="{Binding TEMP17}" />
+                                                    <c1:XYDataSeries Label="POW18" RenderMode="Default" ValueBinding="{Binding TEMP18}" />
+                                                </c1c:ChartData>
+                                            </c1c:C1Chart.Data>
+                                            <c1c:Legend x:Name="cl2" DockPanel.Dock="Right"  BorderBrush="Black" Foreground="Black" Width="120" Height="110" VerticalAlignment="Center"  VerticalContentAlignment="Center" />
+                                        </uc:UcBaseChart>
+                                    </Grid>
+                                    <Grid Grid.Row="3" x:Name="gr2" Height="180" >
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="8"/>
+                                            <RowDefinition Height="auto"/>
+                                            <RowDefinition Height="*"/>
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        
+                                        <TextBlock Grid.Row="1"  HorizontalAlignment="Left" Text="{Binding ConverterParameter='LOWER_JIG', Converter={StaticResource GlobalObjectDicConverter}, RelativeSource={RelativeSource Self}}" Style="{StaticResource Content_InputForm_LabelStyle}" Foreground="Blue"/>
+                                        <Grid Grid.Row ="1" Grid.Column="1" x:Name="gdConfig2" HorizontalAlignment="Right">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="80"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="80"/>
+                                                <ColumnDefinition Width="30"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="80"/>
+                                                <ColumnDefinition Width="8"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="30"/>
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Grid.Column="0" Text="{Binding ConverterParameter='UPPER_LOW_LIMIT', Converter={StaticResource GlobalObjectDicConverter}, RelativeSource={RelativeSource Self}}" Style="{StaticResource Content_InputForm_LabelStyle}" />
+                                            <uc:UcBaseNumericBox Grid.Column="1" x:Name="numLowLimit2" Minimum="0" Maximum="99999" />
+                                            <TextBlock Grid.Column="2" Text="{Binding ConverterParameter='~', Converter={StaticResource GlobalObjectDicConverter}, RelativeSource={RelativeSource Self}}" Style="{StaticResource Content_InputForm_LabelStyle}" />
+                                            <uc:UcBaseNumericBox Grid.Column="3" x:Name="numMaxLimit2" Minimum="0" Maximum="99999" />
+                                            <TextBlock Grid.Column="5" Text="{Binding ConverterParameter='STEP_CONFIG', Converter={StaticResource GlobalObjectDicConverter}, RelativeSource={RelativeSource Self}}" Style="{StaticResource Content_InputForm_LabelStyle}" />
+                                            <uc:UcBaseNumericBox Grid.Column="6" x:Name="numStep2" Minimum="0" Maximum="99999" Increment="0.1" Format="F1" />
+                                            <uc:UcBaseButton     Grid.Column="8" x:Name="btnConfig2" Content="{Binding ConverterParameter='설정' , Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_MainButtonSpecialStyle}" Click="btnConfig2_Click"/>
+                                        </Grid>
+                                        
+                                        <uc:UcBaseChart Grid.Row="2" Grid.ColumnSpan="10" Tag="all"  x:Name="chrLowerJig"  ChartType="Line"    Margin="20,0,30,0" Style="{StaticResource C1ChartNormalStyle}"  MouseDown="chart_MouseDown">
+                                            <c1c:C1Chart.Data>
+                                                <c1c:ChartData ItemNameBinding="{Binding Path=MEAS_TIME}" >
+                                                    <c1:XYDataSeries Label="JIG01" RenderMode="Default" ValueBinding="{Binding TEMP01}"  />
+                                                    <c1:XYDataSeries Label="JIG02" RenderMode="Default" ValueBinding="{Binding TEMP02}"  />
+                                                    <c1:XYDataSeries Label="JIG03" RenderMode="Default" ValueBinding="{Binding TEMP03}" />
+                                                    <c1:XYDataSeries Label="JIG04" RenderMode="Default" ValueBinding="{Binding TEMP04}"  />
+                                                    <c1:XYDataSeries Label="JIG05" RenderMode="Default" ValueBinding="{Binding TEMP05}" />
+                                                    <c1:XYDataSeries Label="JIG06" RenderMode="Default" ValueBinding="{Binding TEMP06}"  />
+                                                    <c1:XYDataSeries Label="JIG07" RenderMode="Default" ValueBinding="{Binding TEMP07}"  />
+                                                    <c1:XYDataSeries Label="JIG08" RenderMode="Default" ValueBinding="{Binding TEMP08}" />
+                                                    <c1:XYDataSeries Label="JIG10" RenderMode="Default" ValueBinding="{Binding TEMP10}"  />
+                                                    <c1:XYDataSeries Label="JIG11" RenderMode="Default" ValueBinding="{Binding TEMP11}" />
+                                                    <c1:XYDataSeries Label="JIG12" RenderMode="Default" ValueBinding="{Binding TEMP12}"  />
+                                                </c1c:ChartData>
+                                            </c1c:C1Chart.Data>
+                                            <c1c:Legend x:Name="cl3" DockPanel.Dock="Right" BorderBrush="Black" Foreground="Black" Width="120" Height="110" VerticalAlignment="Center"  VerticalContentAlignment="Center" />
+                                        </uc:UcBaseChart>
+                                    </Grid>
+                                    <Grid Grid.Row="4" x:Name="gr3" Height="180">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="8"/>
+                                            <RowDefinition Height="auto"/>
+                                            <RowDefinition Height="*"/>
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        
+                                        <TextBlock Grid.Row="1" HorizontalAlignment="Left" Text="{Binding ConverterParameter='LOWER_POWER', Converter={StaticResource GlobalObjectDicConverter}, RelativeSource={RelativeSource Self}}" Style="{StaticResource Content_InputForm_LabelStyle}" Foreground="Blue" />
+                                        <Grid Grid.Row ="1" Grid.Column="1" x:Name="gdConfig3" HorizontalAlignment="Right">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="80"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="80"/>
+                                                <ColumnDefinition Width="30"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="80"/>
+                                                <ColumnDefinition Width="8"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="30"/>
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Grid.Column="0" Text="{Binding ConverterParameter='UPPER_LOW_LIMIT', Converter={StaticResource GlobalObjectDicConverter}, RelativeSource={RelativeSource Self}}" Style="{StaticResource Content_InputForm_LabelStyle}" />
+                                            <uc:UcBaseNumericBox Grid.Column="1" x:Name="numLowLimit3" Minimum="0" Maximum="99999" />
+                                            <TextBlock Grid.Column="2" Text="{Binding ConverterParameter='~', Converter={StaticResource GlobalObjectDicConverter}, RelativeSource={RelativeSource Self}}" Style="{StaticResource Content_InputForm_LabelStyle}" />
+                                            <uc:UcBaseNumericBox Grid.Column="3" x:Name="numMaxLimit3" Minimum="0" Maximum="99999" />
+                                            <TextBlock Grid.Column="5" Text="{Binding ConverterParameter='STEP_CONFIG', Converter={StaticResource GlobalObjectDicConverter}, RelativeSource={RelativeSource Self}}" Style="{StaticResource Content_InputForm_LabelStyle}" />
+                                            <uc:UcBaseNumericBox Grid.Column="6" x:Name="numStep3" Minimum="0" Maximum="99999" Increment="0.1" Format="F1" />
+                                            <uc:UcBaseButton     Grid.Column="8" x:Name="btnConfig3" Content="{Binding ConverterParameter='설정' , Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_MainButtonSpecialStyle}" Click="btnConfig3_Click"/>
+                                        </Grid>
+                                        
+                                        <uc:UcBaseChart Grid.Row="2" Grid.ColumnSpan="10" Tag="all" x:Name="chrLowerPower" ChartType="Line" Margin="20,0,30,0"  Style="{StaticResource C1ChartNormalStyle}"  MouseDown="chart_MouseDown">
+                                            <c1c:C1Chart.Data>
+                                                <c1c:ChartData ItemNameBinding="{Binding Path=MEAS_TIME}">
+                                                    <c1:XYDataSeries Label="POW01" RenderMode="Default" ValueBinding="{Binding TEMP01}" />
+                                                    <c1:XYDataSeries Label="POW02" RenderMode="Default" ValueBinding="{Binding TEMP02}" />
+                                                    <c1:XYDataSeries Label="POW03" RenderMode="Default" ValueBinding="{Binding TEMP03}"  />
+                                                    <c1:XYDataSeries Label="POW04" RenderMode="Default" ValueBinding="{Binding TEMP04}" />
+                                                    <c1:XYDataSeries Label="POW05" RenderMode="Default" ValueBinding="{Binding TEMP05}"  />
+                                                    <c1:XYDataSeries Label="POW06" RenderMode="Default" ValueBinding="{Binding TEMP06}" />
+                                                    <c1:XYDataSeries Label="POW07" RenderMode="Default" ValueBinding="{Binding TEMP07}" />
+                                                    <c1:XYDataSeries Label="POW08" RenderMode="Default" ValueBinding="{Binding TEMP08}"  />
+                                                    <c1:XYDataSeries Label="POW09" RenderMode="Default" ValueBinding="{Binding TEMP09}" />
+                                                    <c1:XYDataSeries Label="POW10" RenderMode="Default" ValueBinding="{Binding TEMP10}"  />
+                                                    <c1:XYDataSeries Label="POW11" RenderMode="Default" ValueBinding="{Binding TEMP11}"  />
+                                                    <c1:XYDataSeries Label="POW12" RenderMode="Default" ValueBinding="{Binding TEMP12}"  />
+                                                    <c1:XYDataSeries Label="POW13" RenderMode="Default" ValueBinding="{Binding TEMP13}" />
+                                                    <c1:XYDataSeries Label="POW14" RenderMode="Default" ValueBinding="{Binding TEMP14}"  />
+                                                    <c1:XYDataSeries Label="POW15" RenderMode="Default" ValueBinding="{Binding TEMP15}"  />
+                                                    <c1:XYDataSeries Label="POW16" RenderMode="Default" ValueBinding="{Binding TEMP16}"  />
+                                                    <c1:XYDataSeries Label="POW17" RenderMode="Default" ValueBinding="{Binding TEMP17}"  />
+                                                    <c1:XYDataSeries Label="POW18" RenderMode="Default" ValueBinding="{Binding TEMP18}"  />
+                                                </c1c:ChartData>
+                                            </c1c:C1Chart.Data>
+                                            <c1c:Legend  x:Name="cl4" BorderBrush="Black" Foreground="Black" Width="120" Height="110" VerticalAlignment="Center"  VerticalContentAlignment="Center" />
+                                        </uc:UcBaseChart>
+                                    </Grid>
+                                </Grid>
+
+                            </c1:C1TabItem>
+                            <c1:C1TabItem x:Name="TabEqpStandard" Header="{Binding Converter={StaticResource GlobalObjectDicConverter}, ConverterParameter='BASE_INFO'}" Visibility="Collapsed"  >
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="8"/>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="8"/>
+                                    </Grid.RowDefinitions>
+                                    <Border     Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="2" Style="{StaticResource Content_InputForm_ContentBorderStyle}"/>
+                                    <Grid Grid.Row="1"  Grid.Column="2">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="8"/>
+                                            <RowDefinition Height="AUTO"/>
+                                            <RowDefinition Height="4"/>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="8"/>
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="13"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="13"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid Grid.Row="1" Grid.Column="1">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="auto"/>
+                                                <ColumnDefinition Width="auto"/>
+                                                <ColumnDefinition Width="10"/>
+                                                <ColumnDefinition Width="auto"/>
+                                                <ColumnDefinition Width="auto"/>
+                                                <ColumnDefinition Width="10"/>
+                                                <ColumnDefinition Width="auto"/>
+                                                <ColumnDefinition Width="auto"/>
+                                                <ColumnDefinition Width="10"/>
+                                                <ColumnDefinition Width="auto"/>
+                                                <ColumnDefinition Width="auto"/>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="auto"/>
+                                                <ColumnDefinition Width="3"/>
+                                                <ColumnDefinition Width="auto"/>
+                                                <ColumnDefinition Width="3"/>
+                                                <ColumnDefinition Width="auto"/>
+                                                <ColumnDefinition Width="3"/>
+                                                <ColumnDefinition Width="auto"/>
+                                                <ColumnDefinition Width="3"/>
+                                                <ColumnDefinition Width="auto"/>
+                                                <ColumnDefinition Width="3"/>
+                                                <ColumnDefinition Width="auto"/>
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock      Grid.Column="0"  Text="{Binding ConverterParameter='일괄선택', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}" HorizontalAlignment="Left"/>
+                                            <uc:UcBaseCheckBox       x:Name="chkAll"  Grid.Column="1" Content="{Binding Converter={StaticResource GlobalObjectDicConverter}}" Style="{StaticResource SearchCondition_CheckBoxStyle}" IsChecked="False" Checked="chkHeaderAll_Checked" Unchecked="chkHeaderAll_Unchecked"/>
+                                            <uc:UcBaseButton        Grid.Row="0" Grid.Column="20" x:Name="btnAllCopy" Margin="3" Content="{Binding ConverterParameter='전체복사' , Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_MainButtonSpecialStyle}"                      TextWrapping="Wrap" MaxWidth="120" Cursor="Hand" Click="btnAllCopy_Click" />
+                                        </Grid>
+
+                                        <uc:UcBaseDataGrid Grid.Row="3" Grid.Column="1" x:Name="dgEqpStandard" Margin="0,10,10,0" HeadersVisibility="Row" SelectionMode="MultiRange" CommittedEdit="dgEqpStandard_CommittedEdit" Grid.ColumnSpan="2"
+                                                           ExecuteDataModify="dgEqpStandard_ExecuteDataModify"
+                                                           ExecuteDataCompleted="dgEqpStandard_ExecuteDataCompleted">
+                                            <c1:C1DataGrid.Columns>
+                                                <c1:DataGridTextColumn         Header = "[LANE_ID,LANE_ID]"            Binding = "{Binding LNE_ID}"        IsReadOnly="True"    HorizontalAlignment="Center"  Visibility="Collapsed"/>
+                                                <c1:DataGridCheckBoxColumn Name="CHK" Binding="{Binding CHK, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  Width="Auto" HorizontalAlignment="Center" CanUserSort="False" />
+                                                <c1:DataGridTextColumn         Header = "[EQP_NAME,EQP_NAME]"          Binding = "{Binding EQPTID}"         IsReadOnly="True"    HorizontalAlignment="Center" />
+                                                <c1:DataGridNumericColumn      Header = "[TEMP,TEMP_FLAG]"             Binding = "{Binding TMPR_FLAG}"      IsReadOnly="False"   HorizontalAlignment="Center" />
+                                                <c1:DataGridNumericColumn      Header = "[TEMP,TEMP_VALUE_01]"         Binding = "{Binding TMPR1_VALUE}"     IsReadOnly="False"   HorizontalAlignment="Center" />
+                                                <c1:DataGridNumericColumn      Header = "[TEMP,TEMP_VALUE_02]"         Binding = "{Binding TMPR2_VALUE}"     IsReadOnly="False"   HorizontalAlignment="Center" />
+                                                <c1:DataGridNumericColumn      Header = "[TEMP,TEMP_VALUE_03]"         Binding = "{Binding TMPR3_VALUE}"     IsReadOnly="False"   HorizontalAlignment="Center" />
+                                                <c1:DataGridNumericColumn      Header = "[TEMP,TEMP_VALUE_04]"         Binding = "{Binding TMPR4_VALUE}"     IsReadOnly="False"   HorizontalAlignment="Center" />
+                                                <c1:DataGridNumericColumn      Header = "[TEMP,TEMP_VALUE_05]"         Binding = "{Binding TMPR5_VALUE}"     IsReadOnly="False"   HorizontalAlignment="Center" />
+                                                <c1:DataGridNumericColumn      Header = "[TEMP,TEMP_VALUE_06]"         Binding = "{Binding TMPR6_VALUE}"     IsReadOnly="False"   HorizontalAlignment="Center" />
+                                                <c1:DataGridNumericColumn      Header = "[TEMP,TEMP_VALUE_07]"         Binding = "{Binding TMPR7_VALUE}"     IsReadOnly="False"   HorizontalAlignment="Center" />
+                                                <c1:DataGridNumericColumn      Header = "[TEMP,TEMP_VALUE_08]"         Binding = "{Binding TMPR8_VALUE}"     IsReadOnly="False"   HorizontalAlignment="Center" />
+                                            </c1:C1DataGrid.Columns>
+                                            <c1:C1DataGrid.TopRows>
+                                                <c1:DataGridColumnHeaderRow />
+                                                <c1:DataGridColumnHeaderRow />
+                                            </c1:C1DataGrid.TopRows>
+                                        </uc:UcBaseDataGrid>
+                                    </Grid>
+                                </Grid>
+                            </c1:C1TabItem>
+                        </c1:C1TabControl>
+                    </Grid>
+                </Grid>
+            </ctrlLib:LGCLayout.Content>
+        </ctrlLib:LGCLayout>
+
+        <ctrlLib:LoadingIndicator x:Name="loadingIndicator" Grid.Row="999" Grid.Column="999" />
+    </Grid>
+</UserControl>

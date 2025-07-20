@@ -1,0 +1,71 @@
+﻿<c1:C1Window x:Class="LGC.GMES.MES.ASSY001.ASSY001_004_IN_RSV_LIST"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:c1="http://schemas.componentone.com/winfx/2006/xaml"
+		     xmlns:System="clr-namespace:System;assembly=mscorlib"
+             xmlns:ctrlLib="clr-namespace:LGC.GMES.MES.ControlsLibrary;assembly=LGC.GMES.MES.ControlsLibrary"        
+             ctrlLib:LGCPopupWindowExtension.ApplyStyle="True"
+             Header="{Binding Converter={StaticResource GlobalObjectDicConverter}, ConverterParameter='예약LIST'}" 
+             Tag="ProtoType01Windows01" Height="500" Width="600" IsResizable="True" Loaded="C1Window_Loaded" Initialized="C1Window_Initialized" >
+
+    <c1:C1Window.Resources>
+        <ResourceDictionary Source="/LGC.GMES.MES.ControlsLibrary;Component/ControlStyles.xaml"/>
+    </c1:C1Window.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="15" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <!--content area-->
+        <Border Grid.Row ="0" Background="#ffffffff" BorderThickness="1" BorderBrush="#ffbebebe"></Border>
+        <Grid Grid.Row ="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="8" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="8" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="8" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="8" />                
+            </Grid.ColumnDefinitions>
+            <c1:C1DataGrid Grid.Row="1" Grid.Column="1" x:Name="dgReplace" IsReadOnly="True" HeadersVisibility="Column" SelectionMode="SingleRow" MouseUp="dgReplace_MouseUp" >
+                <c1:C1DataGrid.Columns>
+                    <!--<c1:DataGridTemplateColumn Name="CHK" Width="35">
+                        <c1:DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <CheckBox IsChecked="{Binding CHK, Mode=TwoWay}" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                            </DataTemplate>
+                        </c1:DataGridTemplateColumn.CellTemplate>
+                    </c1:DataGridTemplateColumn>-->
+                    <c1:DataGridCheckBoxColumn Width="Auto" Name = "CHK"         Binding = "{Binding CHK, Mode=TwoWay}"          HorizontalAlignment="Center" CanUserFilter="False" CanUserSort="False" CanUserResize="False" />
+                    <c1:DataGridTextColumn        Header = "위치"              Binding = "{Binding POSITION}"     HorizontalAlignment="Center" />
+                    <c1:DataGridTextColumn        Header = "투입LOT"           Binding = "{Binding IN_LOTID}"     HorizontalAlignment="Center" />
+                    <c1:DataGridTextColumn        Header = "대LOT"             Binding = "{Binding LOTID_RT}"     HorizontalAlignment="Center" />
+                    <c1:DataGridTextColumn        Header = "투입량"            Binding = "{Binding WIPQTY}"     HorizontalAlignment="Center" />
+                    <c1:DataGridTextColumn        Header = "변경시간"          Binding = "{Binding CHGDTTM}"     HorizontalAlignment="Center" />
+                </c1:C1DataGrid.Columns>
+
+            </c1:C1DataGrid>
+        </Grid>
+
+
+        <!--button area-->
+        <Grid Grid.Row ="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="5"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <Button x:Name="btnReplace" Grid.Column="1" Content="{Binding ConverterParameter=교체처리, Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{DynamicResource Content_MainButtonSpecialStyle}" Click="btnReplace_Click"/>
+            <Button x:Name="btnClose"   Grid.Column="3" Content="{Binding ConverterParameter=닫기, Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{DynamicResource Content_MainButtonStyle}" Click="btnClose_Click" />
+        </Grid>
+
+
+        <ctrlLib:LoadingIndicator x:Name="loadingIndicator"  />
+    </Grid>
+</c1:C1Window>

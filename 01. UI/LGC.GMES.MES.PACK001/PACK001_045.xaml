@@ -1,0 +1,434 @@
+﻿<UserControl xmlns:ss="http://schemas.grapecity.com/windows/spreadsheet/2012"  x:Class="LGC.GMES.MES.PACK001.PACK001_045"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:c1="http://schemas.componentone.com/winfx/2006/xaml"
+             xmlns:ctrlLib="clr-namespace:LGC.GMES.MES.ControlsLibrary;assembly=LGC.GMES.MES.ControlsLibrary"
+             mc:Ignorable="d" 
+             d:DesignHeight="768" d:DesignWidth="1024"
+             Loaded="UserControl_Loaded">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/LGC.GMES.MES.ControlsLibrary;component/ControlStyles.xaml" />
+                <ResourceDictionary Source="/LGC.GMES.MES.ControlsLibrary;component/ControlTemplates/LGCDatePicker.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid>
+        <ctrlLib:LGCLayout x:Name="LayoutRoot" Tag="CELL 실시간 수요현황" Grid.ColumnSpan="4">
+
+            <Grid>
+                <c1:C1TabControl  Grid.Row="0">
+                    <c1:C1TabItem Header="{Binding Converter={StaticResource GlobalObjectDicConverter}, ConverterParameter='D DAY'}" >
+                        <Grid Grid.Row="0">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="8"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="4"/>
+                                <RowDefinition Height="8"/>
+
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <Border Grid.Row="3" Grid.RowSpan="7" Grid.Column="0" Grid.ColumnSpan="11" Style="{StaticResource Content_InputForm_GroupBorderStyle}"/>
+                            <Grid x:Name="SearchArea" Grid.Row="1">
+                                <Border Grid.Row="1" Grid.Column="0" Background="#fff2f2f2" BorderThickness="1" BorderBrush="#ffd1d1d1"></Border>
+                                <Grid   Grid.Row="1" Grid.Column="0" >
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="13"/>
+                                        <ColumnDefinition Width="0"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="13"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="14"/>
+                                        <RowDefinition Height="30"/>
+                                        <RowDefinition Height="14"/>
+                                    </Grid.RowDefinitions>
+
+                                    <!-- 
+                                    <Grid Grid.Row="1" Grid.Column="1">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="4*"/>
+                                            <ColumnDefinition Width="6*"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <TextBlock      Grid.Row="0"  Grid.Column="0" Text="{Binding ConverterParameter='동', Converter={StaticResource GlobalObjectDicConverter}, RelativeSource={RelativeSource Self}}" Style="{StaticResource Content_InputForm_LabelStyle}" />
+                                        <c1:C1ComboBox Grid.Row="0" Grid.Column="1" x:Name="cboDdayTabArea" Style="{StaticResource C1ComboBoxStyle}" AutoComplete="False" DisplayMemberPath="CBO_NAME" SelectedValuePath="CBO_CODE" />
+                                    </Grid>
+                                    -->
+
+                                    <Grid Grid.Row="1" Grid.Column="1">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="4*"/>
+                                            <ColumnDefinition Width="6*"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <TextBlock Grid.Row="0"  Grid.Column="0"  Text="{Binding ConverterParameter='출하처', Converter={StaticResource GlobalObjectDicConverter}, RelativeSource={RelativeSource Self}}" Style="{StaticResource Content_InputForm_LabelStyle}" />
+                                        <c1:C1ComboBox Grid.Row="0" Grid.Column="1" x:Name="cboShipToId" Style="{StaticResource C1ComboBoxStyle}" AutoComplete="False" DisplayMemberPath="CBO_CODE" SelectedValuePath="CBO_NAME" MinWidth="100"/>
+                                    </Grid>
+                                    
+                                    
+                                    <Grid Grid.Row="1" Grid.Column="2">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="4*"/>
+                                            <ColumnDefinition Width="6*"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <TextBlock Grid.Row="0"  Grid.Column="0"  Text="{Binding ConverterParameter='제품 ID', Converter={StaticResource GlobalObjectDicConverter}, RelativeSource={RelativeSource Self}}" Style="{StaticResource Content_InputForm_LabelStyle}" />
+                                        <TextBox Grid.Row="0"  Grid.Column="1" x:Name="txtDdayTabProdID" Style="{StaticResource SearchCondition_TextBoxStyle}"  MinWidth="100" />
+                                    </Grid>
+
+                                    <!-- <CheckBox x:Name="ShopIDCheck" Grid.Row="1" Grid.Column="5"  Content="{Binding ConverterParameter='모든 출하처 보기', Converter={StaticResource GlobalObjectDicConverter}}" HorizontalAlignment="Right" Checked="PalletQty_Checked" Unchecked="PalletQty_Unchecked" /> -->
+                                    <Grid Grid.Row="1" Grid.Column="6" HorizontalAlignment="Right">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="4"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
+                                    </Grid>
+                                    <Button     Grid.Row="1" Grid.Column="6" x:Name="btnDdaySearch" Content="{Binding ConverterParameter=SEARCH,    Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{DynamicResource SearchButtonStyle}" Cursor="Hand" Click="btnDdaySearch_Click" VerticalAlignment="Bottom" />
+                                </Grid>
+                            </Grid>
+
+                            <Grid x:Name="GridDdayArea" Grid.Row="5">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="20"/>
+                                    <RowDefinition Height="1*"/>
+                                    <RowDefinition Height="7"/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="7"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="4"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="4"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="4"/>
+                                    <ColumnDefinition Width="1*"/>
+                                    <ColumnDefinition Width="7"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="7"/>
+                                    <!--
+                                    <ColumnDefinition Width="1*"/>
+                                    <ColumnDefinition Width="7"/>
+                                    -->
+                                </Grid.ColumnDefinitions>
+
+                                <!-- D Day 영역 -->
+                                <!-- 머리말 -->
+                                <!--
+                                <Grid x:Name="Title" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="7" Grid.RowSpan="2" >
+                                    <Border Grid.Row="0" Grid.Column="0" BorderThickness="1" BorderBrush="#ffbebebe" Style="{StaticResource BorderSubTitleStyle}"/>
+                                    <TextBlock Grid.Row="0" Grid.Column="0" Style="{StaticResource Content_ModuleTitleStyle}"><Run Text="{Binding ConverterParameter='D Day', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" /></TextBlock>
+                                    
+                                </Grid>
+                                -->
+
+                                <!--위치 영역-->
+                                <Grid x:Name="TitleArea1" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left">
+                                    <TextBlock Grid.Row="0" Grid.Column="0" Style="{StaticResource Content_ModuleTitleStyle}"><Run Text="{Binding ConverterParameter='Pack Bldg / Module', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}"/></TextBlock>
+                                </Grid>
+                                <Grid x:Name="TitleArea2" Grid.Row="0" Grid.Column="3" HorizontalAlignment="Left">
+                                    <TextBlock Grid.Row="0" Grid.Column="0" Style="{StaticResource Content_ModuleTitleStyle}"><Run Text="{Binding ConverterParameter='Pack Bldg / Cell', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}"/></TextBlock>
+                                </Grid>
+                                <Grid x:Name="TitleArea3" Grid.Row="0" Grid.Column="5" HorizontalAlignment="Left">
+                                    <TextBlock Grid.Row="0" Grid.Column="0" Style="{StaticResource Content_ModuleTitleStyle}"><Run Text="{Binding ConverterParameter='Pack Bldg / Cell Inventory', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}"/></TextBlock>
+                                </Grid>
+                                <Grid x:Name="TitleArea4" Grid.Row="0" Grid.Column="7" HorizontalAlignment="Left">
+                                    <TextBlock Grid.Row="0" Grid.Column="0" Style="{StaticResource Content_ModuleTitleStyle}"><Run Text="{Binding ConverterParameter='Cell Bldg / Cell', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}"/></TextBlock>
+                                </Grid>
+
+                                <!--<c1:DataGridCheckBoxColumn x:Name Width="Auto" Name = "CHK"  Binding = "{Binding CHK}"      HorizontalAlignment="Center" IsReadOnly="True" CanUserFilter="False" CanUserSort="False" CanUserResize="False" />-->
+                                <CheckBox x:Name="PalletQty" Grid.Row="0" Grid.Column="7"  Content="{Binding ConverterParameter='Pallet 수량 보기', Converter={StaticResource GlobalObjectDicConverter}}" HorizontalAlignment="Right" Checked="PalletQty_Checked" Unchecked="PalletQty_Unchecked" Visibility="Collapsed" />
+                                
+                                <!--<RadioButton x:Name="PalletQty" Grid.Row="0" Grid.Column="7" Style="{StaticResource SearchCondition_RadioButtonStyle}" Content="{Binding ConverterParameter='Pallet 수량 보기', Converter={StaticResource GlobalObjectDicConverter}}" HorizontalAlignment="Right" Checked="RadioButton_Checked" Unchecked="PalletQty_Unchecked" Click="PalletQty_Click" />-->
+                                <!-- RadioButton x:Name="CellQty"   Grid.Row="0" Grid.Column="7" Style="{StaticResource SearchCondition_RadioButtonStyle}" Content="{Binding ConverterParameter='Cell 수량으로 변경',   Converter={StaticResource GlobalObjectDicConverter}}" HorizontalAlignment="Right" Visibility="Collapsed" Checked="CellQty_Checked"/>-->
+
+                                <!-- 데이터 영역 -->
+                                <Grid x:Name="TitleArea" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left">
+                                    
+                                </Grid>
+                                <Grid x:Name="GridPlanArea"  Grid.Column="1" Grid.Row="1" Grid.RowSpan="1">
+                                    <!--
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="15"></RowDefinition>
+                                        <RowDefinition Height="1*"></RowDefinition>
+                                    </Grid.RowDefinitions>
+                                    <TextBlock Grid.Row="0"  Style="{StaticResource Content_ModuleTitleStyle}" ><Run Text="{Binding ConverterParameter='Pack Bldg / Module', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}"/></TextBlock>-->
+                                    <Border Grid.Row="0"  Style="{StaticResource Content_InputForm_ContentBorderStyle}"/>
+                                    <c1:C1DataGrid Grid.Row="1" x:Name="dgDdayPlan" IsReadOnly="True" HeadersVisibility="Column" Margin="8"  CanUserFilter="False" CanUserSort="False">
+                                        <c1:C1DataGrid.Columns>
+                                            <c1:DataGridTextColumn    Header = "AREA"                  Binding = "{Binding AREANAME}"             HorizontalAlignment="Left" Width="Auto"     ctrlLib:DataGridMergeExtension.MergeMode ="VERTICALHIERARCHI" CanUserFilter="False" CanUserSort="False" CanUserResize="False"/>
+                                           <!-- <c1:DataGridTextColumn    Header = "Pack PJT"              Binding = "{Binding PRJT_NAME}"            HorizontalAlignment="Left"  Width="Auto"                                                                  CanUserFilter="False" CanUserSort="False" CanUserResize="False"/> -->
+                                            <c1:DataGridTextColumn    Header = "Cell PJT"              Binding = "{Binding MTRL_PRJT_NAME}"       HorizontalAlignment="Left" Width="1*"                                                                   CanUserFilter="False" CanUserSort="False" CanUserResize="False"/>
+                                            <c1:DataGridNumericColumn Header = "Plan"                  Binding = "{Binding PLAN_QTY}"             HorizontalAlignment="Right" Width="1*"                                                                  CanUserFilter="False" CanUserSort="False" CanUserResize="False"/>
+                                        </c1:C1DataGrid.Columns>
+                                    </c1:C1DataGrid>
+                                </Grid>
+
+                                <Grid x:Name="GridRemain"  Grid.Column="3" Grid.Row="1" >
+                                    <Border Grid.Row="0" Grid.Column="0" Style="{StaticResource Content_InputForm_ContentBorderStyle}"/>
+                                    <c1:C1DataGrid x:Name="dgDdayRemain" IsReadOnly="True" HeadersVisibility="Column" Margin="8" CanUserFilter="False">
+                                        <c1:C1DataGrid.Columns>
+                                            <c1:DataGridNumericColumn Header = "Required"              Binding = "{Binding MTRL_PLAN_QTY}"        HorizontalAlignment="Right" Width="Auto"     Format="#,##0" CanUserFilter="False" CanUserSort="False" CanUserResize="False"/>
+                                            <c1:DataGridNumericColumn Header = "Usage"                 Binding = "{Binding MTRL_INPUT_QTY}"       HorizontalAlignment="Right" Width="Auto"     Format="#,##0" CanUserFilter="False" CanUserSort="False" CanUserResize="False"/>
+                                            <c1:DataGridNumericColumn Header = "Demand"                Binding = "{Binding MTRL_NEED_QTY}"        HorizontalAlignment="Right" Width="Auto"     Format="#,##0" CanUserFilter="False" CanUserSort="False" CanUserResize="False"/>
+                                        </c1:C1DataGrid.Columns>
+                                    </c1:C1DataGrid>
+                                </Grid>
+
+                                <Grid x:Name="GridShortage"  Grid.Column="5" Grid.Row="1" >
+                                    <Border Grid.Row="0" Grid.Column="0" Style="{StaticResource Content_InputForm_ContentBorderStyle}"/>
+                                    <c1:C1DataGrid x:Name="dgDdayShortage" IsReadOnly="True" HeadersVisibility="Column" Margin="8" LoadedCellPresenter="dgDdayShortage_LoadedCellPresenter"  CanUserFilter="False">
+                                        <c1:C1DataGrid.Columns>
+                                            <c1:DataGridNumericColumn Header = "On-Hand"               Binding = "{Binding MTRL_STOCK_QTY}"                     HorizontalAlignment="Right" Width="Auto" Format="#,##0" Maximum="9999999"                                                               CanUserFilter="False" CanUserSort="False" CanUserResize="False"/>
+                                            <c1:DataGridNumericColumn x:Name="InTrans"                 Header = "In-Trans"              Binding = "{Binding MTRL_INTRANSIT_QTY}"                 HorizontalAlignment="Right" Width="Auto" Format="#,##0" Maximum="9999999" Visibility="Visible"         CanUserFilter="False" CanUserSort="False" CanUserResize="False"/>
+                                            <c1:DataGridNumericColumn x:Name="InTransPallet"           Header = "In-Trans"      Binding = "{Binding MTRL_INTRANSIT_QTY}"                 HorizontalAlignment="Right" Width="Auto" Format="#,##0" Maximum="9999999" Visibility="Collapsed"       CanUserFilter="False" CanUserSort="False" CanUserResize="False"/>
+                                            <c1:DataGridTextColumn    Header = "Coverage (hh:mm:ss)"              Binding = "{Binding COVERAGE}"                           HorizontalAlignment="Right" Width="Auto"                                                                                                CanUserFilter="False" CanUserSort="False" CanUserResize="False"/>
+                                            <c1:DataGridNumericColumn Header = "Shortage"              Binding = "{Binding SHORTAGE}"                           HorizontalAlignment="Right" Width="2*"   Format="#,##0"                                                                                 CanUserFilter="False" CanUserSort="False" CanUserResize="False"/>
+                                        </c1:C1DataGrid.Columns>
+                                    </c1:C1DataGrid>
+                                </Grid>
+
+                                <Grid x:Name="GridAvailableArea"  Grid.Column="7" Grid.Row="1" >
+                                    <Border Grid.Row="0" Grid.Column="0" Style="{StaticResource Content_InputForm_ContentBorderStyle}"/>
+                                    <c1:C1DataGrid x:Name="dgGridAvailableAreaSearch" IsReadOnly="True" HeadersVisibility="Column" Margin="8" LoadedCellPresenter="dgGridAvailableAreaSearch_LoadedCellPresenter"  CanUserFilter="False">
+                                        <c1:C1DataGrid.Columns>
+                                            <c1:DataGridNumericColumn                            Header = "Shortage"               Binding = "{Binding SHORTAGE}"                   HorizontalAlignment="Right" Width="1*"      Visibility="Collapsed"/>
+                                            <c1:DataGridTextColumn x:Name="Available"            Header = "Available"              Binding = "{Binding MTRL_AVAILABLE_QTY}"         HorizontalAlignment="Right" Width="1*"      Visibility="Visible"     CanUserFilter="False" CanUserSort="False" CanUserResize="False"/>
+                                            <c1:DataGridTextColumn x:Name="Available_ALL"     Header = "Available"      Binding = "{Binding MTRL_AVAILABLE_ALL}"      HorizontalAlignment="Right" Width="1*"         Visibility="Collapsed"   CanUserFilter="False" CanUserSort="False" CanUserResize="False"/>
+                                            <c1:DataGridTextColumn x:Name="QAInsp"               Header = "QA"                Binding = "{Binding MTRL_QAINSP_QTY}"            HorizontalAlignment="Right" Width="1*"      Visibility="Visible"     CanUserFilter="False" CanUserSort="False" CanUserResize="False"/>
+                                            <c1:DataGridTextColumn x:Name="QAInsp_ALL"        Header = "QA"        Binding = "{Binding MTRL_QAINSP_ALL}"         HorizontalAlignment="Right" Width="1*"         Visibility="Collapsed"   CanUserFilter="False" CanUserSort="False" CanUserResize="False"/>
+                                            <c1:DataGridTextColumn x:Name="Hold"                 Header = "HOLD"                   Binding = "{Binding MTRL_HOLD_QTY}"              HorizontalAlignment="Right" Width="1*"      Visibility="Visible"     CanUserFilter="False" CanUserSort="False" CanUserResize="False"/>
+                                            <c1:DataGridTextColumn x:Name="Hold_ALL"          Header = "HOLD"           Binding = "{Binding MTRL_HOLD_ALL}"           HorizontalAlignment="Right" Width="1*"     Visibility="Collapsed"   CanUserFilter="False" CanUserSort="False" CanUserResize="False"/>
+                                            <c1:DataGridTextColumn x:Name="EXP"                  Header = "Long-term Inventory"               Binding = "{Binding MTRL_EXP_QTY}"               HorizontalAlignment="Right" Width="1*"      Visibility="Collapsed"     CanUserFilter="False" CanUserSort="False" CanUserResize="False"/>
+                                            <c1:DataGridTextColumn x:Name="EXP_ALL"           Header = "Long-term Inventory"       Binding = "{Binding MTRL_EXP_ALL}"            HorizontalAlignment="Right" Width="1*"     Visibility="Collapsed"   CanUserFilter="False" CanUserSort="False" CanUserResize="False"/>
+                                        </c1:C1DataGrid.Columns> 
+                                    </c1:C1DataGrid>
+                                </Grid>
+                            </Grid>
+                        </Grid>
+                    </c1:C1TabItem>
+
+                    <c1:C1TabItem Header="{Binding Converter={StaticResource GlobalObjectDicConverter}, ConverterParameter='D DAY + D+1 DAY'}" Margin="0" >
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="8"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="4"/>
+                                <RowDefinition Height="8"/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+
+                            <Border Grid.Row="3" Grid.RowSpan="7" Grid.Column="0" Grid.ColumnSpan="11" Style="{StaticResource Content_InputForm_GroupBorderStyle}"/>
+                            <Grid x:Name="SearchDay1Area" Grid.Row="1">
+                                <Border Grid.Row="1" Grid.Column="0" Background="#fff2f2f2" BorderThickness="1" BorderBrush="#ffd1d1d1"></Border>
+                                <Grid   Grid.Row="1" Grid.Column="0" >
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="13"/>
+                                        <ColumnDefinition Width="0"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="13"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="14"/>
+                                        <RowDefinition Height="30"/>
+                                        <RowDefinition Height="14"/>
+                                    </Grid.RowDefinitions>
+
+                                    <!--
+                                    <Grid Grid.Row="1" Grid.Column="1">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="4*"/>
+                                            <ColumnDefinition Width="6*"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <TextBlock      Grid.Row="0"  Grid.Column="0" Text="{Binding ConverterParameter='동', Converter={StaticResource GlobalObjectDicConverter}, RelativeSource={RelativeSource Self}}" Style="{StaticResource Content_InputForm_LabelStyle}" />
+                                        <c1:C1ComboBox Grid.Row="0" Grid.Column="1" x:Name="cboDay1TabArea" Style="{StaticResource C1ComboBoxStyle}" AutoComplete="False" DisplayMemberPath="CBO_NAME" SelectedValuePath="CBO_CODE" />
+                                    </Grid>
+                                    -->
+
+                                    <Grid Grid.Row="1" Grid.Column="1">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="4*"/>
+                                            <ColumnDefinition Width="6*"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <TextBlock Grid.Row="0"  Grid.Column="0"  Text="{Binding ConverterParameter='출하처', Converter={StaticResource GlobalObjectDicConverter}, RelativeSource={RelativeSource Self}}" Style="{StaticResource Content_InputForm_LabelStyle}" />
+                                        <c1:C1ComboBox Grid.Row="0" Grid.Column="1" x:Name="cboDay1ShipToId" Style="{StaticResource C1ComboBoxStyle}" AutoComplete="False" DisplayMemberPath="CBO_CODE" SelectedValuePath="CBO_NAME" MinWidth="100"/>
+                                    </Grid>
+
+                                    <Grid Grid.Row="1" Grid.Column="2" Visibility="Collapsed">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="4*"/>
+                                            <ColumnDefinition Width="6*"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <TextBlock      Grid.Row="0"  Grid.Column="0" Text="{Binding ConverterParameter='라인', Converter={StaticResource GlobalObjectDicConverter}, RelativeSource={RelativeSource Self}}" Style="{StaticResource Content_InputForm_LabelStyle}" />
+                                        <c1:C1ComboBox  Grid.Row="0"  Grid.Column="1" x:Name="cboDay1TabLine" Style="{StaticResource C1ComboBoxStyle}" AutoComplete="False"/>
+                                    </Grid>
+
+                                    <Grid Grid.Row="1" Grid.Column="2">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="4*"/>
+                                            <ColumnDefinition Width="6*"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <TextBlock Grid.Row="0"  Grid.Column="0"  Text="{Binding ConverterParameter='제품 ID', Converter={StaticResource GlobalObjectDicConverter}, RelativeSource={RelativeSource Self}}" Style="{StaticResource Content_InputForm_LabelStyle}" />
+                                        <TextBox Grid.Row="0"  Grid.Column="1" x:Name="txtDay1TabProdID" Style="{StaticResource SearchCondition_TextBoxStyle}"  MinWidth="100" />
+                                    </Grid>
+
+                                    <Grid Grid.Row="1" Grid.Column="5" HorizontalAlignment="Right">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="4"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
+                                    </Grid>
+                                    <Button     Grid.Row="1" Grid.Column="6" x:Name="btnDday1Search" Content="{Binding ConverterParameter=SEARCH,    Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{DynamicResource SearchButtonStyle}" Cursor="Hand" Click="btnDday1Search_Click" />
+                                </Grid>
+                            </Grid>
+
+                            <Grid x:Name="Grid1DdayArea" Grid.Row="5">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="20"/>
+                                    <RowDefinition Height="1*"/>
+                                    <RowDefinition Height="7"/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="7"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="4"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="4"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="4"/>
+                                    <ColumnDefinition Width="1*"/>
+                                    <ColumnDefinition Width="7"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="7"/>
+                                    <!--
+                                    <ColumnDefinition Width="1*"/>
+                                    <ColumnDefinition Width="7"/>
+                                    -->
+                                </Grid.ColumnDefinitions>
+
+                                <!-- D Day 영역 -->
+                                <!-- 머리말 -->
+                                <!--
+                                <Grid x:Name="Title" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="7" Grid.RowSpan="2" >
+                                    <Border Grid.Row="0" Grid.Column="0" BorderThickness="1" BorderBrush="#ffbebebe" Style="{StaticResource BorderSubTitleStyle}"/>
+                                    <TextBlock Grid.Row="0" Grid.Column="0" Style="{StaticResource Content_ModuleTitleStyle}"><Run Text="{Binding ConverterParameter='D Day', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" /></TextBlock>
+                                    
+                                </Grid>
+                                -->
+
+                                <!--위치 영역-->
+                                <Grid x:Name="TitleArea5" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left">
+                                    <TextBlock Grid.Row="0" Grid.Column="0" Style="{StaticResource Content_ModuleTitleStyle}"><Run Text="{Binding ConverterParameter='Pack Bldg / Module', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}"/></TextBlock>
+                                </Grid>
+                                <Grid x:Name="TitleArea6" Grid.Row="0" Grid.Column="3" HorizontalAlignment="Left">
+                                    <TextBlock Grid.Row="0" Grid.Column="0" Style="{StaticResource Content_ModuleTitleStyle}"><Run Text="{Binding ConverterParameter='Pack Bldg / Cell', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}"/></TextBlock>
+                                </Grid>
+                                <Grid x:Name="TitleArea7" Grid.Row="0" Grid.Column="5" HorizontalAlignment="Left">
+                                    <TextBlock Grid.Row="0" Grid.Column="0" Style="{StaticResource Content_ModuleTitleStyle}"><Run Text="{Binding ConverterParameter='Pack Bldg / Cell Inventory', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}"/></TextBlock>
+                                </Grid>
+                                <Grid x:Name="TitleArea8" Grid.Row="0" Grid.Column="7" HorizontalAlignment="Left">
+                                    <TextBlock Grid.Row="0" Grid.Column="0" Style="{StaticResource Content_ModuleTitleStyle}"><Run Text="{Binding ConverterParameter='Cell Bldg / Cell', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}"/></TextBlock>
+                                </Grid>
+
+                                <!--<c1:DataGridCheckBoxColumn x:Name Width="Auto" Name = "CHK"  Binding = "{Binding CHK}"      HorizontalAlignment="Center" IsReadOnly="True" CanUserFilter="False" CanUserSort="False" CanUserResize="False" />-->
+                                <CheckBox x:Name="Day1PalletQty" Grid.Row="0" Grid.Column="7"  Content="{Binding ConverterParameter='Pallet 수량 보기', Converter={StaticResource GlobalObjectDicConverter}}" HorizontalAlignment="Right" Checked="Day1PalletQty_Checked" Unchecked="Day1PalletQty_Unchecked" />
+                                
+                                <!--<RadioButton x:Name="PalletQty" Grid.Row="0" Grid.Column="7" Style="{StaticResource SearchCondition_RadioButtonStyle}" Content="{Binding ConverterParameter='Pallet 수량 보기', Converter={StaticResource GlobalObjectDicConverter}}" HorizontalAlignment="Right" Checked="RadioButton_Checked" Unchecked="PalletQty_Unchecked" Click="PalletQty_Click" />-->
+                                <!-- RadioButton x:Name="CellQty"   Grid.Row="0" Grid.Column="7" Style="{StaticResource SearchCondition_RadioButtonStyle}" Content="{Binding ConverterParameter='Cell 수량으로 변경',   Converter={StaticResource GlobalObjectDicConverter}}" HorizontalAlignment="Right" Visibility="Collapsed" Checked="CellQty_Checked"/>-->
+
+                                <!-- 데이터 영역 -->
+                                <Grid x:Name="TitleAreaDay1" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left">
+                                    
+                                </Grid>
+                                <Grid x:Name="Grid1PlanArea"  Grid.Column="1" Grid.Row="1" Grid.RowSpan="1">
+                                    <!--
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="15"></RowDefinition>
+                                        <RowDefinition Height="1*"></RowDefinition>
+                                    </Grid.RowDefinitions>
+                                    <TextBlock Grid.Row="0"  Style="{StaticResource Content_ModuleTitleStyle}" ><Run Text="{Binding ConverterParameter='Pack Bldg / Module', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}"/></TextBlock>-->
+                                    <Border Grid.Row="0"  Style="{StaticResource Content_InputForm_ContentBorderStyle}"/>
+                                    <c1:C1DataGrid Grid.Row="1" x:Name="dgGrid1DdayPlan" IsReadOnly="True" HeadersVisibility="Column" Margin="8"  CanUserFilter="False" CanUserSort="False">
+                                        <c1:C1DataGrid.Columns>
+                                            <c1:DataGridTextColumn    Header = "AREA"                  Binding = "{Binding AREANAME}"             HorizontalAlignment="Left" Width="Auto"     ctrlLib:DataGridMergeExtension.MergeMode ="VERTICALHIERARCHI" CanUserFilter="False" CanUserSort="False" CanUserResize="False"/>
+                                            <!--<c1:DataGridTextColumn    Header = "Pack PJT"              Binding = "{Binding PRJT_NAME}"            HorizontalAlignment="Left"  Width="Auto"                                                                  CanUserFilter="False" CanUserSort="False" CanUserResize="False"/>-->
+                                            <c1:DataGridTextColumn    Header = "Cell PJT"              Binding = "{Binding MTRL_PRJT_NAME}"       HorizontalAlignment="Left" Width="1*"                                                                   CanUserFilter="False" CanUserSort="False" CanUserResize="False"/>
+                                            <c1:DataGridNumericColumn Header = "Plan"                  Binding = "{Binding PLAN_QTY}"             HorizontalAlignment="Right" Width="1*"                                                                  CanUserFilter="False" CanUserSort="False" CanUserResize="False"/>
+                                        </c1:C1DataGrid.Columns>
+                                    </c1:C1DataGrid>
+                                </Grid>
+
+                                <Grid x:Name="Grid1Remain"  Grid.Column="3" Grid.Row="1" >
+                                    <Border Grid.Row="0" Grid.Column="0" Style="{StaticResource Content_InputForm_ContentBorderStyle}"/>
+                                    <c1:C1DataGrid x:Name="dgGrid1DdayRemain" IsReadOnly="True" HeadersVisibility="Column" Margin="8" CanUserFilter="False">
+                                        <c1:C1DataGrid.Columns>
+                                            <c1:DataGridNumericColumn Header = "Required"              Binding = "{Binding MTRL_PLAN_QTY}"        HorizontalAlignment="Right" Width="Auto"     Format="#,##0" CanUserFilter="False" CanUserSort="False" CanUserResize="False"/>
+                                            <c1:DataGridNumericColumn Header = "Usage"                 Binding = "{Binding MTRL_INPUT_QTY}"       HorizontalAlignment="Right" Width="Auto"     Format="#,##0" CanUserFilter="False" CanUserSort="False" CanUserResize="False"/>
+                                            <c1:DataGridNumericColumn Header = "Demand"                Binding = "{Binding MTRL_NEED_QTY}"        HorizontalAlignment="Right" Width="Auto"     Format="#,##0" CanUserFilter="False" CanUserSort="False" CanUserResize="False"/>
+                                        </c1:C1DataGrid.Columns>
+                                    </c1:C1DataGrid>
+                                </Grid>
+
+                                <Grid x:Name="Grid1Shortage"  Grid.Column="5" Grid.Row="1" >
+                                    <Border Grid.Row="0" Grid.Column="0" Style="{StaticResource Content_InputForm_ContentBorderStyle}"/>
+                                    <c1:C1DataGrid x:Name="dgGrid1DdayShortage" IsReadOnly="True" HeadersVisibility="Column" Margin="8" LoadedCellPresenter="dgDdayShortage_LoadedCellPresenter"  CanUserFilter="False">
+                                        <c1:C1DataGrid.Columns>
+                                            <c1:DataGridNumericColumn Header = "On-Hand"               Binding = "{Binding MTRL_STOCK_QTY}"                     HorizontalAlignment="Right" Width="Auto" Format="#,##0" Maximum="9999999"                                                               CanUserFilter="False" CanUserSort="False" CanUserResize="False"/>
+                                            <c1:DataGridNumericColumn x:Name="Day1InTrans"                 Header = "In-Trans"              Binding = "{Binding MTRL_INTRANSIT_QTY}"                 HorizontalAlignment="Right" Width="Auto" Format="#,##0" Maximum="9999999" Visibility="Visible"         CanUserFilter="False" CanUserSort="False" CanUserResize="False"/>
+                                            <c1:DataGridNumericColumn x:Name="Day1InTransPallet"           Header = "In-Trans(Pallet)"      Binding = "{Binding MTRL_INTRANSIT_QTY}"                 HorizontalAlignment="Right" Width="Auto" Format="#,##0" Maximum="9999999" Visibility="Collapsed"       CanUserFilter="False" CanUserSort="False" CanUserResize="False"/>
+                                            <c1:DataGridTextColumn    Header = "Coverage (hh:mm:ss)"              Binding = "{Binding COVERAGE}"                           HorizontalAlignment="Right" Width="Auto"                                                                                                CanUserFilter="False" CanUserSort="False" CanUserResize="False"/>
+                                            <c1:DataGridNumericColumn Header = "Shortage"              Binding = "{Binding SHORTAGE}"                           HorizontalAlignment="Right" Width="2*"   Format="#,##0"                                                                                 CanUserFilter="False" CanUserSort="False" CanUserResize="False"/>
+                                        </c1:C1DataGrid.Columns>
+                                    </c1:C1DataGrid>
+                                </Grid>
+
+                                <Grid x:Name="Grid1AvailableArea"  Grid.Column="7" Grid.Row="1" >
+                                    <Border Grid.Row="0" Grid.Column="0" Style="{StaticResource Content_InputForm_ContentBorderStyle}"/>
+                                    <c1:C1DataGrid x:Name="dgGrid1AvailableAreaSearch" IsReadOnly="True" HeadersVisibility="Column" Margin="8" LoadedCellPresenter="dgGridAvailableAreaSearch_LoadedCellPresenter"  CanUserFilter="False">
+                                        <c1:C1DataGrid.Columns>
+                                            <c1:DataGridNumericColumn                               Header = "Shortage"               Binding = "{Binding SHORTAGE}"                   HorizontalAlignment="Right" Width="1*"        Format="#,##0" Maximum="9999999" Visibility="Collapsed"/>
+                                            <c1:DataGridTextColumn x:Name="Day1Available"            Header = "Available"              Binding = "{Binding MTRL_AVAILABLE_QTY}"         HorizontalAlignment="Right" Width="1*"      Visibility="Visible"     CanUserFilter="False" CanUserSort="False" CanUserResize="False"/>
+                                            <c1:DataGridTextColumn x:Name="Day1Available_ALL"     Header = "Available"      Binding = "{Binding MTRL_AVAILABLE_ALL}"      HorizontalAlignment="Right" Width="1*"         Visibility="Collapsed"   CanUserFilter="False" CanUserSort="False" CanUserResize="False"/>
+                                            <c1:DataGridTextColumn x:Name="Day1QAInsp"               Header = "QA 검사"                Binding = "{Binding MTRL_QAINSP_QTY}"            HorizontalAlignment="Right" Width="1*"      Visibility="Visible"     CanUserFilter="False" CanUserSort="False" CanUserResize="False"/>
+                                            <c1:DataGridTextColumn x:Name="Day1QAInsp_ALL"        Header = "검사"        Binding = "{Binding MTRL_QAINSP_ALL}"         HorizontalAlignment="Right" Width="1*"         Visibility="Collapsed"   CanUserFilter="False" CanUserSort="False" CanUserResize="False"/>
+                                            <c1:DataGridTextColumn x:Name="Day1Hold"                 Header = "HOLD"                   Binding = "{Binding MTRL_HOLD_QTY}"              HorizontalAlignment="Right" Width="1*"      Visibility="Visible"     CanUserFilter="False" CanUserSort="False" CanUserResize="False"/>
+                                            <c1:DataGridTextColumn x:Name="Day1Hold_ALL"          Header = "HOLD"           Binding = "{Binding MTRL_HOLD_ALL}"          HorizontalAlignment="Right" Width="1*"     Visibility="Collapsed"   CanUserFilter="False" CanUserSort="False" CanUserResize="False"/>
+                                            <c1:DataGridTextColumn x:Name="Day1EXP"                  Header = "장기재고"               Binding = "{Binding MTRL_EXP_QTY}"               HorizontalAlignment="Right" Width="1*"      Visibility="Visible"     CanUserFilter="False" CanUserSort="False" CanUserResize="False"/>
+                                            <c1:DataGridTextColumn x:Name="Day1EXP_ALL"           Header = "장기재고"       Binding = "{Binding MTRL_EXP_ALL}"            HorizontalAlignment="Right" Width="1*"     Visibility="Collapsed"   CanUserFilter="False" CanUserSort="False" CanUserResize="False"/>
+                                        </c1:C1DataGrid.Columns>
+                                    </c1:C1DataGrid>
+                                </Grid>
+                            </Grid>
+                        </Grid>
+                    </c1:C1TabItem>
+
+                </c1:C1TabControl>
+
+            </Grid>
+
+        </ctrlLib:LGCLayout>
+
+        <ctrlLib:LoadingIndicator x:Name="loadingIndicator" Grid.ColumnSpan="4" Grid.RowSpan="1" />
+    </Grid>
+</UserControl>

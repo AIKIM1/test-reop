@@ -1,0 +1,143 @@
+﻿<UserControl x:Class="LGC.GMES.MES.FCS001.FCS001_151"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:ctrlLib="clr-namespace:LGC.GMES.MES.ControlsLibrary;assembly=LGC.GMES.MES.ControlsLibrary"
+             xmlns:uc="clr-namespace:LGC.GMES.MES.CMM001.Controls;assembly=LGC.GMES.MES.CMM001"
+             xmlns:c1="http://schemas.componentone.com/winfx/2006/xaml"
+             mc:Ignorable="d" 
+             d:DesignHeight="850" d:DesignWidth="1920" 
+             Loaded="UserControl_Loaded">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/LGC.GMES.MES.ControlsLibrary;component/ControlStyles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <Grid>
+        <ctrlLib:LGCLayout x:Name="LayoutRoot" Tag="Cell List 정보조회">
+            <ctrlLib:LGCLayout.Content>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <!--TopSearch-->
+                        <RowDefinition Height="Auto"/>
+                        <!--Contents-->
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <Border Grid.Row="0" Grid.Column="0" Style="{StaticResource Content_InputForm_LabelBorderStyle}"/>
+
+                    <Grid x:Name="TopSearch" Grid.Row="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="13"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="100"/>
+                            <ColumnDefinition Width="60"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="13"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="13"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="13"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="8" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="8" />
+                        </Grid.RowDefinitions>
+
+                        <Grid Grid.Row="1" Grid.Column="1" Cursor="">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="100"/>
+                                <ColumnDefinition Width="50"/>
+                                <ColumnDefinition Width="50"/>
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock Grid.Row="0" Grid.Column="0" Text="{Binding ConverterParameter='CELL_CNT_SUM', Converter={StaticResource GlobalObjectDicConverter}, RelativeSource={RelativeSource Self}}" Style="{StaticResource Content_Search_LabelStyle}" Margin="0,0,5,0"/>
+                            <TextBox Grid.Row="0" Grid.Column="1" x:Name="txtCellCntSum" Style="{StaticResource Content_InputForm_TextBoxStyle}" IsReadOnly="True" Height="23" Margin="3,6,3,0" VerticalAlignment="Top" TextAlignment="Right"/>
+
+                        </Grid>
+
+                        <uc:UcProgress  x:Name="xProgress" Grid.Row="1" Grid.Column="2" HorizontalAlignment="Stretch" Margin="20,0,20,0" VerticalAlignment="Center" Height="20" UseGradient="True" LabelViewType="Bottom" ButtonSize="2" Visibility="Collapsed"
+                                        WorkProcess="xProgress_WorkProcess"
+                                        WorkProcessChanged="xProgress_WorkProcessChanged"
+                                        WorkProcessCompleted="xProgress_WorkProcessCompleted"/>
+
+                        <TextBlock Grid.Row="1" Grid.Column="3" Text="{Binding ConverterParameter='ROW_CNT', Converter={StaticResource GlobalObjectDicConverter}, RelativeSource={RelativeSource Self}}" Style="{StaticResource Content_Search_LabelStyle}" Margin="0,0,5,0"/>
+                        <TextBox   Grid.Row="1" Grid.Column="4" x:Name="txtRowCnt" Style="{StaticResource Content_InputForm_TextBoxStyle}" TextAlignment="Right" Text="100"/>
+                        <uc:UcBaseButton    Grid.Row="1" Grid.Column="5" x:Name="btnRefresh" Margin="3" Height="29" Content="{Binding ConverterParameter=REFRESH , Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_MainControl03Style}"  Cursor="Hand" Click="btnRefresh_Click" />
+                        <uc:UcBaseButton    Grid.Row="1" Grid.Column="7" x:Name="btnExcel" Content="{Binding ConverterParameter=EXCEL, Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{DynamicResource Content_ModuleButtonExcelExportStyle}" Click="btnExcel_Click" />
+                        <uc:UcBaseButton    Grid.Row="1" Grid.Column="9" x:Name="btnSearch" Content="{Binding ConverterParameter=SEARCH, Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource SearchButtonStyle}" Click="btnSearch_Click" />
+                    </Grid>
+
+                    <Grid x:Name="Contents" Grid.Row="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="8"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <Grid Grid.Row="1" Grid.Column="1">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="34"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+
+                            <Border Style="{StaticResource Content_InputForm_LabelBorderStyle}">
+                                <TextBlock Style="{StaticResource Content_ModuleTitleStyle}"><Run Text=""/></TextBlock>
+                            </Border>
+
+                            <Border Grid.Row="1" Grid.RowSpan="1" Style="{StaticResource Content_InputForm_LabelBorderStyle}" />
+
+                            <uc:UcBaseDataGrid x:Name="dgCellList" Grid.Row="1" Margin="8" IsReadOnly="False" SelectionMode="MultiRange" HeadersVisibility="Row" FrozenTopRowsCount="2">
+                                <c1:C1DataGrid.Columns>
+                                    <c1:DataGridTextColumn	        Header = "[Cell ID,Cell ID]"            Binding = "{Binding SUBLOTID}"              HorizontalAlignment="Center" IsReadOnly="False" Width="Auto" MinWidth="100"/>
+                                    <c1:DataGridTextColumn	        Header = "[등급,등급]"                  Binding = "{Binding GRADE}"                 HorizontalAlignment="Center" IsReadOnly="True"  Width="Auto"/>
+                                    <c1:DataGridTextColumn	        Header = "[Tray ID,Tray ID]"            Binding = "{Binding CSTID}"                 HorizontalAlignment="Center" IsReadOnly="True"  Width="Auto"/>
+                                    <c1:DataGridTextColumn	        Header = "[TRAY_LOT_ID,TRAY_LOT_ID]"    Binding = "{Binding TRAYNO}"                HorizontalAlignment="Center" IsReadOnly="True"  Width="Auto"/>
+                                    <c1:DataGridTextColumn	        Header = "[CELL_NO,CELL_NO]"            Binding = "{Binding CELLNO}"                HorizontalAlignment="Center" IsReadOnly="True"  Width="Auto"/>
+                                    <c1:DataGridTextColumn	        Header = "[LOT_TYPE,LOT_TYPE]"          Binding = "{Binding LOT_TYPE}"              HorizontalAlignment="Center" IsReadOnly="True"  Width="Auto"/>
+                                    <c1:DataGridTextColumn	        Header = "[공정경로,공정경로]"          Binding = "{Binding ROUTID}"                HorizontalAlignment="Center" IsReadOnly="True"  Width="Auto"/>
+                                    <c1:DataGridTextColumn	        Header = "[Lot ID,Lot ID]"              Binding = "{Binding LOTID}"                 HorizontalAlignment="Center" IsReadOnly="True"  Width="Auto"/>
+                                    <c1:DataGridTextColumn	        Header = "[호기,호기]"                  Binding = "{Binding EQSGNAME}"              HorizontalAlignment="Center" IsReadOnly="True"  Width="Auto"/>
+                                    <c1:DataGridTextColumn	        Header = "[현재공정,현재공정]"          Binding = "{Binding CUROPER}"               HorizontalAlignment="Center" IsReadOnly="True"  Width="Auto"/>
+                                    <c1:DataGridTextColumn	        Header = "[설비명,설비명]"              Binding = "{Binding EQPTNAME}"              HorizontalAlignment="Center" IsReadOnly="True"  Width="Auto"/>
+                                    <c1:DataGridTextColumn	        Header = "[불량,공정]"                  Binding = "{Binding DFCT_OPER_NAME}"        HorizontalAlignment="Center" IsReadOnly="True"  Width="Auto"/>
+                                    <c1:DataGridTextColumn	        Header = "[불량,불량명]"                Binding = "{Binding DFCT_NAME}"             HorizontalAlignment="Center" IsReadOnly="True"  Width="Auto"/>
+                                    <c1:DataGridTextColumn	        Header = "[불량,설비명]"                Binding = "{Binding DFCT_EQPT_NAME}"        HorizontalAlignment="Center" IsReadOnly="True"  Width="Auto"/>
+                                    <c1:DataGridTextColumn	        Header = "[불량,비고]"                  Binding = "{Binding DFCT_DESC}"             HorizontalAlignment="Center" IsReadOnly="True"  Width="Auto"/>
+                                    <c1:DataGridTextColumn	        Header = "[불량,INPUT_POS_YN]"          Binding = "{Binding EQPT_INPUT_AVAIL_FLAG}" HorizontalAlignment="Center" IsReadOnly="True"  Width="Auto"/>
+                                    <c1:DataGridTextColumn	        Header = "[등록일시,등록일시]"          Binding = "{Binding INSDTTM}"               HorizontalAlignment="Center" IsReadOnly="True"  Width="Auto"/>
+                                    <c1:DataGridTextColumn	        Header = "[현재 LOT 상세 유형,현재 LOT 상세 유형]" Binding = "{Binding LOT_DETL_TYPE_NAME}" HorizontalAlignment="Center" IsReadOnly="True"  Width="Auto"/>
+                                </c1:C1DataGrid.Columns>
+
+                                <c1:C1DataGrid.TopRows>
+                                    <c1:DataGridColumnHeaderRow />
+                                    <c1:DataGridColumnHeaderRow />
+                                </c1:C1DataGrid.TopRows>
+
+                                <c1:C1GroupingWithSummariesBehavior.GroupingWithSummariesBehavior>
+                                    <c1:C1GroupingWithSummariesBehavior />
+                                </c1:C1GroupingWithSummariesBehavior.GroupingWithSummariesBehavior>
+
+                                <c1:C1RowIndexHeaderBehavior.RowIndexHeaderBehavior>
+                                    <c1:C1RowIndexHeaderBehavior InitialIndex="1"></c1:C1RowIndexHeaderBehavior>
+                                </c1:C1RowIndexHeaderBehavior.RowIndexHeaderBehavior>
+
+                            </uc:UcBaseDataGrid>
+
+                        </Grid>
+                    </Grid>
+                </Grid>
+            </ctrlLib:LGCLayout.Content>
+        </ctrlLib:LGCLayout>
+
+        <ctrlLib:LoadingIndicator x:Name="loadingIndicator" Grid.Row="999" Grid.Column="999" />
+    </Grid>
+</UserControl>

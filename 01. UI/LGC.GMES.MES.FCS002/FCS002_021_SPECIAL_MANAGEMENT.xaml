@@ -1,0 +1,105 @@
+﻿<c1:C1Window x:Class="LGC.GMES.MES.FCS002.FCS002_021_SPECIAL_MANAGEMENT"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:c1="http://schemas.componentone.com/winfx/2006/xaml"
+		     xmlns:System="clr-namespace:System;assembly=mscorlib"
+             xmlns:ctrlLib="clr-namespace:LGC.GMES.MES.ControlsLibrary;assembly=LGC.GMES.MES.ControlsLibrary"        
+             ctrlLib:LGCPopupWindowExtension.ApplyStyle="True"
+             Header="{Binding Converter={StaticResource GlobalObjectDicConverter}, ConverterParameter='특별관리등록'}" 
+             Tag="ProtoType01Windows01" Height="600" Width="1200" IsResizable="True"
+             Loaded="C1Window_Loaded" >
+    <c1:C1Window.Resources>
+        <ResourceDictionary Source="/LGC.GMES.MES.ControlsLibrary;Component/ControlStyles.xaml"/>
+    </c1:C1Window.Resources>
+    <Grid>
+        <ctrlLib:LGCLayout x:Name="LayoutRoot" Tag="특별관리등록">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="1*" />
+                    <RowDefinition Height="1*" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                
+                <TextBlock      Grid.Row="0" Grid.Column="0" Text="{Binding ConverterParameter='특별관리여부', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}"/>
+                <c1:C1ComboBox  Grid.Row="0" Grid.Column="1" x:Name="cboSpecial"  DisplayMemberPath="CBO_NAME" SelectedValuePath="CBO_CODE"  Style="{StaticResource C1ComboBoxStyle_Mandatory}" AutoComplete="False" SelectedItemChanged="cboSpecial_SelectedItemChanged" />
+
+                <Grid Grid.Row="1" Grid.Column="1">
+                    <Border Style="{StaticResource Content_InputForm_ContentBorderStyle}"/>
+                    <Border Grid.Row="0" Grid.Column="0" BorderThickness="1"/>
+                    <c1:C1DataGrid x:Name="dgSpclLotList" IsReadOnly="False" Margin="4" HeadersVisibility="All" FrozenColumnCount="3" SelectionMode="SingleRow" LoadedCellPresenter="dgSpclLotList_LoadedCellPresenter" LoadedRowHeaderPresenter="dgSpclLotList_LoadedRowHeaderPresenter" LoadedColumnHeaderPresenter="dgSpclLotList_LoadedColumnHeaderPresenter">
+                        <c1:C1DataGrid.Columns>
+                            <c1:DataGridTemplateColumn Name="CHK" Width="Auto" Header="SELECT" >
+                                <c1:DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <CheckBox IsChecked="{Binding CHK, Mode=TwoWay}" VerticalAlignment="Center" HorizontalAlignment="Center" Click="CheckBox_Click"/>
+                                    </DataTemplate>
+                                </c1:DataGridTemplateColumn.CellTemplate>
+                            </c1:DataGridTemplateColumn>
+                            <c1:DataGridTextColumn       Header = "TRAY_ID"            Binding = "{Binding CSTID }"                    IsReadOnly="True"  HorizontalAlignment="Center" />
+                            <c1:DataGridTextColumn       Header = "TRAY_LOT_ID"        Binding = "{Binding LOTID }"                    IsReadOnly="True"  HorizontalAlignment="Center" />
+                            <c1:DataGridTextColumn       Header = "SPECIAL_NO"         Binding = "{Binding SPCL_GR_ID}"                IsReadOnly="True"  HorizontalAlignment="Center" />
+                            <c1:DataGridTextColumn       Header = "특별관리코드"       Binding = "{Binding SPCL_TYPE_CODE}"            IsReadOnly="True"  HorizontalAlignment="Center" />
+                            <c1:DataGridTextColumn       Header = "예상해제일"         Binding = "{Binding FORM_SPCL_REL_SCHD_DTTM}"   IsReadOnly="True"  HorizontalAlignment="Center" Visibility="Collapsed" />
+                            <c1:DataGridTextColumn       Header = "특별관리내용"       Binding = "{Binding SPCL_NOTE_CNTT}"            IsReadOnly="True"  HorizontalAlignment="Center" />
+                            <c1:DataGridTextColumn       Header = "요청자"             Binding = "{Binding REQUSERNAME}"               IsReadOnly="True"  HorizontalAlignment="Center" />
+                            <c1:DataGridTextColumn       Header = "REG_USER"           Binding = "{Binding REGUSERNAME}"               IsReadOnly="True"  HorizontalAlignment="Center" />
+                            <c1:DataGridTextColumn       Header = "REG_DTTM"           Binding = "{Binding INSDTTM}"                   IsReadOnly="True"  HorizontalAlignment="Center" />
+                            <c1:DataGridTextColumn       Header = "RESULT"             Binding = "{Binding RESULT}"                    IsReadOnly="True"  HorizontalAlignment="Center" />
+                            
+                        </c1:C1DataGrid.Columns>
+                    </c1:C1DataGrid>
+                </Grid>
+
+                <TextBlock      Grid.Row="2" Grid.Column="0" Text="{Binding ConverterParameter='내역', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}"/>
+                <TextBox        Grid.Row="2" Grid.Column="1" x:Name="txtSpecialDesc" Style="{StaticResource Content_InputForm_MandatoryTextBoxStyle}" Height="Auto" Margin="3,3,3,3"/>
+                <TextBlock      Grid.Row="3" Grid.Column="0" Text="{Binding ConverterParameter='요청자', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}"/>
+                <Grid Grid.Row="3" Grid.Column="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBox  x:Name="txtSelReq"     Grid.Column="0"  Style="{StaticResource Content_InputForm_TextBoxStyle}" Height="Auto" Margin="3,3,3,3" IsReadOnly="False" KeyDown="txtSelReq_KeyDown" />
+                    <TextBox  x:Name="txtSelReqID"   Grid.Column="1"  Style="{StaticResource Content_InputForm_ReadOnlyTextBoxStyle}" Height="Auto" Margin="3,3,3,3" IsReadOnly="True" />
+                    <Button   x:Name="btnSearchUser" Grid.Column="2"  Content="{Binding ConverterParameter, Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{DynamicResource Content_SearchButtonStyle}" Click="btnSearchUser_Click" Margin="3" Width="40" />
+                </Grid>
+                <TextBlock      Grid.Row="4" Grid.Column="0" Text="{Binding ConverterParameter='SPECIAL_SHIP_BAN', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}"/>
+                <CheckBox       Grid.Row="4" Grid.Column="1" x:Name="chkShip" Content="{Binding ConverterParameter='CHK_SHIP_BAN', Converter={StaticResource GlobalObjectDicConverter}}" Style="{StaticResource SearchCondition_CheckBoxStyle}" MinWidth="100" Margin="3" IsChecked="True" />
+                <TextBlock      Grid.Row="5" Grid.Column="0" Text="{Binding ConverterParameter='예상해제일', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}" />
+                <Grid Grid.Row="5" Grid.Column="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <CheckBox               Grid.Column="0" x:Name="chkReleaseDate" Margin="3" IsChecked="False" Checked="chkReleaseDate_Checked" Unchecked="chkReleaseDate_Unchecked" />
+                    <ctrlLib:LGCDatePicker  Grid.Column="1" x:Name="dtpFromDate" DatepickerType="Date" IsEnabled="False"  />
+                    <c1:C1DateTimePicker    Grid.Column="2" x:Name="dtpFromTime" CustomTimeFormat="HH:mm" HorizontalAlignment="Left" Margin="4,0,0,0" VerticalAlignment="Center" EditMode="Time" IsEnabled="False"/>
+                </Grid>
+                <TextBlock      Grid.Row="6" Grid.Column="0" Text="{Binding ConverterParameter='동일 RACK 선택', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}"/>
+                <CheckBox       Grid.Row="6" Grid.Column="1" x:Name="chkSameRack" Content="{Binding ConverterParameter='SAME_RACK_SPCL', Converter={StaticResource GlobalObjectDicConverter}}" Style="{StaticResource SearchCondition_CheckBoxStyle}" MinWidth="100" Margin="3" IsChecked="False" />
+
+                <Grid Grid.Row="7" Grid.Column="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Button  Grid.Column="1" x:Name="btnSave" Margin="0,0,45,0" Content="{Binding ConverterParameter=등록, Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{DynamicResource Content_MainControl02Style}" Click="btnSave_Click" HorizontalAlignment="Center" />
+                </Grid>
+
+
+            </Grid>
+        </ctrlLib:LGCLayout>
+    </Grid>
+</c1:C1Window>

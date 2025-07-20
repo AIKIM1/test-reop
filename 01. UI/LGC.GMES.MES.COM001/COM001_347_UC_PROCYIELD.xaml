@@ -1,0 +1,63 @@
+﻿<UserControl x:Class="LGC.GMES.MES.COM001.COM001_347_UC_PROCYIELD"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:c1="http://schemas.componentone.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:LGC.GMES.MES.COM001"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="550">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/LGC.GMES.MES.ControlsLibrary;component/ControlStyles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    
+    <Grid>
+        <Grid Grid.Row="1" Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="34"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="2"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <Border Style="{StaticResource Content_InputForm_LabelBorderStyle}">
+                <TextBlock Style="{StaticResource Content_ModuleTitleStyle}" x:Name="txtProcName" Text="ProcName"/>
+            </Border>
+
+            <Border Grid.Row="1" Grid.RowSpan="1" Style="{StaticResource Content_InputForm_LabelBorderStyle}" />
+            <c1:C1DataGrid Grid.Row="1" x:Name="dgDefectList" AlternatingRowBackground="White" IsReadOnly="True" HeadersVisibility="Column" SelectionMode="SingleCell" 
+                                           LoadedCellPresenter="dgProc_LoadedCellPresenter"
+                                           UnloadedCellPresenter="dgProc_UnloadedCellPresenter"
+                                           MouseLeftButtonUp="dgProc_MouseLeftButtonUp">
+                <c1:C1DataGrid.Columns>
+                    <c1:DataGridTextColumn	        Header = "설비"		          Binding = "{Binding EQPTNAME}"   HorizontalAlignment="Center"/>
+                    <c1:DataGridNumericColumn		Header = "생산량"	          Binding = "{Binding INPUTQTY}"   HorizontalAlignment="Right" Format="#,##0"/>
+                    <c1:DataGridNumericColumn		Header = "양품량"	          Binding = "{Binding WIPQTY}"     HorizontalAlignment="Right" Format="#,##0"/>
+                    <c1:DataGridNumericColumn		Header = "불량"               Binding = "{Binding DFCTQTY}"    HorizontalAlignment="Right" Format="#,##0"/>
+                    <c1:DataGridNumericColumn		Header = "설비불량"           Binding = "{Binding EQPT_DFCT_QTY}"    HorizontalAlignment="Right" Format="#,##0"/>
+                    <c1:DataGridNumericColumn		Header = "양품비율"	          Binding = "{Binding YEILD}"      HorizontalAlignment="Right" Format="0.00"/>
+                    <c1:DataGridTextColumn          Header = "LOTID"              Binding = "{Binding LOTID}"      Visibility="Collapsed"/>
+                    <c1:DataGridTextColumn          Header = "CLR_TYPE"           Binding = "{Binding CLR_TYPE}"   Visibility="Collapsed"/>
+                    <c1:DataGridTextColumn          Header = "WIPSEQ"             Binding = "{Binding WIPSEQ}"      Visibility="Collapsed"/>
+                    <c1:DataGridTextColumn          Header = "EQPTID"             Binding = "{Binding EQPTID}"   Visibility="Collapsed"/>
+                </c1:C1DataGrid.Columns>
+            </c1:C1DataGrid>
+
+            <c1:C1DataGrid Grid.Row="3" x:Name="dgSummary" AutoGenerateColumns="False" AlternatingRowBackground="White" IsReadOnly="True" HeadersVisibility="Column"  SelectionMode="SingleCell" CanUserAddRows="False" CanUserFilter="False" CanUserEditRows="False"
+                                           LoadedCellPresenter="dgProcBottom_LoadedCellPresenter">
+                <c1:C1DataGrid.Columns>
+                    <c1:DataGridTextColumn	           	                          Binding = "{Binding TOTAL}"   HorizontalAlignment="Center" Visibility="Collapsed"/>
+                    <c1:DataGridNumericColumn		Header = "총 생산량"	      Binding = "{Binding INPUTQTY}"   HorizontalAlignment="Right" Format="#,##0"/>
+                    <c1:DataGridNumericColumn		Header = "총 양품량"	      Binding = "{Binding WIPQTY}"     HorizontalAlignment="Right" Format="#,##0"/>
+                    <c1:DataGridNumericColumn		Header = "총 불량"            Binding = "{Binding DFCTQTY}"    HorizontalAlignment="Right" Format="#,##0"/>
+                    <c1:DataGridNumericColumn		Header = "총 설비불량"        Binding = "{Binding EQPT_DFCT_QTY}"    HorizontalAlignment="Right" Format="#,##0"/>
+                    <c1:DataGridNumericColumn		Header = "총 양품비율"	      Binding = "{Binding YEILD}"      HorizontalAlignment="Right" Format="0.00"/>
+                </c1:C1DataGrid.Columns>
+            </c1:C1DataGrid>
+        </Grid>
+    </Grid>
+</UserControl>

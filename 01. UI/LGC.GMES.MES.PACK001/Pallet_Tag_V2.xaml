@@ -1,0 +1,109 @@
+﻿<c1:C1Window x:Class="LGC.GMES.MES.PACK001.Pallet_Tag_V2"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:c1="http://schemas.componentone.com/winfx/2006/xaml"
+             xmlns:ctrlLib="clr-namespace:LGC.GMES.MES.ControlsLibrary;assembly=LGC.GMES.MES.ControlsLibrary"
+             ctrlLib:LGCPopupWindowExtension.ApplyStyle="True"
+             Header="{Binding Converter={StaticResource GlobalObjectDicConverter}, ConverterParameter='Pallet Tag'}"
+             Height="768" Width="1024" IsResizable="True" Loaded="C1Window_Loaded" Cursor="Arrow">
+    <c1:C1Window.Resources>
+        <ResourceDictionary Source="/LGC.GMES.MES.ControlsLibrary;Component/ControlStyles.xaml"/>
+    </c1:C1Window.Resources>
+    <Grid>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="40" />
+                <RowDefinition Height="8" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="8" />
+                <RowDefinition Height="40" />
+            </Grid.RowDefinitions>
+
+            <Grid Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="120" />
+                    <ColumnDefinition Width="8" />
+                    <ColumnDefinition Width="300" />
+                    <ColumnDefinition Width="8" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="8" />
+                    <ColumnDefinition Width="300" />
+                    <ColumnDefinition Width="8" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="8" />
+                    <ColumnDefinition Width="300" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Grid.Column="0"  Text="{Binding ConverterParameter=PALLETID, Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}" HorizontalAlignment="Center" />
+                <TextBox   Grid.Column="2"  x:Name="txtPalletID" Width="Auto" Style="{StaticResource TextBoxBaseStyle}" KeyDown="txtPalletID_KeyDown" />
+                <!-- Start Test Control -->
+                <TextBlock Grid.Column="4"  Text="{Binding ConverterParameter=DataFetch, Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}" HorizontalAlignment="Center" Visibility="Collapsed" />
+                <TextBox   Grid.Column="6"  x:Name="txtDataFetchTime" Width="Auto" Style="{StaticResource TextBoxBaseStyle}" IsReadOnly="True" Visibility="Collapsed" />
+                <TextBlock Grid.Column="8"  Text="{Binding ConverterParameter=ReportRender, Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}" HorizontalAlignment="Center" Visibility="Collapsed" />
+                <TextBox   Grid.Column="10" x:Name="txtReportRenderTime" Width="Auto" Style="{StaticResource TextBoxBaseStyle}" IsReadOnly="True" Visibility="Collapsed" />
+                <!-- End Test Control -->
+            </Grid>
+			
+			<!--Content-->
+			<Grid Grid.Row="2">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Name="gridColumnPalletLabelType1" Width="120" />
+					<ColumnDefinition Name="gridColumnPalletLabelType2" Width="8" />
+					<ColumnDefinition Width="*" />
+				</Grid.ColumnDefinitions>			
+
+				<c1:C1DataGrid Grid.Column="0" x:Name="dgList" HeadersVisibility="None" RowHeight="50" FontSize="14" FontFamily="LG Smart_H Bold" 
+						   SelectionMode="SingleCell" CanUserAddRows="False" CanUserRemoveRows="False" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden"
+						   MouseLeftButtonUp="dgList_MouseLeftButtonUp">
+					<c1:C1DataGrid.Resources>
+						<Style TargetType="{x:Type c1:DataGridRowPresenter}">
+							<Setter Property="FontFamily" Value="LG Smart_H Bold"/>
+							<Setter Property="FontSize" Value="14" />
+							<Setter Property="HorizontalAlignment" Value="Stretch" />
+							<Setter Property="HorizontalContentAlignment" Value="Center"/>
+							<Setter Property="VerticalContentAlignment" Value="Stretch" />
+							<Setter Property="BorderThickness" Value="0" />
+						</Style>
+						<Style TargetType="{x:Type c1:DataGridColumnHeaderPresenter}">
+							<Setter Property="FontFamily" Value="LG Smart_H Bold"/>
+							<Setter Property="FontSize" Value="14" />
+							<Setter Property="HorizontalAlignment" Value="Stretch" />
+							<Setter Property="HorizontalContentAlignment" Value="Center"/>
+							<Setter Property="VerticalContentAlignment" Value="Stretch" />
+							<Setter Property="BorderThickness" Value="1" />
+						</Style>
+					</c1:C1DataGrid.Resources>
+					<c1:C1DataGrid.Columns>
+						<c1:DataGridTextColumn Header="ATTRIBUTE2" Binding="{Binding CBO_CODE}" HorizontalAlignment="Center" VerticalAlignment="Center" Width="*" IsReadOnly="True" />
+						<c1:DataGridTextColumn Header="ATTRIBUTE2" Binding="{Binding ATTRIBUTE2}" HorizontalAlignment="Center" VerticalAlignment="Center" Width="*" IsReadOnly="True" Visibility="Collapsed" />
+					</c1:C1DataGrid.Columns>
+				</c1:C1DataGrid>
+				
+			    <c1:C1DocumentViewer Grid.Column="2" x:Name="c1DocumentViewer" VerticalAlignment="Top" HorizontalAlignment="Left">
+					<DocumentViewer.Resources>
+						<Style TargetType="ContentControl">
+							<Setter Property="Visibility" Value="Collapsed" />
+                        </Style>
+                        <Style TargetType="ToolBar">
+							<Setter Property="Visibility" Value="Collapsed" />
+                        </Style>
+                    </DocumentViewer.Resources>
+                </c1:C1DocumentViewer>
+			</Grid>
+
+            <!--Bottom-->
+            <Grid Grid.Row="4">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="8" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Button Grid.Column="1" x:Name="btnPrint" Content="{Binding ConverterParameter=Print, Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_MainButtonSpecialStyle}" Cursor="Hand" Click="btnPrint_Click" />
+                <Button Grid.Column="3" x:Name="btnClose" Content="{Binding ConverterParameter=Close, Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_MainButtonStyle}" Cursor="Hand" Click="btnClose_Click" />
+            </Grid>
+        </Grid>
+        <ctrlLib:LoadingIndicator x:Name="loadingIndicator" />
+    </Grid>
+</c1:C1Window>

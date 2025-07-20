@@ -1,0 +1,158 @@
+<UserControl xmlns:ss="http://schemas.grapecity.com/windows/spreadsheet/2012"  x:Class="LGC.GMES.MES.ELEC001.ELEC001_026"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:c1="http://schemas.componentone.com/winfx/2006/xaml"
+             xmlns:ctrlLib="clr-namespace:LGC.GMES.MES.ControlsLibrary;assembly=LGC.GMES.MES.ControlsLibrary"
+             mc:Ignorable="d" 
+             d:DesignHeight="768" d:DesignWidth="1024"
+             Loaded="UserControl_Loaded">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/LGC.GMES.MES.ControlsLibrary;component/ControlStyles.xaml" />
+                <ResourceDictionary Source="/LGC.GMES.MES.ControlsLibrary;component/ControlTemplates/LGCDatePicker.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid>
+        <ctrlLib:LGCLayout x:Name="LayoutRoot" Tag="전극창고입출고이력">
+            <Grid>
+                <c1:C1TabControl  Grid.Row="0"  x:Name="TabInx"  >
+                    <c1:C1TabItem Header="{Binding Converter={StaticResource GlobalObjectDicConverter}, ConverterParameter='전극창고입출고'}" Margin="0" x:Name="LOT"  >
+                        <Grid Grid.Row="0">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="8"/>
+                                <RowDefinition Height="45"/>
+                                <RowDefinition Height="8"/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+
+                            <Border Grid.Row="1" Background="#fff2f2f2" BorderThickness="1" BorderBrush="#ffd1d1d1"></Border>
+                            <Grid x:Name="InfoArea" Grid.Row="1">
+
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="45" />
+                                    <RowDefinition Height="0" />
+                                    <RowDefinition Height="0" />
+                                </Grid.RowDefinitions>
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="3*" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="3*" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="3*" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="3*" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="3*" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="3*" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="8" />
+                                </Grid.ColumnDefinitions>
+
+                                <Border     Grid.Row="0" Grid.Column="0" Grid.RowSpan="3" Grid.ColumnSpan="13" Style="{StaticResource Content_InputForm_LabelBorderStyle}">
+
+                                </Border>
+
+                                <!--
+                        동,               공정(All), 창고명(all),            Rack(all), 모델(텍스트), 
+                        제품코드(텍스트), 양/음극,   Lot Type(Roll/Pancake), lot ID,    Lot 상태(Hold, 일반)
+                        -->
+                                <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Right" Margin="5,0,0,0">
+                                    <TextBlock Style="{StaticResource SearchCondition_MandatoryMarkStyle}" />
+                                    <TextBlock  Grid.Row="0" Grid.Column="1" Text="{Binding ConverterParameter='일자', Converter={StaticResource GlobalObjectDicConverter}, RelativeSource={RelativeSource Self}}" HorizontalAlignment="Right" Style="{StaticResource Content_InputForm_LabelStyle}" Margin="0,0,5,0"/>
+                                </StackPanel>
+                                <Grid Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="3" HorizontalAlignment="Left" >
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <ctrlLib:LGCDatePicker Grid.Row="0" Grid.Column="0" x:Name="dtpFrom" DatepickerType="Date" />
+                                    <TextBlock Grid.Row="0" Grid.Column="1" Text="~" Style="{StaticResource Content_InputForm_LabelStyle}" Margin="3,0,3,0"/>
+                                    <ctrlLib:LGCDatePicker Grid.Row="0" Grid.Column="2" x:Name="dtpTo" DatepickerType="Date" />
+                                </Grid>
+
+                                <!--동-->
+                                <TextBlock  Grid.Row="0" Grid.Column="2" Text="{Binding ConverterParameter='동', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}"/>
+                                <c1:C1ComboBox   Grid.Row="0" Grid.Column="3" x:Name="cboArea" Style="{StaticResource C1ComboBoxStyle}" AutoComplete="False" />
+
+                                <c1:C1ComboBox   Grid.Row="0" Grid.Column="3" x:Name="cboEquipmentSegment" Style="{StaticResource C1ComboBoxStyle}" AutoComplete="False" Visibility="Hidden"/>
+
+                                <!--공정(All)-->
+                                <TextBlock  Grid.Row="0" Grid.Column="4" Text="{Binding ConverterParameter='공정', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}" Visibility="Collapsed"/>
+                                <c1:C1ComboBox   Grid.Row="0" Grid.Column="5" x:Name="cboProcess" Style="{StaticResource C1ComboBoxStyle}" AutoComplete="False" Visibility="Collapsed"/>
+
+                                <!--창고명(all)-->
+                                <TextBlock  Grid.Row="0" Grid.Column="4" Text="{Binding ConverterParameter='창고명', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}"/>
+                                <c1:C1ComboBox   Grid.Row="0" Grid.Column="5" x:Name="cboElecWareHouse" Style="{StaticResource C1ComboBoxStyle}" AutoComplete="False"/>
+
+                                <!--Rack(all)-->
+                                <TextBlock  Grid.Row="0" Grid.Column="6" Text="{Binding ConverterParameter='RACK', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}"/>
+                                <c1:C1ComboBox   Grid.Row="0" Grid.Column="7" x:Name="cboElecRack" Style="{StaticResource C1ComboBoxStyle}" AutoComplete="False"/>
+
+                                <!--lot ID-->
+                                <TextBlock  Grid.Row="0" Grid.Column="8" Text="{Binding ConverterParameter='LOTID', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}"/>
+                                <TextBox    Grid.Row="0" Grid.Column="9" x:Name="txtLotID"  CharacterCasing="Upper" Style="{StaticResource SearchCondition_TextBoxStyle}" />
+                                
+                                <!--모델(텍스트)-->
+                                <TextBlock  Grid.Row="2" Grid.Column="0" Text="{Binding ConverterParameter='모델', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}" Visibility="Collapsed"/>
+                                <TextBox    Grid.Row="2" Grid.Column="1" x:Name="txtModel" Style="{StaticResource SearchCondition_TextBoxStyle}" Visibility="Collapsed"/>
+
+                                <!--제품코드(텍스트)-->
+                                <TextBlock  Grid.Row="2" Grid.Column="2" Text="{Binding ConverterParameter='제품코드', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}" Visibility="Collapsed"/>
+                                <TextBox    Grid.Row="2" Grid.Column="3" x:Name="txtProdCode" Style="{StaticResource SearchCondition_TextBoxStyle}" Visibility="Collapsed"/>
+
+                                <!--양/음극-->
+                                <TextBlock  Grid.Row="2" Grid.Column="4" Text="{Binding ConverterParameter='양/음극', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}" Visibility="Collapsed"/>
+                                <c1:C1ComboBox   Grid.Row="2" Grid.Column="5" x:Name="cboElecType" Style="{StaticResource C1ComboBoxStyle}" AutoComplete="False" Visibility="Collapsed"/>
+
+                                <CheckBox x:Name="chkHold" Grid.Row="2"  Grid.Column="9" Style="{StaticResource SearchCondition_CheckBoxStyle}" Content="HOLD조회" IsChecked="False" HorizontalAlignment="Left" Tag="HOLD" Visibility="Collapsed"/>
+
+                                <!--Carrier ID-->
+                                <TextBlock  Grid.Row="0" Grid.Column="10" Text="{Binding ConverterParameter='Carrier ID', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}"/>
+                                <TextBox    Grid.Row="0" Grid.Column="11" x:Name="txtCARRIERID" Style="{StaticResource SearchCondition_TextBoxStyle}" />
+                                
+                                <Button     Grid.Row="0" Grid.Column="12" Grid.RowSpan="2" x:Name="btnSearch" Content="{Binding ConverterParameter=SEARCH, Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource SearchButtonStyle}" Cursor="Hand" Click="btnSearch_Click" HorizontalAlignment="Right" />
+
+                            </Grid>
+
+                            <Grid x:Name="TitleArea" Grid.Row="3">
+                                <Border Grid.Row="0" Grid.Column="0" BorderThickness="1" BorderBrush="#ffbebebe" Style="{StaticResource BorderSubTitleStyle}"/>
+                                <TextBlock Grid.Row="0" Grid.Column="0" Style="{StaticResource Content_ModuleTitleStyle}"><Run Text="{Binding ConverterParameter='조회결과', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}"/></TextBlock>
+                            </Grid>
+
+                            <Grid x:Name="OutArea" Grid.Row="4" Grid.RowSpan="3">
+                                <Border        Grid.Row="1" Grid.Column="0" Style="{StaticResource Content_InputForm_GroupBorderStyle}"/>
+                                <c1:C1DataGrid x:Name="dgReceive" IsReadOnly="True" HeadersVisibility="Column" Margin="8" CanUserRemoveRows="True" CanUserAddRows="True"
+                                               SelectionMode="MultiRange" Grid.ColumnSpan="2">
+                                    <c1:C1DataGrid.Columns>
+                                        <c1:DataGridTextColumn          Header="LOTID"     Binding="{Binding LOTID}"  HorizontalAlignment="Left"/>
+                                        <c1:DataGridTextColumn          Header="SKIDID"    Binding="{Binding SKIDID}" HorizontalAlignment="Left" Visibility="Collapsed" />
+                                        <c1:DataGridTextColumn          Header="CUTID"     Binding="{Binding CUT_ID}" HorizontalAlignment="Left"  Visibility="Collapsed"  />
+                                        <c1:DataGridTextColumn          Header="제품ID"    Binding="{Binding PRODID}" HorizontalAlignment="Left"   />
+                                        <c1:DataGridTextColumn          Header="제품명"    Binding="{Binding PRODNAME}" HorizontalAlignment="Left" />
+                                        <c1:DataGridTextColumn          Header="극성"      Binding="{Binding PRDT_CLSS_CODE}" HorizontalAlignment="Left" />
+                                        <c1:DataGridTextColumn          Header="위치"      Binding="{Binding WH_ID}"  HorizontalAlignment="Left"   />
+                                        <c1:DataGridTextColumn          Header="WH_NAME"   Binding="{Binding WH_NAME}" HorizontalAlignment="Left"   />
+                                        <c1:DataGridTextColumn          Header="RACKID"    Binding="{Binding RACK_ID}" HorizontalAlignment="Left"   />
+                                        <c1:DataGridTextColumn          Header="변경시간"  Binding="{Binding ACTDTTM}" HorizontalAlignment="Left"   />
+                                        <c1:DataGridTextColumn          Header="ACTNAME"   Binding="{Binding ACTNAME}" HorizontalAlignment="Left"   />
+                                        <c1:DataGridTextColumn          Header="PROCNAME"   Binding="{Binding PROCNAME}" HorizontalAlignment="Left"   />
+                                        <c1:DataGridTextColumn          Header="공정"      Binding="{Binding PROCID}"    HorizontalAlignment="Left" />
+                                    </c1:C1DataGrid.Columns>
+                                </c1:C1DataGrid>
+                            </Grid>
+                        </Grid>
+                    </c1:C1TabItem>
+                </c1:C1TabControl>
+            </Grid>
+        </ctrlLib:LGCLayout>
+        <ctrlLib:LoadingIndicator x:Name="loadingIndicator" Grid.Row="999" Grid.Column="999" />
+    </Grid>
+</UserControl>

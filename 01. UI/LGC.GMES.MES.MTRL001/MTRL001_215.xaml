@@ -1,0 +1,111 @@
+﻿<UserControl xmlns:ss="http://schemas.grapecity.com/windows/spreadsheet/2012"  x:Class="LGC.GMES.MES.MTRL001.MTRL001_215"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:c1="http://schemas.componentone.com/winfx/2006/xaml"
+             xmlns:ctrlLib="clr-namespace:LGC.GMES.MES.ControlsLibrary;assembly=LGC.GMES.MES.ControlsLibrary"
+             mc:Ignorable="d" 
+             d:DesignHeight="768" d:DesignWidth="1024" Loaded="UserControl_Loaded" >
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/LGC.GMES.MES.ControlsLibrary;component/ControlStyles.xaml" />
+                <ResourceDictionary Source="/LGC.GMES.MES.ControlsLibrary;component/ControlTemplates/LGCDatePicker.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid>
+        <ctrlLib:LGCLayout x:Name="LayoutRoot" Tag="설비상태관리">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="8" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <!--백그라운드용-->
+                <Border     Grid.Row="0" Grid.Column="0" Style="{StaticResource Content_InputForm_LabelBorderStyle}"/>
+
+                <!--조회영역-->
+                <Grid Grid.Row="0" >
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="11" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="11" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="11" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="11" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="11" />
+                    </Grid.ColumnDefinitions>
+                    <!--조회조건-->
+
+                    <!--창고유형-->
+                    <Grid Grid.Row="1" Grid.Column="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*" />
+                            <ColumnDefinition Width="2*" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock  Grid.Row="0" Grid.Column="0" Text="{Binding ConverterParameter='창고유형', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}"/>
+                        <c1:C1ComboBox   Grid.Row="0" Grid.Column="2" x:Name="cboStokerType" DisplayMemberPath="CBO_NAME" SelectedValuePath="CBO_CODE" Style="{StaticResource C1ComboBoxStyle}" AutoComplete="False" SelectedValueChanged="cboStackerType_SelectedValueChanged"/>
+                    </Grid>
+                    <!--창고(COMBO)-->
+                    <Grid Grid.Row="1" Grid.Column="3" >
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*" />
+                            <ColumnDefinition Width="2*" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock  Grid.Row="0" Grid.Column="0" Text="{Binding ConverterParameter='창고', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}"/>
+                        <c1:C1ComboBox   Grid.Row="0" Grid.Column="2" x:Name="cboStoker" Style="{StaticResource C1ComboBoxStyle}"  DisplayMemberPath="CBO_NAME" SelectedValuePath="CBO_CODE" AutoComplete="False"/>
+                    </Grid>
+                   
+
+                    <!--조회 버튼-->
+                    <Button     Grid.Row="1" Grid.Column="5" x:Name="btnSearch" Content="{Binding ConverterParameter=SEARCH, Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" 
+                                Style="{StaticResource SearchButtonStyle}" Cursor="Hand" Click="btnSearch_Click" />
+                    
+
+                </Grid>
+                <!--LOT 리스트-->
+                <Grid Grid.Row="3" Grid.Column="1">
+                    <Border Grid.Row="1" Style="{StaticResource Content_InputForm_GroupBorderStyle}"/>
+                    <Grid Grid.Row="1">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="8" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="8" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="8"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="8"/>
+                        </Grid.ColumnDefinitions>
+                        <c1:C1DataGrid x:Name="dgList" Grid.Row="1" Grid.Column="1" IsReadOnly="True" HeadersVisibility="Column" FrozenColumnCount="2" SelectionMode="SingleCell">
+                            <c1:C1DataGrid.Columns>
+                                <c1:DataGridTextColumn      Header = "설비레인"            Binding = "{Binding LANE_NAME}"        HorizontalAlignment="Left" Visibility="Collapsed" />
+                                <c1:DataGridTextColumn      Header = "EQP_FLAG"            Binding = "{Binding EQPT_GR_NAME}"     HorizontalAlignment="Left" Visibility="Collapsed"/>
+                                <c1:DataGridTextColumn      Header = "EQP_ID"              Binding = "{Binding EQPTID}"           HorizontalAlignment="Left" />
+                                <c1:DataGridTextColumn      Header = "EQP_UNIT"            Binding = "{Binding EQPTNAME}"         HorizontalAlignment="Left" />
+                                <c1:DataGridTextColumn      Header = "COMM_STATUS_NOR_YN"  Binding = "{Binding EIOCOMSTAT}"       HorizontalAlignment="Left" />
+                                <c1:DataGridTextColumn      Header = "EQP_STATUS_CD"       Binding = "{Binding EIOSTAT}"          HorizontalAlignment="Left" />
+                                <c1:DataGridTextColumn      Header = "EQPT_OPER_MODE"      Binding = "{Binding EQPT_OPER_MODE}"   HorizontalAlignment="Left" Visibility="Collapsed"/>
+                                <c1:DataGridTextColumn      Header = "LAST_RUN_TIME"       Binding = "{Binding LAST_RUN_TIME}"    HorizontalAlignment="Center" Format ="yyyy-MM-dd HH:mm:ss" />
+
+                                <!--<c1:DataGridTextColumn      Header = "창고"                  Binding = "{Binding EQPTNAME}"        HorizontalAlignment="Center" />
+                                <c1:DataGridTextColumn      Header = "입고여부"              Binding = "{Binding IN_PORT_YN}"      HorizontalAlignment="Center" />
+                                <c1:DataGridTextColumn      Header = "출고여부"              Binding = "{Binding OUT_PORT_YN}"     HorizontalAlignment="Center" />
+                                <c1:DataGridTextColumn      Header = "창고상태"              Binding = "{Binding COMMUNICATION_STATUS_CODE}" HorizontalAlignment="Center" />-->
+                                 </c1:C1DataGrid.Columns>
+                        </c1:C1DataGrid>
+                    </Grid>
+                </Grid>
+            </Grid>
+        </ctrlLib:LGCLayout>
+        <ctrlLib:LoadingIndicator x:Name="loadingIndicator" Grid.Row="999" Grid.Column="999" />
+    </Grid>
+</UserControl>

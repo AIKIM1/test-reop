@@ -1,0 +1,171 @@
+<UserControl xmlns:ss="http://schemas.grapecity.com/windows/spreadsheet/2012"  
+             x:Class="LGC.GMES.MES.MCS001.MCS001_064"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:c1="http://schemas.componentone.com/winfx/2006/xaml"
+             xmlns:ctrlLib="clr-namespace:LGC.GMES.MES.ControlsLibrary;assembly=LGC.GMES.MES.ControlsLibrary"
+             xmlns:uc="clr-namespace:LGC.GMES.MES.CMM001.Controls;assembly=LGC.GMES.MES.CMM001"
+             mc:Ignorable="d" 
+             d:DesignHeight="1000" d:DesignWidth="1024" Loaded="UserControl_Loaded">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/LGC.GMES.MES.ControlsLibrary;component/ControlStyles.xaml" />
+                <ResourceDictionary Source="/LGC.GMES.MES.ControlsLibrary;component/ControlTemplates/LGCDatePicker.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    
+    <Grid x:Name="grdMain">
+        <Grid.Resources>
+            <DataTemplate x:Key="ItemTemplate">
+                <WrapPanel>
+                    <Image Width="138" Height="138" Stretch="Fill" Source="{Binding}" Margin="3,3,3,3" />
+                </WrapPanel>
+            </DataTemplate>
+            <DataTemplate x:Key="ResultTemplate">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <!--<ColumnDefinition Width="*"/>-->
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Text="{Binding}" HorizontalAlignment="Right" Padding="0,0,5,0"  />
+                </Grid>
+            </DataTemplate>
+
+        </Grid.Resources>
+
+        <ctrlLib:LGCLayout x:Name="LayoutRoot" Tag="설비 알람 이력 조회" Grid.ColumnSpan="2">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="8" />
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <!--백그라운드용-->
+                <Border     Grid.Row="0" Style="{StaticResource Content_InputForm_LabelBorderStyle}"/>
+
+                <!-- 조회영역 -->
+                <Grid Grid.Row="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="4" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="2" />
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="4"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="8" />
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="15" />
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="15" />
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="15" />
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="15" />
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="15" />
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="8"/>
+                    </Grid.ColumnDefinitions>
+
+                    <!--조회조건 Row 1-->
+                    <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
+                        <TextBlock Style="{StaticResource SearchCondition_MandatoryMarkStyle}" Margin="0,0,-10,0"/>                        
+                        <TextBlock x:Name="lblArea" Text="{Binding ConverterParameter='동', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}"/>
+                    </StackPanel>
+                    <c1:C1ComboBox Grid.Row="1" Grid.Column="2" x:Name="cboArea" Style="{StaticResource C1ComboBoxStyle}" AutoComplete="False"/>
+
+                    <StackPanel Grid.Row="1" Grid.Column="4" Orientation="Horizontal" HorizontalAlignment="Right">
+                        <TextBlock Style="{StaticResource SearchCondition_MandatoryMarkStyle}" Margin="0,0,-10,0"/>
+                        <TextBlock x:Name="lblEqpType" Text="{Binding ConverterParameter='EQP_TYPE', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}"/>
+                    </StackPanel>
+                    <c1:C1ComboBox Grid.Row="1" Grid.Column="5" x:Name="cboEqpType" Style="{StaticResource C1ComboBoxStyle}" AutoComplete="False" SelectedValueChanged="cboEqpType_SelectedValueChanged" />
+
+                    <StackPanel Grid.Row="1" Grid.Column="7" Orientation="Horizontal" HorizontalAlignment="Right">
+                        <TextBlock Style="{StaticResource SearchCondition_MandatoryMarkStyle}" Margin="0,0,-10,0"/>
+                        <TextBlock x:Name="lblEmsDetlEquipment" Text="{Binding ConverterParameter='EQP_NAME', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}"/>
+                    </StackPanel>
+                    <c1:C1ComboBox Grid.Row="1" Grid.Column="8" x:Name="cboEmsDetlEquipment" Style="{StaticResource C1ComboBoxStyle}" AutoComplete="False" SelectedValueChanged="cboEmsDetlEquipment_SelectedValueChanged"/>
+                    
+                    <StackPanel Grid.Row="1" Grid.Column="10" Orientation="Horizontal" HorizontalAlignment="Right">
+                        <TextBlock x:Name="lblEmsEquipment" Text="{Binding ConverterParameter='UNIT_TYPE', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}"/>
+                    </StackPanel>
+                    <c1:C1ComboBox Grid.Row="1" Grid.Column="11" x:Name="cboEmsEquipment" Style="{StaticResource C1ComboBoxStyle}" AutoComplete="False" />
+
+                    <TextBlock Grid.Row="1" Grid.Column="13" Text="{Binding ConverterParameter='알람레벨', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}"/>
+                    <c1:C1ComboBox Grid.Row="1" Grid.Column="14" x:Name="cboEquipmentAlarmLevel" Style="{StaticResource C1ComboBoxStyle}" AutoComplete="False"/>
+
+                    <TextBlock Grid.Row="1" Grid.Column="16" Text="{Binding ConverterParameter='알람코드', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}"/>
+                    <TextBox Grid.Row="1" Grid.Column="17" x:Name="txtEquipmentAlarmCode" Style="{StaticResource SearchCondition_TextBoxStyle}" Width="100" />
+
+                    <!--조회조건 Row 2-->
+                    <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding ConverterParameter='조회기간', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}"/>
+                    <StackPanel Grid.Row="3" Grid.Column="2" Grid.ColumnSpan="5" Orientation="Horizontal" HorizontalAlignment="Left">
+                        <ctrlLib:LGCDatePicker x:Name="dtpStart"  DatepickerType="Date" MaxWidth="100" SelectedDataTimeChanged="dtpStart_SelectedDateTimeChanged" />
+                        <TextBlock  Grid.Row="0" Grid.Column="1" Text="~" HorizontalAlignment="Right" Style="{StaticResource Content_Search_LabelStyle}" />
+                        <ctrlLib:LGCDatePicker x:Name="dtpEnd"  DatepickerType="Date" MaxWidth="100" SelectedDataTimeChanged="dtpEnd_SelectedDateTimeChanged"/>
+                    </StackPanel>
+                    
+                    <!--조회 버튼-->
+                    <Button     Grid.Row="3" Grid.Column="19" x:Name="btnSearch" Content="{Binding ConverterParameter=SEARCH, Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource SearchButtonStyle}" Cursor="Hand" Click="btnSearch_Click" />
+                </Grid>
+                <!--조회조건 End-->
+
+                <Border Grid.Row="2" Background="#e8ebed" BorderThickness="1" BorderBrush="#8a8a8a" />
+                <Grid x:Name="DetailArea" Grid.Row="3" >
+                    <Grid x:Name="grditem">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="30"/>
+                            <ColumnDefinition Width="1*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Grid x:Name="grdList" Grid.Column="0" Grid.ColumnSpan="3">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="34"/>
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+
+                            <Border Grid.Row="0" Grid.Column="0" BorderThickness="1" BorderBrush="#ffbebebe" Style="{StaticResource BorderSubTitleStyle}"/>
+                            <TextBlock Grid.Row="0" Grid.Column="0" Style="{StaticResource Content_ModuleTitleStyle}"><Run Text="{Binding ConverterParameter='이력목록MAX', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}"/></TextBlock>
+
+                            <Grid   Grid.Row="1" Grid.Column="0" >
+                                <Border        Grid.Row="1" Grid.Column="0" Style="{StaticResource Content_InputForm_GroupBorderStyle}"/>
+                                <uc:UcBaseDataGrid x:Name="dgEquipmentAlarmHistoryList" IsReadOnly="True" HeadersVisibility="Column" CanUserRemoveRows="True" CanUserAddRows="True" SelectionMode="SingleRow" Margin="8" >
+                                    <c1:C1DataGrid.Columns>
+                                        <c1:DataGridTextColumn     Header = "설비ID"           Binding = "{Binding EQPTID}"                HorizontalAlignment="Left" />
+                                        <c1:DataGridTextColumn     Header = "EQP_NAME"         Binding = "{Binding EMS_DTL_EQPTNAME}"      HorizontalAlignment="Left" />
+                                        <c1:DataGridTextColumn     Header = "UNIT_TYPE"        Binding = "{Binding EMS_EQPTNAME}"          HorizontalAlignment="Left" />                                        
+                                        <c1:DataGridTextColumn     Header = "발생일시"         Binding = "{Binding ACTDTTM}"               HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn     Header = "해제일시"         Binding = "{Binding EQPT_ALARM_REL_DTTM}"   HorizontalAlignment="Center" />
+                                        <c1:DataGridNumericColumn  Header = "경과(초)"         Binding = "{Binding TERM}"                  HorizontalAlignment="Right" Format="#,##0"/>
+                                        <c1:DataGridTextColumn     Header = "설비상태"         Binding = "{Binding EIOSNAME}"              HorizontalAlignment="Left" Visibility="Collapsed"/>
+                                        <c1:DataGridTextColumn     Header = "알람레벨"         Binding = "{Binding EQPT_ALARM_LEVEL_CODE}" HorizontalAlignment="Left" />
+                                        <c1:DataGridTextColumn     Header = "알람코드"         Binding = "{Binding EQPT_ALARM_CODE}"       HorizontalAlignment="Left" />
+                                        <c1:DataGridTextColumn     Header = "알람 명"          Binding = "{Binding EQPT_ALARM_NAME}"       HorizontalAlignment="Left" />
+                                    </c1:C1DataGrid.Columns>
+                                </uc:UcBaseDataGrid>
+                            </Grid>
+                        </Grid>
+                    </Grid>
+                </Grid>
+
+            </Grid>
+        </ctrlLib:LGCLayout>
+
+        <ctrlLib:LoadingIndicator x:Name="loadingIndicator" Grid.Row="999" Grid.Column="999" />
+    </Grid>
+</UserControl>

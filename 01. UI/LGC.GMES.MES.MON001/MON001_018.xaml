@@ -1,0 +1,135 @@
+<UserControl xmlns:ss="http://schemas.grapecity.com/windows/spreadsheet/2012"  x:Class="LGC.GMES.MES.MON001.MON001_018"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:c1="http://schemas.componentone.com/winfx/2006/xaml"
+             xmlns:ctrlLib="clr-namespace:LGC.GMES.MES.ControlsLibrary;assembly=LGC.GMES.MES.ControlsLibrary"
+             mc:Ignorable="d" 
+             d:DesignHeight="768" d:DesignWidth="1024" Loaded="UserControl_Loaded">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/LGC.GMES.MES.ControlsLibrary;component/ControlStyles.xaml" />
+                <ResourceDictionary Source="/LGC.GMES.MES.ControlsLibrary;component/ControlTemplates/LGCDatePicker.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.Resources>
+            <DataTemplate x:Key="ItemTemplate">
+                <WrapPanel>
+                    <Image Width="138" Height="138" Stretch="Fill" Source="{Binding}" Margin="3,3,3,3" />
+                </WrapPanel>
+            </DataTemplate>
+        </Grid.Resources>
+
+        <ctrlLib:LGCLayout x:Name="LayoutRoot" Tag="Timeout Monitoring" Grid.ColumnSpan="2">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="8" />
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <!--조회영역-->
+                <Grid Grid.Row="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="45" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="0.5*" />
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="8" />
+                    </Grid.ColumnDefinitions>
+
+                    <!--백그라운드용-->
+                    <Border     Grid.Row="0" Grid.Column="0" Grid.RowSpan="99" Grid.ColumnSpan="99" Style="{StaticResource Content_InputForm_LabelBorderStyle}"/>
+
+                    <!--조회조건-->
+                    <TextBlock       Grid.Row="0" Grid.Column="1"  Text="{Binding ConverterParameter='TYPE', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}"/>
+                    <c1:C1ComboBox   Grid.Row="0" Grid.Column="2"  x:Name="cboType" Style="{StaticResource C1ComboBoxStyle}" AutoComplete="False"/>
+                    <TextBlock       Grid.Row="0" Grid.Column="3"  Text="{Binding ConverterParameter='TIME', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}"/>
+                    <TextBox         Grid.Row="0" Grid.Column="4" x:Name="txtMin" Width="70" Text="5" TextAlignment="Right" LostFocus="txtMin_LostFocus" KeyDown="txtMin_LostFocus"/>
+                    <!--자동조회-->
+                    <CheckBox Grid.Row="0"  Grid.Column="13"  x:Name="chkAuto" Content="{Binding ConverterParameter='자동조회', Converter={StaticResource GlobalObjectDicConverter}}"  
+                                      Style="{StaticResource SearchCondition_CheckBoxStyle}" MinWidth="100" IsChecked="False" Click="chkAuto_Click" />
+                    <!--조회 버튼-->
+                    <Button     Grid.Row="0" Grid.Column="14" x:Name="btnSearch" Content="{Binding ConverterParameter=SEARCH, Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource SearchButtonStyle}" Cursor="Hand" Click="btnSearch_Click" />
+                </Grid>
+
+                <!--SUM-->
+                <Grid Grid.Row="2">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="34"/>
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+
+                    <!--백그라운드용-->
+                    <Border Grid.Row="0" Grid.Column="0" Grid.RowSpan="2" Style="{StaticResource Content_InputForm_ContentBorderStyle}"/>
+                    <Border Grid.Row="0" Grid.Column="0" BorderThickness="1" BorderBrush="#ffbebebe" Style="{StaticResource BorderSubTitleStyle}"/>
+
+                    <TextBlock Grid.Row="0" Style="{StaticResource Content_ModuleTitleStyle}"><Run Text="{Binding ConverterParameter='리스트', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}"/></TextBlock>
+
+                    <Grid Grid.Row="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="3*" />
+                            <ColumnDefinition Width="5*" />
+                        </Grid.ColumnDefinitions>
+
+                        <Border Grid.Column="0" Style="{StaticResource Content_InputForm_ContentBorderStyle}"/>
+                        <Border Grid.Column="0" BorderThickness="1" BorderBrush="#ffbebebe" Style="{StaticResource BorderSubTitleStyle}"/>
+                        <Border Grid.Column="1" Style="{StaticResource Content_InputForm_ContentBorderStyle}"/>
+                        <Border Grid.Column="1" BorderThickness="1" BorderBrush="#ffbebebe" Style="{StaticResource BorderSubTitleStyle}"/>
+
+                        <c1:C1DataGrid x:Name="dgResult" Grid.Column="0" IsReadOnly="True" HeadersVisibility="Column" FrozenColumnCount="4" SelectionMode="SingleRow" Margin="8" MouseDoubleClick="dgResult_MouseDoubleClick" LoadedCellPresenter="dgResult_LoadedCellPresenter">
+                            <c1:C1DataGrid.Columns>
+                                <c1:DataGridTextColumn      Header = "DB_Name"    Binding = "{Binding DB_NAME}"    HorizontalAlignment="Center" />
+                                <c1:DataGridTextColumn      Header = "C1"         Binding = "{Binding C1}"     HorizontalAlignment="Center" />
+                                <c1:DataGridTextColumn      Header = "C2"         Binding = "{Binding C2}"     HorizontalAlignment="Center" />
+                                <c1:DataGridTextColumn      Header = "C3"         Binding = "{Binding C3}"     HorizontalAlignment="Center" />
+                            </c1:C1DataGrid.Columns>
+                        </c1:C1DataGrid>
+                        
+                        <c1:C1DataGrid x:Name="dgDetail" Grid.Column="1" IsReadOnly="True" HeadersVisibility="Column" SelectionMode="SingleRow" Margin="8">
+                            <c1:C1DataGrid.Columns>
+                                <c1:DataGridNumericColumn   Header = "HIST_SEQNO"   Binding = "{Binding HIST_SEQNO}"    HorizontalAlignment="Right"  Format="###,###,##0.##"/>
+                                <c1:DataGridTextColumn      Header = "SRCTYPE"    Binding = "{Binding SRCTYPE}"     HorizontalAlignment="Center" />
+                                <c1:DataGridTextColumn      Header = "IF_MODE"   Binding = "{Binding IF_MODE}"    HorizontalAlignment="Center" />
+                                <c1:DataGridTextColumn      Header = "EQPTID"  Binding = "{Binding EQPTID}"   HorizontalAlignment="Center" />
+                                <c1:DataGridTextColumn      Header = "LOTID"    Binding = "{Binding LOTID}"     HorizontalAlignment="Center" />
+                                <c1:DataGridTextColumn      Header = "PGM_ID"  Binding = "{Binding PGM_ID}"   HorizontalAlignment="Left"  />
+                                <c1:DataGridTextColumn      Header = "BZRULE_ID"   Binding = "{Binding BZRULE_ID}"    HorizontalAlignment="Left" />
+                                <c1:DataGridTextColumn      Header = "EXCT_CODE"  Binding = "{Binding EXCT_CODE}"   HorizontalAlignment="Left" />
+                                <c1:DataGridTextColumn      Header = "EXCT_MSG"  Binding = "{Binding EXCT_MSG}"   HorizontalAlignment="Left" />
+                                <c1:DataGridTextColumn      Header = "EXCT_TYPE"  Binding = "{Binding EXCT_TYPE}"   HorizontalAlignment="Left" />
+                                <c1:DataGridTextColumn      Header = "EXCT_LOCATION"  Binding = "{Binding EXCT_LOCATION}"   HorizontalAlignment="Left" />
+                                <c1:DataGridTextColumn      Header = "EXCT_DATA"  Binding = "{Binding EXCT_DATA}"   HorizontalAlignment="Left" />
+                                <c1:DataGridTextColumn      Header = "EXCT_PARA"  Binding = "{Binding EXCT_PARA}"   HorizontalAlignment="Left" />
+                                <c1:DataGridTextColumn      Header = "DATASET"  Binding = "{Binding DATASET}"   HorizontalAlignment="Left" />
+                                <c1:DataGridTextColumn      Header = "INSUSER"  Binding = "{Binding INSUSER}"   HorizontalAlignment="Center" />
+                                <c1:DataGridTextColumn      Header = "INSDTTM"  Binding = "{Binding INSDTTM}"   HorizontalAlignment="Center" />
+                                <c1:DataGridTextColumn      Header = "UPDUSER"  Binding = "{Binding UPDUSER}"   HorizontalAlignment="Center" />
+                                <c1:DataGridTextColumn      Header = "UPDDTTM"  Binding = "{Binding UPDDTTM}"   HorizontalAlignment="Center" />
+                                <!--<c1:DataGridTextColumn      Header = "CHK_FLAG"  Binding = "{Binding CHK_FLAG}"   HorizontalAlignment="Center" />-->
+                            </c1:C1DataGrid.Columns>
+                        </c1:C1DataGrid>
+                    </Grid>
+                </Grid>
+            </Grid>
+        </ctrlLib:LGCLayout>
+    </Grid>
+</UserControl>

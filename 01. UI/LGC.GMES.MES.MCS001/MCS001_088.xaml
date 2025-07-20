@@ -1,0 +1,438 @@
+﻿<UserControl xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:ctrlLib="clr-namespace:LGC.GMES.MES.ControlsLibrary;assembly=LGC.GMES.MES.ControlsLibrary"
+             xmlns:c1="http://schemas.componentone.com/winfx/2006/xaml"
+             x:Class="LGC.GMES.MES.MCS001.MCS001_088"
+             mc:Ignorable="d" 
+             d:DesignHeight="850" d:DesignWidth="1920" 
+             Loaded="UserControl_Loaded" 
+             Unloaded="UserControl_Unloaded" 
+             >
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/LGC.GMES.MES.ControlsLibrary;component/ControlStyles.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <Grid>
+        <ctrlLib:LGCLayout x:Name="LayoutRoot" Tag="창고별 적재율" >
+            <ctrlLib:LGCLayout.Content>
+                <Grid >
+                    <Grid.RowDefinitions>
+                        <!--TopSearch-->
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="8"/>
+                        <!--Contents-->
+                        <RowDefinition Height="*"/>
+                        <!--<RowDefinition Height="8"/>-->
+                    </Grid.RowDefinitions>
+
+                    <Border Grid.Row="0" Grid.Column="0" Style="{StaticResource Content_InputForm_LabelBorderStyle}" />
+                    <Grid x:Name="TopSearch" Grid.Row="0" Grid.ColumnSpan="2">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="8" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="8" />
+                        </Grid.RowDefinitions>
+                        <!-- 조회 버튼 영역-->
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="13"/>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="10"/>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="10"/>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="8" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="8" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="13" />
+                        </Grid.ColumnDefinitions>
+                       
+                        <c1:C1ComboBox Grid.Row="1"  Grid.Column="8" x:Name="cboTimer" AutoComplete="False" DisplayMemberPath="NAME" SelectedValuePath="CODE" SelectedValueChanged="cboTimer_SelectedValueChanged"  Width="Auto" MinWidth="40"/>
+                        <Button Grid.Row="1" Grid.Column="10" x:Name="btnSearch" Content="{Binding ConverterParameter=SEARCH, Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource SearchButtonStyle}" Cursor="Hand" Click="btnSearch_Click" />
+                    
+                    </Grid>
+
+                    <!--Contents-->
+                    <Grid x:Name="Contents" Grid.Row="2">
+                        
+                        <Grid Grid.Row="0"  x:Name="ContentsRow">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="2.85*"/>
+                                <ColumnDefinition Width="8" />
+                                <ColumnDefinition Width="3*" />
+                                <ColumnDefinition Width="8" />
+                                <ColumnDefinition Width="4.05*" />
+                            </Grid.ColumnDefinitions>
+
+                            <!--Left Grid Area 전극창고-->
+                            <Grid Grid.Row="0" x:Name="Left" >
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="34" />
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+
+                                <Grid Grid.Row="0" x:Name="grdCapacitySummaryTitle">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Border Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Style="{StaticResource Content_InputForm_LabelBorderStyle}">
+                                        <TextBlock Grid.Row="0" Grid.Column="0" Style="{StaticResource Content_ModuleTitleStyle}"><Run Text="{Binding ConverterParameter='전극창고', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}"/></TextBlock>
+                                    </Border>
+                                </Grid>
+
+                                <Border Grid.Row="1" Background="#e8ebed" BorderThickness="0" BorderBrush="#8a8a8a"></Border>
+                                <Grid Grid.Row="1">
+                                    <c1:C1DataGrid x:Name="dgElecWareHouse" 
+                                                   Grid.Row="0" 
+                                                   Grid.Column="0" 
+                                                   IsReadOnly="True" 
+                                                   HeadersVisibility="Column" 
+                                                   CanUserFilter="False" 
+                                                   CanUserSort="False" 
+                                                   SelectionMode="SingleCell" 
+                                                   AlternatingRowBackground="White"  
+                                                   ColumnHeaderHeight="50"
+                                                   LoadedCellPresenter="dgElecWareHouse_LoadedCellPresenter" 
+                                                   UnloadedCellPresenter="dgElecWareHouse_UnloadedCellPresenter" 
+                                                   MouseLeftButtonUp="dgElecWareHouse_MouseLeftButtonUp" 
+                                                  >
+                                        <c1:C1DataGrid.Columns>
+                                            <c1:DataGridTextColumn  Header="극성_"           Binding="{Binding ELTR_TYPE_NAME}"   HorizontalAlignment="Center" Visibility="Collapsed" />
+                                            <c1:DataGridTextColumn  Header="극성ID"         Binding="{Binding ELTR_TYPE_CODE}"   HorizontalAlignment="Center" Visibility="Collapsed"/>
+                                            <c1:DataGridTextColumn  Header="창고ID"         Binding="{Binding EQPTID}"           HorizontalAlignment="Center" Visibility="Collapsed"/>
+                                            <c1:DataGridTextColumn  Header="창고_"           Binding="{Binding EQPTNAME}"         HorizontalAlignment="Center" />
+                                            <c1:DataGridTextColumn  Header="용량_"           Binding="{Binding RACK_CNT_TEXT}"    HorizontalAlignment="Right" />
+                                            <c1:DataGridTextColumn  Header="실 Carrier수"   Binding="{Binding U_CNT_ALL_TEXT}"       HorizontalAlignment="Right" />
+                                            <c1:DataGridTextColumn  Header="공 Carrier수_"   Binding="{Binding E_CNT_ALL_TEXT}"       HorizontalAlignment="Right" />
+                                            <c1:DataGridTextColumn  Header="기타"           Binding="{Binding ETC_CNT_TEXT}"       HorizontalAlignment="Right" />
+                                            <c1:DataGridTextColumn  Header="적재율 (%)"     Binding="{Binding RATE_TEXT}"        HorizontalAlignment="Right" />
+                                        </c1:C1DataGrid.Columns>
+                                    </c1:C1DataGrid>
+                                </Grid>
+
+                            </Grid>
+                     
+                            <!--Splitter-->
+                            <GridSplitter x:Name="Splitter" Grid.Column="1" ResizeDirection="Columns" ShowsPreview="True" Style="{StaticResource GridSplitterStyle}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"  />
+                         
+                            <!--폴란드일 경우 : STK완성창고가 존재하여 소스를 나누었음-->
+                            <Grid x:Name="Middle_ESWA" Grid.Column="2" Visibility="Collapsed">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="1.6*" />
+                                    <RowDefinition Height="8" />
+                                    <RowDefinition Height="1.*" />
+                                    <RowDefinition Height="8" />
+                                    <RowDefinition Height="1.2*" />
+                                </Grid.RowDefinitions>
+
+                                <!--NND 대기창고-->
+                                <Grid Grid.Row="0">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="34" />
+                                        <RowDefinition Height="*" />
+                                    </Grid.RowDefinitions>
+
+                                    <Grid Grid.Row="0" >
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Border Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Style="{StaticResource Content_InputForm_LabelBorderStyle}">
+                                            <TextBlock Grid.Row="0" Grid.Column="0" Style="{StaticResource Content_ModuleTitleStyle}"><Run Text="{Binding ConverterParameter='NND 대기창고', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}"/></TextBlock>
+                                        </Border>
+                                    </Grid>
+
+                                    <Border Grid.Row="1" Background="#e8ebed" BorderThickness="0" BorderBrush="#8a8a8a"></Border>
+                                    <Grid Grid.Row="1" >
+                                        <c1:C1DataGrid x:Name="dgNNDWaitWareHouse_ESWA" 
+                                                   AlternatingRowBackground="White"  
+                                                   IsReadOnly="True" 
+                                                   HeadersVisibility="Column" 
+                                                   SelectionMode="SingleCell" 
+                                                   ColumnHeaderHeight="50" 
+                                                   LoadedCellPresenter="dgElecWareHouse_LoadedCellPresenter" 
+                                                   UnloadedCellPresenter="dgElecWareHouse_UnloadedCellPresenter" 
+                                                   MouseLeftButtonUp="dgNNDWaitWareHouse_MouseLeftButtonUp" 
+                                                   >
+                                            <c1:C1DataGrid.Columns>
+                                                <c1:DataGridTextColumn  Header="창고_"           Binding="{Binding EQPTNAME}"         HorizontalAlignment="Center" />
+                                                <c1:DataGridTextColumn  Header="창고ID"         Binding="{Binding EQPTID}"           HorizontalAlignment="Center" Visibility="Collapsed"/>
+                                                <c1:DataGridTextColumn  Header="극성ID"         Binding="{Binding ELTR_TYPE_CODE}"   HorizontalAlignment="Center" Visibility="Collapsed"/>
+                                                <c1:DataGridTextColumn  Header ="극성_"          Binding="{Binding ELTR_TYPE_NAME}"   HorizontalAlignment="Center" />
+                                                <c1:DataGridTextColumn  Header="용량_"           Binding="{Binding RACK_CNT_TEXT}"    HorizontalAlignment="Right" />
+                                                <c1:DataGridTextColumn  Header="실 Carrier수"    Binding="{Binding U_CNT_TEXT}"       HorizontalAlignment="Right" />
+                                                <c1:DataGridTextColumn  Header="공 Carrier수_"    Binding="{Binding E_CNT_TEXT}"       HorizontalAlignment="Right" />
+                                                <c1:DataGridTextColumn  Header="기타"           Binding="{Binding ETC_CNT_TEXT}"     HorizontalAlignment="Right" />
+                                                <c1:DataGridTextColumn  Header="적재율 (%)"      Binding="{Binding RATE_TEXT}"        HorizontalAlignment="Right" />
+                                            </c1:C1DataGrid.Columns>
+                                        </c1:C1DataGrid>
+
+                                    </Grid>
+                                </Grid>
+                                <GridSplitter Grid.Row="1" ResizeDirection="Rows" ShowsPreview="True" Style="{StaticResource GridSplitterVerticalStyle}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" />
+                              
+                                <!--NND 완성창고-->
+                                <Grid Grid.Row="2">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="34" />
+                                        <RowDefinition Height="*" />
+                                    </Grid.RowDefinitions>
+
+                                    <Border Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Style="{StaticResource Content_InputForm_LabelBorderStyle}">
+                                        <TextBlock Grid.Row="0" Grid.Column="0" Style="{StaticResource Content_ModuleTitleStyle}"><Run Text="{Binding ConverterParameter='NND 완성창고', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}"/></TextBlock>
+                                    </Border>
+
+                                    <Border Grid.Row="1" Background="#e8ebed" BorderThickness="0" BorderBrush="#8a8a8a"></Border>
+                                    <Grid Grid.Row="1">
+                                        <c1:C1DataGrid x:Name="dgNNDWareHouse_ESWA" 
+                                                   Grid.Row="0" 
+                                                   Grid.Column="0" 
+                                                   IsReadOnly="True" 
+                                                   ColumnHeaderHeight="50" 
+                                                   HeadersVisibility="Column" 
+                                                   CanUserFilter="False" 
+                                                   CanUserSort="False" 
+                                                   SelectionMode="SingleCell" 
+                                                   AlternatingRowBackground="White" 
+                                                   LoadedCellPresenter="dgElecWareHouse_LoadedCellPresenter" 
+                                                   UnloadedCellPresenter="dgElecWareHouse_UnloadedCellPresenter" 
+                                                   MouseLeftButtonUp="dgNNDWareHouse_MouseLeftButtonUp" 
+                                            >
+                                            <c1:C1DataGrid.Columns>
+                                                <c1:DataGridTextColumn  Header="창고_"           Binding="{Binding EQPTNAME}"         HorizontalAlignment="Center" />
+                                                <c1:DataGridTextColumn  Header="창고ID"         Binding="{Binding EQPTID}"           HorizontalAlignment="Center" Visibility="Collapsed"/>
+                                                <c1:DataGridTextColumn  Header="극성ID"         Binding="{Binding ELTR_TYPE_CODE}"   HorizontalAlignment="Center" Visibility="Collapsed"/>
+                                                <c1:DataGridTextColumn  Header ="극성_"          Binding="{Binding ELTR_TYPE_NAME}"   HorizontalAlignment="Center" />
+                                                <c1:DataGridTextColumn  Header="용량_"           Binding="{Binding RACK_CNT_TEXT}"    HorizontalAlignment="Right" />
+                                                <c1:DataGridTextColumn  Header="실 Carrier수"    Binding="{Binding U_CNT_TEXT}"       HorizontalAlignment="Right" />
+                                                <c1:DataGridTextColumn  Header="공 Carrier수_"    Binding="{Binding E_CNT_TEXT}"       HorizontalAlignment="Right" />
+                                                <c1:DataGridTextColumn  Header="기타"           Binding="{Binding ETC_CNT_TEXT}"     HorizontalAlignment="Right" />
+                                                <c1:DataGridTextColumn  Header="적재율 (%)"      Binding="{Binding RATE_TEXT}"        HorizontalAlignment="Right" />
+                                            </c1:C1DataGrid.Columns>
+                                        </c1:C1DataGrid>
+                                    </Grid>
+                                </Grid>
+                                <GridSplitter Grid.Row="3" ResizeDirection="Rows" ShowsPreview="True" Style="{StaticResource GridSplitterVerticalStyle}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" />
+
+                                <!--STK 완성창고-->
+                                <Grid Grid.Row="4">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="34" />
+                                        <RowDefinition Height="*" />
+                                    </Grid.RowDefinitions>
+                                    <Border Grid.Row="1" Background="#e8ebed" BorderThickness="0" BorderBrush="#8a8a8a"></Border>
+                                    <Grid Grid.Row="0" x:Name="grdProductSummaryTitle">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="20"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="4"/>
+                                            <ColumnDefinition Width="1.*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Border Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="5" Style="{StaticResource Content_InputForm_LabelBorderStyle}"/>
+                                        <TextBlock Grid.Row="0" Grid.Column="0" Style="{StaticResource Content_ModuleTitleStyle}"><Run Text="{Binding ConverterParameter='STK완성창고', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}"/></TextBlock>
+                                    </Grid>
+                                    <Grid Grid.Row="1" >
+                                        <c1:C1DataGrid x:Name="dgTrauStocker" 
+                                                   AlternatingRowBackground="White"  
+                                                   IsReadOnly="True" 
+                                                   HeadersVisibility="Column" 
+                                                   SelectionMode="SingleCell" 
+                                                   ColumnHeaderHeight="50" 
+                                                   LoadedCellPresenter="dgElecWareHouse_LoadedCellPresenter" 
+                                                   UnloadedCellPresenter="dgElecWareHouse_UnloadedCellPresenter" 
+                                                   MouseLeftButtonUp="dgTrauStocker_MouseLeftButtonUp" 
+                                                   >
+                                            <c1:C1DataGrid.Columns>
+                                                <c1:DataGridTextColumn  Header="창고_"           Binding="{Binding EQPTNAME}"          HorizontalAlignment="Center" />
+                                                <c1:DataGridTextColumn  Header="창고ID"         Binding="{Binding EQPTID}"            HorizontalAlignment="Center" Visibility="Collapsed"/>
+                                                <c1:DataGridTextColumn  Header="용량_"           Binding="{Binding RACK_CNT_TEXT}"     HorizontalAlignment="Right" />
+                                                <c1:DataGridTextColumn  Header="실 Carrier수"    Binding="{Binding U_CNT_TEXT}"        HorizontalAlignment="Right" />
+                                                <c1:DataGridTextColumn  Header="공 Carrier수_"    Binding="{Binding E_CNT_TEXT}"        HorizontalAlignment="Right" />
+                                                <c1:DataGridTextColumn  Header="기타"           Binding="{Binding ETC_CNT_TEXT}"      HorizontalAlignment="Right" />
+                                                <c1:DataGridTextColumn  Header="적재율 (%)"      Binding="{Binding RATE_TEXT}"         HorizontalAlignment="Right" />
+                                            </c1:C1DataGrid.Columns>
+                                        </c1:C1DataGrid>
+                                    </Grid>
+
+                                </Grid>
+                            </Grid>
+
+                            <Grid x:Name="Middle" Grid.Column="2">
+                            <Grid.RowDefinitions>
+                              <RowDefinition Height="1.5*" />
+                              <RowDefinition Height="8" />
+                              <RowDefinition Height="1.5*" />
+                           
+                            </Grid.RowDefinitions>
+
+                            <!--NND 대기창고-->
+                            <Grid Grid.Row="0">
+                              <Grid.RowDefinitions>
+                                <RowDefinition Height="34" />
+                                <RowDefinition Height="*" />
+                              </Grid.RowDefinitions>
+
+                              <Grid Grid.Row="0" >
+                                <Grid.ColumnDefinitions>
+                                  <ColumnDefinition Width="*"/>
+                                  <ColumnDefinition Width="*"/>
+                                  <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Border Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Style="{StaticResource Content_InputForm_LabelBorderStyle}">
+                                  <TextBlock Grid.Row="0" Grid.Column="0" Style="{StaticResource Content_ModuleTitleStyle}">
+                                    <Run Text="{Binding ConverterParameter='NND 대기창고', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}"/>
+                                  </TextBlock>
+                                </Border>
+                              </Grid>
+
+                              <Border Grid.Row="1" Background="#e8ebed" BorderThickness="0" BorderBrush="#8a8a8a"></Border>
+                              <Grid Grid.Row="1" >
+                                <c1:C1DataGrid x:Name="dgNNDWaitWareHouse"
+                                           AlternatingRowBackground="White"
+                                           IsReadOnly="True"
+                                           HeadersVisibility="Column"
+                                           SelectionMode="SingleCell"
+                                           ColumnHeaderHeight="50"
+                                           LoadedCellPresenter="dgElecWareHouse_LoadedCellPresenter"
+                                           UnloadedCellPresenter="dgElecWareHouse_UnloadedCellPresenter"
+                                           MouseLeftButtonUp="dgNNDWaitWareHouse_MouseLeftButtonUp"
+                                                   >
+                                  <c1:C1DataGrid.Columns>
+                                    <c1:DataGridTextColumn  Header="창고_"           Binding="{Binding EQPTNAME}"         HorizontalAlignment="Center" />
+                                    <c1:DataGridTextColumn  Header="창고ID"          Binding="{Binding EQPTID}"           HorizontalAlignment="Center" Visibility="Collapsed"/>
+                                    <c1:DataGridTextColumn  Header="극성ID"          Binding="{Binding ELTR_TYPE_CODE}"   HorizontalAlignment="Center" Visibility="Collapsed"/>
+                                    <c1:DataGridTextColumn  Header ="극성_"          Binding="{Binding ELTR_TYPE_NAME}"   HorizontalAlignment="Center" />
+                                    <c1:DataGridTextColumn  Header="용량_"           Binding="{Binding RACK_CNT_TEXT}"    HorizontalAlignment="Right" />
+                                    <c1:DataGridTextColumn  Header="실 Carrier수"    Binding="{Binding U_CNT_ALL_TEXT}"   HorizontalAlignment="Right" />
+                                    <c1:DataGridTextColumn  Header="공 Carrier수_"   Binding="{Binding E_CNT_ALL_TEXT}"   HorizontalAlignment="Right" />
+                                    <c1:DataGridTextColumn  Header="기타"            Binding="{Binding ETC_CNT_TEXT}"     HorizontalAlignment="Right" />
+                                    <c1:DataGridTextColumn  Header="적재율 (%)"      Binding="{Binding RATE_TEXT}"        HorizontalAlignment="Right" />
+                                  </c1:C1DataGrid.Columns>
+                                </c1:C1DataGrid>
+
+                              </Grid>
+                            </Grid>
+                            <GridSplitter Grid.Row="1" ResizeDirection="Rows" ShowsPreview="True" Style="{StaticResource GridSplitterVerticalStyle}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" />
+
+                            <!--NND 완성창고-->
+                            <Grid Grid.Row="2">
+                              <Grid.RowDefinitions>
+                                <RowDefinition Height="34" />
+                                <RowDefinition Height="*" />
+                              </Grid.RowDefinitions>
+
+                              <Border Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Style="{StaticResource Content_InputForm_LabelBorderStyle}">
+                                <TextBlock Grid.Row="0" Grid.Column="0" Style="{StaticResource Content_ModuleTitleStyle}">
+                                  <Run Text="{Binding ConverterParameter='NND 완성창고', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}"/>
+                                </TextBlock>
+                              </Border>
+
+                              <Border Grid.Row="1" Background="#e8ebed" BorderThickness="0" BorderBrush="#8a8a8a"></Border>
+                              <Grid Grid.Row="1">
+                                <c1:C1DataGrid x:Name="dgNNDWareHouse"
+                                           Grid.Row="0"
+                                           Grid.Column="0"
+                                           IsReadOnly="True"
+                                           ColumnHeaderHeight="50"
+                                           HeadersVisibility="Column"
+                                           CanUserFilter="False"
+                                           CanUserSort="False"
+                                           SelectionMode="SingleCell"
+                                           AlternatingRowBackground="White"
+                                           LoadedCellPresenter="dgElecWareHouse_LoadedCellPresenter"
+                                           UnloadedCellPresenter="dgElecWareHouse_UnloadedCellPresenter"
+                                           MouseLeftButtonUp="dgNNDWareHouse_MouseLeftButtonUp"
+                                            >
+                                  <c1:C1DataGrid.Columns>
+                                    <c1:DataGridTextColumn  Header="창고_"           Binding="{Binding EQPTNAME}"         HorizontalAlignment="Center" />
+                                    <c1:DataGridTextColumn  Header="창고ID"          Binding="{Binding EQPTID}"           HorizontalAlignment="Center" Visibility="Collapsed"/>
+                                    <c1:DataGridTextColumn  Header="극성ID"          Binding="{Binding ELTR_TYPE_CODE}"   HorizontalAlignment="Center" Visibility="Collapsed"/>
+                                    <c1:DataGridTextColumn  Header ="극성_"          Binding="{Binding ELTR_TYPE_NAME}"   HorizontalAlignment="Center" />
+                                    <c1:DataGridTextColumn  Header="용량_"           Binding="{Binding RACK_CNT_TEXT}"    HorizontalAlignment="Right" />
+                                    <c1:DataGridTextColumn  Header="실 Carrier수"    Binding="{Binding U_CNT_ALL_TEXT}"   HorizontalAlignment="Right" />
+                                    <c1:DataGridTextColumn  Header="공 Carrier수_"   Binding="{Binding E_CNT_ALL_TEXT}"   HorizontalAlignment="Right" />
+                                    <c1:DataGridTextColumn  Header="기타"            Binding="{Binding ETC_CNT_TEXT}"     HorizontalAlignment="Right" />
+                                    <c1:DataGridTextColumn  Header="적재율 (%)"      Binding="{Binding RATE_TEXT}"        HorizontalAlignment="Right" />
+                                  </c1:C1DataGrid.Columns>
+                                </c1:C1DataGrid>
+                              </Grid>
+                            </Grid>
+                     
+                          </Grid>
+                          
+                            <!--Splitter-->
+                            <GridSplitter x:Name="Splitter_R" Grid.Column="3" ResizeDirection="Columns" ShowsPreview="True" Style="{StaticResource GridSplitterStyle}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" />
+                            
+                            <!--Lami 대기창고-->
+                            <Grid x:Name="Right" Grid.Column="4" >
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="34" />
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+
+                                <Grid Grid.Row="0" x:Name="grdLamiWaitWareHouse">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Border Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Style="{StaticResource Content_InputForm_LabelBorderStyle}">
+                                        <TextBlock Grid.Row="0" Grid.Column="0" Style="{StaticResource Content_ModuleTitleStyle}"><Run Text="{Binding ConverterParameter='Lami대기창고', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}"/></TextBlock>
+                                    </Border>
+                                </Grid>
+
+                                <Border Grid.Row="1" Background="#e8ebed" BorderThickness="0" BorderBrush="#8a8a8a"></Border>
+                                <Grid Grid.Row="1">
+                                    <c1:C1DataGrid x:Name="dgLamiWaitWareHouse" 
+                                                   Grid.Row="0" 
+                                                   Grid.Column="0" 
+                                                   IsReadOnly="True" 
+                                                   HeadersVisibility="Column" 
+                                                   CanUserFilter="False" 
+                                                   CanUserSort="False" 
+                                                   SelectionMode="SingleCell" 
+                                                   AlternatingRowBackground="White"  
+                                                   ColumnHeaderHeight="50"
+                                                   LoadedCellPresenter="dgElecWareHouse_LoadedCellPresenter" 
+                                                   UnloadedCellPresenter="dgElecWareHouse_UnloadedCellPresenter" 
+                                                   MergingCells="dgLamiWaitWareHouse_MergingCells" 
+                                                   MouseLeftButtonUp="dgLamiWaitWareHouse_MouseLeftButtonUp"
+                                                  >
+                                        <c1:C1DataGrid.Columns>
+                                            <c1:DataGridTextColumn  Header="창고_"           Binding="{Binding EQPTNAME}"        HorizontalAlignment="Center" />
+                                            <c1:DataGridTextColumn  Header="창고ID"         Binding="{Binding EQPTID}"            HorizontalAlignment="Center" Visibility="Collapsed"/>
+                                            <c1:DataGridTextColumn  Header="용량_"          Binding="{Binding RACK_CNT_TEXT}"   HorizontalAlignment="Right" />
+                                            <c1:DataGridTextColumn  Header="PJT"            Binding="{Binding PRJT_NAME}"       HorizontalAlignment="Center" />
+                                            <c1:DataGridTextColumn  Header="실 Carrier수"   Binding="{Binding U_CNT_TEXT}"      HorizontalAlignment="Right" />
+                                            <c1:DataGridTextColumn  Header="공 Carrier수_"   Binding="{Binding E_CNT_TEXT}"      HorizontalAlignment="Right" />
+                                            <c1:DataGridTextColumn  Header="오류 Carrier수" Binding="{Binding ER_CNT_TEXT}"      HorizontalAlignment="Right" />
+                                            <c1:DataGridTextColumn  Header="정보 불일치"    Binding="{Binding ER_CNT_TEXT}"      HorizontalAlignment="Right" Visibility="Collapsed"/>
+                                            <c1:DataGridTextColumn  Header="금지단 수"   Binding="{Binding PROHIBIT_CNT_TEXT}"      HorizontalAlignment="Right" />
+                                            <c1:DataGridTextColumn  Header="적재율 (%)"     Binding="{Binding RATE_TEXT}"       HorizontalAlignment="Right" />
+                                        </c1:C1DataGrid.Columns>
+                                    </c1:C1DataGrid>
+                                </Grid>
+
+
+
+                            </Grid>
+                        </Grid>
+                    </Grid>
+                    </Grid>
+            </ctrlLib:LGCLayout.Content>
+        </ctrlLib:LGCLayout>
+        <ctrlLib:LoadingIndicator x:Name="loadingIndicator"/>
+    </Grid>
+</UserControl>
+

@@ -1,0 +1,148 @@
+<UserControl xmlns:ss="http://schemas.grapecity.com/windows/spreadsheet/2012"  x:Class="LGC.GMES.MES.COM001.COM001_365"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:c1="http://schemas.componentone.com/winfx/2006/xaml"
+             xmlns:ctrlLib="clr-namespace:LGC.GMES.MES.ControlsLibrary;assembly=LGC.GMES.MES.ControlsLibrary"
+             xmlns:CMM001="clr-namespace:LGC.GMES.MES.CMM001;assembly=LGC.GMES.MES.CMM001"
+             mc:Ignorable="d" 
+             d:DesignHeight="768" d:DesignWidth="1350" Loaded="UserControl_Loaded">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/LGC.GMES.MES.ControlsLibrary;component/ControlStyles.xaml" />
+                <ResourceDictionary Source="/LGC.GMES.MES.ControlsLibrary;component/ControlTemplates/LGCDatePicker.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid x:Name="grdMain">
+
+        <ctrlLib:LGCLayout x:Name="LayoutRoot" Tag="FstTrack Lot 이력조회" Grid.ColumnSpan="2">
+            <Grid>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="8" />
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="8" />
+                </Grid.RowDefinitions>
+
+                <!--조회영역-->
+                <Grid Grid.Row="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="4" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="4" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="220" />
+                        <ColumnDefinition Width="80" />
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="70" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="70" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="8" />
+                    </Grid.ColumnDefinitions>
+
+                    <!--백그라운드용-->
+                    <Border     Grid.Row="0" Grid.Column="0" Grid.RowSpan="4" Grid.ColumnSpan="15" Style="{StaticResource Content_InputForm_LabelBorderStyle}"/>
+
+                    <!--조회조건-->
+                    <TextBlock  Grid.Row="1" Grid.Column="0" Text="{Binding ConverterParameter='동',      Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}" HorizontalAlignment="Right"/>
+                    <TextBlock  Grid.Row="1" Grid.Column="2" Text="{Binding ConverterParameter='LINE',    Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}" HorizontalAlignment="Right"/>
+                    <TextBlock  Grid.Row="1" Grid.Column="4" Text="{Binding ConverterParameter='공정',    Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}" HorizontalAlignment="Right"/>
+                    <TextBlock  Grid.Row="1" Grid.Column="6" Text="{Binding ConverterParameter='설비',    Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}" HorizontalAlignment="Right"/>
+                    <TextBlock  Grid.Row="2" Grid.Column="0" Text="{Binding ConverterParameter='작업일',  Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}" HorizontalAlignment="Right"/>
+                    <TextBlock  Grid.Row="2" Grid.Column="2" Text="{Binding ConverterParameter='LOTID',   Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}" HorizontalAlignment="Right"/>
+                    <c1:C1ComboBox  x:Name="cboArea"             Grid.Row="1" Grid.Column="1"  Style="{StaticResource C1ComboBoxStyle}" AutoComplete="False" Width="200" HorizontalAlignment="Left" />
+                    <c1:C1ComboBox  x:Name="cboEquipmentSegment" Grid.Row="1" Grid.Column="3"  Style="{StaticResource C1ComboBoxStyle}" AutoComplete="False" Width="200" HorizontalAlignment="Left"/>
+                    <c1:C1ComboBox  x:Name="cboProcess"          Grid.Row="1" Grid.Column="5"  Style="{StaticResource C1ComboBoxStyle}" AutoComplete="False" Width="200" HorizontalAlignment="Left"/>
+                    <c1:C1ComboBox  x:Name="cboEquipment"        Grid.Row="1" Grid.Column="7"  Style="{StaticResource C1ComboBoxStyle}" AutoComplete="False" Width="200" HorizontalAlignment="Left"/>
+
+                    <StackPanel Orientation="Horizontal"  Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="3">
+                        <ctrlLib:LGCDatePicker DatepickerType="Date" x:Name="dtpDateFrom"  />
+                        <TextBlock  Text="~" Style="{StaticResource Content_InputForm_LabelStyle}" Margin="3,0,3,0"/>
+                        <ctrlLib:LGCDatePicker DatepickerType="Date" x:Name="dtpDateTo" />
+                    </StackPanel>
+                    <TextBox Grid.Row="2"  Grid.Column="3" x:Name="txtLotID" CharacterCasing="Upper"  Style="{StaticResource SearchCondition_TextBoxStyle}" Width="200" HorizontalAlignment="Left"/>
+                    <!--조회 버튼-->
+                    <Button         x:Name="btnSearch"  Grid.Row="2" Grid.Column="13" Content="{Binding ConverterParameter=SEARCH, Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource SearchButtonStyle}" Cursor="Hand" Click="btnSearch_Click" />
+
+                </Grid>
+
+                <!--LOT 리스트-->
+                <Grid Grid.Row="2" Grid.Column="1">
+
+                    <!--백그라운드용-->
+                    <Border Grid.Row="2" Grid.Column="0" Grid.RowSpan="99" Grid.ColumnSpan="99" Style="{StaticResource Content_InputForm_ContentBorderStyle}"/>
+
+                    <c1:C1DataGrid x:Name="dgNote" Grid.Row="1" Grid.ColumnSpan="3" ColumnHeaderHeight="50" IsReadOnly="False" HeadersVisibility="Column" SelectionMode="MultiRange"  Margin="8,8,8,8" LoadedCellPresenter="dgNote_LoadedCellPresenter" MouseDoubleClick="dgNote_MouseDoubleClick" UnloadedCellPresenter="dgNote_UnloadedCellPresenter">
+                        <c1:C1DataGrid.Columns>
+                            <c1:DataGridTextColumn      Header = "LOTID"                  Binding = "{Binding LOTID}"               HorizontalAlignment="Center"  ctrlLib:DataGridMergeExtension.MergeMode="VERTICAL"/>
+                            <c1:DataGridTextColumn      Header = "극성"                   Binding = "{Binding ELEC_TYPE}"           HorizontalAlignment="Center"  />
+                            <c1:DataGridTextColumn      Header = "PJT"                    Binding = "{Binding PRJT_NAME}"           HorizontalAlignment="Center"  />
+                            <c1:DataGridTextColumn      Header = "제품ID"                 Binding = "{Binding PRODID}"              HorizontalAlignment="Center"  />
+                            <c1:DataGridTextColumn      Header = "FastTrack등록일시"      Binding = "{Binding FAST_TRACK_REG_DTTM}" HorizontalAlignment="Center" />
+                            <c1:DataGridTextColumn      Header = "QMS결과입력일시"        Binding = "{Binding QMS_RSLT_INPUT_DTTM}" HorizontalAlignment="Center" />
+                            <c1:DataGridTextColumn      Header = "설비"                   Binding = "{Binding EQPTNAME}"            HorizontalAlignment="Center"  />
+                            <c1:DataGridTextColumn      Header = "설비ID"                 Binding = "{Binding EQPTID}"              HorizontalAlignment="Center"   Visibility="Collapsed" />
+                            <c1:DataGridTextColumn      Header = "착공시간"               Binding = "{Binding WIPDTTM_ST}"          HorizontalAlignment="Center" />
+                            <c1:DataGridTextColumn      Header = "완공시간"               Binding = "{Binding WIPDTTM_ED}"          HorizontalAlignment="Center" />
+                            <c1:DataGridTextColumn      Header = "Hold여부"               Binding = "{Binding WIPHOLD}"             HorizontalAlignment="Center" />
+                            <c1:DataGridTextColumn      Header = "Hold비고"               Binding = "{Binding HOLD_NOTE}"           HorizontalAlignment="Center" />
+                            <c1:DataGridTextColumn      Header = "Wrinkle Y/N"            Binding = "{Binding WRIN_FLAG}"           HorizontalAlignment="Center" />
+                            <c1:DataGridTextColumn      Header = "Diagonal/Straight"      Binding = "{Binding WRIN_ATTR01}"         HorizontalAlignment="Center" />
+                            <c1:DataGridTextColumn      Header = "On foil/coating"        Binding = "{Binding WRIN_ATTR02}"         HorizontalAlignment="Center" />
+                            <c1:DataGridTextColumn      Header = "OS/DS Side"             Binding = "{Binding WRIN_ATTR03}"         HorizontalAlignment="Center" />
+                            <c1:DataGridTextColumn      Header = "Other"                  Binding = "{Binding NOTE}"                HorizontalAlignment="Center" />
+                            <c1:DataGridTextColumn      Header = "CMCODE_CT1"             Binding = "{Binding CMCODE_CT1}"          HorizontalAlignment="Center" Visibility="Collapsed"/>
+                            <c1:DataGridTextColumn      Header = "CMCODE_CT2"             Binding = "{Binding CMCODE_CT2}"          HorizontalAlignment="Center" Visibility="Collapsed"/>
+                            <c1:DataGridTextColumn      Header = "CMCODE_CT3"             Binding = "{Binding CMCODE_CT3}"          HorizontalAlignment="Center" Visibility="Collapsed"/>
+                            <c1:DataGridTextColumn      Header = "LOTID(R/P)"             Binding = "{Binding LOTID_RP}"            HorizontalAlignment="Center" />
+                            <c1:DataGridTextColumn      Header = "설비(R/P)"              Binding = "{Binding EQPTNAME_RP}"         HorizontalAlignment="Center" />
+                            <c1:DataGridTextColumn      Header = "설비ID(R/P)"            Binding = "{Binding EQPTID_RP}"           HorizontalAlignment="Center"  Visibility="Collapsed" />
+                            <c1:DataGridTextColumn      Header = "착공시간(R/P)"          Binding = "{Binding WIPDTTM_ST_RP}"       HorizontalAlignment="Center" />
+                            <c1:DataGridTextColumn      Header = "완공시간(R/P)"          Binding = "{Binding WIPDTTM_ED_RP}"       HorizontalAlignment="Center" />
+                            <c1:DataGridTextColumn      Header = "Hold여부(R/P)"          Binding = "{Binding WIPHOLD_RP}"          HorizontalAlignment="Center" />
+                            <c1:DataGridTextColumn      Header = "Hold비고(R/P)"          Binding = "{Binding HOLD_NOTE_RP}"        HorizontalAlignment="Center" />
+                            <c1:DataGridTextColumn      Header = "Delay Y/N(R/P)"         Binding = "{Binding DELAY_FLAG_RP}"       HorizontalAlignment="Center" />
+                            <c1:DataGridTextColumn      Header = "Delay 비고(R/P)"        Binding = "{Binding DELAY_NOTE_RP}"       HorizontalAlignment="Center" />
+                            <c1:DataGridTextColumn      Header = "Wrinkle Y/N(R/P)"       Binding = "{Binding WRIN_FLAG_RP}"        HorizontalAlignment="Center" />
+                            <c1:DataGridTextColumn      Header = "Wrinkle Diagonal/Straight(R/P)" Binding = "{Binding WRIN_ATTR01_RP}" HorizontalAlignment="Center" />
+                            <c1:DataGridTextColumn      Header = "On foil/coating(R/P)"   Binding = "{Binding WRIN_ATTR02_RP}"      HorizontalAlignment="Center" />
+                            <c1:DataGridTextColumn      Header = "OS/DS Side(R/P)"        Binding = "{Binding WRIN_ATTR03_RP}"      HorizontalAlignment="Center" />
+                            <c1:DataGridTextColumn      Header = "Other(R/P)"             Binding = "{Binding NOTE_RP}"             HorizontalAlignment="Center" />
+                            <c1:DataGridTextColumn      Header = "CMCODE_RP1"             Binding = "{Binding CMCODE_RP1}"          HorizontalAlignment="Center" Visibility="Collapsed"/>
+                            <c1:DataGridTextColumn      Header = "CMCODE_RP2"             Binding = "{Binding CMCODE_RP2}"          HorizontalAlignment="Center" Visibility="Collapsed"/>
+                            <c1:DataGridTextColumn      Header = "CMCODE_RP3"             Binding = "{Binding CMCODE_RP3}"          HorizontalAlignment="Center" Visibility="Collapsed"/>
+                            <c1:DataGridTextColumn      Header = "LOTID(S/L)"             Binding = "{Binding LOTID_SL}"            HorizontalAlignment="Center" />
+                            <c1:DataGridTextColumn      Header = "설비(S/L)"              Binding = "{Binding EQPTNAME_SL}"         HorizontalAlignment="Center" />
+                            <c1:DataGridTextColumn      Header = "설비ID(S/L)"            Binding = "{Binding EQPTID_SL}"           HorizontalAlignment="Center" Visibility="Collapsed" />
+                            <c1:DataGridTextColumn      Header = "착공시간(S/L)"          Binding = "{Binding WIPDTTM_ST_SL}"       HorizontalAlignment="Center" />
+                            <c1:DataGridTextColumn      Header = "완공시간(S/L)"          Binding = "{Binding WIPDTTM_ED_SL}"       HorizontalAlignment="Center" />
+                            <c1:DataGridTextColumn      Header = "Hold여부(S/L)"          Binding = "{Binding WIPHOLD_SL}"          HorizontalAlignment="Center" />
+                            <c1:DataGridTextColumn      Header = "Hold비고(S/L)"          Binding = "{Binding HOLD_NOTE_SL}"        HorizontalAlignment="Center" />
+                            <c1:DataGridTextColumn      Header = "Delay Y/N(S/L)"         Binding = "{Binding DELAY_FLAG_SL}"       HorizontalAlignment="Center" />
+                            <c1:DataGridTextColumn      Header = "Delay 비고(S/L)"        Binding = "{Binding DELAY_NOTE_SL}"       HorizontalAlignment="Center" />
+                            <c1:DataGridTextColumn      Header = "Other(S/L)"             Binding = "{Binding NOTE_SL}"             HorizontalAlignment="Center" />
+
+                        </c1:C1DataGrid.Columns>
+                    </c1:C1DataGrid>
+                </Grid>
+
+            </Grid>
+        </ctrlLib:LGCLayout>
+
+        <ctrlLib:LoadingIndicator x:Name="loadingIndicator" Grid.Row="999" Grid.Column="999" />
+    </Grid>
+</UserControl>

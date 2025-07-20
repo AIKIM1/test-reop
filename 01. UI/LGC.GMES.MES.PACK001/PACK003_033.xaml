@@ -1,0 +1,220 @@
+﻿<UserControl xmlns:ss="http://schemas.grapecity.com/windows/spreadsheet/2012" x:Class="LGC.GMES.MES.PACK001.PACK003_033"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:c1="http://schemas.componentone.com/winfx/2006/xaml"
+             xmlns:ctrlLib="clr-namespace:LGC.GMES.MES.ControlsLibrary;assembly=LGC.GMES.MES.ControlsLibrary"
+             xmlns:Controls="clr-namespace:LGC.GMES.MES.PACK001.Controls"
+             mc:Ignorable="d"
+             d:DesignHeight="768" d:DesignWidth="1024" Loaded="UserControl_Loaded">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/LGC.GMES.MES.ControlsLibrary;component/ControlStyles.xaml" />
+                <ResourceDictionary Source="/LGC.GMES.MES.ControlsLibrary;component/ControlTemplates/LGCDatePicker.xaml" />
+            </ResourceDictionary.MergedDictionaries> 
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid>
+        <ctrlLib:LGCLayout x:Name="LayoutRoot" Tag="MEB 충방전 창고/렉 위치별 제공 현황 조회">
+            <!-- content start -->
+            <Grid x:Name="Content">  
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="8" />
+                    <RowDefinition Height="40" />
+                    <RowDefinition Height="0" />
+                    <RowDefinition Height="0" />
+                    <RowDefinition Height="40" />
+                    <RowDefinition Height="40" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="8" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="73*" />
+                    <ColumnDefinition Width="8" />
+                    <ColumnDefinition Width="27*" />
+                </Grid.ColumnDefinitions>
+                <!-- main start -->
+                <Border Grid.Row="0" Grid.Column="0" Grid.RowSpan="2" BorderThickness="1,1,1,1" Style="{StaticResource BorderSubTitleStyle}" />
+                <TextBlock Grid.Row="0" Grid.Column="0" Grid.RowSpan="2" Style="{StaticResource Content_ModuleTitleStyle}">
+                    <Run Text="{Binding ConverterParameter='창고/렉 모니터링', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" />
+                </TextBlock>
+                <Border Grid.Row="3" Grid.Column="0" Grid.RowSpan="2" BorderThickness="1,0,1,1" Style="{StaticResource Condition_BorderStyle}" />
+                <Grid Grid.Row="3" Grid.Column="0" Grid.RowSpan="2">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="8" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="8" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="8" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="8" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="8" />
+                        </Grid.ColumnDefinitions>
+                        
+                        <TextBlock     Grid.Row="0" Grid.Column="1" Text="{Binding ConverterParameter='AREA', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}" />
+                        <c1:C1ComboBox Grid.Row="0" Grid.Column="2" x:Name="cboArea" DisplayMemberPath="CBO_NAME" SelectedValuePath="CBO_CODE" Style="{StaticResource C1ComboBoxStyle}" AutoComplete="True"   Tag="SNAP_AREA" />
+                        
+                        <TextBlock     Grid.Row="0" Grid.Column="4" Text="{Binding ConverterParameter='WH_ID', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}" />
+                        <c1:C1ComboBox Grid.Row="0" Grid.Column="5" x:Name="cboWhId" DisplayMemberPath="CBO_NAME" SelectedValuePath="CBO_CODE" Style="{StaticResource C1ComboBoxStyle}" AutoComplete="True"   Tag="SNAP_WHID" />
+
+                        <StackPanel Grid.Row="0"  Grid.Column="7" Orientation="Horizontal" HorizontalAlignment="Left">
+                            <TextBlock Text="{Binding ConverterParameter='자동조회', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}" HorizontalAlignment="Right" VerticalAlignment="Center" />
+                        </StackPanel>
+                        <c1:C1ComboBox  Grid.Row="0"  Grid.Column="8" x:Name="cboAutoSearch" Style="{StaticResource C1ComboBoxStyle}" DisplayMemberPath="CBO_NAME" SelectedValuePath="CBO_CODE" SelectedValueChanged="cboAutoSearch_SelectedValueChanged"/>
+
+                        <Button Grid.Column="13" x:Name="btnSearch" Content="{Binding ConverterParameter=SEARCH, Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource SearchButtonStyle}" Click="btnSearch_Click" />
+                    </Grid>
+                </Grid>
+
+                <Border Grid.Row="5" Grid.Column="0" Grid.RowSpan="2" BorderThickness="1,0,0,1" BorderBrush="#ffbebebe" Style="{StaticResource BorderSubTitleStyle}" />
+                <Grid  x:Name="grbMain" Grid.Row="5" Grid.Column="0" Grid.RowSpan="2">
+                    <ScrollViewer VerticalScrollBarVisibility="Auto"  HorizontalScrollBarVisibility="Disabled">
+                        <Border Grid.Row="1" Background="#e8ebed" BorderThickness="1" BorderBrush="#8a8a8a" Padding="2">
+                            <!-- grdMain start -->
+                            <Grid Background="AliceBlue" x:Name="grdMain" Grid.Column="3" Grid.Row="0" Grid.RowSpan="3">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="685*"/>
+                                    <ColumnDefinition Width="51*"/>
+                                </Grid.ColumnDefinitions>
+                            </Grid>
+                            <!-- grdMain end -->
+                        </Border>
+                    </ScrollViewer>
+                </Grid>                
+                <!-- main end -->
+                <!-- alert popup start -->
+                <Popup x:Name="popupAlert" IsOpen="False" AllowsTransparency="True" PopupAnimation="None"  Height="Auto">
+                    <Border BorderBrush="#ffbebebe" BorderThickness="3">
+                        <Grid x:Name="grdPopupAlert">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="0" />
+                                <!-- Title -->
+                                <RowDefinition Height="0" />
+                                <RowDefinition Height="0" />
+                                <!-- Grid -->
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="0" />
+                                <RowDefinition Height="0" />
+                                <!-- Bottom -->
+                                <RowDefinition Height="0" />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="8" />
+                                <ColumnDefinition Width="240" />
+                                <ColumnDefinition Width="8" />
+                            </Grid.ColumnDefinitions>
+
+                            <Border Grid.Row="0" Grid.Column="0" Grid.RowSpan="7" Grid.ColumnSpan="3" BorderBrush="#ffbebebe" Style="{StaticResource BorderSubTitleStyle}" />
+                            <!--Title-->
+                            <Grid x:Name="grdTitleAlert" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="1">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="2" />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <DockPanel Name="pnlTitleTransferConfirm" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                    <TextBlock x:Name="txtTitleTransferCancel" DockPanel.Dock="Left" Style="{StaticResource Content_ModuleTitleStyle}" VerticalAlignment="Center" HorizontalAlignment="Left">
+						<Run Text="{Binding ConverterParameter='alert', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" />
+                                    </TextBlock>
+                                </DockPanel>
+                                <Border BorderBrush="#ffaaaaaa" Grid.Column="1" BorderThickness="1" Width="32" Height="32">
+                                    <Image x:Name="imgCloseTransferCancel" Stretch="Fill" Width="16" Height="16" Source="/LGC.GMES.MES.ControlsLibrary;Component/Images/LGC/title_btn_i_close.png" MouseLeftButtonUp="Image_MouseLeftButtonUp" />
+                                </Border>
+                                <Border BorderBrush="#ffaaaaaa" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" BorderThickness="1" />
+                            </Grid>
+
+                            <!--Comment 1 -->
+                            <TextBlock x:Name="txtMessageAlert" Grid.Row="3" Grid.Column="1"
+					   TextWrapping="WrapWithOverflow"
+					   Style="{StaticResource Content_InputForm_TextBlockStyle}"
+					   HorizontalAlignment="Left" VerticalAlignment="Center"
+					   Text="statements" />
+                            <!--Bottom-->
+                            <Grid x:Name="grdBottomAlert" Grid.Row="6" Grid.Column="1">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="2" />
+                                    <RowDefinition Height="10*" />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <Border Grid.Row="0" Grid.ColumnSpan="2" BorderBrush="#ffaaaaaa" BorderThickness="1" />
+                                <Grid Grid.Row="1">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="8" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="8" />
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="8" />
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="8" />
+                                    </Grid.ColumnDefinitions>
+                                    <Button x:Name="btnHideConfirm" Grid.Column="6" Content="{Binding ConverterParameter='닫기', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{DynamicResource Content_MainButtonStyle}" Click="btnHideConfirm_Click" />
+                                </Grid>
+                            </Grid>
+                        </Grid>
+                    </Border>
+                </Popup>
+                <!-- alert popup end -->
+                <!-- detail start -->
+                <Border Grid.Row="0" Grid.Column="2" Grid.RowSpan="2" BorderThickness="1,1,1,1" Style="{StaticResource BorderSubTitleStyle}" />
+                <TextBlock Grid.Row="0" Grid.Column="2" Grid.RowSpan="2" Style="{StaticResource Content_ModuleTitleStyle}">
+					<Run Text="{Binding ConverterParameter='Rack정보', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" />
+                </TextBlock>
+
+                <Border Grid.Row="3" Grid.Column="2" Grid.RowSpan="2" BorderThickness="1,0,1,1" Style="{StaticResource BorderSubTitleStyle}" />
+                <Grid Grid.Row="3" Grid.Column="2" Grid.RowSpan="2">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="3*" />
+                            <ColumnDefinition Width="7*" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" x:Name="txtGridRowCount" Text="[ 0 건 ]" Style="{StaticResource Content_InputForm_LabelStyle}" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0,0,0" />
+                        <TextBlock Grid.Column="1" Style="{StaticResource Content_ModuleTitleStyle}" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,10,0" >
+				        	<Run Text="{Binding ConverterParameter='LOT목록', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" />
+                        </TextBlock>
+                    </Grid>
+                </Grid>
+
+                <Border Grid.Row="5" Grid.Column="2" Grid.RowSpan="2" BorderBrush="#ffbebebe" Style="{StaticResource BorderSubTitleStyle}">
+                    <!-- grdDetail start -->
+                    <c1:C1DataGrid Grid.Row="2" Grid.Column="1"
+                                       x:Name="grdDetail"
+                                       HeadersVisibility="Column"
+                                       SelectionMode="SingleCell"
+                                       VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Auto">
+                        <c1:C1DataGrid.Columns>
+                            <c1:DataGridTextColumn Width="300" Header="그룹ID"           Binding="{Binding GR_ID}"       HorizontalAlignment="Left" IsReadOnly="True" />
+                            <c1:DataGridTextColumn Width="150" Header="RACKID"           Binding="{Binding RACK_ID}"       HorizontalAlignment="Left" IsReadOnly="True" />
+                            <c1:DataGridTextColumn Width="170" Header="LOTID"           Binding="{Binding LOTID}"       HorizontalAlignment="Left" IsReadOnly="True" />
+                            <c1:DataGridTextColumn Width="Auto" Header="OCV_CHG_DAY"         Binding="{Binding OCV_CHG_DAY}"          HorizontalAlignment="Center" IsReadOnly="True" />
+                            <c1:DataGridTextColumn Width="100" Header="제품ID"         Binding="{Binding PRODID}"          HorizontalAlignment="Center" IsReadOnly="True" />
+                            <c1:DataGridTextColumn Width="70" Header="재공상태"         Binding="{Binding WIPSTAT}"          HorizontalAlignment="Center" IsReadOnly="True" />
+                            
+                        </c1:C1DataGrid.Columns>
+                    </c1:C1DataGrid>
+                    <!-- grdDetail end -->
+                </Border>
+                <GridSplitter Grid.Column="1" Grid.RowSpan="7" ResizeDirection="Columns" ShowsPreview="True" Style="{StaticResource GridSplitterStyle}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" />
+                <!-- detail end -->
+            </Grid>
+            <!-- content end -->
+        </ctrlLib:LGCLayout>
+        <ctrlLib:LoadingIndicator x:Name="loadingIndicator" Grid.Row="999" Grid.Column="999" />
+    </Grid>
+</UserControl>

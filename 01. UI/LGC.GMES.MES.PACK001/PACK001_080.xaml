@@ -1,0 +1,366 @@
+﻿<UserControl xmlns:ss="http://schemas.grapecity.com/windows/spreadsheet/2012"  x:Class="LGC.GMES.MES.PACK001.PACK001_080"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:c1="http://schemas.componentone.com/winfx/2006/xaml"
+             xmlns:ctrlLib="clr-namespace:LGC.GMES.MES.ControlsLibrary;assembly=LGC.GMES.MES.ControlsLibrary"
+             mc:Ignorable="d" 
+             d:DesignHeight="768" d:DesignWidth="1024" Loaded="UserControl_Loaded" >
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/LGC.GMES.MES.ControlsLibrary;component/ControlStyles.xaml" />
+                <ResourceDictionary Source="/LGC.GMES.MES.ControlsLibrary;component/ControlTemplates/LGCDatePicker.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid x:Name="grdMain">
+        <ctrlLib:LGCLayout x:Name="LayoutRoot" Tag="B2Bi 전송 정보 조회">
+
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="5" />
+                    <RowDefinition Height="70"/>
+                    <RowDefinition Height="5" />
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="5" />
+                    <RowDefinition Height="1*"/>
+                </Grid.RowDefinitions>
+
+                <Border Grid.Row="0" Grid.RowSpan="6" Style="{StaticResource Condition_BorderStyle}"/>
+                <Grid Grid.Row="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30" />
+                        <RowDefinition Height="2" />
+                        <RowDefinition Height="30*" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="5" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="5" />
+                    </Grid.ColumnDefinitions>
+
+                    <!--백그라운드용-->
+                    <Border Grid.RowSpan="3" Grid.Column="1" Style="{StaticResource Content_InputForm_LabelBorderStyle}"/>
+
+                    <!--1row-->
+                    <Grid Grid.Row="0" Grid.Column="1" >
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="5" />
+                            <ColumnDefinition Width="96" />
+                            <ColumnDefinition Width="5" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="5" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="5" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="5" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="5" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="5" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="5" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="5" />
+                            <ColumnDefinition Width="60*" />
+                            <ColumnDefinition Width="5" />
+                        </Grid.ColumnDefinitions>
+
+                        <!--출하처-->
+                        <TextBlock             Grid.Column="1" Text="{Binding ConverterParameter='출하처', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}"/>
+                        <c1:C1ComboBox         Grid.Column="3" x:Name="cboB2BiShipTo" Style="{StaticResource C1ComboBoxStyle}" AutoComplete="False" />
+
+                        <!--라인-->
+                        <TextBlock              Grid.Column="5" Text="{Binding ConverterParameter='라인',      Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}" HorizontalAlignment="Right" />
+                        <c1:C1ComboBox          Grid.Column="7" x:Name="cboLine" Style="{StaticResource C1ComboBoxStyle}" AutoComplete="False"  VerticalAlignment="Center" SelectedItemChanged="cboLine_SelectedItemChanged"/>
+
+                        <!--제품코드-->
+                        <TextBlock              Grid.Column="9" Text="{Binding ConverterParameter='제품코드',      Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}" HorizontalAlignment="Right" />
+                        <c1:C1ComboBox          Grid.Column="11" x:Name="cboProduct" Style="{StaticResource C1ComboBoxStyle}" AutoComplete="False" VerticalAlignment="Center"/>
+
+                        <!--B2BI 전송 여부-->
+                        <TextBlock              Grid.Column="13" Text="{Binding ConverterParameter='I/F 여부',      Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}" HorizontalAlignment="Right" />
+                        <c1:C1ComboBox          Grid.Column="15" x:Name="cboIfFlag" Style="{StaticResource C1ComboBoxStyle}" AutoComplete="False" VerticalAlignment="Center"/>
+                    </Grid>
+
+                    <!--2row-->
+                    <Grid Grid.Row="2" Grid.Column="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="5" />
+                            <ColumnDefinition Width="96" />
+                            <ColumnDefinition Width="5" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="5" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="140" />
+                            <ColumnDefinition Width="5" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="5*" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="5" />
+                        </Grid.ColumnDefinitions>
+
+                        <!--포장 일시-->
+                        <TextBlock               Grid.Column="1" Text="{Binding ConverterParameter='출고 일시',      Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}" HorizontalAlignment="Right" />
+
+                        <!--DATE(DATEPICKER)-->
+                        <ctrlLib:LGCDatePicker   Grid.Column="3" x:Name="dtpDateFrom" DatepickerType="Date"  HorizontalAlignment="Stretch" Height="Auto" VerticalAlignment="Center"/>
+                        <!--TODATE(TEXTBLOCK)-->
+                        <TextBlock               Grid.Column="4" Text=" ~ " HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        <!--TODATE(DATEPICKER)-->
+                        <ctrlLib:LGCDatePicker   Grid.Column="5" x:Name="dtpDateTo" DatepickerType="Date"  HorizontalAlignment="Stretch" Height="Auto" VerticalAlignment="Center"/>
+
+                        <!--팔레트ID-->
+                        <TextBlock               Grid.Column="7" Text="{Binding ConverterParameter='PALLETID',      Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}" HorizontalAlignment="Right" />
+                        <TextBox                 Grid.Column="8" x:Name="txtPalletId" Width="Auto" Style="{StaticResource TextBoxBaseStyle}" KeyDown="txtPalletId_KeyDown"  />
+
+                        <!--오류 항목 만-->
+                        <CheckBox                Grid.Column="11" x:Name="chkViewErrOnly" Content="View Error Only" HorizontalAlignment="Left" Margin="10,11,0,0" VerticalAlignment="Top" IsChecked="True" Click="chkViewErrOnly_Click"/>
+                        <!--조회 버튼-->
+                        <Button                  Grid.Column="12" x:Name="btnSearch" Content="{Binding ConverterParameter=Search, Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource SearchButtonStyle}" Cursor="Hand" Click="btnSearch_Click" />
+
+
+                    </Grid>
+                </Grid>
+
+
+                <!--대상목록-->
+                <Grid Grid.Row="3">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="34"/>
+                        <RowDefinition Height="34"/>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="5" />
+                    </Grid.RowDefinitions>
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="5"/>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="5"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Border Grid.Row="0" Grid.ColumnSpan="3" Style="{StaticResource Content_InputForm_ContentBorderStyle}"/>
+                    <Border Grid.Row="0" Grid.ColumnSpan="3" BorderThickness="1" Grid.Column="0" BorderBrush="#ffbebebe" Style="{StaticResource BorderSubTitleStyle}"/>
+                    <Border Grid.Row="1" Grid.ColumnSpan="3" Grid.RowSpan="3" Grid.Column="0" Background="#fff2f2f2" BorderThickness="1" BorderBrush="#ffd1d1d1"></Border>
+
+                    <TextBlock Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left" Style="{StaticResource Content_ModuleTitleStyle}"><Run Text="{Binding ConverterParameter=조회 결과, Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}"/></TextBlock>
+
+                    <Grid Grid.Row="1" Grid.Column="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="50*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="5" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="5" />
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Grid.Column="0" x:Name="tbRowDataHeaderCount"  Text="[ 0 건 ]" Style="{StaticResource Content_InputForm_LabelStyle}" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                        <!--예외처리 버튼-->
+                        <Button    Grid.Column="2" x:Name="btnExcept" Content="{Binding ConverterParameter='제외', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_MainButtonNoMinWidthSpecialStyle}" Cursor="Hand" Click="btnExcept_Click" Visibility="Collapsed" />
+                        <!--재생성 버튼-->
+                        <Button    Grid.Column="4" x:Name="btnReMake" Content="{Binding ConverterParameter='재생성', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_MainButtonNoMinWidthSpecialStyle}" Cursor="Hand" Click="btnReMake_Click" />
+                    </Grid>
+
+                    <Border Grid.Row="1" Grid.Column="1" Style="{StaticResource Condition_Header_BorderStyle}"/>
+
+                    <c1:C1DataGrid Grid.Row="2" Grid.Column="1" x:Name="dgRowdataHd" HeadersVisibility="None"  FrozenColumnCount="7" SelectionMode="MultiRange" CanUserRemoveRows="True" CanUserAddRows="True" MouseDoubleClick="dgCellList_MouseDoubleClick"  FrozenTopRowsCount="1" LoadedCellPresenter="dgRowdataHd_LoadedCellPresenter" >
+                        <c1:C1DataGrid.TopRows>
+                            <c1:DataGridColumnHeaderRow/>
+                        </c1:C1DataGrid.TopRows>
+
+                        <c1:C1DataGrid.Columns>
+                            <c1:DataGridCheckBoxColumn x:Name="ChkOption" Binding = "{Binding CHK, Mode=TwoWay}" Width="Auto"  HorizontalAlignment="Center" CanUserSort="False"  >
+                                <c1:DataGridCheckBoxColumn.Header>
+                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"  >
+                                        <CheckBox x:Name="chkHeaderAll" Margin="0" Width="19" Checked="chkHeaderAll_Checked" Unchecked="chkHeaderAll_Unchecked" ></CheckBox>
+                                    </StackPanel>
+                                </c1:DataGridCheckBoxColumn.Header>
+                            </c1:DataGridCheckBoxColumn>
+                            <c1:DataGridCheckBoxColumn Header = "선택"                Binding = "{Binding CHK}"                  HorizontalAlignment="Center" Width="40" Visibility="Collapsed" />
+                            <c1:DataGridTextColumn Header = "출하처"                  Binding = "{Binding SHIPTO_NAME}"          HorizontalAlignment="Center" Width="Auto" IsReadOnly="True" CanUserFilter="True" CanUserSort="True" CanUserResize="True"/>
+                            <c1:DataGridTextColumn Header = "라인"                    Binding = "{Binding EQSGNAME}"             HorizontalAlignment="Center" Width="Auto" IsReadOnly="True" CanUserFilter="True" CanUserSort="True" CanUserResize="True"/>
+                            <c1:DataGridTextColumn Header = "제품코드"                Binding = "{Binding PRODID}"               HorizontalAlignment="Center" Width="Auto" IsReadOnly="True" CanUserFilter="True" CanUserSort="True" CanUserResize="True"/>
+                            <c1:DataGridTextColumn Header = "PALLET ID"               Binding = "{Binding BOXID}"                HorizontalAlignment="Center" Width="Auto" IsReadOnly="True" CanUserFilter="True" CanUserSort="True" CanUserResize="True"/>
+                            <c1:DataGridTextColumn Header = "출고 ID"                 Binding = "{Binding RCV_ISS_ID}"           HorizontalAlignment="Center" Width="Auto" IsReadOnly="True" CanUserFilter="True" CanUserSort="True" CanUserResize="True"/>
+                            <c1:DataGridTextColumn Header = "출고 일시"               Binding = "{Binding ISS_DTTM}"             HorizontalAlignment="Center" Width="Auto" IsReadOnly="True" CanUserFilter="True" CanUserSort="True" CanUserResize="True"/>
+                            <c1:DataGridTextColumn Header = "Product Count"           Binding = "{Binding TRNF_KEY07}"           HorizontalAlignment="Center" Width="Auto" IsReadOnly="True" CanUserFilter="True" CanUserSort="True" CanUserResize="True"/>
+                            <c1:DataGridTextColumn Header = "Row Count"               Binding = "{Binding TRNF_KEY10}"           HorizontalAlignment="Center" Width="Auto" IsReadOnly="True" CanUserFilter="True" CanUserSort="True" CanUserResize="True"/>
+                            <c1:DataGridTextColumn Header = "Err Row Count"           Binding = "{Binding MAND_ERR_CNT}"         HorizontalAlignment="Center" Width="Auto" IsReadOnly="True" CanUserFilter="True" CanUserSort="True" CanUserResize="True"/>
+                            <c1:DataGridTextColumn Header = "데이터 생성 일자"        Binding = "{Binding INSDTTM}"              HorizontalAlignment="Center" Width="Auto" IsReadOnly="True" CanUserFilter="True" CanUserSort="True" CanUserResize="True"/>
+                            <c1:DataGridTextColumn Header = "데이터 변경 일자"        Binding = "{Binding UPDDTTM}"              HorizontalAlignment="Center" Width="Auto" IsReadOnly="True" CanUserFilter="True" CanUserSort="True" CanUserResize="True"/>
+                            <c1:DataGridTextColumn Header = "UPDUSERID"               Binding = "{Binding UPDUSER}"              HorizontalAlignment="Center" Width="Auto" IsReadOnly="True" CanUserFilter="True" CanUserSort="True" CanUserResize="True"/>
+                            <c1:DataGridTextColumn Header = "OWMS DO NO"              Binding = "{Binding TRNF_KEY01}"           HorizontalAlignment="Center" Width="Auto" IsReadOnly="True" CanUserFilter="True" CanUserSort="True" CanUserResize="True" Visibility="Collapsed"/>
+                            <c1:DataGridTextColumn Header = "상태"                    Binding = "{Binding IF_STATUS}"            HorizontalAlignment="Center" Width="Auto" IsReadOnly="True" CanUserFilter="True" CanUserSort="True" CanUserResize="True"/>
+                            <c1:DataGridTextColumn Header = "B2BI 전송 일자"          Binding = "{Binding B2BI_IF_GNRT_DTTM}"    HorizontalAlignment="Center" Width="Auto" IsReadOnly="True" CanUserFilter="True" CanUserSort="True" CanUserResize="True"/>
+                            <c1:DataGridTextColumn Header = "PROGRAM_ID"              Binding = "{Binding CUST_TRNF_PGM_ID}"     HorizontalAlignment="Center" Width="Auto" IsReadOnly="True" CanUserFilter="True" CanUserSort="True" CanUserResize="True"/>
+                            <c1:DataGridTextColumn Header = "IF_ID"                   Binding = "{Binding IF_ID}"                HorizontalAlignment="Center" Width="Auto" IsReadOnly="True" CanUserFilter="True" CanUserSort="True" CanUserResize="True"/>
+                            <c1:DataGridTextColumn Header = "CUST_DATA_TRNF_FLAG"     Binding = "{Binding CUST_DATA_TRNF_FLAG}"  HorizontalAlignment="Center" Width="Auto" IsReadOnly="True" CanUserFilter="True" CanUserSort="True" CanUserResize="True"/>
+                            <c1:DataGridTextColumn Header = "파일명"                  Binding = "{Binding TRNF_KEY02}"           HorizontalAlignment="Center" Width="Auto" IsReadOnly="True" CanUserFilter="True" CanUserSort="True" CanUserResize="True"/>
+                            <c1:DataGridTextColumn Header = "TRNF_KEY03"              Binding = "{Binding TRNF_KEY03}"           HorizontalAlignment="Center" Width="*"    IsReadOnly="True" CanUserFilter="True" CanUserSort="True" CanUserResize="True" Visibility="Collapsed"/>
+                            <c1:DataGridTextColumn Header = "TRNF_KEY04"              Binding = "{Binding TRNF_KEY04}"           HorizontalAlignment="Center" Width="*"    IsReadOnly="True" CanUserFilter="True" CanUserSort="True" CanUserResize="True" Visibility="Collapsed"/>
+                            <c1:DataGridTextColumn Header = "TRNF_KEY05"              Binding = "{Binding TRNF_KEY05}"           HorizontalAlignment="Center" Width="*"    IsReadOnly="True" CanUserFilter="True" CanUserSort="True" CanUserResize="True" Visibility="Collapsed"/>
+                            <c1:DataGridTextColumn Header = "TRNF_KEY06"              Binding = "{Binding TRNF_KEY06}"           HorizontalAlignment="Center" Width="*"    IsReadOnly="True" CanUserFilter="True" CanUserSort="True" CanUserResize="True" Visibility="Collapsed"/>
+                            <c1:DataGridTextColumn Header = "TRNF_KEY08"              Binding = "{Binding TRNF_KEY08}"           HorizontalAlignment="Center" Width="*"    IsReadOnly="True" CanUserFilter="True" CanUserSort="True" CanUserResize="True" Visibility="Collapsed"/>
+                            <c1:DataGridTextColumn Header = "TRNF_KEY09"              Binding = "{Binding TRNF_KEY09}"           HorizontalAlignment="Center" Width="*"    IsReadOnly="True" CanUserFilter="True" CanUserSort="True" CanUserResize="True" Visibility="Collapsed"/>
+                        </c1:C1DataGrid.Columns>
+                    </c1:C1DataGrid>
+                </Grid>
+
+                <GridSplitter Grid.Row="4" ResizeDirection="Rows" ShowsPreview="True" Style="{StaticResource GridSplitterVerticalStyle}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" />
+
+
+                <Border Grid.Row="5" Grid.RowSpan="2" Grid.Column="0" Grid.ColumnSpan="2" Background="#fff2f2f2" BorderThickness="1" BorderBrush="#ffd1d1d1"></Border>
+
+                <Grid Grid.Row="6">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="5"/>
+                        <ColumnDefinition Width="1*"/>
+
+                        <ColumnDefinition Width="5"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="34"/>
+                        <RowDefinition Height="34"/>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="5"/>
+                    </Grid.RowDefinitions>
+
+                    <Border Grid.Row="0" Grid.ColumnSpan="3" Style="{StaticResource Content_InputForm_ContentBorderStyle}"/>
+                    <Border Grid.Row="0" Grid.ColumnSpan="3" BorderThickness="1" Grid.Column="0" BorderBrush="#ffbebebe" Style="{StaticResource BorderSubTitleStyle}"/>
+                    <Border Grid.Row="1" Grid.RowSpan="3" Grid.Column="0" Grid.ColumnSpan="3" Background="#fff2f2f2" BorderThickness="1" BorderBrush="#ffd1d1d1"></Border>
+
+                    <TextBlock Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left" Style="{StaticResource Content_ModuleTitleStyle}" Margin="15,9,0,8"><Run Text="{Binding ConverterParameter=상세보기, Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}"/></TextBlock>
+
+                    <Grid Grid.Row="1" Grid.Column="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="50*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="5" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Row="1" Grid.Column="0" x:Name="txtRowdataCount"  Text="[ 0 건 ]" Style="{StaticResource Content_InputForm_LabelStyle}" HorizontalAlignment="Left" VerticalAlignment="Center" />
+                        <!--액셀 저장 버튼-->
+                        <Button    Grid.Column="2" x:Name="btnSaveExcel" Content="{Binding ConverterParameter='Export',   Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{DynamicResource Content_ModuleButtonExcelExportStyle}" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,5,0,5" Click="btnSaveExcel_Click"/>
+                    </Grid>
+
+                    <Border Grid.Row="1" Grid.Column="1" Style="{StaticResource Condition_Header_BorderStyle}"/>
+
+                    <c1:C1DataGrid x:Name="dgRowdata" Grid.Row="2" Grid.Column="1" HeadersVisibility="None" FrozenColumnCount="1" SelectionMode="MultiRange" CanUserRemoveRows="True" CanUserAddRows="True" FrozenTopRowsCount="1" LoadedCellPresenter="dgRowdata_LoadedCellPresenter" >
+                        <c1:C1DataGrid.TopRows>
+                            <c1:DataGridColumnHeaderRow/>
+                        </c1:C1DataGrid.TopRows>
+
+                        <c1:C1DataGrid.Columns>
+                            <c1:DataGridTextColumn Header = "TRNF_VALUE01" Binding = "{Binding TRNF_VALUE01}" HorizontalAlignment="Center" Width="Auto" IsReadOnly="True" CanUserFilter="True" CanUserSort="False" CanUserResize="True"/>
+                            <c1:DataGridTextColumn Header = "TRNF_VALUE02" Binding = "{Binding TRNF_VALUE02}" HorizontalAlignment="Center" Width="Auto" IsReadOnly="True" CanUserFilter="True" CanUserSort="False" CanUserResize="True"/>
+                            <c1:DataGridTextColumn Header = "TRNF_VALUE03" Binding = "{Binding TRNF_VALUE03}" HorizontalAlignment="Center" Width="Auto" IsReadOnly="True" CanUserFilter="True" CanUserSort="False" CanUserResize="True"/>
+                            <c1:DataGridTextColumn Header = "TRNF_VALUE04" Binding = "{Binding TRNF_VALUE04}" HorizontalAlignment="Center" Width="Auto" IsReadOnly="True" CanUserFilter="True" CanUserSort="False" CanUserResize="True"/>
+                            <c1:DataGridTextColumn Header = "TRNF_VALUE05" Binding = "{Binding TRNF_VALUE05}" HorizontalAlignment="Center" Width="Auto" IsReadOnly="True" CanUserFilter="True" CanUserSort="False" CanUserResize="True"/>
+                            <c1:DataGridTextColumn Header = "TRNF_VALUE06" Binding = "{Binding TRNF_VALUE06}" HorizontalAlignment="Center" Width="Auto" IsReadOnly="True" CanUserFilter="True" CanUserSort="False" CanUserResize="True"/>
+                            <c1:DataGridTextColumn Header = "TRNF_VALUE07" Binding = "{Binding TRNF_VALUE07}" HorizontalAlignment="Center" Width="Auto" IsReadOnly="True" CanUserFilter="True" CanUserSort="False" CanUserResize="True"/>
+                            <c1:DataGridTextColumn Header = "TRNF_VALUE08" Binding = "{Binding TRNF_VALUE08}" HorizontalAlignment="Center" Width="Auto" IsReadOnly="True" CanUserFilter="True" CanUserSort="False" CanUserResize="True"/>
+                            <c1:DataGridTextColumn Header = "TRNF_VALUE09" Binding = "{Binding TRNF_VALUE09}" HorizontalAlignment="Center" Width="Auto" IsReadOnly="True" CanUserFilter="True" CanUserSort="False" CanUserResize="True"/>
+                            <c1:DataGridTextColumn Header = "TRNF_VALUE10" Binding = "{Binding TRNF_VALUE10}" HorizontalAlignment="Center" Width="Auto" IsReadOnly="True" CanUserFilter="True" CanUserSort="False" CanUserResize="True"/>
+                            <c1:DataGridTextColumn Header = "TRNF_VALUE11" Binding = "{Binding TRNF_VALUE11}" HorizontalAlignment="Center" Width="Auto" IsReadOnly="True" CanUserFilter="True" CanUserSort="False" CanUserResize="True"/>
+                            <c1:DataGridTextColumn Header = "TRNF_VALUE12" Binding = "{Binding TRNF_VALUE12}" HorizontalAlignment="Center" Width="Auto" IsReadOnly="True" CanUserFilter="True" CanUserSort="False" CanUserResize="True"/>
+                            <c1:DataGridTextColumn Header = "TRNF_VALUE13" Binding = "{Binding TRNF_VALUE13}" HorizontalAlignment="Center" Width="Auto" IsReadOnly="True" CanUserFilter="True" CanUserSort="False" CanUserResize="True"/>
+                            <c1:DataGridTextColumn Header = "TRNF_VALUE14" Binding = "{Binding TRNF_VALUE14}" HorizontalAlignment="Center" Width="Auto" IsReadOnly="True" CanUserFilter="True" CanUserSort="False" CanUserResize="True"/>
+                            <c1:DataGridTextColumn Header = "TRNF_VALUE15" Binding = "{Binding TRNF_VALUE15}" HorizontalAlignment="Center" Width="Auto" IsReadOnly="True" CanUserFilter="True" CanUserSort="False" CanUserResize="True"/>
+                            <c1:DataGridTextColumn Header = "TRNF_VALUE16" Binding = "{Binding TRNF_VALUE16}" HorizontalAlignment="Center" Width="Auto" IsReadOnly="True" CanUserFilter="True" CanUserSort="False" CanUserResize="True"/>
+                            <c1:DataGridTextColumn Header = "TRNF_VALUE17" Binding = "{Binding TRNF_VALUE17}" HorizontalAlignment="Center" Width="Auto" IsReadOnly="True" CanUserFilter="True" CanUserSort="False" CanUserResize="True"/>
+                            <c1:DataGridTextColumn Header = "TRNF_VALUE18" Binding = "{Binding TRNF_VALUE18}" HorizontalAlignment="Center" Width="Auto" IsReadOnly="True" CanUserFilter="True" CanUserSort="False" CanUserResize="True"/>
+                            <c1:DataGridTextColumn Header = "TRNF_VALUE19" Binding = "{Binding TRNF_VALUE19}" HorizontalAlignment="Center" Width="Auto" IsReadOnly="True" CanUserFilter="True" CanUserSort="False" CanUserResize="True"/>
+                            <c1:DataGridTextColumn Header = "TRNF_VALUE20" Binding = "{Binding TRNF_VALUE20}" HorizontalAlignment="Center" Width="Auto" IsReadOnly="True" CanUserFilter="True" CanUserSort="False" CanUserResize="True"/>
+                            <c1:DataGridTextColumn Header = "TRNF_VALUE21" Binding = "{Binding TRNF_VALUE21}" HorizontalAlignment="Center" Width="Auto" IsReadOnly="True" CanUserFilter="True" CanUserSort="False" CanUserResize="True"/>
+                            <c1:DataGridTextColumn Header = "TRNF_VALUE22" Binding = "{Binding TRNF_VALUE22}" HorizontalAlignment="Center" Width="Auto" IsReadOnly="True" CanUserFilter="True" CanUserSort="False" CanUserResize="True"/>
+                            <c1:DataGridTextColumn Header = "TRNF_VALUE23" Binding = "{Binding TRNF_VALUE23}" HorizontalAlignment="Center" Width="Auto" IsReadOnly="True" CanUserFilter="True" CanUserSort="False" CanUserResize="True"/>
+                            <c1:DataGridTextColumn Header = "TRNF_VALUE24" Binding = "{Binding TRNF_VALUE24}" HorizontalAlignment="Center" Width="Auto" IsReadOnly="True" CanUserFilter="True" CanUserSort="False" CanUserResize="True"/>
+                            <c1:DataGridTextColumn Header = "TRNF_VALUE25" Binding = "{Binding TRNF_VALUE25}" HorizontalAlignment="Center" Width="Auto" IsReadOnly="True" CanUserFilter="True" CanUserSort="False" CanUserResize="True"/>
+                            <c1:DataGridTextColumn Header = "TRNF_VALUE26" Binding = "{Binding TRNF_VALUE26}" HorizontalAlignment="Center" Width="Auto" IsReadOnly="True" CanUserFilter="True" CanUserSort="False" CanUserResize="True"/>
+                            <c1:DataGridTextColumn Header = "TRNF_VALUE27" Binding = "{Binding TRNF_VALUE27}" HorizontalAlignment="Center" Width="Auto" IsReadOnly="True" CanUserFilter="True" CanUserSort="False" CanUserResize="True"/>
+                            <c1:DataGridTextColumn Header = "TRNF_VALUE28" Binding = "{Binding TRNF_VALUE28}" HorizontalAlignment="Center" Width="Auto" IsReadOnly="True" CanUserFilter="True" CanUserSort="False" CanUserResize="True"/>
+                            <c1:DataGridTextColumn Header = "TRNF_VALUE29" Binding = "{Binding TRNF_VALUE29}" HorizontalAlignment="Center" Width="Auto" IsReadOnly="True" CanUserFilter="True" CanUserSort="False" CanUserResize="True"/>
+                            <c1:DataGridTextColumn Header = "TRNF_VALUE30" Binding = "{Binding TRNF_VALUE30}" HorizontalAlignment="Center" Width="Auto" IsReadOnly="True" CanUserFilter="True" CanUserSort="False" CanUserResize="True"/>
+                            <c1:DataGridTextColumn Header = "TRNF_VALUE31" Binding = "{Binding TRNF_VALUE31}" HorizontalAlignment="Center" Width="Auto" IsReadOnly="True" CanUserFilter="True" CanUserSort="False" CanUserResize="True"/>
+                            <c1:DataGridTextColumn Header = "TRNF_VALUE32" Binding = "{Binding TRNF_VALUE32}" HorizontalAlignment="Center" Width="Auto" IsReadOnly="True" CanUserFilter="True" CanUserSort="False" CanUserResize="True"/>
+                            <c1:DataGridTextColumn Header = "TRNF_VALUE33" Binding = "{Binding TRNF_VALUE33}" HorizontalAlignment="Center" Width="Auto" IsReadOnly="True" CanUserFilter="True" CanUserSort="False" CanUserResize="True"/>
+                            <c1:DataGridTextColumn Header = "TRNF_VALUE34" Binding = "{Binding TRNF_VALUE34}" HorizontalAlignment="Center" Width="Auto" IsReadOnly="True" CanUserFilter="True" CanUserSort="False" CanUserResize="True"/>
+                            <c1:DataGridTextColumn Header = "TRNF_VALUE35" Binding = "{Binding TRNF_VALUE35}" HorizontalAlignment="Center" Width="Auto" IsReadOnly="True" CanUserFilter="True" CanUserSort="False" CanUserResize="True"/>
+                            <c1:DataGridTextColumn Header = "TRNF_VALUE36" Binding = "{Binding TRNF_VALUE36}" HorizontalAlignment="Center" Width="Auto" IsReadOnly="True" CanUserFilter="True" CanUserSort="False" CanUserResize="True"/>
+                            <c1:DataGridTextColumn Header = "TRNF_VALUE37" Binding = "{Binding TRNF_VALUE37}" HorizontalAlignment="Center" Width="Auto" IsReadOnly="True" CanUserFilter="True" CanUserSort="False" CanUserResize="True"/>
+                            <c1:DataGridTextColumn Header = "TRNF_VALUE38" Binding = "{Binding TRNF_VALUE38}" HorizontalAlignment="Center" Width="Auto" IsReadOnly="True" CanUserFilter="True" CanUserSort="False" CanUserResize="True"/>
+                            <c1:DataGridTextColumn Header = "TRNF_VALUE39" Binding = "{Binding TRNF_VALUE39}" HorizontalAlignment="Center" Width="Auto" IsReadOnly="True" CanUserFilter="True" CanUserSort="False" CanUserResize="True"/>
+                            <c1:DataGridTextColumn Header = "TRNF_VALUE40" Binding = "{Binding TRNF_VALUE40}" HorizontalAlignment="Center" Width="Auto" IsReadOnly="True" CanUserFilter="True" CanUserSort="False" CanUserResize="True"/>
+                            <c1:DataGridTextColumn Header = "TRNF_VALUE41" Binding = "{Binding TRNF_VALUE41}" HorizontalAlignment="Center" Width="Auto" IsReadOnly="True" CanUserFilter="True" CanUserSort="False" CanUserResize="True"/>
+                            <c1:DataGridTextColumn Header = "TRNF_VALUE42" Binding = "{Binding TRNF_VALUE42}" HorizontalAlignment="Center" Width="Auto" IsReadOnly="True" CanUserFilter="True" CanUserSort="False" CanUserResize="True"/>
+                            <c1:DataGridTextColumn Header = "TRNF_VALUE43" Binding = "{Binding TRNF_VALUE43}" HorizontalAlignment="Center" Width="Auto" IsReadOnly="True" CanUserFilter="True" CanUserSort="False" CanUserResize="True"/>
+                            <c1:DataGridTextColumn Header = "TRNF_VALUE44" Binding = "{Binding TRNF_VALUE44}" HorizontalAlignment="Center" Width="Auto" IsReadOnly="True" CanUserFilter="True" CanUserSort="False" CanUserResize="True"/>
+                            <c1:DataGridTextColumn Header = "TRNF_VALUE45" Binding = "{Binding TRNF_VALUE45}" HorizontalAlignment="Center" Width="Auto" IsReadOnly="True" CanUserFilter="True" CanUserSort="False" CanUserResize="True"/>
+                            <c1:DataGridTextColumn Header = "TRNF_VALUE46" Binding = "{Binding TRNF_VALUE46}" HorizontalAlignment="Center" Width="Auto" IsReadOnly="True" CanUserFilter="True" CanUserSort="False" CanUserResize="True"/>
+                            <c1:DataGridTextColumn Header = "TRNF_VALUE47" Binding = "{Binding TRNF_VALUE47}" HorizontalAlignment="Center" Width="Auto" IsReadOnly="True" CanUserFilter="True" CanUserSort="False" CanUserResize="True"/>
+                            <c1:DataGridTextColumn Header = "TRNF_VALUE48" Binding = "{Binding TRNF_VALUE48}" HorizontalAlignment="Center" Width="Auto" IsReadOnly="True" CanUserFilter="True" CanUserSort="False" CanUserResize="True"/>
+                            <c1:DataGridTextColumn Header = "TRNF_VALUE49" Binding = "{Binding TRNF_VALUE49}" HorizontalAlignment="Center" Width="Auto" IsReadOnly="True" CanUserFilter="True" CanUserSort="False" CanUserResize="True"/>
+                            <c1:DataGridTextColumn Header = "TRNF_VALUE50" Binding = "{Binding TRNF_VALUE50}" HorizontalAlignment="Center" Width="Auto" IsReadOnly="True" CanUserFilter="True" CanUserSort="False" CanUserResize="True"/>
+                            <c1:DataGridTextColumn Header = "TRNF_VALUE51" Binding = "{Binding TRNF_VALUE51}" HorizontalAlignment="Center" Width="Auto" IsReadOnly="True" CanUserFilter="True" CanUserSort="False" CanUserResize="True"/>
+                            <c1:DataGridTextColumn Header = "TRNF_VALUE52" Binding = "{Binding TRNF_VALUE52}" HorizontalAlignment="Center" Width="Auto" IsReadOnly="True" CanUserFilter="True" CanUserSort="False" CanUserResize="True"/>
+                            <c1:DataGridTextColumn Header = "TRNF_VALUE53" Binding = "{Binding TRNF_VALUE53}" HorizontalAlignment="Center" Width="Auto" IsReadOnly="True" CanUserFilter="True" CanUserSort="False" CanUserResize="True"/>
+                            <c1:DataGridTextColumn Header = "TRNF_VALUE54" Binding = "{Binding TRNF_VALUE54}" HorizontalAlignment="Center" Width="Auto" IsReadOnly="True" CanUserFilter="True" CanUserSort="False" CanUserResize="True"/>
+                            <c1:DataGridTextColumn Header = "TRNF_VALUE55" Binding = "{Binding TRNF_VALUE55}" HorizontalAlignment="Center" Width="Auto" IsReadOnly="True" CanUserFilter="True" CanUserSort="False" CanUserResize="True"/>
+                            <c1:DataGridTextColumn Header = "TRNF_VALUE56" Binding = "{Binding TRNF_VALUE56}" HorizontalAlignment="Center" Width="Auto" IsReadOnly="True" CanUserFilter="True" CanUserSort="False" CanUserResize="True"/>
+                            <c1:DataGridTextColumn Header = "TRNF_VALUE57" Binding = "{Binding TRNF_VALUE57}" HorizontalAlignment="Center" Width="Auto" IsReadOnly="True" CanUserFilter="True" CanUserSort="False" CanUserResize="True"/>
+                            <c1:DataGridTextColumn Header = "TRNF_VALUE58" Binding = "{Binding TRNF_VALUE58}" HorizontalAlignment="Center" Width="Auto" IsReadOnly="True" CanUserFilter="True" CanUserSort="False" CanUserResize="True"/>
+                            <c1:DataGridTextColumn Header = "TRNF_VALUE59" Binding = "{Binding TRNF_VALUE59}" HorizontalAlignment="Center" Width="Auto" IsReadOnly="True" CanUserFilter="True" CanUserSort="False" CanUserResize="True"/>
+                            <c1:DataGridTextColumn Header = "TRNF_VALUE60" Binding = "{Binding TRNF_VALUE60}" HorizontalAlignment="Center" Width="Auto" IsReadOnly="True" CanUserFilter="True" CanUserSort="False" CanUserResize="True"/>
+                            <c1:DataGridTextColumn Header = "TRNF_VALUE61" Binding = "{Binding TRNF_VALUE61}" HorizontalAlignment="Center" Width="Auto" IsReadOnly="True" CanUserFilter="True" CanUserSort="False" CanUserResize="True"/>
+                            <c1:DataGridTextColumn Header = "TRNF_VALUE62" Binding = "{Binding TRNF_VALUE62}" HorizontalAlignment="Center" Width="Auto" IsReadOnly="True" CanUserFilter="True" CanUserSort="False" CanUserResize="True"/>
+                            <c1:DataGridTextColumn Header = "TRNF_VALUE63" Binding = "{Binding TRNF_VALUE63}" HorizontalAlignment="Center" Width="Auto" IsReadOnly="True" CanUserFilter="True" CanUserSort="False" CanUserResize="True"/>
+                            <c1:DataGridTextColumn Header = "TRNF_VALUE64" Binding = "{Binding TRNF_VALUE64}" HorizontalAlignment="Center" Width="Auto" IsReadOnly="True" CanUserFilter="True" CanUserSort="False" CanUserResize="True"/>
+                            <c1:DataGridTextColumn Header = "TRNF_VALUE65" Binding = "{Binding TRNF_VALUE65}" HorizontalAlignment="Center" Width="Auto" IsReadOnly="True" CanUserFilter="True" CanUserSort="False" CanUserResize="True"/>
+                            <c1:DataGridTextColumn Header = "TRNF_VALUE66" Binding = "{Binding TRNF_VALUE66}" HorizontalAlignment="Center" Width="Auto" IsReadOnly="True" CanUserFilter="True" CanUserSort="False" CanUserResize="True"/>
+                            <c1:DataGridTextColumn Header = "TRNF_VALUE67" Binding = "{Binding TRNF_VALUE67}" HorizontalAlignment="Center" Width="Auto" IsReadOnly="True" CanUserFilter="True" CanUserSort="False" CanUserResize="True"/>
+                            <c1:DataGridTextColumn Header = "TRNF_VALUE68" Binding = "{Binding TRNF_VALUE68}" HorizontalAlignment="Center" Width="Auto" IsReadOnly="True" CanUserFilter="True" CanUserSort="False" CanUserResize="True"/>
+                            <c1:DataGridTextColumn Header = "TRNF_VALUE69" Binding = "{Binding TRNF_VALUE69}" HorizontalAlignment="Center" Width="Auto" IsReadOnly="True" CanUserFilter="True" CanUserSort="False" CanUserResize="True"/>
+                            <c1:DataGridTextColumn Header = "TRNF_VALUE70" Binding = "{Binding TRNF_VALUE70}" HorizontalAlignment="Center" Width="Auto" IsReadOnly="True" CanUserFilter="True" CanUserSort="False" CanUserResize="True"/>
+                            <c1:DataGridTextColumn Header = "TRNF_VALUE71" Binding = "{Binding TRNF_VALUE71}" HorizontalAlignment="Center" Width="Auto" IsReadOnly="True" CanUserFilter="True" CanUserSort="False" CanUserResize="True"/>
+                            <c1:DataGridTextColumn Header = "TRNF_VALUE72" Binding = "{Binding TRNF_VALUE72}" HorizontalAlignment="Center" Width="Auto" IsReadOnly="True" CanUserFilter="True" CanUserSort="False" CanUserResize="True"/>
+                            <c1:DataGridTextColumn Header = "TRNF_VALUE73" Binding = "{Binding TRNF_VALUE73}" HorizontalAlignment="Center" Width="Auto" IsReadOnly="True" CanUserFilter="True" CanUserSort="False" CanUserResize="True"/>
+                            <c1:DataGridTextColumn Header = "TRNF_VALUE74" Binding = "{Binding TRNF_VALUE74}" HorizontalAlignment="Center" Width="Auto" IsReadOnly="True" CanUserFilter="True" CanUserSort="False" CanUserResize="True"/>
+                            <c1:DataGridTextColumn Header = "TRNF_VALUE75" Binding = "{Binding TRNF_VALUE75}" HorizontalAlignment="Center" Width="Auto" IsReadOnly="True" CanUserFilter="True" CanUserSort="False" CanUserResize="True"/>
+                            <c1:DataGridTextColumn Header = "TRNF_VALUE76" Binding = "{Binding TRNF_VALUE76}" HorizontalAlignment="Center" Width="Auto" IsReadOnly="True" CanUserFilter="True" CanUserSort="False" CanUserResize="True"/>
+                            <c1:DataGridTextColumn Header = "TRNF_VALUE77" Binding = "{Binding TRNF_VALUE77}" HorizontalAlignment="Center" Width="Auto" IsReadOnly="True" CanUserFilter="True" CanUserSort="False" CanUserResize="True"/>
+                            <c1:DataGridTextColumn Header = "TRNF_VALUE78" Binding = "{Binding TRNF_VALUE78}" HorizontalAlignment="Center" Width="Auto" IsReadOnly="True" CanUserFilter="True" CanUserSort="False" CanUserResize="True"/>
+                            <c1:DataGridTextColumn Header = "TRNF_VALUE79" Binding = "{Binding TRNF_VALUE79}" HorizontalAlignment="Center" Width="Auto" IsReadOnly="True" CanUserFilter="True" CanUserSort="False" CanUserResize="True"/>
+                            <c1:DataGridTextColumn Header = "TRNF_VALUE80" Binding = "{Binding TRNF_VALUE80}" HorizontalAlignment="Center" Width="Auto" IsReadOnly="True" CanUserFilter="True" CanUserSort="False" CanUserResize="True"/>
+                            <c1:DataGridTextColumn Header = "TRNF_VALUE81" Binding = "{Binding TRNF_VALUE81}" HorizontalAlignment="Center" Width="Auto" IsReadOnly="True" CanUserFilter="True" CanUserSort="False" CanUserResize="True"/>
+                            <c1:DataGridTextColumn Header = "TRNF_VALUE82" Binding = "{Binding TRNF_VALUE82}" HorizontalAlignment="Center" Width="Auto" IsReadOnly="True" CanUserFilter="True" CanUserSort="False" CanUserResize="True"/>
+                            <c1:DataGridTextColumn Header = "TRNF_VALUE83" Binding = "{Binding TRNF_VALUE83}" HorizontalAlignment="Center" Width="Auto" IsReadOnly="True" CanUserFilter="True" CanUserSort="False" CanUserResize="True"/>
+                            <c1:DataGridTextColumn Header = "TRNF_VALUE84" Binding = "{Binding TRNF_VALUE84}" HorizontalAlignment="Center" Width="Auto" IsReadOnly="True" CanUserFilter="True" CanUserSort="False" CanUserResize="True"/>
+                            <c1:DataGridTextColumn Header = "TRNF_VALUE85" Binding = "{Binding TRNF_VALUE85}" HorizontalAlignment="Center" Width="Auto" IsReadOnly="True" CanUserFilter="True" CanUserSort="False" CanUserResize="True"/>
+                            <c1:DataGridTextColumn Header = "TRNF_VALUE86" Binding = "{Binding TRNF_VALUE86}" HorizontalAlignment="Center" Width="Auto" IsReadOnly="True" CanUserFilter="True" CanUserSort="False" CanUserResize="True"/>
+                            <c1:DataGridTextColumn Header = "TRNF_VALUE87" Binding = "{Binding TRNF_VALUE87}" HorizontalAlignment="Center" Width="Auto" IsReadOnly="True" CanUserFilter="True" CanUserSort="False" CanUserResize="True"/>
+                            <c1:DataGridTextColumn Header = "TRNF_VALUE88" Binding = "{Binding TRNF_VALUE88}" HorizontalAlignment="Center" Width="Auto" IsReadOnly="True" CanUserFilter="True" CanUserSort="False" CanUserResize="True"/>
+                            <c1:DataGridTextColumn Header = "TRNF_VALUE89" Binding = "{Binding TRNF_VALUE89}" HorizontalAlignment="Center" Width="Auto" IsReadOnly="True" CanUserFilter="True" CanUserSort="False" CanUserResize="True"/>
+                            <c1:DataGridTextColumn Header = "TRNF_VALUE90" Binding = "{Binding TRNF_VALUE90}" HorizontalAlignment="Center" Width="Auto" IsReadOnly="True" CanUserFilter="True" CanUserSort="False" CanUserResize="True"/>
+                            <c1:DataGridTextColumn Header = "TRNF_VALUE91" Binding = "{Binding TRNF_VALUE91}" HorizontalAlignment="Center" Width="Auto" IsReadOnly="True" CanUserFilter="True" CanUserSort="False" CanUserResize="True"/>
+                            <c1:DataGridTextColumn Header = "TRNF_VALUE92" Binding = "{Binding TRNF_VALUE92}" HorizontalAlignment="Center" Width="Auto" IsReadOnly="True" CanUserFilter="True" CanUserSort="False" CanUserResize="True"/>
+                            <c1:DataGridTextColumn Header = "TRNF_VALUE93" Binding = "{Binding TRNF_VALUE93}" HorizontalAlignment="Center" Width="Auto" IsReadOnly="True" CanUserFilter="True" CanUserSort="False" CanUserResize="True"/>
+                            <c1:DataGridTextColumn Header = "TRNF_VALUE94" Binding = "{Binding TRNF_VALUE94}" HorizontalAlignment="Center" Width="Auto" IsReadOnly="True" CanUserFilter="True" CanUserSort="False" CanUserResize="True"/>
+                            <c1:DataGridTextColumn Header = "TRNF_VALUE95" Binding = "{Binding TRNF_VALUE95}" HorizontalAlignment="Center" Width="Auto" IsReadOnly="True" CanUserFilter="True" CanUserSort="False" CanUserResize="True"/>
+                            <c1:DataGridTextColumn Header = "TRNF_VALUE96" Binding = "{Binding TRNF_VALUE96}" HorizontalAlignment="Center" Width="Auto" IsReadOnly="True" CanUserFilter="True" CanUserSort="False" CanUserResize="True"/>
+                            <c1:DataGridTextColumn Header = "TRNF_VALUE97" Binding = "{Binding TRNF_VALUE97}" HorizontalAlignment="Center" Width="Auto" IsReadOnly="True" CanUserFilter="True" CanUserSort="False" CanUserResize="True"/>
+                            <c1:DataGridTextColumn Header = "TRNF_VALUE98" Binding = "{Binding TRNF_VALUE98}" HorizontalAlignment="Center" Width="Auto" IsReadOnly="True" CanUserFilter="True" CanUserSort="False" CanUserResize="True"/>
+                            <c1:DataGridTextColumn Header = "TRNF_VALUE99" Binding = "{Binding TRNF_VALUE99}" HorizontalAlignment="Center" Width="Auto" IsReadOnly="True" CanUserFilter="True" CanUserSort="False" CanUserResize="True"/>
+                        </c1:C1DataGrid.Columns>
+                    </c1:C1DataGrid>
+                </Grid>
+            </Grid>
+
+        </ctrlLib:LGCLayout>
+        <ctrlLib:LoadingIndicator x:Name="loadingIndicator" Grid.Row="999" Grid.Column="999" />
+    </Grid>
+</UserControl>

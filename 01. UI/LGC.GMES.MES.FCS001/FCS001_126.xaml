@@ -1,0 +1,94 @@
+﻿<UserControl xmlns:ss="hhemas.grapecity.com/windows/spreadsheet/2012"  x:Class="LGC.GMES.MES.FCS001.FCS001_126"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:c1="http://schemas.componentone.com/winfx/2006/xaml"
+             xmlns:ctrlLib="clr-namespace:LGC.GMES.MES.ControlsLibrary;assembly=LGC.GMES.MES.ControlsLibrary"
+             xmlns:uc="clr-namespace:LGC.GMES.MES.CMM001.Controls;assembly=LGC.GMES.MES.CMM001"
+             mc:Ignorable="d" 
+             d:DesignHeight="768" d:DesignWidth="1580" Loaded="UserControl_Loaded" >
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/LGC.GMES.MES.ControlsLibrary;component/ControlStyles.xaml" />
+                <ResourceDictionary Source="/LGC.GMES.MES.ControlsLibrary;component/ControlTemplates/LGCDatePicker.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    
+    <Grid x:Name="grdMain">
+        <ctrlLib:LGCLayout x:Name="LayoutRoot" Tag="Aging 출고 Station 공정 관리" Margin="10,0,-10,0">
+            <Grid>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="51"/>
+                        <RowDefinition Height="8"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <!--조회영역-->
+                    <Grid x:Name="SearchArea" Grid.Row="0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="11" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="11" />
+                        </Grid.RowDefinitions>
+                        <Border Grid.Row="0" Grid.RowSpan="99" Grid.Column="0" Style="{StaticResource Content_InputForm_ContentBorderStyle}"/>
+                        <Border Grid.Row="0" Grid.RowSpan="3" Grid.Column="0" BorderThickness="1" BorderBrush="#ffbebebe" Style="{StaticResource BorderSubTitleStyle}"/>
+                        <Grid Grid.Row="1">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="13"/>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="10"/>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="10"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="13"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock              Grid.Column="1"  Style="{StaticResource Content_InputForm_LabelStyle}"><Run Text="{Binding ConverterParameter='CRANE_TYPE', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay }"/></TextBlock>
+                            <uc:UcBaseComboBox          Grid.Column="2"  x:Name="cboCrane"  DisplayMemberPath="" SelectedValuePath=""  Style="{StaticResource C1ComboBoxStyle}" AutoComplete="False" SelectionCommitted="cboCrane_SelectionCommitted" />
+                            <TextBlock              Grid.Column="4"  Style="{StaticResource Content_InputForm_LabelStyle}"><Run Text="{Binding ConverterParameter='SHIP_STATION', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay }"/></TextBlock>
+                            <uc:UcBaseComboBox          Grid.Column="5" x:Name="cboPort"  DisplayMemberPath="" SelectedValuePath=""  Style="{StaticResource C1ComboBoxStyle}" AutoComplete="False" SelectionCommitted="cboPort_SelectionCommitted"/>
+                            <uc:UcBaseButton                 Grid.Column="8" x:Name="btnUnitPlus" Click="btnUnitPlus_Click"   Margin="3" Content="{Binding ConverterParameter='Plus',   Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{DynamicResource Content_ModuleButtonAddStyle}"/>
+                            <uc:UcBaseButton                 Grid.Column="9" x:Name="btnUnitMinus" Click="btnUnitMinus_Click" Margin="3" Content="{Binding ConverterParameter='Minus',  Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{DynamicResource Content_ModuleButtonDeleteStyle}" />
+                            <uc:UcBaseButton        Grid.Column="10" x:Name="btnSearch" Margin="3"  Content="{Binding ConverterParameter=조회 , Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource SearchButtonStyle}"  Cursor="Hand" Click="btnSearch_Click" />
+                            <uc:UcBaseButton        Grid.Column="11" x:Name="btnSave" Margin="3" Content="{Binding ConverterParameter=저장 , Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_MainControl02Style}"  Cursor="Hand" Height="29" Click="btnSave_Click" />
+                            <uc:UcBaseButton        Grid.Column="12" x:Name="btnDelete" Margin="3" Content="{Binding ConverterParameter=삭제 , Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_MainButtonSpecialStyle}"  Cursor="Hand" Click="btnDelete_Click" />
+                        </Grid>
+                    </Grid>
+                    <!--조회리스트-->
+                    <Grid Grid.Row="3">
+                        <Border Style="{StaticResource Content_InputForm_ContentBorderStyle}"/>
+                        <Border Grid.Row="0" Grid.Column="0" BorderThickness="1"/>
+                        <uc:UcBaseDataGrid x:Name="dgOutStationList" IsReadOnly="False" HeadersVisibility="All" FrozenColumnCount="1" SelectionMode="SingleRow" LoadedRowHeaderPresenter="dgOutStationList_LoadedRowHeaderPresenter">
+                            <c1:C1DataGrid.Columns>
+                                <c1:DataGridCheckBoxColumn  Name = "CHK" Binding = "{Binding CHK, Mode=TwoWay}" HorizontalAlignment="Center" CanUserFilter="False" CanUserSort="False" CanUserResize="False" >
+                                    <c1:DataGridCheckBoxColumn.Header>
+                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                                            <CheckBox x:Name="chkHeaderAll" Content="{Binding ConverterParameter='SELECT', Converter={StaticResource GlobalObjectDicConverter}}" Margin="0" Width="Auto" Checked="checkAll_Checked" Unchecked="checkAll_Unchecked"></CheckBox>
+                                        </StackPanel>
+                                    </c1:DataGridCheckBoxColumn.Header>
+                                </c1:DataGridCheckBoxColumn>
+                                <c1:DataGridTextColumn    Header = "STATION_ID"                                   Binding = "{Binding PORT_ID}"                                    IsReadOnly="False"  HorizontalAlignment="Center" />
+                                <c1:DataGridTextColumn    Header = "STN_OP_ID"                                    Binding = "{Binding STN_ISS_COND_CODE}"                          IsReadOnly="False" HorizontalAlignment="Center" />
+                                <c1:DataGridTextColumn    Header = "DUAL_STK_SEQNO"                               Binding = "{Binding DUAL_STK_SEQNO}"                             IsReadOnly="False" HorizontalAlignment="Center" />
+                                <c1:DataGridTextColumn    Header = "OUT_LANE_ID"                                  Binding = "{Binding ADD_ISS_ENABLE_LANE_LIST}"                   IsReadOnly="False" HorizontalAlignment="Center" />
+                                <c1:DataGridTextColumn    Header = "OUT_EQP_TYPE"                                 Binding = "{Binding ADD_ISS_ENABLE_PROC_DETL_TYPE_CODE_LIST}"    IsReadOnly="False" HorizontalAlignment="Center" />
+                                <c1:DataGridTextColumn    Header = "INSUSER"                                      Binding = "{Binding INSUSER}"                                    IsReadOnly="True"  HorizontalAlignment="Center" />
+                                <c1:DataGridTextColumn    Header = "INSDTTM"                                      Binding = "{Binding INSDTTM}"                                    IsReadOnly="True"  HorizontalAlignment="Center" />
+                            </c1:C1DataGrid.Columns>
+                        </uc:UcBaseDataGrid>
+                    </Grid>
+                </Grid>
+            </Grid>
+        </ctrlLib:LGCLayout>
+        <ctrlLib:LoadingIndicator x:Name="loadingIndicator" Grid.Row="999" Grid.Column="999"/>
+    </Grid>
+</UserControl>

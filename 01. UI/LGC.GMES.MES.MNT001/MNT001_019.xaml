@@ -1,0 +1,1045 @@
+﻿<Window x:Class="LGC.GMES.MES.MNT001.MNT001_019"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:c1="http://schemas.componentone.com/winfx/2006/xaml"
+		     xmlns:System="clr-namespace:System;assembly=mscorlib"
+             xmlns:ctrlLib="clr-namespace:LGC.GMES.MES.ControlsLibrary;assembly=LGC.GMES.MES.ControlsLibrary" 
+             mc:Ignorable="d" 
+             Background="Blue" 
+             Style="{DynamicResource Window_MNT_Main}"
+             AllowsTransparency="False" 
+             WindowStyle="None" 
+             SizeToContent="Manual" 
+             ResizeMode="CanResize" 
+             WindowState="Normal" 
+             WindowStartupLocation="CenterScreen" 
+             d:DesignHeight="1080" d:DesignWidth="1920"
+             Tag="{Binding ConverterParameter='LDR/UDR 모니터링', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}"
+             SourceInitialized="Window_SourceInitialized" 
+             Unloaded="UserControl_Unloaded"
+             >
+
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/LGC.GMES.MES.ControlsLibrary;component/ControlStyles.xaml" />
+                <ResourceDictionary Source="/LGC.GMES.MES.MNT001;component/Style/MNT001_ControlStyles_PACK.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <Storyboard x:Key="ExpandLeftFrameStoryboard">
+                <DoubleAnimationUsingKeyFrames Storyboard.TargetName="grdleftFrame" Storyboard.TargetProperty="(FrameworkElement.Width)" >
+                    <SplineDoubleKeyFrame Value="350" KeyTime="00:00:00.5"
+                                                          KeySpline="0.73199999332428,0.138999998569489,0.101999998092651,0.999000012874603" />
+                </DoubleAnimationUsingKeyFrames>
+            </Storyboard>
+            <Storyboard x:Key="CollapseLeftFrameStoryboard">
+                <DoubleAnimationUsingKeyFrames Storyboard.TargetName="grdleftFrame" Storyboard.TargetProperty="(FrameworkElement.Width)">
+                    <SplineDoubleKeyFrame Value="0" KeyTime="00:00:00.5"
+                                                          KeySpline="0.73199999332428,0.138999998569489,0.101999998092651,0.999000012874603" />
+                </DoubleAnimationUsingKeyFrames>
+            </Storyboard>
+
+        </ResourceDictionary>
+
+
+    </Window.Resources>
+
+    <Grid>
+        
+        <Grid x:Name="LayoutRoot" Background="White">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition x:Name="fullSize" Width="1920" />
+            </Grid.ColumnDefinitions>
+
+            <Border    Grid.Row="1" Grid.Column="0"  Background="Black" ></Border>
+
+            <Grid Grid.Row="0" Grid.Column="0" x:Name="gdMain">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="1*" />
+                </Grid.ColumnDefinitions>
+                
+                <Button    Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" x:Name="btnClose" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,8,0"   Style="{StaticResource ButtonCloseStyle}" Width="32" Height="32" Click="btnClose_Click" />
+                <CheckBox  Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" x:Name="chkLock"  VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,20,9.667"  Height="25" FontWeight="Bold" FontSize ="16" Content="{Binding ConverterParameter='Page 고정', Converter={StaticResource GlobalObjectDicConverter}}" Style="{StaticResource SearchCondition_CheckBoxStyle}" Visibility="Collapsed" />
+
+                <Grid Grid.Row="2" Grid.Column="0" x:Name="gd_1" Margin="2">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="0.46*" />
+                        <RowDefinition Height="0.29*" />
+                        <RowDefinition Height="0.25*" />
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="0" x:Name="Loader_1">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <!--HEADER-->
+                        <Grid Grid.Row="0" Grid.Column="0" x:Name="grHeader_1"  MouseLeftButtonDown="grHeader_MouseLeftButtonDown" Height="50">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+
+                            <Border    Grid.Row="0" Grid.Column="0" Grid.RowSpan="6"  Height="50" Style="{DynamicResource Border_MNT001_Title_01}" ></Border>
+                            
+                            <!--TITLE-->
+                            <Grid Grid.Row="0" Grid.Column="0" Grid.RowSpan="6">
+                                <TextBlock  x:Name="tbTitle_1" FontSize="35" Text="Loader"   VerticalAlignment="Center" FontWeight="Bold" HorizontalAlignment="Center"  FontFamily="LG Smart_H Bold" Foreground="White" />
+                            </Grid>
+
+                            <!--06시 적용 날짜정보-->
+                            <Grid Grid.Row="2" Grid.Column="0" Grid.RowSpan="2" VerticalAlignment="Bottom">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="8" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="32" />
+                                    <ColumnDefinition Width="8" />
+
+                                </Grid.ColumnDefinitions>
+                                <TextBlock  x:Name="tbAcceptResult_1" Grid.Column="2" FontFamily="LG Smart_H Bold" Text="06적용" HorizontalAlignment="Right" FontSize="20" FontWeight="Bold" Style="{DynamicResource TextBlock_MNT001_DateTime}" VerticalAlignment="Center" Visibility="Collapsed"/>
+                                <TextBlock  x:Name="dbAcepptResult_1" FontFamily="LG Smart_H Bold" FontSize="20" Grid.Column="3" Text="1111"   Style="{DynamicResource TextBlock_MNT001_DateTime}" VerticalAlignment="Center" Visibility="Collapsed"/>
+
+                            </Grid>
+
+                        </Grid>
+
+                        <!--Grid-->
+                        <Grid Grid.Row="1" Grid.Column="0" Background="Black">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+
+                            <c1:C1DataGrid Grid.Row="0" Grid.Column="0" x:Name="dgLoader_1"  FrozenTopRowsCount="1"  HeadersVisibility="None" Width="Auto" 
+                                HorizontalGridLinesBrush="White" VerticalGridLinesBrush="White" SelectionMode="None"  
+                                ColumnHeaderHeight="30" RowHeight="60" FontWeight="Bold"  FontSize="35" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Hidden" FontFamily="Arial Narrow"
+                                MouseOverBrush="Transparent" LoadedCellPresenter="dgLoader_LoadedCellPresenter"  CanUserFilter="False" CanUserSort="False" IsReadOnly="True">
+
+                                <c1:C1DataGrid.ColumnHeaderStyle>
+                                    <Style TargetType="DataGridColumnHeader">
+                                        <Setter Property="ContentTemplate">
+                                            <Setter.Value>
+                                                <DataTemplate>
+                                                    <TextBlock TextWrapping="Wrap" Text="{Binding}"></TextBlock>
+                                                </DataTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+
+                                    </Style>
+                                </c1:C1DataGrid.ColumnHeaderStyle>
+
+
+                                <c1:C1DataGrid.Columns>
+                                    <c1:DataGridTextColumn        Header = "MAC"              Binding = "{Binding EQPTID}"      HorizontalAlignment="Center" HeaderStyle="{StaticResource CenterGridHeaderStyle_13}" />
+                                    <!--<c1:DataGridTextColumn        Header = "W/O"               Binding = "{Binding WOID}"        HorizontalAlignment="Center" HeaderStyle="{StaticResource CenterGridHeaderStyle_13}" />-->
+                                    <c1:DataGridTextColumn        Header = "프로젝트명"        Binding = "{Binding PRJT_NAME}"   HorizontalAlignment="Left" HeaderStyle="{StaticResource CenterGridHeaderStyle_13}" />
+                                    <!--<c1:DataGridTextColumn        Header = "제품"              Binding = "{Binding PRODID}"      HorizontalAlignment="Center" HeaderStyle="{StaticResource CenterGridHeaderStyle_13}" />-->
+                                    <c1:DataGridTextColumn        Header = "Ver."              Binding = "{Binding VER}"         HorizontalAlignment="Left" HeaderStyle="{StaticResource CenterGridHeaderStyle_13}" />
+                                    <!--<c1:DataGridTextColumn        Header = "COT"           Binding = "{Binding LINK_COT}"    HorizontalAlignment="Center" HeaderStyle="{StaticResource CenterGridHeaderStyle_13}" />-->
+                                    <c1:DataGridTextColumn        Header = "STOCK"     Binding = "{Binding STOCK_CNT}"   HorizontalAlignment="Right"  HeaderStyle="{StaticResource CenterGridHeaderStyle_13}" Format="#,###0" />
+                                    <c1:DataGridTextColumn        Header = "REQ"                                                 HorizontalAlignment="Center" HeaderStyle="{StaticResource CenterGridHeaderStyle_13}" />
+                                </c1:C1DataGrid.Columns>
+
+                                <c1:C1DataGrid.TopRows>
+                                    <c1:DataGridColumnHeaderRow />
+                                    <c1:DataGridSummaryRow/>
+                                </c1:C1DataGrid.TopRows>
+
+
+                            </c1:C1DataGrid>
+
+                        </Grid>
+                    </Grid>
+
+                    <Grid Grid.Row="1" x:Name="UnLoaderOutput_1">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <!--HEADER-->
+                        <Grid Grid.Row="0" Grid.Column="0" x:Name="grHeaderUnLdOut_1"  MouseLeftButtonDown="grHeader_MouseLeftButtonDown" Height="50">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+
+                            <Border    Grid.Row="0" Grid.Column="0" Grid.RowSpan="6"  Height="50" Style="{DynamicResource Border_MNT001_Title_01}" ></Border>
+
+                            <!--TITLE-->
+                            <Grid Grid.Row="0" Grid.Column="0" Grid.RowSpan="6">
+                                <TextBlock  x:Name="tbTitUnLoaderOut_1" FontSize="35" Text="UnLoader"   VerticalAlignment="Center" FontWeight="Bold" HorizontalAlignment="Center"  FontFamily="LG Smart_H Bold" Foreground="White" />
+                            </Grid>
+                        </Grid>
+
+                        <!--Grid-->
+                        <Grid Grid.Row="1" Grid.Column="0" Background="Black">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+
+                            <Grid Grid.Row="0" Grid.Column="0" >
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="120"/>
+                                    <ColumnDefinition Width="10"/>
+                                    <ColumnDefinition Width="220"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="120"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock  Grid.Row="0" Grid.Column="0" FontSize="35" Text="Output"   VerticalAlignment="Center" FontWeight="Bold" HorizontalAlignment="Center"  FontFamily="LG Smart_H Bold" Foreground="White" Background="Gray" />
+                                <TextBlock  Grid.Row="0" Grid.Column="2" FontSize="20" Text="( S:STATUS, M:MODE )"   VerticalAlignment="Center" FontWeight="Bold" HorizontalAlignment="Center"  FontFamily="LG Smart_H Bold" Foreground="RED" />
+
+                                <TextBlock  Grid.Row="0" Grid.Column="4" FontSize="20" x:Name="txtUnloderOut_1"   VerticalAlignment="Center" FontWeight="Bold" HorizontalAlignment="Center"  FontFamily="LG Smart_H Bold" Foreground="White"  />
+                            </Grid>
+                            
+                            <c1:C1DataGrid Grid.Row="1" Grid.Column="0" x:Name="dgUnLoaderOut_1"  FrozenTopRowsCount="3"  HeadersVisibility="None" Width="Auto" 
+                                HorizontalGridLinesBrush="White" VerticalGridLinesBrush="White" SelectionMode="None"  
+                                ColumnHeaderHeight="30" RowHeight="60" FontWeight="Bold"  FontSize="35" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Hidden" FontFamily="Arial Narrow"
+                                MouseOverBrush="Transparent" LoadedCellPresenter="dgLoader_LoadedCellPresenter"  CanUserFilter="False" CanUserSort="False" IsReadOnly="True" >
+                                <!---->
+                                <c1:C1DataGrid.ColumnHeaderStyle>
+                                    <Style TargetType="DataGridColumnHeader">
+                                        <Setter Property="ContentTemplate">
+                                            <Setter.Value>
+                                                <DataTemplate>
+                                                    <TextBlock TextWrapping="Wrap" Text="{Binding}"></TextBlock>
+                                                </DataTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+
+                                    </Style>
+                                </c1:C1DataGrid.ColumnHeaderStyle>
+                                <c1:C1DataGrid.Columns>
+                                    <c1:DataGridTextColumn        Header = "[Port,Port,Port]"               Binding = "{Binding SRC_LOCID}"         HorizontalAlignment="Center" ctrlLib:DataGridMergeExtension.MergeMode="VERTICALHIERARCHI" HeaderStyle="{StaticResource CenterGridHeaderStyle_14}" />
+                                    <c1:DataGridTextColumn        Header = "[JOB,JOB,JOB]"                  Binding = "{Binding JOB}"               HorizontalAlignment="Center"    HeaderStyle="{StaticResource CenterGridHeaderStyle_15}" />
+                                    <c1:DataGridTextColumn        Header = "[From,NND,Skid]"                Binding = "{Binding SKIDID}"            HorizontalAlignment="Left"      HeaderStyle="{StaticResource CenterGridHeaderStyle_13}" />
+                                    <c1:DataGridTextColumn        Header = "[From,NND,S]"                   Binding = "{Binding SRC_STATUS}"        HorizontalAlignment="Center"    HeaderStyle="{StaticResource CenterGridHeaderStyle_13}" />
+                                    <c1:DataGridTextColumn        Header = "[From,NND,M]"                   Binding = "{Binding SRC_MODE}"          HorizontalAlignment="Center"    HeaderStyle="{StaticResource CenterGridHeaderStyle_13}" />
+                                    <c1:DataGridTextColumn        Header = "[To,PID_1,S]"                   Binding = "{Binding DST_STATUS_11}"     HorizontalAlignment="Center"    HeaderStyle="{StaticResource CenterGridHeaderStyle_13}" />
+                                    <c1:DataGridTextColumn        Header = "[To,PID_1,M]"                   Binding = "{Binding DST_MODE_11}"       HorizontalAlignment="Center"    HeaderStyle="{StaticResource CenterGridHeaderStyle_13}" />
+                                    <c1:DataGridTextColumn        Header = "[To,PID_2,S]"                   Binding = "{Binding DST_STATUS_12}"     HorizontalAlignment="Center"    HeaderStyle="{StaticResource CenterGridHeaderStyle_13}"  x:Name="colOutStatus_1_2"/>
+                                    <c1:DataGridTextColumn        Header = "[To,PID_2,M]"                   Binding = "{Binding DST_MODE_12}"       HorizontalAlignment="Center"    HeaderStyle="{StaticResource CenterGridHeaderStyle_13}"  x:Name="colOutMode_1_2"/>
+                                    <c1:DataGridTextColumn        Header = "[To,PID_3,S]"                   Binding = "{Binding DST_STATUS_13}"     HorizontalAlignment="Center"    HeaderStyle="{StaticResource CenterGridHeaderStyle_13}"  x:Name="colOutStatus_1_3"/>
+                                    <c1:DataGridTextColumn        Header = "[To,PID_3,M]"                   Binding = "{Binding DST_MODE_13}"       HorizontalAlignment="Center"    HeaderStyle="{StaticResource CenterGridHeaderStyle_13}"  x:Name="colOutMode_1_3"/>
+                                    <c1:DataGridTextColumn        Header = "[To,PID_4,S]"                   Binding = "{Binding DST_STATUS_14}"     HorizontalAlignment="Center"    HeaderStyle="{StaticResource CenterGridHeaderStyle_13}"  x:Name="colOutStatus_1_4"/>
+                                    <c1:DataGridTextColumn        Header = "[To,PID_4,M]"                   Binding = "{Binding DST_MODE_14}"       HorizontalAlignment="Center"    HeaderStyle="{StaticResource CenterGridHeaderStyle_13}"  x:Name="colOutMode_1_4"/>
+                                    <c1:DataGridTextColumn        Header = "[STK,STK,RATE.]"                 Binding = "{Binding CURR_STOCK_RATIO}"  HorizontalAlignment="Right"     HeaderStyle="{StaticResource CenterGridHeaderStyle_New_4}" ctrlLib:DataGridMergeExtension.MergeMode="VERTICALHIERARCHI" />
+                                    <c1:DataGridTextColumn        Header = "[STK,STK,QTY.]"                  Binding = "{Binding AVAIL_QTY}"         HorizontalAlignment="Right"     HeaderStyle="{StaticResource CenterGridHeaderStyle_13}"    ctrlLib:DataGridMergeExtension.MergeMode="VERTICALHIERARCHI" />
+
+                                </c1:C1DataGrid.Columns>
+
+                                <c1:C1DataGrid.TopRows>
+                                    <c1:DataGridColumnHeaderRow />
+                                    <c1:DataGridColumnHeaderRow />
+                                    <c1:DataGridColumnHeaderRow />
+                                    <c1:DataGridSummaryRow/>
+                                </c1:C1DataGrid.TopRows>
+
+
+                            </c1:C1DataGrid>
+
+                        </Grid>
+                    </Grid>
+                
+                    <Grid Grid.Row="2" x:Name="UnLoaderInput_1">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <!--HEADER-->
+                        <Grid Grid.Row="0" Grid.Column="0" x:Name="grHeaderUnLdIn_1"  MouseLeftButtonDown="grHeader_MouseLeftButtonDown" Height="50" Visibility="Collapsed">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+
+                            <Border    Grid.Row="0" Grid.Column="0" Grid.RowSpan="6"  Height="50"                 Style="{DynamicResource Border_MNT001_Title_01}" ></Border>
+
+                            <!--TITLE-->
+                            <Grid Grid.Row="0" Grid.Column="0" Grid.RowSpan="6">
+                                <TextBlock  x:Name="tbTitUnLoaderIn_1" FontSize="35" Text="UnLoaderIn"   VerticalAlignment="Center" FontWeight="Bold" HorizontalAlignment="Center"  FontFamily="LG Smart_H Bold" Foreground="White"/>
+                            </Grid>
+                        </Grid>
+
+                        <!--Grid-->
+                        <Grid Grid.Row="1" Grid.Column="0" Background="Black">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+                            <Grid Grid.Row="0" Grid.Column="0" >
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="120"/>
+                                    <ColumnDefinition Width="10"/>
+                                    <ColumnDefinition Width="220"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="120"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock  Grid.Row="0" Grid.Column="0" FontSize="35" Text="Input"   VerticalAlignment="Center" FontWeight="Bold" HorizontalAlignment="Stretch"  FontFamily="LG Smart_H Bold" Foreground="White" Background="Gray" />
+                                  <TextBlock  Grid.Row="0" Grid.Column="2" FontSize="20" Text="( S:STATUS, M:MODE )"   VerticalAlignment="Center" FontWeight="Bold" HorizontalAlignment="Center"  FontFamily="LG Smart_H Bold" Foreground="RED" />
+                                <TextBlock  Grid.Row="0" Grid.Column="4" FontSize="20" x:Name="txtUnloderIn_1"   VerticalAlignment="Center" FontWeight="Bold" HorizontalAlignment="Center"  FontFamily="LG Smart_H Bold" Foreground="White"  />
+                             </Grid>
+                            <c1:C1DataGrid Grid.Row="1" Grid.Column="0" x:Name="dgUnLoaderIn_1"  FrozenTopRowsCount="3"  HeadersVisibility="None" Width="Auto" 
+                                HorizontalGridLinesBrush="White" VerticalGridLinesBrush="White" SelectionMode="None"  
+                                ColumnHeaderHeight="30" RowHeight="60" FontWeight="Bold"  FontSize="35" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Hidden" FontFamily="Arial Narrow"
+                                MouseOverBrush="Transparent" LoadedCellPresenter="dgLoader_LoadedCellPresenter"  CanUserFilter="False" CanUserSort="False" IsReadOnly="True">
+                                <!---->
+
+                                <c1:C1DataGrid.ColumnHeaderStyle>
+                                    <Style TargetType="DataGridColumnHeader">
+                                        <Setter Property="ContentTemplate">
+                                            <Setter.Value>
+                                                <DataTemplate>
+                                                    <TextBlock TextWrapping="Wrap" Text="{Binding}"></TextBlock>
+                                                </DataTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+
+                                    </Style>
+                                </c1:C1DataGrid.ColumnHeaderStyle>
+
+
+                                <c1:C1DataGrid.Columns>
+                                    <c1:DataGridTextColumn        Header = "[Port,Port,Port]"              Binding = "{Binding DST_LOCID}"         HorizontalAlignment="Center" ctrlLib:DataGridMergeExtension.MergeMode="VERTICALHIERARCHI" HeaderStyle="{StaticResource CenterGridHeaderStyle_14}" />
+                                    <c1:DataGridTextColumn        Header = "[JOB,JOB,JOB]"                 Binding = "{Binding JOB}"               HorizontalAlignment="Center"  HeaderStyle="{StaticResource CenterGridHeaderStyle_15}" />
+                                    <c1:DataGridTextColumn        Header = "[To,NND,Skid]"                 Binding = "{Binding SKIDID}"            HorizontalAlignment="Left"    HeaderStyle="{StaticResource CenterGridHeaderStyle_13}" />
+                                    <c1:DataGridTextColumn        Header = "[To,NND,S]"                    Binding = "{Binding SRC_STATUS}"        HorizontalAlignment="Center"  HeaderStyle="{StaticResource CenterGridHeaderStyle_13}" />
+                                    <c1:DataGridTextColumn        Header = "[To,NND,M]"                    Binding = "{Binding SRC_MODE}"             HorizontalAlignment="Center"  HeaderStyle="{StaticResource CenterGridHeaderStyle_13}" />
+
+                                    <c1:DataGridTextColumn        Header = "[From,Port ID_1,S]"       Binding = "{Binding DST_STATUS_21}"     HorizontalAlignment="Center"  HeaderStyle="{StaticResource CenterGridHeaderStyle_13}" />
+                                    <c1:DataGridTextColumn        Header = "[From,Port ID_1,M]"         Binding = "{Binding DST_MODE_21}"       HorizontalAlignment="Center"  HeaderStyle="{StaticResource CenterGridHeaderStyle_13}" />
+
+                                    <c1:DataGridTextColumn        Header = "[From,Port ID_2,S]"       Binding = "{Binding DST_STATUS_22}"     HorizontalAlignment="Center"  HeaderStyle="{StaticResource CenterGridHeaderStyle_13}"  x:Name="colInStatus_1_2" />
+                                    <c1:DataGridTextColumn        Header = "[From,Port ID_2,M]"         Binding = "{Binding DST_MODE_22}"       HorizontalAlignment="Center"  HeaderStyle="{StaticResource CenterGridHeaderStyle_13}"  x:Name="colInMode_1_2" />
+
+                                    <c1:DataGridTextColumn        Header = "[From,Port ID_3,S]"       Binding = "{Binding DST_STATUS_23}"     HorizontalAlignment="Center"  HeaderStyle="{StaticResource CenterGridHeaderStyle_13}"  x:Name="colInStatus_1_3" />
+                                    <c1:DataGridTextColumn        Header = "[From,Port ID_3,M]"         Binding = "{Binding DST_MODE_23}"       HorizontalAlignment="Center"  HeaderStyle="{StaticResource CenterGridHeaderStyle_13}"  x:Name="colInMode_1_3" />
+
+                                    <c1:DataGridTextColumn        Header = "[From,Port ID_4,S]"       Binding = "{Binding DST_STATUS_24}"     HorizontalAlignment="Center"  HeaderStyle="{StaticResource CenterGridHeaderStyle_13}"  x:Name="colInStatus_1_4" />
+                                    <c1:DataGridTextColumn        Header = "[From,Port ID_4,M]"         Binding = "{Binding DST_MODE_24}"       HorizontalAlignment="Center"  HeaderStyle="{StaticResource CenterGridHeaderStyle_13}"  x:Name="colInMode_1_4" />
+
+                                    <c1:DataGridTextColumn        Header = "[STK,STK,QTY.]"      Binding = "{Binding E_SKID_CNT}"        HorizontalAlignment="Right"   HeaderStyle="{StaticResource CenterGridHeaderStyle_New_4}"  />
+                               
+
+                                </c1:C1DataGrid.Columns>
+
+                                <c1:C1DataGrid.TopRows>
+                                    <c1:DataGridColumnHeaderRow />
+                                    <c1:DataGridColumnHeaderRow />
+                                    <c1:DataGridColumnHeaderRow />
+                                    <c1:DataGridSummaryRow/>
+                                </c1:C1DataGrid.TopRows>
+
+
+                            </c1:C1DataGrid>
+
+                        </Grid>
+                    </Grid>
+                </Grid>
+                
+                <Grid Grid.Row="2" Grid.Column="1" x:Name="gd_2" Margin="2">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="0.46*" />
+                        <RowDefinition Height="0.29*" />
+                        <RowDefinition Height="0.25*" />
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="0" x:Name="Loader_2">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <!--HEADER-->
+                        <Grid Grid.Row="0" Grid.Column="0" x:Name="grHeader_2"  MouseLeftButtonDown="grHeader_MouseLeftButtonDown" Height="50">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+
+                            <Border    Grid.Row="0" Grid.Column="0" Grid.RowSpan="6"  Height="50" Style="{DynamicResource Border_MNT001_Title_01}" ></Border>
+
+                            <!--TITLE-->
+                            <Grid Grid.Row="0" Grid.Column="0" Grid.RowSpan="6">
+                                <TextBlock  x:Name="tbTitle_2" FontSize="35" Text="Loader"   VerticalAlignment="Center" FontWeight="Bold" HorizontalAlignment="Center"  FontFamily="LG Smart_H Bold" Foreground="White" />
+                            </Grid>
+
+                            <!--06시 적용 날짜정보-->
+                            <Grid Grid.Row="2" Grid.Column="0" Grid.RowSpan="2" VerticalAlignment="Bottom">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="8" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="32" />
+                                    <ColumnDefinition Width="8" />
+
+                                </Grid.ColumnDefinitions>
+                                <TextBlock  x:Name="tbAcceptResult_2" Grid.Column="2" FontFamily="LG Smart_H Bold" Text="06적용" HorizontalAlignment="Right" FontSize="20" FontWeight="Bold" Style="{DynamicResource TextBlock_MNT001_DateTime}" VerticalAlignment="Center" Visibility="Collapsed"/>
+                                <TextBlock  x:Name="dbAcepptResult_2" FontFamily="LG Smart_H Bold" FontSize="20" Grid.Column="3" Text="1111"   Style="{DynamicResource TextBlock_MNT001_DateTime}" VerticalAlignment="Center" Visibility="Collapsed"/>
+
+                            </Grid>
+
+                        </Grid>
+
+                        <!--Grid-->
+                        <Grid Grid.Row="1" Grid.Column="0" Background="Black">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+
+                            <c1:C1DataGrid Grid.Row="0" Grid.Column="0" x:Name="dgLoader_2"  FrozenTopRowsCount="1"  HeadersVisibility="None" Width="Auto" 
+                                HorizontalGridLinesBrush="White" VerticalGridLinesBrush="White" SelectionMode="None"  
+                                ColumnHeaderHeight="30" RowHeight="60" FontWeight="Bold"  FontSize="35" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Hidden" FontFamily="Arial Narrow"
+                                MouseOverBrush="Transparent" LoadedCellPresenter="dgLoader_LoadedCellPresenter"  CanUserFilter="False" CanUserSort="False" IsReadOnly="True">
+
+                                <c1:C1DataGrid.ColumnHeaderStyle>
+                                    <Style TargetType="DataGridColumnHeader">
+                                        <Setter Property="ContentTemplate">
+                                            <Setter.Value>
+                                                <DataTemplate>
+                                                    <TextBlock TextWrapping="Wrap" Text="{Binding}"></TextBlock>
+                                                </DataTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+
+                                    </Style>
+                                </c1:C1DataGrid.ColumnHeaderStyle>
+
+
+                                <c1:C1DataGrid.Columns>
+                                    <c1:DataGridTextColumn        Header = "MAC"              Binding = "{Binding EQPTID}"      HorizontalAlignment="Center" HeaderStyle="{StaticResource CenterGridHeaderStyle_13}" />
+                                    <!--<c1:DataGridTextColumn        Header = "W/O"               Binding = "{Binding WOID}"        HorizontalAlignment="Center" HeaderStyle="{StaticResource CenterGridHeaderStyle_13}" />-->
+                                    <c1:DataGridTextColumn        Header = "프로젝트명"        Binding = "{Binding PRJT_NAME}"   HorizontalAlignment="Left" HeaderStyle="{StaticResource CenterGridHeaderStyle_13}" />
+                                    <!--<c1:DataGridTextColumn        Header = "제품"              Binding = "{Binding PRODID}"      HorizontalAlignment="Center" HeaderStyle="{StaticResource CenterGridHeaderStyle_13}" />-->
+                                    <c1:DataGridTextColumn        Header = "Ver."              Binding = "{Binding VER}"         HorizontalAlignment="Left" HeaderStyle="{StaticResource CenterGridHeaderStyle_13}" />
+                                    <!--<c1:DataGridTextColumn        Header = "COT"           Binding = "{Binding LINK_COT}"    HorizontalAlignment="Center" HeaderStyle="{StaticResource CenterGridHeaderStyle_13}" />-->
+                                    <c1:DataGridTextColumn        Header = "STOCK"     Binding = "{Binding STOCK_CNT}"   HorizontalAlignment="Right"  HeaderStyle="{StaticResource CenterGridHeaderStyle_13}" Format="#,###0" />
+                                    <c1:DataGridTextColumn        Header = "REQ"                                                 HorizontalAlignment="Center" HeaderStyle="{StaticResource CenterGridHeaderStyle_13}" />
+                                </c1:C1DataGrid.Columns>
+
+                                <c1:C1DataGrid.TopRows>
+                                    <c1:DataGridColumnHeaderRow />
+                                    <c1:DataGridSummaryRow/>
+                                </c1:C1DataGrid.TopRows>
+
+
+                            </c1:C1DataGrid>
+
+                        </Grid>
+                    </Grid>
+
+                    <Grid Grid.Row="1" x:Name="UnLoaderOutput_2">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <!--HEADER-->
+                        <Grid Grid.Row="0" Grid.Column="0" x:Name="grHeaderUnLdOut_2"  MouseLeftButtonDown="grHeader_MouseLeftButtonDown" Height="50">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+
+                            <Border    Grid.Row="0" Grid.Column="0" Grid.RowSpan="6"  Height="50" Style="{DynamicResource Border_MNT001_Title_01}" ></Border>
+
+                            <!--TITLE-->
+                            <Grid Grid.Row="0" Grid.Column="0" Grid.RowSpan="6">
+                                <TextBlock  x:Name="tbTitUnLoaderOut_2" FontSize="35" Text="UnLoader"   VerticalAlignment="Center" FontWeight="Bold" HorizontalAlignment="Center"  FontFamily="LG Smart_H Bold" Foreground="White" />
+                            </Grid>
+                        </Grid>
+
+                        <!--Grid-->
+                        <Grid Grid.Row="1" Grid.Column="0" Background="Black">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+
+                            <Grid Grid.Row="0" Grid.Column="0" >
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="120"/>
+                                    <ColumnDefinition Width="10"/>
+                                    <ColumnDefinition Width="220"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="120"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock  Grid.Row="0" Grid.Column="0" FontSize="35" Text="Output"   VerticalAlignment="Center" FontWeight="Bold" HorizontalAlignment="Center"  FontFamily="LG Smart_H Bold" Foreground="White" Background="Gray" />
+                                 <TextBlock  Grid.Row="0" Grid.Column="2" FontSize="20" Text="( S:STATUS, M:MODE )"   VerticalAlignment="Center" FontWeight="Bold" HorizontalAlignment="Center"  FontFamily="LG Smart_H Bold" Foreground="RED" />
+                                <TextBlock  Grid.Row="0" Grid.Column="4" FontSize="20" x:Name="txtUnloderOut_2"   VerticalAlignment="Center" FontWeight="Bold" HorizontalAlignment="Center"  FontFamily="LG Smart_H Bold" Foreground="White"  />
+                            </Grid>
+
+                            <c1:C1DataGrid Grid.Row="1" Grid.Column="0" x:Name="dgUnLoaderOut_2"  FrozenTopRowsCount="3"  HeadersVisibility="None" Width="Auto" 
+                                HorizontalGridLinesBrush="White" VerticalGridLinesBrush="White" SelectionMode="None"  
+                                ColumnHeaderHeight="30" RowHeight="60" FontWeight="Bold"  FontSize="35" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Hidden" FontFamily="Arial Narrow"
+                                MouseOverBrush="Transparent" LoadedCellPresenter="dgLoader_LoadedCellPresenter"  CanUserFilter="False" CanUserSort="False" IsReadOnly="True">
+                                <!---->
+
+                                <c1:C1DataGrid.ColumnHeaderStyle>
+                                    <Style TargetType="DataGridColumnHeader">
+                                        <Setter Property="ContentTemplate">
+                                            <Setter.Value>
+                                                <DataTemplate>
+                                                    <TextBlock TextWrapping="Wrap" Text="{Binding}"></TextBlock>
+                                                </DataTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+
+                                    </Style>
+                                </c1:C1DataGrid.ColumnHeaderStyle>
+                                <c1:C1DataGrid.Columns>
+                                    <c1:DataGridTextColumn        Header = "[Port,Port,Port]"               Binding = "{Binding SRC_LOCID}"         HorizontalAlignment="Center" ctrlLib:DataGridMergeExtension.MergeMode="VERTICALHIERARCHI" HeaderStyle="{StaticResource CenterGridHeaderStyle_14}" />
+                                    <c1:DataGridTextColumn        Header = "[JOB,JOB,JOB]"                  Binding = "{Binding JOB}"               HorizontalAlignment="Center"    HeaderStyle="{StaticResource CenterGridHeaderStyle_15}" />
+                                    <c1:DataGridTextColumn        Header = "[From,NND,Skid]"                Binding = "{Binding SKIDID}"            HorizontalAlignment="Left"      HeaderStyle="{StaticResource CenterGridHeaderStyle_13}" />
+                                    <c1:DataGridTextColumn        Header = "[From,NND,S]"                   Binding = "{Binding SRC_STATUS}"        HorizontalAlignment="Center"    HeaderStyle="{StaticResource CenterGridHeaderStyle_13}" />
+                                    <c1:DataGridTextColumn        Header = "[From,NND,M]"                   Binding = "{Binding SRC_MODE}"          HorizontalAlignment="Center"    HeaderStyle="{StaticResource CenterGridHeaderStyle_13}" />
+                                    <c1:DataGridTextColumn        Header = "[To,PID_1,S]"                   Binding = "{Binding DST_STATUS_11}"     HorizontalAlignment="Center"    HeaderStyle="{StaticResource CenterGridHeaderStyle_13}" />
+                                    <c1:DataGridTextColumn        Header = "[To,PID_1,M]"                   Binding = "{Binding DST_MODE_11}"       HorizontalAlignment="Center"    HeaderStyle="{StaticResource CenterGridHeaderStyle_13}" />
+                                    <c1:DataGridTextColumn        Header = "[To,PID_2,S]"                   Binding = "{Binding DST_STATUS_12}"     HorizontalAlignment="Center"    HeaderStyle="{StaticResource CenterGridHeaderStyle_13}" x:Name="colOutStatus_2_2"/>
+                                    <c1:DataGridTextColumn        Header = "[To,PID_2,M]"                   Binding = "{Binding DST_MODE_12}"       HorizontalAlignment="Center"    HeaderStyle="{StaticResource CenterGridHeaderStyle_13}" x:Name="colOutMode_2_2"/>
+                                    <c1:DataGridTextColumn        Header = "[To,PID_3,S]"                   Binding = "{Binding DST_STATUS_13}"     HorizontalAlignment="Center"    HeaderStyle="{StaticResource CenterGridHeaderStyle_13}" x:Name="colOutStatus_2_3"/>
+                                    <c1:DataGridTextColumn        Header = "[To,PID_3,M]"                   Binding = "{Binding DST_MODE_13}"       HorizontalAlignment="Center"    HeaderStyle="{StaticResource CenterGridHeaderStyle_13}" x:Name="colOutMode_2_3"/>
+                                    <c1:DataGridTextColumn        Header = "[To,PID_4,S]"                   Binding = "{Binding DST_STATUS_14}"     HorizontalAlignment="Center"    HeaderStyle="{StaticResource CenterGridHeaderStyle_13}" x:Name="colOutStatus_2_4"/>
+                                    <c1:DataGridTextColumn        Header = "[To,PID_4,M]"                   Binding = "{Binding DST_MODE_14}"       HorizontalAlignment="Center"    HeaderStyle="{StaticResource CenterGridHeaderStyle_13}" x:Name="colOutMode_2_4"/>
+                                    <c1:DataGridTextColumn        Header = "[STK,STK,RATE.]"                 Binding = "{Binding CURR_STOCK_RATIO}"  HorizontalAlignment="Right"     HeaderStyle="{StaticResource CenterGridHeaderStyle_New_4}" ctrlLib:DataGridMergeExtension.MergeMode="VERTICALHIERARCHI" />
+                                    <c1:DataGridTextColumn        Header = "[STK,STK,QTY.]"                  Binding = "{Binding AVAIL_QTY}"         HorizontalAlignment="Right"     HeaderStyle="{StaticResource CenterGridHeaderStyle_13}"    ctrlLib:DataGridMergeExtension.MergeMode="VERTICALHIERARCHI" />
+                                </c1:C1DataGrid.Columns>
+                                <c1:C1DataGrid.TopRows>
+                                    <c1:DataGridColumnHeaderRow />
+                                    <c1:DataGridColumnHeaderRow />
+                                    <c1:DataGridColumnHeaderRow />
+                                    <c1:DataGridSummaryRow/>
+                                </c1:C1DataGrid.TopRows>
+                            </c1:C1DataGrid>
+
+                        </Grid>
+                    </Grid>
+                
+                    <Grid Grid.Row="2" x:Name="UnLoaderInput_2">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <!--HEADER-->
+                        <Grid Grid.Row="0" Grid.Column="0" x:Name="grHeaderUnLdIn_2"  MouseLeftButtonDown="grHeader_MouseLeftButtonDown" Height="50" Visibility="Collapsed">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+
+                            <Border    Grid.Row="0" Grid.Column="0" Grid.RowSpan="6"  Height="50"                 Style="{DynamicResource Border_MNT001_Title_01}" ></Border>
+
+                            <!--TITLE-->
+                            <Grid Grid.Row="0" Grid.Column="0" Grid.RowSpan="6">
+                                <TextBlock  x:Name="tbTitUnLoaderIn_2" FontSize="35" Text="UnLoaderIn"   VerticalAlignment="Center" FontWeight="Bold" HorizontalAlignment="Center"  FontFamily="LG Smart_H Bold" Foreground="White"/>
+                            </Grid>
+                        </Grid>
+
+                        <!--Grid-->
+                        <Grid Grid.Row="1" Grid.Column="0" Background="Black">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+
+                            <Grid Grid.Row="0" Grid.Column="0" >
+                                <Grid.ColumnDefinitions>
+                                   <ColumnDefinition Width="120"/>
+                                    <ColumnDefinition Width="10"/>
+                                    <ColumnDefinition Width="220"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="120"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock  Grid.Row="0" Grid.Column="0" FontSize="35" Text="Input"   VerticalAlignment="Center" FontWeight="Bold" HorizontalAlignment="Stretch"  FontFamily="LG Smart_H Bold" Foreground="White" Background="Gray" />
+                                <TextBlock  Grid.Row="0" Grid.Column="2" FontSize="20" Text="( S:STATUS, M:MODE )"   VerticalAlignment="Center" FontWeight="Bold" HorizontalAlignment="Center"  FontFamily="LG Smart_H Bold" Foreground="RED" />
+                                <TextBlock  Grid.Row="0" Grid.Column="4" FontSize="20" x:Name="txtUnloderIn_2"   VerticalAlignment="Center" FontWeight="Bold" HorizontalAlignment="Center"  FontFamily="LG Smart_H Bold" Foreground="White"  />
+                            </Grid>
+                            <c1:C1DataGrid Grid.Row="1" Grid.Column="0" x:Name="dgUnLoaderIn_2"  FrozenTopRowsCount="3"  HeadersVisibility="None" Width="Auto" 
+                                HorizontalGridLinesBrush="White" VerticalGridLinesBrush="White" SelectionMode="None"  
+                                ColumnHeaderHeight="30" RowHeight="60" FontWeight="Bold"  FontSize="35" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Hidden" FontFamily="Arial Narrow"
+                                MouseOverBrush="Transparent" LoadedCellPresenter="dgLoader_LoadedCellPresenter"  CanUserFilter="False" CanUserSort="False" IsReadOnly="True">
+                                <!---->
+
+                                <c1:C1DataGrid.ColumnHeaderStyle>
+                                    <Style TargetType="DataGridColumnHeader">
+                                        <Setter Property="ContentTemplate">
+                                            <Setter.Value>
+                                                <DataTemplate>
+                                                    <TextBlock TextWrapping="Wrap" Text="{Binding}"></TextBlock>
+                                                </DataTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+
+                                    </Style>
+                                </c1:C1DataGrid.ColumnHeaderStyle>
+
+
+                                <c1:C1DataGrid.Columns>
+                                    <c1:DataGridTextColumn        Header = "[Port,Port,Port]"              Binding = "{Binding DST_LOCID}"         HorizontalAlignment="Center" ctrlLib:DataGridMergeExtension.MergeMode="VERTICALHIERARCHI" HeaderStyle="{StaticResource CenterGridHeaderStyle_14}" />
+
+                                    <c1:DataGridTextColumn        Header = "[JOB,JOB,JOB]"                 Binding = "{Binding JOB}"               HorizontalAlignment="Center"  HeaderStyle="{StaticResource CenterGridHeaderStyle_15}" />
+
+                                    <c1:DataGridTextColumn        Header = "[To,NND,Skid]"               Binding = "{Binding SKIDID}"            HorizontalAlignment="Left"    HeaderStyle="{StaticResource CenterGridHeaderStyle_13}" />
+                                    <c1:DataGridTextColumn        Header = "[To,NND,S]"             Binding = "{Binding SRC_STATUS}"        HorizontalAlignment="Center"  HeaderStyle="{StaticResource CenterGridHeaderStyle_13}" />
+                                    <c1:DataGridTextColumn        Header = "[To,NND,M]"               Binding = "{Binding SRC_MODE}"          HorizontalAlignment="Center"  HeaderStyle="{StaticResource CenterGridHeaderStyle_13}" />
+
+                                    <c1:DataGridTextColumn        Header = "[From,Port ID_1,S]"       Binding = "{Binding DST_STATUS_21}"     HorizontalAlignment="Center"  HeaderStyle="{StaticResource CenterGridHeaderStyle_13}" />
+                                    <c1:DataGridTextColumn        Header = "[From,Port ID_1,M]"         Binding = "{Binding DST_MODE_21}"       HorizontalAlignment="Center"  HeaderStyle="{StaticResource CenterGridHeaderStyle_13}" />
+
+                                    <c1:DataGridTextColumn        Header = "[From,Port ID_2,S]"       Binding = "{Binding DST_STATUS_22}"     HorizontalAlignment="Center"  HeaderStyle="{StaticResource CenterGridHeaderStyle_13}" x:Name="colInStatus_2_2"/>
+                                    <c1:DataGridTextColumn        Header = "[From,Port ID_2,M]"         Binding = "{Binding DST_MODE_22}"       HorizontalAlignment="Center"  HeaderStyle="{StaticResource CenterGridHeaderStyle_13}" x:Name="colInMode_2_2"/>
+
+                                    <c1:DataGridTextColumn        Header = "[From,Port ID_3,S]"       Binding = "{Binding DST_STATUS_23}"     HorizontalAlignment="Center"  HeaderStyle="{StaticResource CenterGridHeaderStyle_13}" x:Name="colInStatus_2_3"/>
+                                    <c1:DataGridTextColumn        Header = "[From,Port ID_3,M]"         Binding = "{Binding DST_MODE_23}"       HorizontalAlignment="Center"  HeaderStyle="{StaticResource CenterGridHeaderStyle_13}" x:Name="colInMode_2_3"/>
+
+                                    <c1:DataGridTextColumn        Header = "[From,Port ID_4,S]"       Binding = "{Binding DST_STATUS_24}"     HorizontalAlignment="Center"  HeaderStyle="{StaticResource CenterGridHeaderStyle_13}" x:Name="colInStatus_2_4"/>
+                                    <c1:DataGridTextColumn        Header = "[From,Port ID_4,M]"         Binding = "{Binding DST_MODE_24}"       HorizontalAlignment="Center"  HeaderStyle="{StaticResource CenterGridHeaderStyle_13}" x:Name="colInMode_2_4"/>
+
+                                    <c1:DataGridTextColumn        Header = "[STK,STK,QTY.]"      Binding = "{Binding E_SKID_CNT}"        HorizontalAlignment="Right"   HeaderStyle="{StaticResource CenterGridHeaderStyle_New_4}" ctrlLib:DataGridMergeExtension.MergeMode="VERTICALHIERARCHI" />
+                                    
+
+                                </c1:C1DataGrid.Columns>
+
+                                <c1:C1DataGrid.TopRows>
+                                    <c1:DataGridColumnHeaderRow />
+                                    <c1:DataGridColumnHeaderRow />
+                                    <c1:DataGridColumnHeaderRow />
+                                    <c1:DataGridSummaryRow/>
+                                </c1:C1DataGrid.TopRows>
+
+
+                            </c1:C1DataGrid>
+
+                        </Grid>
+                    </Grid>
+                </Grid>
+                
+                <Grid Grid.Row="2" Grid.Column="2" x:Name="gd_3" Margin="2">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="0.46*" />
+                        <RowDefinition Height="0.29*" />
+                        <RowDefinition Height="0.25*" />
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="0" x:Name="Loader_3">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <!--HEADER-->
+                        <Grid Grid.Row="0" Grid.Column="0" x:Name="grHeader_3"  MouseLeftButtonDown="grHeader_MouseLeftButtonDown" Height="50">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+
+                            <Border    Grid.Row="0" Grid.Column="0" Grid.RowSpan="6"  Height="50" Style="{DynamicResource Border_MNT001_Title_01}" ></Border>
+
+                            <!--TITLE-->
+                            <Grid Grid.Row="0" Grid.Column="0" Grid.RowSpan="6">
+                                <TextBlock  x:Name="tbTitle_3" FontSize="35" Text="Loader"   VerticalAlignment="Center" FontWeight="Bold" HorizontalAlignment="Center"  FontFamily="LG Smart_H Bold" Foreground="White" />
+                            </Grid>
+
+                            <!--06시 적용 날짜정보-->
+                            <Grid Grid.Row="2" Grid.Column="0" Grid.RowSpan="2" VerticalAlignment="Bottom">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="8" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="32" />
+                                    <ColumnDefinition Width="8" />
+
+                                </Grid.ColumnDefinitions>
+                                <TextBlock  x:Name="tbAcceptResult_3" Grid.Column="2" FontFamily="LG Smart_H Bold" Text="06적용" HorizontalAlignment="Right" FontSize="20" FontWeight="Bold" Style="{DynamicResource TextBlock_MNT001_DateTime}" VerticalAlignment="Center" Visibility="Collapsed"/>
+                                <TextBlock  x:Name="dbAcepptResult_3" FontFamily="LG Smart_H Bold" FontSize="20" Grid.Column="3" Text="1111"   Style="{DynamicResource TextBlock_MNT001_DateTime}" VerticalAlignment="Center" Visibility="Collapsed"/>
+
+                            </Grid>
+
+                        </Grid>
+
+                        <!--Grid-->
+                        <Grid Grid.Row="1" Grid.Column="0" Background="Black">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+
+                            <c1:C1DataGrid Grid.Row="0" Grid.Column="0" x:Name="dgLoader_3"  FrozenTopRowsCount="1"  HeadersVisibility="None" Width="Auto" 
+                                HorizontalGridLinesBrush="White" VerticalGridLinesBrush="White" SelectionMode="None"  
+                                ColumnHeaderHeight="30" RowHeight="60" FontWeight="Bold"  FontSize="35" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Hidden" FontFamily="Arial Narrow"
+                                MouseOverBrush="Transparent" LoadedCellPresenter="dgLoader_LoadedCellPresenter"  CanUserFilter="False" CanUserSort="False" IsReadOnly="True">
+
+                                <c1:C1DataGrid.ColumnHeaderStyle>
+                                    <Style TargetType="DataGridColumnHeader">
+                                        <Setter Property="ContentTemplate">
+                                            <Setter.Value>
+                                                <DataTemplate>
+                                                    <TextBlock TextWrapping="Wrap" Text="{Binding}"></TextBlock>
+                                                </DataTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+
+                                    </Style>
+                                </c1:C1DataGrid.ColumnHeaderStyle>
+
+
+                                <c1:C1DataGrid.Columns>
+                                    <c1:DataGridTextColumn        Header = "MAC"              Binding = "{Binding EQPTID}"      HorizontalAlignment="Center" HeaderStyle="{StaticResource CenterGridHeaderStyle_13}" />
+                                    <!--<c1:DataGridTextColumn        Header = "W/O"               Binding = "{Binding WOID}"        HorizontalAlignment="Center" HeaderStyle="{StaticResource CenterGridHeaderStyle_13}" />-->
+                                    <c1:DataGridTextColumn        Header = "프로젝트명"        Binding = "{Binding PRJT_NAME}"   HorizontalAlignment="Left" HeaderStyle="{StaticResource CenterGridHeaderStyle_13}" />
+                                    <!--<c1:DataGridTextColumn        Header = "제품"              Binding = "{Binding PRODID}"      HorizontalAlignment="Center" HeaderStyle="{StaticResource CenterGridHeaderStyle_13}" />-->
+                                    <c1:DataGridTextColumn        Header = "Ver."              Binding = "{Binding VER}"         HorizontalAlignment="Left" HeaderStyle="{StaticResource CenterGridHeaderStyle_13}" />
+                                    <!--<c1:DataGridTextColumn        Header = "COT"           Binding = "{Binding LINK_COT}"    HorizontalAlignment="Center" HeaderStyle="{StaticResource CenterGridHeaderStyle_13}" />-->
+                                    <c1:DataGridTextColumn        Header = "STOCK"     Binding = "{Binding STOCK_CNT}"   HorizontalAlignment="Right"  HeaderStyle="{StaticResource CenterGridHeaderStyle_13}" Format="#,###0" />
+                                    <c1:DataGridTextColumn        Header = "REQ"                                                 HorizontalAlignment="Center" HeaderStyle="{StaticResource CenterGridHeaderStyle_13}" />
+                                </c1:C1DataGrid.Columns>
+
+                                <c1:C1DataGrid.TopRows>
+                                    <c1:DataGridColumnHeaderRow />
+                                    <c1:DataGridSummaryRow/>
+                                </c1:C1DataGrid.TopRows>
+
+
+                            </c1:C1DataGrid>
+
+                        </Grid>
+                    </Grid>
+
+                    <Grid Grid.Row="1" x:Name="UnLoaderOutput_3">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <!--HEADER-->
+                        <Grid Grid.Row="0" Grid.Column="0" x:Name="grHeaderUnLdOut_3"  MouseLeftButtonDown="grHeader_MouseLeftButtonDown" Height="50">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+
+                            <Border    Grid.Row="0" Grid.Column="0" Grid.RowSpan="6"  Height="50" Style="{DynamicResource Border_MNT001_Title_01}" ></Border>
+
+                            <!--TITLE-->
+                            <Grid Grid.Row="0" Grid.Column="0" Grid.RowSpan="6">
+                                <TextBlock  x:Name="tbTitUnLoaderOut_3" FontSize="35" Text="UnLoader"   VerticalAlignment="Center" FontWeight="Bold" HorizontalAlignment="Center"  FontFamily="LG Smart_H Bold" Foreground="White" />
+                            </Grid>
+                        </Grid>
+
+                        <!--Grid-->
+                        <Grid Grid.Row="1" Grid.Column="0" Background="Black">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+
+                            <Grid Grid.Row="0" Grid.Column="0" >
+                                <Grid.ColumnDefinitions>
+                                   <ColumnDefinition Width="120"/>
+                                    <ColumnDefinition Width="10"/>
+                                    <ColumnDefinition Width="220"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="120"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock  Grid.Row="0" Grid.Column="0" FontSize="35" Text="Output"   VerticalAlignment="Center" FontWeight="Bold" HorizontalAlignment="Center"  FontFamily="LG Smart_H Bold" Foreground="White" Background="Gray" />
+                              <TextBlock  Grid.Row="0" Grid.Column="2" FontSize="20" Text="( S:STATUS, M:MODE )"   VerticalAlignment="Center" FontWeight="Bold" HorizontalAlignment="Center"  FontFamily="LG Smart_H Bold" Foreground="RED" />
+                                <TextBlock  Grid.Row="0" Grid.Column="4" FontSize="20" x:Name="txtUnloderOut_3"   VerticalAlignment="Center" FontWeight="Bold" HorizontalAlignment="Center"  FontFamily="LG Smart_H Bold" Foreground="White"  />
+                            </Grid>
+                            
+                            <c1:C1DataGrid Grid.Row="1" Grid.Column="0" x:Name="dgUnLoaderOut_3"  FrozenTopRowsCount="3"  HeadersVisibility="None" Width="Auto" 
+                                HorizontalGridLinesBrush="White" VerticalGridLinesBrush="White" SelectionMode="None"  
+                                ColumnHeaderHeight="30" RowHeight="60" FontWeight="Bold"  FontSize="35" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Hidden" FontFamily="Arial Narrow"
+                                MouseOverBrush="Transparent" LoadedCellPresenter="dgLoader_LoadedCellPresenter"  CanUserFilter="False" CanUserSort="False" IsReadOnly="True">
+                                <!---->
+                                <c1:C1DataGrid.ColumnHeaderStyle>
+                                    <Style TargetType="DataGridColumnHeader">
+                                        <Setter Property="ContentTemplate">
+                                            <Setter.Value>
+                                                <DataTemplate>
+                                                    <TextBlock TextWrapping="Wrap" Text="{Binding}"></TextBlock>
+                                                </DataTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
+                                </c1:C1DataGrid.ColumnHeaderStyle>
+                                <c1:C1DataGrid.Columns>
+                                    <c1:DataGridTextColumn        Header = "[Port,Port,Port]"               Binding = "{Binding SRC_LOCID}"         HorizontalAlignment="Center" ctrlLib:DataGridMergeExtension.MergeMode="VERTICALHIERARCHI" HeaderStyle="{StaticResource CenterGridHeaderStyle_14}" />
+                                    <c1:DataGridTextColumn        Header = "[JOB,JOB,JOB]"                  Binding = "{Binding JOB}"               HorizontalAlignment="Center"    HeaderStyle="{StaticResource CenterGridHeaderStyle_15}" />
+                                    <c1:DataGridTextColumn        Header = "[From,NND,Skid]"                Binding = "{Binding SKIDID}"            HorizontalAlignment="Left"      HeaderStyle="{StaticResource CenterGridHeaderStyle_13}" />
+                                    <c1:DataGridTextColumn        Header = "[From,NND,S]"                   Binding = "{Binding SRC_STATUS}"        HorizontalAlignment="Center"    HeaderStyle="{StaticResource CenterGridHeaderStyle_13}" />
+                                    <c1:DataGridTextColumn        Header = "[From,NND,M]"                   Binding = "{Binding SRC_MODE}"          HorizontalAlignment="Center"    HeaderStyle="{StaticResource CenterGridHeaderStyle_13}" />
+                                    <c1:DataGridTextColumn        Header = "[To,PID_1,S]"                   Binding = "{Binding DST_STATUS_11}"     HorizontalAlignment="Center"    HeaderStyle="{StaticResource CenterGridHeaderStyle_13}" />
+                                    <c1:DataGridTextColumn        Header = "[To,PID_1,M]"                   Binding = "{Binding DST_MODE_11}"       HorizontalAlignment="Center"    HeaderStyle="{StaticResource CenterGridHeaderStyle_13}" />
+                                    <c1:DataGridTextColumn        Header = "[To,PID_2,S]"                   Binding = "{Binding DST_STATUS_12}"     HorizontalAlignment="Center"    HeaderStyle="{StaticResource CenterGridHeaderStyle_13}" x:Name="colOutStatus_3_2"/>
+                                    <c1:DataGridTextColumn        Header = "[To,PID_2,M]"                   Binding = "{Binding DST_MODE_12}"       HorizontalAlignment="Center"    HeaderStyle="{StaticResource CenterGridHeaderStyle_13}" x:Name="colOutMode_3_2"/>
+                                    <c1:DataGridTextColumn        Header = "[To,PID_3,S]"                   Binding = "{Binding DST_STATUS_13}"     HorizontalAlignment="Center"    HeaderStyle="{StaticResource CenterGridHeaderStyle_13}" x:Name="colOutStatus_3_3"/>
+                                    <c1:DataGridTextColumn        Header = "[To,PID_3,M]"                   Binding = "{Binding DST_MODE_13}"       HorizontalAlignment="Center"    HeaderStyle="{StaticResource CenterGridHeaderStyle_13}" x:Name="colOutMode_3_3"/>
+                                    <c1:DataGridTextColumn        Header = "[To,PID_4,S]"                   Binding = "{Binding DST_STATUS_14}"     HorizontalAlignment="Center"    HeaderStyle="{StaticResource CenterGridHeaderStyle_13}" x:Name="colOutStatus_3_4"/>
+                                    <c1:DataGridTextColumn        Header = "[To,PID_4,M]"                   Binding = "{Binding DST_MODE_14}"       HorizontalAlignment="Center"    HeaderStyle="{StaticResource CenterGridHeaderStyle_13}" x:Name="colOutMode_3_4"/>
+                                    <c1:DataGridTextColumn        Header = "[STK,STK,RATE.]"                 Binding = "{Binding CURR_STOCK_RATIO}"  HorizontalAlignment="Right"     HeaderStyle="{StaticResource CenterGridHeaderStyle_New_4}" ctrlLib:DataGridMergeExtension.MergeMode="VERTICALHIERARCHI" />
+                                    <c1:DataGridTextColumn        Header = "[STK,STK,QTY.]"                  Binding = "{Binding AVAIL_QTY}"         HorizontalAlignment="Right"     HeaderStyle="{StaticResource CenterGridHeaderStyle_13}"    ctrlLib:DataGridMergeExtension.MergeMode="VERTICALHIERARCHI" />
+                                 </c1:C1DataGrid.Columns>
+                                 <c1:C1DataGrid.TopRows>
+                                    <c1:DataGridColumnHeaderRow />
+                                    <c1:DataGridColumnHeaderRow />
+                                    <c1:DataGridColumnHeaderRow />
+                                    <c1:DataGridSummaryRow/>
+                                </c1:C1DataGrid.TopRows>
+
+
+                            </c1:C1DataGrid>
+
+                        </Grid>
+                    </Grid>
+                
+                    <Grid Grid.Row="2" x:Name="UnLoaderInput_3">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <!--HEADER-->
+                        <Grid Grid.Row="0" Grid.Column="0" x:Name="grHeaderUnLdIn_3"  MouseLeftButtonDown="grHeader_MouseLeftButtonDown" Height="50" Visibility="Collapsed">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+
+                            <Border    Grid.Row="0" Grid.Column="0" Grid.RowSpan="6"  Height="50"                 Style="{DynamicResource Border_MNT001_Title_01}" ></Border>
+
+                            <!--TITLE-->
+                            <Grid Grid.Row="0" Grid.Column="0" Grid.RowSpan="6">
+                                <TextBlock  x:Name="tbTitUnLoaderIn_3" FontSize="35" Text="UnLoaderIn"   VerticalAlignment="Center" FontWeight="Bold" HorizontalAlignment="Center"  FontFamily="LG Smart_H Bold" Foreground="White"/>
+                            </Grid>
+                        </Grid>
+
+                        <!--Grid-->
+                        <Grid Grid.Row="1" Grid.Column="0" Background="Black">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+
+                            <Grid Grid.Row="0" Grid.Column="0" >
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="120"/>
+                                    <ColumnDefinition Width="10"/>
+                                    <ColumnDefinition Width="220"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="120"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock  Grid.Row="0" Grid.Column="0" FontSize="35" Text="Input"   VerticalAlignment="Center" FontWeight="Bold" HorizontalAlignment="Stretch"  FontFamily="LG Smart_H Bold" Foreground="White" Background="Gray" />
+                                 <TextBlock  Grid.Row="0" Grid.Column="2" FontSize="20" Text="( S:STATUS, M:MODE )"   VerticalAlignment="Center" FontWeight="Bold" HorizontalAlignment="Center"  FontFamily="LG Smart_H Bold" Foreground="RED" />
+                                <TextBlock  Grid.Row="0" Grid.Column="4" FontSize="20" x:Name="txtUnloderIn_3"   VerticalAlignment="Center" FontWeight="Bold" HorizontalAlignment="Center"  FontFamily="LG Smart_H Bold" Foreground="White"  />
+                            </Grid>
+                            <c1:C1DataGrid Grid.Row="1" Grid.Column="0" x:Name="dgUnLoaderIn_3"  FrozenTopRowsCount="3"  HeadersVisibility="None" Width="Auto" 
+                                HorizontalGridLinesBrush="White" VerticalGridLinesBrush="White" SelectionMode="None"  
+                                ColumnHeaderHeight="30" RowHeight="60" FontWeight="Bold"  FontSize="35" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Hidden" FontFamily="Arial Narrow"
+                                MouseOverBrush="Transparent" LoadedCellPresenter="dgLoader_LoadedCellPresenter"  CanUserFilter="False" CanUserSort="False" IsReadOnly="True">
+                                <!---->
+
+                                <c1:C1DataGrid.ColumnHeaderStyle>
+                                    <Style TargetType="DataGridColumnHeader">
+                                        <Setter Property="ContentTemplate">
+                                            <Setter.Value>
+                                                <DataTemplate>
+                                                    <TextBlock TextWrapping="Wrap" Text="{Binding}"></TextBlock>
+                                                </DataTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+
+                                    </Style>
+                                </c1:C1DataGrid.ColumnHeaderStyle>
+
+
+                                <c1:C1DataGrid.Columns>
+                                    <c1:DataGridTextColumn        Header = "[Port,Port,Port]"              Binding = "{Binding DST_LOCID}"         HorizontalAlignment="Center" ctrlLib:DataGridMergeExtension.MergeMode="VERTICALHIERARCHI" HeaderStyle="{StaticResource CenterGridHeaderStyle_14}" />
+
+                                    <c1:DataGridTextColumn        Header = "[JOB,JOB,JOB]"                 Binding = "{Binding JOB}"               HorizontalAlignment="Center"  HeaderStyle="{StaticResource CenterGridHeaderStyle_15}" />
+
+                                    <c1:DataGridTextColumn        Header = "[To,NND,Skid]"               Binding = "{Binding SKIDID}"            HorizontalAlignment="Left"    HeaderStyle="{StaticResource CenterGridHeaderStyle_13}" />
+                                    <c1:DataGridTextColumn        Header = "[To,NND,S]"             Binding = "{Binding SRC_STATUS}"        HorizontalAlignment="Center"  HeaderStyle="{StaticResource CenterGridHeaderStyle_13}" />
+                                    <c1:DataGridTextColumn        Header = "[To,NND,M]"               Binding = "{Binding SRC_MODE}"          HorizontalAlignment="Center"  HeaderStyle="{StaticResource CenterGridHeaderStyle_13}" />
+
+                                    <c1:DataGridTextColumn        Header = "[From,Port ID_1,S]"       Binding = "{Binding DST_STATUS_21}"     HorizontalAlignment="Center"  HeaderStyle="{StaticResource CenterGridHeaderStyle_13}" />
+                                    <c1:DataGridTextColumn        Header = "[From,Port ID_1,M]"         Binding = "{Binding DST_MODE_21}"       HorizontalAlignment="Center"  HeaderStyle="{StaticResource CenterGridHeaderStyle_13}" />
+
+                                    <c1:DataGridTextColumn        Header = "[From,Port ID_2,S]"       Binding = "{Binding DST_STATUS_22}"     HorizontalAlignment="Center"  HeaderStyle="{StaticResource CenterGridHeaderStyle_13}" x:Name="colInStatus_3_2"/>
+                                    <c1:DataGridTextColumn        Header = "[From,Port ID_2,M]"         Binding = "{Binding DST_MODE_22}"       HorizontalAlignment="Center"  HeaderStyle="{StaticResource CenterGridHeaderStyle_13}" x:Name="colInMode_3_2"/>
+
+                                    <c1:DataGridTextColumn        Header = "[From,Port ID_3,S]"       Binding = "{Binding DST_STATUS_23}"     HorizontalAlignment="Center"  HeaderStyle="{StaticResource CenterGridHeaderStyle_13}" x:Name="colInStatus_3_3"/>
+                                    <c1:DataGridTextColumn        Header = "[From,Port ID_3,M]"         Binding = "{Binding DST_MODE_23}"       HorizontalAlignment="Center"  HeaderStyle="{StaticResource CenterGridHeaderStyle_13}" x:Name="colInMode_3_3"/>
+
+                                    <c1:DataGridTextColumn        Header = "[From,Port ID_4,S]"       Binding = "{Binding DST_STATUS_24}"     HorizontalAlignment="Center"  HeaderStyle="{StaticResource CenterGridHeaderStyle_13}" x:Name="colInStatus_3_4"/>
+                                    <c1:DataGridTextColumn        Header = "[From,Port ID_4,M]"         Binding = "{Binding DST_MODE_24}"       HorizontalAlignment="Center"  HeaderStyle="{StaticResource CenterGridHeaderStyle_13}" x:Name="colInMode_3_4"/>
+
+                                    <c1:DataGridTextColumn        Header = "[STK,STK,QTY.]"      Binding = "{Binding E_SKID_CNT}"        HorizontalAlignment="Right"   HeaderStyle="{StaticResource CenterGridHeaderStyle_New_4}" ctrlLib:DataGridMergeExtension.MergeMode="VERTICALHIERARCHI" />
+                                    
+
+                                </c1:C1DataGrid.Columns>
+
+                                <c1:C1DataGrid.TopRows>
+                                    <c1:DataGridColumnHeaderRow />
+                                    <c1:DataGridColumnHeaderRow />
+                                    <c1:DataGridColumnHeaderRow />
+                                    <c1:DataGridSummaryRow/>
+                                </c1:C1DataGrid.TopRows>
+
+
+                            </c1:C1DataGrid>
+
+                        </Grid>
+                    </Grid>
+                </Grid>
+                
+            </Grid>
+
+            <!--Left Fram Siliding Control-->
+            <Grid Grid.Row="0" Grid.RowSpan="2" VerticalAlignment="Top" Height="Auto">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+
+                <ToggleButton x:Name="btnLeftFrame" Grid.Row="0" Grid.RowSpan="2" Grid.Column="1" Grid.ColumnSpan="2" 
+                              Checked="btnLeftFrame_Checked" Unchecked="btnLeftFrame_Unchecked" Margin="-2,0,0,0" Height="70" Width="30" 
+                              Style="{StaticResource btnLeftStyle}" VerticalAlignment="Top" HorizontalAlignment="Left" IsChecked="False">
+                </ToggleButton>
+
+                <Grid x:Name="grdleftFrame" Grid.Row="0" Grid.RowSpan="2" Grid.Column="0" VerticalAlignment="Stretch" HorizontalAlignment="Left" Width="0"  Height="Auto">
+
+                    <Grid.Resources>
+                        <LinearGradientBrush x:Key="leftbgBrush" StartPoint="1,1" EndPoint="0,1" >
+                            <GradientStop Color="#DEDEDE " Offset="0.5"/>
+                            <GradientStop Color="#C0C0C0" Offset="0"/>
+                        </LinearGradientBrush>
+                    </Grid.Resources>
+
+                    <Border VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Style="{StaticResource Content_InputForm_LabelBorderStyle}" BorderBrush="#FFDFDFDE" BorderThickness="1"  Padding="5">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="32"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                                <RowDefinition Height="8"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <!--Frame Content Area-->
+
+                            <TextBlock              Grid.Row="0" Grid.Column="0" Text="{Binding Converter={StaticResource GlobalObjectDicConverter}, ConverterParameter='설비 그룹'}"                Style="{DynamicResource Content_InputForm_LabelStyle}"/>
+                            <c1:C1ComboBox          Grid.Row="0" Grid.Column="1" x:Name="cboEquipmentSegment" DisplayMemberPath="CBO_NAME" SelectedValuePath="CBO_CODE" SelectedIndexChanged="cboEquipmentSegment_SelectedIndexChanged"   Style="{StaticResource C1ComboBoxStyle}" AutoComplete="False" />
+                            <TextBlock              Grid.Row="1" Grid.Column="0" Text="{Binding Converter={StaticResource GlobalObjectDicConverter}, ConverterParameter='선택'}"                Style="{DynamicResource Content_InputForm_LabelStyle}"/>
+                            <TextBlock              Grid.Row="2" Grid.Column="0" x:Name="tbProcess_1"  Text="{Binding Converter={StaticResource GlobalObjectDicConverter}, ConverterParameter='설비_1'}"                Style="{DynamicResource Content_InputForm_LabelStyle}"/>
+                            <c1:C1ComboBox          Grid.Row="2" Grid.Column="1" x:Name="cboEquipment_1" DisplayMemberPath="CBO_NAME" SelectedValuePath="CBO_CODE" Style="{StaticResource C1ComboBoxStyle}" AutoComplete="False" />
+                            <TextBlock              Grid.Row="3" Grid.Column="0" x:Name="tbProcess_2"  Text="{Binding Converter={StaticResource GlobalObjectDicConverter}, ConverterParameter='설비_2'}"                Style="{DynamicResource Content_InputForm_LabelStyle}"/>
+                            <c1:C1ComboBox          Grid.Row="3" Grid.Column="1" x:Name="cboEquipment_2" DisplayMemberPath="CBO_NAME" SelectedValuePath="CBO_CODE" Style="{StaticResource C1ComboBoxStyle}" AutoComplete="False" />
+                            <TextBlock              Grid.Row="4" Grid.Column="0" x:Name="tbProcess_3"  Text="{Binding Converter={StaticResource GlobalObjectDicConverter}, ConverterParameter='설비_3'}"                Style="{DynamicResource Content_InputForm_LabelStyle}"/>
+                            <c1:C1ComboBox          Grid.Row="4" Grid.Column="1" x:Name="cboEquipment_3" DisplayMemberPath="CBO_NAME" SelectedValuePath="CBO_CODE" Style="{StaticResource C1ComboBoxStyle}" AutoComplete="False" />
+                            <TextBlock              Grid.Row="5" Grid.Column="0" Text="{Binding Converter={StaticResource GlobalObjectDicConverter}, ConverterParameter='*'}"                Style="{DynamicResource Content_InputForm_LabelStyle}" />
+
+                            <TextBlock              Grid.Row="7" Grid.Column="0" Text="{Binding Converter={StaticResource GlobalObjectDicConverter}, ConverterParameter='Display 주기(분)'}"    Style="{DynamicResource Content_InputForm_LabelStyle}" />
+                            <c1:C1NumericBox        Grid.Row="7" Grid.Column="1" x:Name="numRefresh"                                                                                            Style="{StaticResource C1NumericBoxStyle}" Minimum="0" Value="1" ValueChanged="numRefresh_ValueChanged" />
+
+                            <TextBlock              Grid.Row="8" Grid.Column="0" Text="{Binding Converter={StaticResource GlobalObjectDicConverter}, ConverterParameter='Font Size'}"    Style="{DynamicResource Content_InputForm_LabelStyle}" Visibility="Collapsed" />
+                                                                                <c1:C1NumericBox        Grid.Row="8" Grid.Column="1" x:Name="numFontSize"                                Style="{StaticResource C1NumericBoxStyle}" Minimum="12" Maximum="36" Value="20" Visibility="Collapsed" />
+
+                            <Grid Grid.Row="11" Grid.Column="0" Grid.ColumnSpan="2">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="4"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                     <ColumnDefinition Width="4"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <Button Grid.Row="5" Grid.Column="0" x:Name="btnExecute"       Content="{Binding ConverterParameter='실행', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{DynamicResource Content_MainButtonNoMinWidthSpecialStyle}" Click="btnExecute_Click" />
+                                <Button Grid.Row="5" Grid.Column="2" x:Name="btnSetCondition"  Content="{Binding ConverterParameter='적용', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{DynamicResource Content_MainButtonNoMinWidthSpecialStyle}" Click="btnSetCondition_Click" Visibility="Collapsed" />
+                                <Button Grid.Row="5" Grid.Column="4" x:Name="btnSetClose"      Content="{Binding ConverterParameter='닫기', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{DynamicResource Content_MainButtonNoMinWidthStyle}"        Click="btnSetClose_Click"/>
+                            </Grid>
+
+                            <!--Frame Content Area-->
+
+                        </Grid>
+                    </Border>
+
+                </Grid>
+
+                <Grid x:Name="grdleftSplitter" Grid.Row="0" Grid.RowSpan="2" Grid.Column="1" Width="0" Background="#DEDEDE">
+                    <Rectangle Stroke="#F9F9F9" Width="1" HorizontalAlignment="Right">
+                        <Rectangle.Effect>
+                            <DropShadowEffect BlurRadius="2" Color="Black" ShadowDepth="1"  Opacity="1" Direction="0" />
+                        </Rectangle.Effect>
+                    </Rectangle>
+                </Grid>
+            </Grid>
+
+        </Grid>
+
+        <ctrlLib:LoadingIndicator x:Name="loadingIndicator" Grid.Row="999" Grid.Column="999" />
+    </Grid>
+
+</Window>

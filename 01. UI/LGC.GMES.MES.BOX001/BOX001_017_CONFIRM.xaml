@@ -1,0 +1,146 @@
+<c1:C1Window x:Class="LGC.GMES.MES.BOX001.BOX001_017_CONFIRM"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:c1="http://schemas.componentone.com/winfx/2006/xaml"
+		     xmlns:System="clr-namespace:System;assembly=mscorlib"
+             xmlns:ctrlLib="clr-namespace:LGC.GMES.MES.ControlsLibrary;assembly=LGC.GMES.MES.ControlsLibrary" 
+             xmlns:uc="clr-namespace:LGC.GMES.MES.CMM001.Controls;assembly=LGC.GMES.MES.CMM001"       
+             ctrlLib:LGCPopupWindowExtension.ApplyStyle="True"
+             Header="{Binding Converter={StaticResource GlobalObjectDicConverter}, ConverterParameter='반품확정'}" 
+             Tag="ProtoType01Windows01" Height="500" Width="800" IsResizable="True" >
+
+    <c1:C1Window.Resources>
+        <ResourceDictionary Source="/LGC.GMES.MES.ControlsLibrary;Component/ControlStyles.xaml"/>
+    </c1:C1Window.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="45"/>
+            <RowDefinition Height="8"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="8"/>
+            <RowDefinition Height="80"/>
+            <RowDefinition Height="8"/>
+            <RowDefinition Height="40"/>
+        </Grid.RowDefinitions>
+
+        <Grid x:Name="Area1" Grid.Row="0">
+            <Border Grid.Row="0" Grid.Column="0" Background="#fff2f2f2" BorderThickness="1" BorderBrush="#ffd1d1d1"></Border>
+            <Grid   Grid.Row="0" Grid.Column="0" >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="13"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="30"/>
+                    <ColumnDefinition Width="13"/>
+                </Grid.ColumnDefinitions>
+
+                <Grid Grid.Row="0" Grid.Column="1">
+                    <TextBlock   Text="{Binding ConverterParameter='반품확정 하시겠습니까?', Converter={StaticResource GlobalObjectDicConverter}, RelativeSource={RelativeSource Self}}" HorizontalAlignment="Right" 
+                                            Style="{StaticResource Content_Search_LabelStyle}" />
+                </Grid>
+
+                <!--<uc:UcBaseCheckBox    Grid.Row="0"  Grid.Column="4" Content="{Binding Converter={StaticResource GlobalObjectDicConverter}, ConverterParameter=포장해체 }"    
+                             Style="{StaticResource SearchCondition_CheckBoxStyle}" x:Name="chkUnpack" IsChecked="False" Margin="10,0" />-->
+
+                <TextBlock      Grid.Row="0"  Grid.Column="4" Text="{Binding ConverterParameter='작업자', Converter={StaticResource GlobalObjectDicConverter}, RelativeSource={RelativeSource Self}}" HorizontalAlignment="Right" 
+                                Style="{StaticResource Content_InputForm_LabelStyle}" Visibility="Hidden" />
+
+                <TextBox Grid.Row="0" Grid.Column="5" x:Name="txtUserID" Style="{StaticResource SearchCondition_TextBoxStyle}" Margin="8,3"  MinWidth="100" IsReadOnly="True" Visibility="Hidden"/>
+
+                <uc:UcBaseButton Grid.Row="0" Grid.Column="6" x:Name="btnWorker"    Content="{Binding ConverterParameter=Title17,   Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" 
+                        Style="{DynamicResource Content_SearchButtonStyle}" Click="btnWorker_Click" Visibility="Hidden"/>
+
+            </Grid>
+        </Grid>
+
+
+
+        <!--<Grid x:Name="Area2" Grid.Row="2">
+            <Border Grid.Row="0" Grid.Column="0" Background="#fff2f2f2" BorderThickness="1" BorderBrush="#ffd1d1d1" ></Border>
+            <Grid   Grid.Row="0" Grid.Column="0" >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="13"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="30"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="13"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock      Grid.Row="0"  Grid.Column="1" Text="{Binding ConverterParameter='확정일시', Converter={StaticResource GlobalObjectDicConverter}, RelativeSource={RelativeSource Self}}" HorizontalAlignment="Right" 
+                                Style="{StaticResource Content_InputForm_LabelStyle}" />
+
+                <DatePicker Grid.Row="0"  Grid.Column="2" Margin="8,3" Style="{StaticResource DatePickerBaseStyle}" x:Name="dtpDateFrom"/>
+
+                <c1:C1TimeEditor  Grid.Row="0" Grid.Column="3" x:Name="teTimeEditor" Style="{StaticResource C1TimeEditorStyle}" ></c1:C1TimeEditor>
+
+                <uc:UcBaseCheckBox    Grid.Row="0"  Grid.Column="5" Content="{Binding Converter={StaticResource GlobalObjectDicConverter}, ConverterParameter=포장해체 }"    
+                             Style="{StaticResource SearchCondition_CheckBoxStyle}" x:Name="chkUnpack" IsChecked="False" Margin="10,0" />
+
+            </Grid>
+
+        </Grid>-->
+
+
+        <Grid x:Name="GridArea" Grid.Row="2">
+
+            <Border        Grid.Row="2" Grid.Column="0" Style="{StaticResource Content_InputForm_GroupBorderStyle}"/>
+            <c1:C1DataGrid x:Name="dgReturn_Confrim" IsReadOnly="True" HeadersVisibility="Column" CanUserRemoveRows="True" CanUserAddRows="True" 
+                                               SelectionMode="SingleCell" Grid.ColumnSpan="2" Margin="8" >
+                <c1:C1DataGrid.Columns>
+                    <c1:DataGridTextColumn Header = "반품번호"        Binding = "{Binding RCV_ISS_ID}" HorizontalAlignment="Center"/>
+                    <c1:DataGridTextColumn Header = "FROM_AREAID"        Binding = "{Binding FROM_AREAID}" HorizontalAlignment="Center" Visibility="Collapsed"/>
+                    <c1:DataGridTextColumn Header = "FROM창고"        Binding = "{Binding FROM_SLOC_ID}" HorizontalAlignment="Center" Visibility="Collapsed"/>
+                    <c1:DataGridTextColumn Header = "FROM창고명"        Binding = "{Binding FROM_SLOC_ID_DESC}" HorizontalAlignment="Center"/>
+                    <c1:DataGridTextColumn Header = "BOX수량"        Binding = "{Binding PALLET_QTY}" HorizontalAlignment="Center"/>
+                    <c1:DataGridTextColumn Header = "CELL정보"        Binding = "{Binding CELL_INFO}" HorizontalAlignment="Center" Visibility="Collapsed"/>
+                    <c1:DataGridTextColumn Header = "입고수량"        Binding = "{Binding RCV_QTY}" HorizontalAlignment="Center" Format="#,##0"/>
+                    <c1:DataGridTextColumn Header = "반품수량"        Binding = "{Binding ISS_QTY}" HorizontalAlignment="Center" Format="#,##0"/>
+                    <c1:DataGridTextColumn Header = "비고"        Binding = "{Binding ISS_NOTE}" HorizontalAlignment="Center"/>
+                </c1:C1DataGrid.Columns>
+            </c1:C1DataGrid>
+
+        </Grid>
+        <Border Grid.Row="4" Background="#fff2f2f2" BorderThickness="1" BorderBrush="#ffd1d1d1"></Border>
+        <RichTextBox  Grid.Row="4" x:Name="txtNote" Height="100" BorderThickness="1" BorderBrush="#FFC3C3C3" Margin="8">
+            <RichTextBox.Resources>
+                <Style TargetType="{x:Type Paragraph}">
+                    <Setter Property="Margin" Value="5"/>
+                </Style>
+            </RichTextBox.Resources>
+            <FlowDocument LineHeight="10" >
+                <Paragraph FontSize="10pt" LineHeight="10pt"  LineStackingStrategy="BlockLineHeight" Tag="TEST">
+                </Paragraph>
+            </FlowDocument>
+        </RichTextBox>
+        <Border Grid.Row="6" Background="#fff2f2f2" BorderThickness="1" BorderBrush="#ffd1d1d1"></Border>
+        <Grid Grid.Row="6" x:Name="ButtonArea">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="15"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="20"/>
+            </Grid.ColumnDefinitions>
+
+            <uc:UcBaseButton x:Name="btnConfirm"      Grid.Row="2" Grid.Column="1"   Content="{Binding ConverterParameter=확인,    Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" 
+                    Style="{StaticResource Content_MainButtonSpecialStyle}" Cursor="Hand" Click="btnConfirm_Click" />
+
+            <uc:UcBaseButton x:Name="btnCancel"      Grid.Row="2" Grid.Column="3"   Content="{Binding ConverterParameter=취소,    Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" 
+                    Style="{StaticResource Content_MainButtonStyle}" Cursor="Hand" Click="btnCancel_Click" />
+
+            <!--<uc:UcBaseButton     Grid.Row="2" Grid.Column="1" x:Name="btnConfirm"   Content="{Binding ConverterParameter=확인,   Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{DynamicResource Content_MainButtonNoMinWidthStyle}" Click="btnConfirm_Click"/>
+            <uc:UcBaseButton     Grid.Row="2" Grid.Column="3" x:Name="btnCancel"   Content="{Binding ConverterParameter=취소,   Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{DynamicResource Content_MainButtonNoMinWidthSpecialStyle}" Click="btnCancel_Click"/>-->
+
+        </Grid>
+
+        <ctrlLib:LoadingIndicator x:Name="loadingIndicator" Grid.Row="999" Grid.Column="999" />
+    </Grid>
+
+</c1:C1Window>

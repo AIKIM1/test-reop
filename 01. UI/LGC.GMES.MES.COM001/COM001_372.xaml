@@ -1,0 +1,184 @@
+﻿<UserControl xmlns:ss="http://schemas.grapecity.com/windows/spreadsheet/2012"  
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:c1="http://schemas.componentone.com/winfx/2006/xaml"
+             xmlns:ctrlLib="clr-namespace:LGC.GMES.MES.ControlsLibrary;assembly=LGC.GMES.MES.ControlsLibrary"
+             mc:Ignorable="d" 
+             d:DesignHeight="768" d:DesignWidth="1024" x:Class="LGC.GMES.MES.COM001.COM001_372" 
+             Loaded="UserControl_Loaded"
+             >
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/LGC.GMES.MES.ControlsLibrary;component/ControlStyles.xaml" />
+                <ResourceDictionary Source="/LGC.GMES.MES.ControlsLibrary;component/ControlTemplates/LGCDatePicker.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <Grid>
+        <ctrlLib:LGCLayout x:Name="LayoutRoot" Tag="Roll Map 생성률, 기준점 인식률 조회">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="8" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <!--백그라운드용-->
+                <Border Grid.Row="0" Grid.Column="0" Style="{StaticResource Content_InputForm_LabelBorderStyle}" />
+
+                <!--조회영역-->
+                <Grid Grid.Row="0" Name="grdSearch">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="8" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="8" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="8" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="13"/>
+                        <ColumnDefinition Width="1.3*" />
+                        <ColumnDefinition Width="10"/>
+                        <ColumnDefinition Width="1.0*" />
+                        <ColumnDefinition Width="10"/>
+                        <ColumnDefinition Width="1.0*" />
+                        <ColumnDefinition Width="10"/>
+                        <ColumnDefinition Width="1.2*" />
+                        <ColumnDefinition Width="4" />
+                        <ColumnDefinition Width="0.8*" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="13" />
+                    </Grid.ColumnDefinitions>
+                    <!--조회조건-->
+
+                    <Border     Grid.Row="0" Grid.Column="0" Grid.RowSpan="99" Grid.ColumnSpan="99" Style="{StaticResource Content_InputForm_LabelBorderStyle}"/>
+                    <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" >
+                        <RadioButton Margin="0,0,5,0" Content="{Binding Converter={StaticResource GlobalObjectDicConverter}, ConverterParameter=생성률}" GroupName="RadioButton_SearchType" Name="rdoCreate" Tag="1" Style="{StaticResource SearchCondition_RadioButtonStyle}" IsChecked="True" Click="rdoCreate_Click" />
+                        <RadioButton Margin="0,0,5,0" Content="{Binding Converter={StaticResource GlobalObjectDicConverter}, ConverterParameter=기준점 인식률}" GroupName="RadioButton_SearchType" Name="rdoCognition" Tag="2" Style="{StaticResource SearchCondition_RadioButtonStyle}" Click="rdoCognition_Click"  />
+                        <RadioButton Margin="0,0,5,0" Content="{Binding Converter={StaticResource GlobalObjectDicConverter}, ConverterParameter=UW엔코더 슬립}" GroupName="RadioButton_SearchType" Name="rdoUwslip" Tag="3" Style="{StaticResource SearchCondition_RadioButtonStyle}" Click="rdoUwslip_Click"  />
+                    </StackPanel>
+
+                    <Grid Grid.Row="1" Grid.Column="3" >
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="3.*"/>
+                            <ColumnDefinition Width="7.*"/>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Right">
+                            <TextBlock  Text="{Binding ConverterParameter='조회기간',      Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_Search_LabelStyle}"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal"  Grid.Row="0" Grid.Column="1" HorizontalAlignment="Right">
+                            <ctrlLib:LGCDatePicker DatepickerType="Date" x:Name="dtpDateFrom"  />
+                            <TextBlock  Text="~" Style="{StaticResource Content_InputForm_LabelStyle}" Margin="3,0,3,0"/>
+                            <ctrlLib:LGCDatePicker DatepickerType="Date" x:Name="dtpDateTo" />
+                        </StackPanel>
+                    </Grid>
+
+                    <!--<Grid Grid.Row="1" Grid.Column="5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="3*"/>
+                            <ColumnDefinition Width="7*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock      Grid.Column="0" Text="{Binding ConverterParameter='공정', Converter={StaticResource GlobalObjectDicConverter}, RelativeSource={RelativeSource Self}}" Style="{StaticResource Content_Search_LabelStyle}" />
+                        <c1:C1ComboBox  Grid.Column="1"  x:Name="cboProcess" DisplayMemberPath="CBO_NAME" SelectedValuePath="CBO_CODE" Style="{StaticResource C1ComboBoxStyle}" AutoComplete="False" SelectedValueChanged="cboProcess_SelectedValueChanged" />
+                    </Grid>-->
+
+                    <!--<Grid Grid.Row="1" Grid.Column="7">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="3*"/>
+                            <ColumnDefinition Width="7*"/>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Right">
+                            <TextBlock  Text="{Binding ConverterParameter='설비', Converter={StaticResource GlobalObjectDicConverter}, RelativeSource={RelativeSource Self}}" Style="{StaticResource Content_Search_LabelStyle}" />
+                        </StackPanel>
+                        --><!--<TextBox Grid.Column="1" Grid.Row="0" x:Name="txtEquipment" Style="{StaticResource SearchCondition_TextBoxStyle}" Height="Auto" AcceptsReturn="True" TextWrapping="Wrap"  />-->
+                        <!--<TextBlock Text="다중설비 콤마(,) 조회 가능" IsHitTestVisible="False" Grid.Column="1" Grid.Row="0" VerticalAlignment="Center" Margin="10,10,10,10" HorizontalAlignment="Left">
+                            <TextBlock.Style>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="Visibility" Value="Hidden"/>
+                                    <Setter Property="Foreground" Value="Gray"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding Text, ElementName=txtEquipment}" Value="">
+                                            <Setter Property="Visibility" Value="Visible"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>--><!--
+                        <ctrlLib:MultiSelectionBox Grid.Row="0" Grid.Column="1" x:Name="msbEquipment" DisplayMemberPath="EQPTNAME" SelectedValuePath="EQPTID" />
+                    </Grid>-->
+
+
+                    <Grid Grid.Row="3" Grid.Column="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="3*"/>
+                            <ColumnDefinition Width="7*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock      Grid.Column="0" Text="{Binding ConverterParameter='Factory', Converter={StaticResource GlobalObjectDicConverter}, RelativeSource={RelativeSource Self}}" Style="{StaticResource Content_Search_LabelStyle}" />
+                        <c1:C1ComboBox  Grid.Column="1"  x:Name="cboPlant" DisplayMemberPath="CBO_NAME" SelectedValuePath="CBO_CODE" Style="{StaticResource C1ComboBoxStyle}" AutoComplete="False" SelectedValueChanged="cboPlant_SelectedValueChanged" />
+                    </Grid>
+
+                    <Grid Grid.Row="3" Grid.Column="3">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="3*"/>
+                            <ColumnDefinition Width="7*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock      Grid.Column="0" Text="{Binding ConverterParameter='동', Converter={StaticResource GlobalObjectDicConverter}, RelativeSource={RelativeSource Self}}" Style="{StaticResource Content_Search_LabelStyle}" />
+                        <c1:C1ComboBox  Grid.Column="1"  x:Name="cboArea" DisplayMemberPath="CBO_NAME" SelectedValuePath="CBO_CODE" Style="{StaticResource C1ComboBoxStyle}" AutoComplete="False" SelectedValueChanged="cboArea_SelectedValueChanged" />
+                    </Grid>
+
+                    <Grid Grid.Row="3" Grid.Column="5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="3*"/>
+                            <ColumnDefinition Width="7*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock      Grid.Column="0" Text="{Binding ConverterParameter='공정', Converter={StaticResource GlobalObjectDicConverter}, RelativeSource={RelativeSource Self}}" Style="{StaticResource Content_Search_LabelStyle}" />
+                        <c1:C1ComboBox  Grid.Column="1"  x:Name="cboProcess" DisplayMemberPath="CBO_NAME" SelectedValuePath="CBO_CODE" Style="{StaticResource C1ComboBoxStyle}" AutoComplete="False" SelectedValueChanged="cboProcess_SelectedValueChanged" />
+                    </Grid>
+
+                    <Grid Grid.Row="3" Grid.Column="7">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="3*"/>
+                            <ColumnDefinition Width="7*"/>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Right">
+                            <TextBlock  Text="{Binding ConverterParameter='설비', Converter={StaticResource GlobalObjectDicConverter}, RelativeSource={RelativeSource Self}}" Style="{StaticResource Content_Search_LabelStyle}" />
+                        </StackPanel>
+                        <ctrlLib:MultiSelectionBox Grid.Row="0" Grid.Column="1" x:Name="msbEquipment" DisplayMemberPath="EQPTNAME" SelectedValuePath="EQPTID" />
+                    </Grid>
+
+                    <!--조회 버튼-->
+                    <Button Grid.Row="3" Grid.Column="10" x:Name="btnSearch"
+							Content="{Binding ConverterParameter=SEARCH, Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}"
+							Style="{StaticResource SearchButtonStyle}" Cursor="Hand" Click="btnSearch_Click" />
+                </Grid>
+
+                <Border Grid.Row="2" Grid.Column="0" Style="{StaticResource Content_InputForm_ContentBorderStyle}"/>
+                <!--LOT 리스트-->
+                <Grid Grid.Row="2" >
+                    <c1:C1DataGrid x:Name="dgList" 
+                                   Margin="8"
+                                   IsReadOnly="True" 
+                                   HeadersVisibility="Column"
+                                   FrozenColumnCount="2" 
+                                   SelectionMode="SingleRow"
+                                   AutoGenerateColumns="True" 
+                                   LoadedCellPresenter="dgList_LoadedCellPresenter" 
+                                   UnloadedCellPresenter="dgList_UnloadedCellPresenter" 
+                                   LoadedColumnHeaderPresenter="dgList_LoadedColumnHeaderPresenter"
+                                   MouseDoubleClick="dgList_MouseDoubleClick" 
+                                   ColumnHeaderHeight="50" 
+                                   MaxRowHeight="30"
+                                   >
+                    </c1:C1DataGrid>
+                </Grid>
+            </Grid>
+        </ctrlLib:LGCLayout>
+        <ctrlLib:LoadingIndicator x:Name="loadingIndicator" Grid.Row="999" Grid.Column="999" />
+    </Grid>
+
+</UserControl>
+<!---->

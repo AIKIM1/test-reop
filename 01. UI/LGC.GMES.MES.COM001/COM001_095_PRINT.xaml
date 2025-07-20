@@ -1,0 +1,78 @@
+﻿<c1:C1Window x:Class="LGC.GMES.MES.COM001.COM001_095_PRINT"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:c1="http://schemas.componentone.com/winfx/2006/xaml"
+		     xmlns:System="clr-namespace:System;assembly=mscorlib"
+             xmlns:ctrlLib="clr-namespace:LGC.GMES.MES.ControlsLibrary;assembly=LGC.GMES.MES.ControlsLibrary"        
+             ctrlLib:LGCPopupWindowExtension.ApplyStyle="True"
+             Header="{Binding Converter={StaticResource GlobalObjectDicConverter}, ConverterParameter='TAG 발행'}" 
+             Tag="ProtoType01Windows01" Height="300" Width="750" IsResizable="True" Initialized="C1Window_Initialized" Loaded="C1Window_Loaded"   >
+
+    <c1:C1Window.Resources>
+        <ResourceDictionary Source="/LGC.GMES.MES.ControlsLibrary;Component/ControlStyles.xaml"/>
+    </c1:C1Window.Resources>
+
+    <Grid Name="grdMain">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="15" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <!--Contents area-->
+        <Border Grid.Row ="1" Background="#ffffffff" BorderThickness="1" BorderBrush="#ffbebebe"></Border>
+        <Grid Grid.Row ="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="8" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="8" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="8" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="8" />
+            </Grid.ColumnDefinitions>
+             <Grid Grid.Row="1" Grid.Column="1">
+                <c1:C1DataGrid Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3" x:Name="dgLotInfo" IsReadOnly="False" HeadersVisibility="Column" SelectionMode="SingleCell"  >                        
+                    <c1:C1DataGrid.Columns>
+                        <c1:DataGridTemplateColumn Name="CHK" Width="40" Header = "선택"  >
+                            <c1:DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <RadioButton GroupName="dgLotChk" IsChecked="{Binding CHK, Mode=OneWay}" x:Name="dgLotList" Width="Auto" HorizontalAlignment="Center"  Checked="dgLotChk_Checked"/>
+                                </DataTemplate>
+                            </c1:DataGridTemplateColumn.CellTemplate>
+                        </c1:DataGridTemplateColumn>
+                        <c1:DataGridTextColumn      Header = "PalletID"             Binding = "{Binding LOTID}"          HorizontalAlignment="Center" IsReadOnly="True" />
+                        <c1:DataGridTextColumn      Header = "조립LOT"              Binding = "{Binding LOTID_RT}"       HorizontalAlignment="Center" IsReadOnly="True" />
+                        <c1:DataGridTextColumn      Header = "LOTTYPE"              Binding = "{Binding LOTYNAME}"       HorizontalAlignment="Center" IsReadOnly="True" />
+                        <c1:DataGridTextColumn      Header = "PJT"                  Binding = "{Binding PJT}"            HorizontalAlignment="Center" IsReadOnly="True" />
+                        <c1:DataGridTextColumn      Header = "제품"                 Binding = "{Binding PRODID}"          HorizontalAlignment="Center" IsReadOnly="True" />
+                        <c1:DataGridNumericColumn   Header = "수량"                 Binding = "{Binding WIPQTY}"            HorizontalAlignment="Right"  Format="###,###,##0.##" IsReadOnly="True" />
+                        <c1:DataGridTextColumn      Header = "단위"                 Binding = "{Binding UNIT}"       HorizontalAlignment="Center" IsReadOnly="True" />
+                        <c1:DataGridTextColumn      Header = "WIPSEQ"               Binding = "{Binding WIPSEQ}"             HorizontalAlignment="Center" IsReadOnly="True" Visibility="Collapsed" />
+                        <c1:DataGridTextColumn      Header = "WIPHOLD"              Binding = "{Binding WIPHOLD}"             HorizontalAlignment="Center" IsReadOnly="True" Visibility="Collapsed" />
+                        <c1:DataGridTextColumn      Header = "PROC_LABEL_PRT_FLAG"  Binding = "{Binding PROC_LABEL_PRT_FLAG}"             HorizontalAlignment="Center" IsReadOnly="True" Visibility="Collapsed" />
+                        <c1:DataGridTextColumn      Header = "EQPTID"               Binding = "{Binding EQPTID}"             HorizontalAlignment="Center" IsReadOnly="True" Visibility="Collapsed" />
+                        <c1:DataGridTextColumn      Header = "PROCID"               Binding = "{Binding PROCID}"             HorizontalAlignment="Center" IsReadOnly="True" Visibility="Collapsed" />
+                        <c1:DataGridTextColumn      Header = "CLSS3_CODE"           Binding = "{Binding CLSS3_CODE}"             HorizontalAlignment="Center" IsReadOnly="True" Visibility="Collapsed" />
+                    </c1:C1DataGrid.Columns>
+                </c1:C1DataGrid>
+            </Grid>
+        </Grid>
+
+        <!--button area-->
+        <Grid Grid.Row ="3">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="5"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <Button x:Name="btnPrint"    Grid.Column="1" Content="{Binding ConverterParameter='발행', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{DynamicResource Content_MainButtonSpecialStyle}" Click="btnPrint_Click"/>
+            <Button x:Name="btnClose" Grid.Column="3" Content="{Binding ConverterParameter='닫기', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{DynamicResource Content_MainButtonStyle}" Click="btnClose_Clicked" />
+        </Grid>
+
+        <ctrlLib:LoadingIndicator x:Name="loadingIndicator" />
+    </Grid>
+</c1:C1Window>

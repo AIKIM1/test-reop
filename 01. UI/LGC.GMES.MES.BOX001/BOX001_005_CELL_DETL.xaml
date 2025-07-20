@@ -1,0 +1,67 @@
+﻿<c1:C1Window x:Class="LGC.GMES.MES.BOX001.BOX001_005_CELL_DETL"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:c1="http://schemas.componentone.com/winfx/2006/xaml"
+		     xmlns:System="clr-namespace:System;assembly=mscorlib"
+             xmlns:ctrlLib="clr-namespace:LGC.GMES.MES.ControlsLibrary;assembly=LGC.GMES.MES.ControlsLibrary" 
+             xmlns:uc="clr-namespace:LGC.GMES.MES.CMM001.Controls;assembly=LGC.GMES.MES.CMM001"       
+             ctrlLib:LGCPopupWindowExtension.ApplyStyle="True"
+             Header="{Binding Converter={StaticResource GlobalObjectDicConverter}, ConverterParameter='CELL 조회'}" 
+             Tag="ProtoType01Windows01" Height="600" Width="600" IsResizable="True" >
+
+    <c1:C1Window.Resources>
+        <ResourceDictionary Source="/LGC.GMES.MES.ControlsLibrary;Component/ControlStyles.xaml"/>
+    </c1:C1Window.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="8" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <!--start search Area-->
+        <Grid x:Name="SearchArea" Grid.Row="0">
+            <Grid >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="51" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="2*" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="100" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="10" />
+                </Grid.ColumnDefinitions>
+
+                <Border Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="8" Background="#fff2f2f2" BorderThickness="1" BorderBrush="#ffd1d1d1"></Border>
+                <!--조회조건 타이틀-->
+                <TextBlock  Grid.Row="0" Grid.Column="0" Text="{Binding ConverterParameter='PALLETID', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}"/>
+                <TextBox  Grid.Row="0" Grid.Column="1" Margin="8,3" x:Name="txtPalletid" IsEnabled="False" Style="{StaticResource Content_InputForm_TextBoxStyle}"/>
+                <uc:UcBaseButton     Grid.Row="0" Grid.Column="4" x:Name="btnFileReg"   Content="{Binding ConverterParameter=Excel,   Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" 
+                                                    Style="{DynamicResource Content_ModuleButtonExcelExportStyle}" Click="btnExport_Click" Height="29"/>
+
+               
+
+            </Grid>
+        </Grid>
+        <!--end search Area-->
+    
+        <!--content area-->
+        <Border Grid.Row="2"  Background="#ffffffff" BorderThickness="1" BorderBrush="#ffbebebe"></Border>
+        <c1:C1DataGrid Grid.Row="2" Margin="8" x:Name="dgCellInfo" IsReadOnly="False" HeadersVisibility="Column" SelectionMode="SingleRow"  CanUserFilter="False" CanUserSort="False" >
+
+            <c1:C1DataGrid.Columns>
+                <c1:DataGridTextColumn        Header = "TRAYID"    Binding = "{Binding TRAYID}"   HorizontalAlignment="Left"  Width="*" />
+                <c1:DataGridTextColumn        Header = "Cell위치"  Binding = "{Binding PSTNNO}"   HorizontalAlignment="Right" Width="*" />
+                <c1:DataGridTextColumn        Header = "CELLID"    Binding = "{Binding CELLID}"   HorizontalAlignment="Left"  Width="*" />
+            </c1:C1DataGrid.Columns>
+
+        </c1:C1DataGrid>
+
+        <ctrlLib:LoadingIndicator x:Name="loadingIndicator" Grid.Row="999" Grid.Column="999" />
+    </Grid>
+    
+</c1:C1Window>

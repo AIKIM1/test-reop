@@ -1,0 +1,430 @@
+﻿<UserControl x:Class="LGC.GMES.MES.FCS001.FCS001_152"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:ctrlLib="clr-namespace:LGC.GMES.MES.ControlsLibrary;assembly=LGC.GMES.MES.ControlsLibrary"
+             xmlns:uc="clr-namespace:LGC.GMES.MES.CMM001.Controls;assembly=LGC.GMES.MES.CMM001"
+             xmlns:c1="http://schemas.componentone.com/winfx/2006/xaml"
+             mc:Ignorable="d" 
+             d:DesignHeight="850" d:DesignWidth="1920" 
+             Loaded="UserControl_Loaded" >
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/LGC.GMES.MES.ControlsLibrary;component/ControlStyles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <Grid>
+        <ctrlLib:LGCLayout x:Name="LayoutRoot" Tag="작업 중 Lot 불량 현황">
+            <ctrlLib:LGCLayout.Content>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <!--TopSearch-->
+                        <RowDefinition Height="Auto"/>
+                        <!--Contents-->
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <Border Grid.Row="0" Grid.Column="0" Style="{StaticResource Content_InputForm_LabelBorderStyle}" />
+                    <Grid x:Name="TopSearch">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="30"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="20"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="20"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="20"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="8" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="8" />
+                        </Grid.RowDefinitions>
+
+                        <Grid Grid.Row="1" Grid.Column="1" x:Name="gdCondition">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="25"/>
+                                <ColumnDefinition Width="2"/>
+                                <ColumnDefinition Width="25"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="25"/>
+                                <ColumnDefinition Width="2"/>
+                                <ColumnDefinition Width="25"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="2"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="25"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="25"/>
+                                <ColumnDefinition Width="2"/>
+                                <ColumnDefinition Width="25"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+
+                            <uc:UcBaseDateTimePicker Grid.Row="1" Grid.Column="0" x:Name="dtpSearchDate" IsFromTo="False" />
+
+                            <TextBlock Grid.Row="1" Grid.Column="4" x:Name="tbLine" Text="{Binding ConverterParameter='라인', Converter={StaticResource GlobalObjectDicConverter}, RelativeSource={RelativeSource Self}}" Style="{StaticResource Content_Search_LabelStyle}"/>
+                            <!--Meilia 2024.06.20 Set LINE to Multiselectionbox-->
+                            <!--<uc:UcBaseComboBox Grid.Row="1" Grid.Column="5" x:Name="cboLine" DisplayMemberPath="CBO_NAME" SelectedValuePath="CBO_CODE" Style="{StaticResource C1ComboBoxStyle_Mandatory}" MinWidth="100" Width="Auto" Margin="5,0,0,0" SelectedIndexChanged="cboLine_SelectedIndexChanged"/>-->
+                            <ctrlLib:MultiSelectionBox Grid.Column="5" x:Name="cboLine" DisplayMemberPath="CBO_NAME" SelectedValuePath="CBO_CODE" isAllUsed="False" VerticalAlignment="Bottom" Background="LightYellow" MinWidth="150" SelectionChanged="cboLine_SelectionChanged" />
+
+                            <Grid Grid.Row="1" Grid.Column="9">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="4*"/>
+                                    <ColumnDefinition Width="6*"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock                 Grid.Column="0" Text="{Binding ConverterParameter='LOTTYPE', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}"/>
+                                <ctrlLib:MultiSelectionBox Grid.Column="1" x:Name="cboLotType" DisplayMemberPath="CBO_NAME" SelectedValuePath="CBO_CODE" isAllUsed="False" VerticalAlignment="Bottom" Background="LightYellow" MinWidth="150" SelectionChanged="cboLotType_SelectionChanged"/>
+                            </Grid>
+
+                            <!--Meilia 2024.06.20 Add Shift Combobox-->
+                            <Grid Grid.Row="1" Grid.Column="10">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="4*"/>
+                                    <ColumnDefinition Width="6*"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock         Grid.Column="0" Text="{Binding ConverterParameter='SHIFT_NAME', Converter={StaticResource GlobalObjectDicConverter}, RelativeSource={RelativeSource Self}}" Style="{StaticResource Content_InputForm_LabelStyle}" />
+                                <uc:UcBaseComboBox     Grid.Column="1" x:Name="cboShift" Style="{StaticResource C1ComboBoxStyle}" AutoComplete="False"/>
+                            </Grid>
+
+                            <uc:UcBaseCheckBox Grid.Row="1" Grid.Column="19" x:Name="chkDirect" Content="{Binding ConverterParameter='직행 실적', Converter={StaticResource GlobalObjectDicConverter}}"   Style="{StaticResource SearchCondition_CheckBoxStyle}" HorizontalAlignment="Center" VerticalAlignment="Center" IsChecked="True" CheckedChanged="chkDirect_CheckedChanged"/>
+                            <uc:UcBaseCheckBox Grid.Row="1" Grid.Column="21" x:Name="chkRework" Content="{Binding ConverterParameter='재작업 실적', Converter={StaticResource GlobalObjectDicConverter}}" Style="{StaticResource SearchCondition_CheckBoxStyle}" HorizontalAlignment="Center" VerticalAlignment="Center" IsChecked="True" CheckedChanged="chkRework_CheckedChanged"/>
+
+
+                        </Grid>
+
+                        <uc:UcProgress Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="2"  x:Name="xProgress" HorizontalAlignment="Stretch" Margin="50,0,20,0" VerticalAlignment="Center" Height="20" UseGradient="True" LabelViewType="Bottom" Visibility="Collapsed"
+                                       WorkProcess="xProgress_WorkProcess"
+                                       WorkProcessChanged="xProgress_WorkProcessChanged"
+                                       WorkProcessCompleted="xProgress_WorkProcessCompleted"/>
+
+                        <uc:UcBaseButton Grid.Row="1" Grid.Column="5" x:Name="btnSearch" Content="{Binding ConverterParameter=SEARCH, Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource SearchButtonStyle}" Cursor="Hand" Click="btnSearch_Click"/>
+                    </Grid>
+
+                    <Grid x:Name="Contents" Grid.Row="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="8"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="8"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="8"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="8"/>
+                        </Grid.RowDefinitions>
+
+                        <Grid Grid.Row="1" Grid.Column="0">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="0"/>
+                                <RowDefinition x:Name="rdCharge1st" Height="*"/>
+                                <RowDefinition Height="8"/>
+                                <RowDefinition x:Name="rdCharge2nd" Height="*"/>
+                                <RowDefinition Height="8"/>
+                                <RowDefinition x:Name="rdLowVoltage" Height="*"/>
+                            </Grid.RowDefinitions>
+
+                            <Grid Grid.Row="1" Grid.Column="0">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="34"/>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="0"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+
+                                <Border Grid.Row="0" Grid.RowSpan="4" Grid.Column="0" Grid.ColumnSpan="2" Style="{StaticResource Content_InputForm_LabelBorderStyle}" />
+
+                                <TextBlock Grid.Row="0" Grid.Column="0" Style="{StaticResource Content_ModuleTitleStyle}"><Run Text="{Binding ConverterParameter='FORMATION_1ST', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}"/></TextBlock>
+
+                                <uc:UcBaseButton    Grid.Row="0" Grid.Column="1" x:Name="btnCharge1st"  Margin="4" Content="↗" Style="{StaticResource Content_MainButtonSpecialStyle}" HorizontalAlignment="Right" MinWidth="30" Height="20" Cursor="Hand" Click="btnCharge1st_Click"/>
+
+                                <uc:UcBaseDataGrid Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" x:Name="dgCharge1st" Tag="CHARGE1ST" Margin="5" SelectionMode="MultiRange" AutoGenerateColumns="False"  AlternatingRowBackground="White" IsReadOnly="True"  CanUserFilter="False"
+                                                   HeadersVisibility="None" FrozenTopRowsCount="1" IsColumnHeaderWrap="True" IsSumCellsUse="True"                                                   
+                                                   LoadedCellPresenter="dgCommon_LoadedCellPresenter"
+                                                   MouseDoubleClick="dgCommon_MouseDoubleClick">
+                                    <c1:C1DataGrid.Columns>
+                                        <c1:DataGridTextColumn	        Header = "설비"		          Binding = "{Binding EQPTNAME}"       Width="*"  HorizontalAlignment="Left"/>
+                                        <c1:DataGridTextColumn	        Header = "설비ID"		      Binding = "{Binding EQPTID}"         Width="*"  HorizontalAlignment="Left" Visibility="Collapsed"/>
+                                        <c1:DataGridTextColumn	        Header = "작업구분"		      Binding = "{Binding WORK_TYPE_NAME}" MinWidth ="50" Width="70"  HorizontalAlignment="Center"/>
+                                        <c1:DataGridTextColumn	        Header = "작업구분"		      Binding = "{Binding WORK_TYPE_CODE}" MinWidth ="50" Width="70"  HorizontalAlignment="Center" Visibility="Collapsed"/>
+                                        <c1:DataGridNumericColumn		Header = "생산량"	          Binding = "{Binding INPUT}"          MinWidth ="50" Width="70"  HorizontalAlignment="Right" Format="#,##0"/>
+                                        <c1:DataGridNumericColumn		Header = "양품량"	          Binding = "{Binding GOOD}"           MinWidth ="50" Width="70"  HorizontalAlignment="Right" Format="#,##0"/>
+                                        <c1:DataGridNumericColumn		Header = "불량"               Binding = "{Binding LOSS}"           MinWidth ="50" Width="70"  HorizontalAlignment="Right" Format="#,##0"/>
+                                        <c1:DataGridNumericColumn		Header = "양품비율"           Binding = "{Binding YIELD}"          MinWidth ="50" Width="70"  HorizontalAlignment="Right" Format="0.00"/>
+                                    </c1:C1DataGrid.Columns>
+
+                                    <c1:C1DataGrid.TopRows>
+                                        <c1:DataGridColumnHeaderRow />
+                                    </c1:C1DataGrid.TopRows>
+                                </uc:UcBaseDataGrid>
+
+                                <uc:UcBaseDataGrid Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" x:Name="dgCharge1stSum" Tag="CHARGE1ST" Margin="5" SelectionMode="MultiRange" IsReadOnly="True" IsRowCountView="False"
+                                                   AutoGenerateColumns="False" AlternatingRowBackground="White" CanUserAddRows="False" CanUserFilter="False" CanUserEditRows="False" CanUserSort="False"
+                                                   HeadersVisibility="None" FrozenTopRowsCount="1" IsColumnHeaderWrap="True" IsSumCellsUse="True"    
+                                                   LoadedCellPresenter="dgCommon_LoadedCellPresenter"
+                                                   MouseDoubleClick="dgCommon_MouseDoubleClick">
+                                    <c1:C1DataGrid.Columns>
+                                        <c1:DataGridNumericColumn		Header = "총 생산량"	      Binding = "{Binding INPUT}"       HorizontalAlignment="Right" Format="#,##0"/>
+                                        <c1:DataGridNumericColumn		Header = "총 양품량"   	      Binding = "{Binding GOOD}"        HorizontalAlignment="Right" Format="#,##0"/>
+                                        <c1:DataGridNumericColumn		Header = "총 불량"            Binding = "{Binding DFCT_SUM}"    HorizontalAlignment="Right" Format="#,##0"/>
+                                        <c1:DataGridNumericColumn		Header = "불량합계"           Binding = "{Binding LOSS}"        HorizontalAlignment="Right" Format="#,##0"/>
+                                        <c1:DataGridNumericColumn		Header = "총 양품비율"	      Binding = "{Binding YIELD}"       HorizontalAlignment="Right" Format="0.00"/>
+                                    </c1:C1DataGrid.Columns>
+
+                                    <c1:C1DataGrid.TopRows>
+                                        <c1:DataGridColumnHeaderRow />
+                                    </c1:C1DataGrid.TopRows>
+                                </uc:UcBaseDataGrid>
+
+                            </Grid>
+
+                            <GridSplitter Grid.Row="2" Grid.Column="0"  ResizeDirection="Rows" ShowsPreview="True" Style="{StaticResource GridSplitterVerticalStyle}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Height="8" />
+
+                            <Grid Grid.Row="3" Grid.Column="0">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="34"/>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="0"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+
+                                <Border Grid.Row="0" Grid.RowSpan="4" Grid.Column="0" Grid.ColumnSpan="2" Style="{StaticResource Content_InputForm_LabelBorderStyle}" />
+
+                                <TextBlock  Grid.Row="0" Grid.Column="0" Style="{StaticResource Content_ModuleTitleStyle}"><Run Text="{Binding ConverterParameter='FORMATION_2ND', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}"/></TextBlock>
+
+                                <uc:UcBaseButton    Grid.Row="0" Grid.Column="1" x:Name="btnCharge2nd"  Margin="4" Content="↗" Style="{StaticResource Content_MainButtonSpecialStyle}" HorizontalAlignment="Right" MinWidth="30" Height="20" Cursor="Hand" Click="btnCharge2nd_Click"/>
+
+                                <uc:UcBaseDataGrid Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" x:Name="dgCharge2nd" Tag="CHARGE2ND" Margin="5" SelectionMode="MultiRange" AutoGenerateColumns="False"  AlternatingRowBackground="White" IsReadOnly="True"  CanUserFilter="False"
+                                                   HeadersVisibility="None" FrozenTopRowsCount="1" IsColumnHeaderWrap="True" IsSumCellsUse="True"
+                                               LoadedCellPresenter="dgCommon_LoadedCellPresenter"
+                                               MouseDoubleClick="dgCommon_MouseDoubleClick">
+                                    <c1:C1DataGrid.Columns>
+                                        <c1:DataGridTextColumn	        Header = "설비"		          Binding = "{Binding EQPTNAME}"        Width="*"  HorizontalAlignment="Left"/>
+                                        <c1:DataGridTextColumn	        Header = "설비ID"		      Binding = "{Binding EQPTID}"          Width="*"  HorizontalAlignment="Left" Visibility="Collapsed"/>
+                                        <c1:DataGridTextColumn	        Header = "작업구분"		      Binding = "{Binding WORK_TYPE_NAME}"  MinWidth ="50" Width="70"  HorizontalAlignment="Center"/>
+                                        <c1:DataGridTextColumn	        Header = "작업구분"		      Binding = "{Binding WORK_TYPE_CODE}"  MinWidth ="50" Width="70"  HorizontalAlignment="Center" Visibility="Collapsed"/>
+                                        <c1:DataGridNumericColumn		Header = "생산량"	          Binding = "{Binding INPUT}"           MinWidth ="50" Width="70"  HorizontalAlignment="Right" Format="#,##0"/>
+                                        <c1:DataGridNumericColumn		Header = "양품량"	          Binding = "{Binding GOOD}"            MinWidth ="50" Width="70"  HorizontalAlignment="Right" Format="#,##0"/>
+                                        <c1:DataGridNumericColumn		Header = "불량"               Binding = "{Binding LOSS}"            MinWidth ="50" Width="70"  HorizontalAlignment="Right" Format="#,##0"/>
+                                        <c1:DataGridNumericColumn		Header = "양품비율"           Binding = "{Binding YIELD}"           MinWidth ="50" Width="70"  HorizontalAlignment="Right" Format="0.00"/>
+                                    </c1:C1DataGrid.Columns>
+
+                                    <c1:C1DataGrid.TopRows>
+                                        <c1:DataGridColumnHeaderRow />
+                                    </c1:C1DataGrid.TopRows>
+                                </uc:UcBaseDataGrid>
+
+                                <uc:UcBaseDataGrid Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" x:Name="dgCharge2ndSum" Tag="CHARGE2ND" Margin="5" SelectionMode="MultiRange" IsReadOnly="True" IsRowCountView="False"
+                                                   AutoGenerateColumns="False" AlternatingRowBackground="White" CanUserAddRows="False" CanUserFilter="False" CanUserEditRows="False" CanUserSort="False"
+                                                   HeadersVisibility="None" FrozenTopRowsCount="1" IsColumnHeaderWrap="True" IsSumCellsUse="True"    
+                                                   LoadedCellPresenter="dgCommon_LoadedCellPresenter"
+                                                   MouseDoubleClick="dgCommon_MouseDoubleClick">
+                                    <c1:C1DataGrid.Columns>
+                                        <c1:DataGridNumericColumn		Header = "총 생산량"  	      Binding = "{Binding INPUT}"       HorizontalAlignment="Right" Format="#,##0"/>
+                                        <c1:DataGridNumericColumn		Header = "총 양품량"   	      Binding = "{Binding GOOD}"        HorizontalAlignment="Right" Format="#,##0"/>
+                                        <c1:DataGridNumericColumn		Header = "총 불량"            Binding = "{Binding DFCT_SUM}"    HorizontalAlignment="Right" Format="#,##0"/>
+                                        <c1:DataGridNumericColumn		Header = "불량합계"           Binding = "{Binding LOSS}"        HorizontalAlignment="Right" Format="#,##0"/>
+                                        <c1:DataGridNumericColumn		Header = "총 양품비율"	      Binding = "{Binding YIELD}"       HorizontalAlignment="Right" Format="0.00"/>
+                                    </c1:C1DataGrid.Columns>
+
+                                    <c1:C1DataGrid.TopRows>
+                                        <c1:DataGridColumnHeaderRow />
+                                    </c1:C1DataGrid.TopRows>
+                                </uc:UcBaseDataGrid>
+                            </Grid>
+
+                            <GridSplitter Grid.Row="4" Grid.Column="0"  ResizeDirection="Rows" ShowsPreview="True" Style="{StaticResource GridSplitterVerticalStyle}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Height="8" />
+
+                            <Grid Grid.Row="5" Grid.Column="0">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="34"/>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="0"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+
+                                <Border Grid.Row="0" Grid.RowSpan="4" Grid.Column="0" Grid.ColumnSpan="2" Style="{StaticResource Content_InputForm_LabelBorderStyle}" />
+
+                                <TextBlock  Grid.Row="0" Grid.Column="0" Style="{StaticResource Content_ModuleTitleStyle}"><Run Text="{Binding ConverterParameter='LOW_VOLT', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}"/></TextBlock>
+
+                                <uc:UcBaseButton    Grid.Row="0" Grid.Column="1" x:Name="btnLowVolt"  Margin="4" Content="↗" Style="{StaticResource Content_MainButtonSpecialStyle}" HorizontalAlignment="Right" MinWidth="30" Height="20" Cursor="Hand" Click="btnLowVolt_Click"/>
+
+                                <uc:UcBaseDataGrid Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" x:Name="dgLowVolt" Tag="LOWVOLT" Margin="5" SelectionMode="MultiRange" AutoGenerateColumns="False"  AlternatingRowBackground="White" IsReadOnly="True"  CanUserFilter="False"
+                                                   HeadersVisibility="None" FrozenTopRowsCount="1" IsColumnHeaderWrap="True" IsSumCellsUse="True"
+                                               LoadedCellPresenter="dgCommon_LoadedCellPresenter"
+                                               MouseDoubleClick="dgCommon_MouseDoubleClick">
+                                    <c1:C1DataGrid.Columns>
+                                        <c1:DataGridTextColumn	        Header = "설비"		          Binding = "{Binding EQPTNAME}"        Width="*"  HorizontalAlignment="Left"/>
+                                        <c1:DataGridTextColumn	        Header = "설비ID"		      Binding = "{Binding EQPTID}"          Width="*"  HorizontalAlignment="Left" Visibility="Collapsed"/>
+                                        <c1:DataGridTextColumn	        Header = "작업구분"		      Binding = "{Binding WORK_TYPE_NAME}"  MinWidth ="50" Width="70"  HorizontalAlignment="Center"/>
+                                        <c1:DataGridTextColumn	        Header = "작업구분"		      Binding = "{Binding WORK_TYPE_CODE}"  MinWidth ="50" Width="70"  HorizontalAlignment="Center" Visibility="Collapsed"/>
+                                        <c1:DataGridNumericColumn		Header = "생산량"	          Binding = "{Binding INPUT}"           MinWidth ="50" Width="70"  HorizontalAlignment="Right" Format="#,##0"/>
+                                        <c1:DataGridNumericColumn		Header = "양품량"	          Binding = "{Binding GOOD}"            MinWidth ="50" Width="70"  HorizontalAlignment="Right" Format="#,##0"/>
+                                        <c1:DataGridNumericColumn		Header = "불량"               Binding = "{Binding LOSS}"            MinWidth ="50" Width="70"  HorizontalAlignment="Right" Format="#,##0"/>
+                                        <c1:DataGridNumericColumn		Header = "양품비율"           Binding = "{Binding YIELD}"           MinWidth ="50" Width="70"  HorizontalAlignment="Right" Format="0.00"/>
+                                    </c1:C1DataGrid.Columns>
+
+                                    <c1:C1DataGrid.TopRows>
+                                        <c1:DataGridColumnHeaderRow />
+                                    </c1:C1DataGrid.TopRows>
+                                </uc:UcBaseDataGrid>
+
+                                <uc:UcBaseDataGrid Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" x:Name="dgLowVoltSum" Tag="LOWVOLT" Margin="5" SelectionMode="MultiRange" IsReadOnly="True" IsRowCountView="False"
+                                                   AutoGenerateColumns="False" AlternatingRowBackground="White" CanUserAddRows="False" CanUserFilter="False" CanUserEditRows="False" CanUserSort="False"
+                                                   HeadersVisibility="None" FrozenTopRowsCount="1" IsColumnHeaderWrap="True" IsSumCellsUse="True"    
+                                                   LoadedCellPresenter="dgCommon_LoadedCellPresenter"
+                                                   MouseDoubleClick="dgCommon_MouseDoubleClick">
+                                    <c1:C1DataGrid.Columns>
+                                        <c1:DataGridNumericColumn		Header = "총 생산량"  	      Binding = "{Binding INPUT}"       HorizontalAlignment="Right" Format="#,##0"/>
+                                        <c1:DataGridNumericColumn		Header = "총 양품량"   	      Binding = "{Binding GOOD}"        HorizontalAlignment="Right" Format="#,##0"/>
+                                        <c1:DataGridNumericColumn		Header = "총 불량"            Binding = "{Binding DFCT_SUM}"    HorizontalAlignment="Right" Format="#,##0"/>
+                                        <c1:DataGridNumericColumn		Header = "불량합계"           Binding = "{Binding LOSS}"        HorizontalAlignment="Right" Format="#,##0"/>
+                                        <c1:DataGridNumericColumn		Header = "총 양품비율"	      Binding = "{Binding YIELD}"       HorizontalAlignment="Right" Format="0.00"/>
+                                    </c1:C1DataGrid.Columns>
+
+                                    <c1:C1DataGrid.TopRows>
+                                        <c1:DataGridColumnHeaderRow />
+                                    </c1:C1DataGrid.TopRows>
+                                </uc:UcBaseDataGrid>
+                            </Grid>
+
+                        </Grid>
+
+                        <GridSplitter Grid.Row="1" Grid.Column="1" ResizeDirection="Columns" ShowsPreview="True" Style="{StaticResource GridSplitterStyle}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" />
+
+                        <Grid Grid.Row="1" Grid.Column="2">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="34"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="0"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+
+                            <Border Grid.Row="0" Grid.RowSpan="4" Style="{StaticResource Content_InputForm_LabelBorderStyle}" />
+
+                            <TextBlock Grid.Row="0" Grid.Column="0" Style="{StaticResource Content_ModuleTitleStyle}"><Run Text="{Binding ConverterParameter='Degas', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}"/></TextBlock>
+
+                            <uc:UcBaseDataGrid Grid.Row="1" x:Name="dgDegas" Tag="DEGAS" Margin="0,10,10,0" SelectionMode="MultiRange" AutoGenerateColumns="False"  AlternatingRowBackground="White" IsReadOnly="True"  CanUserFilter="False"
+                                               HeadersVisibility="None" FrozenTopRowsCount="1" IsColumnHeaderWrap="True" IsSumCellsUse="True"
+                                               LoadedCellPresenter="dgCommon_LoadedCellPresenter"
+                                               MouseDoubleClick="dgCommon_MouseDoubleClick">
+                                <c1:C1DataGrid.Columns>
+                                    <c1:DataGridTextColumn	        Header = "설비"		          Binding = "{Binding EQPTNAME}"        Width="*"  HorizontalAlignment="Left"/>
+                                    <c1:DataGridTextColumn	        Header = "설비ID"		      Binding = "{Binding EQPTID}"          Width="*"  HorizontalAlignment="Left" Visibility="Collapsed"/>
+                                    <c1:DataGridTextColumn	        Header = "작업구분"		      Binding = "{Binding WORK_TYPE_NAME}"  MinWidth ="50" Width="70"  HorizontalAlignment="Center"/>
+                                    <c1:DataGridTextColumn	        Header = "작업구분"		      Binding = "{Binding WORK_TYPE_CODE}"  MinWidth ="50" Width="70"  HorizontalAlignment="Center" Visibility="Collapsed"/>
+                                    <c1:DataGridNumericColumn		Header = "생산량"	          Binding = "{Binding INPUT}"           MinWidth ="50" Width="70"  HorizontalAlignment="Right" Format="#,##0"/>
+                                    <c1:DataGridNumericColumn		Header = "양품량"	          Binding = "{Binding GOOD}"            MinWidth ="50" Width="70"  HorizontalAlignment="Right" Format="#,##0"/>
+                                    <c1:DataGridNumericColumn		Header = "불량"               Binding = "{Binding LOSS}"            MinWidth ="50" Width="70"  HorizontalAlignment="Right" Format="#,##0"/>
+                                    <c1:DataGridNumericColumn		Header = "양품비율"           Binding = "{Binding YIELD}"           MinWidth ="50" Width="70"  HorizontalAlignment="Right" Format="0.00"/>
+                                </c1:C1DataGrid.Columns>
+
+                                <c1:C1DataGrid.TopRows>
+                                    <c1:DataGridColumnHeaderRow />
+                                </c1:C1DataGrid.TopRows>
+                            </uc:UcBaseDataGrid>
+
+                            <uc:UcBaseDataGrid Grid.Row="3" x:Name="dgDegasSum" Tag="DEGAS" Margin="5" SelectionMode="MultiRange" IsReadOnly="True" IsRowCountView="False"
+                                               AutoGenerateColumns="False" AlternatingRowBackground="White" CanUserAddRows="False" CanUserFilter="False" CanUserEditRows="False" CanUserSort="False"
+                                               HeadersVisibility="None" FrozenTopRowsCount="1" IsColumnHeaderWrap="True" IsSumCellsUse="True"    
+                                               LoadedCellPresenter="dgCommon_LoadedCellPresenter"
+                                               MouseDoubleClick="dgCommon_MouseDoubleClick">
+                                <c1:C1DataGrid.Columns>
+                                    <c1:DataGridNumericColumn		Header = "총 생산량"  	      Binding = "{Binding INPUT}"   HorizontalAlignment="Right" Format="#,##0"/>
+                                    <c1:DataGridNumericColumn		Header = "총 양품량"   	      Binding = "{Binding GOOD}"    HorizontalAlignment="Right" Format="#,##0"/>
+                                    <c1:DataGridNumericColumn		Header = "총 불량"            Binding = "{Binding DFCT_SUM}"    HorizontalAlignment="Right" Format="#,##0"/>
+                                    <c1:DataGridNumericColumn		Header = "불량합계"           Binding = "{Binding LOSS}"        HorizontalAlignment="Right" Format="#,##0"/>
+                                    <c1:DataGridNumericColumn		Header = "총 양품비율"	      Binding = "{Binding YIELD}"   HorizontalAlignment="Right" Format="0.00"/>
+                                </c1:C1DataGrid.Columns>
+
+                                <c1:C1DataGrid.TopRows>
+                                    <c1:DataGridColumnHeaderRow />
+                                </c1:C1DataGrid.TopRows>
+                            </uc:UcBaseDataGrid>
+                        </Grid>
+
+                        <GridSplitter Grid.Row="1" Grid.Column="3" ResizeDirection="Columns" ShowsPreview="True" Style="{StaticResource GridSplitterStyle}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" />
+
+                        <Grid Grid.Row="1" Grid.Column="4">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="34"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="0"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+
+                            <Border Grid.Row="0" Grid.RowSpan="4" Style="{StaticResource Content_InputForm_LabelBorderStyle}" />
+
+                            <TextBlock Grid.Row="0" Grid.Column="0" Style="{StaticResource Content_ModuleTitleStyle}"><Run Text="{Binding ConverterParameter='EOL', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}"/></TextBlock>
+
+                            <uc:UcBaseDataGrid Grid.Row="1" x:Name="dgEol" Tag="EOL" Margin="5" SelectionMode="MultiRange" AutoGenerateColumns="False"  AlternatingRowBackground="White" IsReadOnly="True"  CanUserFilter="False"
+                                               HeadersVisibility="None" FrozenTopRowsCount="1" IsColumnHeaderWrap="True" IsSumCellsUse="True"
+                                               LoadedCellPresenter="dgCommon_LoadedCellPresenter"
+                                               MouseDoubleClick="dgCommon_MouseDoubleClick">
+                                <c1:C1DataGrid.Columns>
+                                    <c1:DataGridTextColumn	        Header = "설비"		          Binding = "{Binding EQPTNAME}"        Width="*"  HorizontalAlignment="Left"/>
+                                    <c1:DataGridTextColumn	        Header = "설비ID"		      Binding = "{Binding EQPTID}"          Width="*"  HorizontalAlignment="Left" Visibility="Collapsed"/>
+                                    <c1:DataGridTextColumn	        Header = "작업구분"		      Binding = "{Binding WORK_TYPE_NAME}"  MinWidth ="50" Width="70"  HorizontalAlignment="Center"/>
+                                    <c1:DataGridTextColumn	        Header = "작업구분"		      Binding = "{Binding WORK_TYPE_CODE}"  MinWidth ="50" Width="70"  HorizontalAlignment="Center" Visibility="Collapsed"/>
+                                    <c1:DataGridNumericColumn		Header = "생산량"	          Binding = "{Binding INPUT}"           MinWidth ="50" Width="70"  HorizontalAlignment="Right" Format="#,##0"/>
+                                    <c1:DataGridNumericColumn		Header = "양품량"	          Binding = "{Binding GOOD}"            MinWidth ="50" Width="70"  HorizontalAlignment="Right" Format="#,##0"/>
+                                    <c1:DataGridNumericColumn		Header = "불량"               Binding = "{Binding LOSS}"            MinWidth ="50" Width="70"  HorizontalAlignment="Right" Format="#,##0"/>
+                                    <c1:DataGridNumericColumn		Header = "양품비율"           Binding = "{Binding YIELD}"           MinWidth ="50" Width="70"  HorizontalAlignment="Right" Format="0.00"/>
+                                </c1:C1DataGrid.Columns>
+
+                                <c1:C1DataGrid.TopRows>
+                                    <c1:DataGridColumnHeaderRow />
+                                </c1:C1DataGrid.TopRows>
+                            </uc:UcBaseDataGrid>
+
+                            <uc:UcBaseDataGrid Grid.Row="3" x:Name="dgEolSum" Tag="EOL" Margin="5" SelectionMode="MultiRange" IsReadOnly="True" IsRowCountView="False"
+                                               AutoGenerateColumns="False" AlternatingRowBackground="White" CanUserAddRows="False" CanUserFilter="False" CanUserEditRows="False" CanUserSort="False"
+                                               HeadersVisibility="None" FrozenTopRowsCount="1" IsColumnHeaderWrap="True" IsSumCellsUse="True"    
+                                               LoadedCellPresenter="dgCommon_LoadedCellPresenter"
+                                               MouseDoubleClick="dgCommon_MouseDoubleClick">
+                                <c1:C1DataGrid.Columns>
+                                    <c1:DataGridNumericColumn		Header = "총 생산량"  	      Binding = "{Binding INPUT}"       HorizontalAlignment="Right" Format="#,##0"/>
+                                    <c1:DataGridNumericColumn		Header = "총 양품량"   	      Binding = "{Binding GOOD}"        HorizontalAlignment="Right" Format="#,##0"/>
+                                    <c1:DataGridNumericColumn		Header = "총 불량"            Binding = "{Binding DFCT_SUM}"    HorizontalAlignment="Right" Format="#,##0"/>
+                                    <c1:DataGridNumericColumn		Header = "불량합계"           Binding = "{Binding LOSS}"        HorizontalAlignment="Right" Format="#,##0"/>
+                                    <c1:DataGridNumericColumn		Header = "총 양품비율"	      Binding = "{Binding YIELD}"       HorizontalAlignment="Right" Format="0.00"/>
+                                </c1:C1DataGrid.Columns>
+
+                                <c1:C1DataGrid.TopRows>
+                                    <c1:DataGridColumnHeaderRow />
+                                </c1:C1DataGrid.TopRows>
+                            </uc:UcBaseDataGrid>
+                        </Grid>
+
+                        <ctrlLib:LoadingIndicator x:Name="loadingIndicator" Grid.Row="0" Grid.Column="0" />
+                    </Grid>
+
+                </Grid>
+            </ctrlLib:LGCLayout.Content>
+        </ctrlLib:LGCLayout>
+
+
+    </Grid>
+</UserControl>

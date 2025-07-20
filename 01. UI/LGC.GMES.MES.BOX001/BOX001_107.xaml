@@ -1,0 +1,126 @@
+<UserControl xmlns:ss="http://schemas.grapecity.com/windows/spreadsheet/2012"  x:Class="LGC.GMES.MES.BOX001.BOX001_107"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"  
+             xmlns:c1="http://schemas.componentone.com/winfx/2006/xaml"
+             xmlns:ctrlLib="clr-namespace:LGC.GMES.MES.ControlsLibrary;assembly=LGC.GMES.MES.ControlsLibrary"
+             xmlns:uc="clr-namespace:LGC.GMES.MES.CMM001.Controls;assembly=LGC.GMES.MES.CMM001"
+             mc:Ignorable="d" 
+             d:DesignHeight="1024" d:DesignWidth="1280"
+             Loaded="UserControl_Loaded">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/LGC.GMES.MES.ControlsLibrary;component/ControlStyles.xaml" />
+                <ResourceDictionary Source="/LGC.GMES.MES.ControlsLibrary;component/ControlTemplates/LGCDatePicker.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid x:Name="grdMain">
+        <ctrlLib:LGCLayout x:Name="LayoutRoot" Tag="출고취소">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="8"/>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="4"/>
+                    <RowDefinition Height="35"/>
+                </Grid.RowDefinitions>
+
+                <Border Grid.Row="1" Background="#fff2f2f2" BorderThickness="1" BorderBrush="#ffd1d1d1" Grid.ColumnSpan="2"/>
+                <Grid x:Name="InfoArea" Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="13" />
+                        <ColumnDefinition Width="1.*" />
+                        <ColumnDefinition Width="2.*" />
+                        <ColumnDefinition Width="8" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="8" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="8" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="8" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="8" />
+                    </Grid.ColumnDefinitions>
+                    <Grid Grid.Row="1" Grid.Column="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="4*"/>
+                            <ColumnDefinition Width="6*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock                       Grid.Row="0" Grid.Column="0" Text="{Binding ConverterParameter='PALLETID', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}"/>
+                        <TextBox    x:Name="txtPalletId" Grid.Row="0" Grid.Column="1" CharacterCasing="Upper" Style="{StaticResource SearchCondition_TextBoxStyle}" PreviewKeyDown="txtPalletId_PreviewKeyDown" KeyDown="txtPalletId_KeyDown" />
+
+                    </Grid>
+                    <uc:UcBaseButton x:Name="btnExcelDownLoad"  Grid.Column="4"  Content="{Binding ConverterParameter=다운로드, Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{DynamicResource Content_ModuleButtonExcelExportStyle}" Cursor="Hand" Click="btnExcelDownLoad_Click" Height="Auto" Margin="0,10" />
+                    <uc:UcBaseButton x:Name="btnExcelOpen"      Grid.Column="6"  Content="{Binding ConverterParameter=업로드,   Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_ModuleButtonExcelImportStyle}" Cursor="Hand" Click="btnExcelOpen_Click" Height="Auto" Margin="0,10" />
+                    <uc:UcBaseButton x:Name="btnDelete"  Grid.Column="8" Content="{Binding ConverterParameter='선택삭제', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{DynamicResource Content_MainButtonSpecialStyle}" Click="btnDelete_Click"/>
+                    <uc:UcBaseButton x:Name="btnCancel"  Grid.Column="10" Content="{Binding ConverterParameter='출고취소', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{DynamicResource Content_MainButtonSpecialStyle}" Click="btnCancel_Click"/>
+                </Grid>
+               
+                <c1:C1DataGrid Grid.Row="2" x:Name="dgPalletID" IsReadOnly="True"  HeadersVisibility="Column" SelectionMode="SingleCell" LoadedColumnHeaderPresenter="dgPalletID_LoadedColumnHeaderPresenter" >
+                    <c1:C1DataGrid.Columns>
+                        <c1:DataGridTemplateColumn Name="CHK" Width="40">
+                            <c1:DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <CheckBox IsChecked="{Binding CHK, Mode=TwoWay}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                </DataTemplate>
+                            </c1:DataGridTemplateColumn.CellTemplate>
+                        </c1:DataGridTemplateColumn>
+                        <c1:DataGridTextColumn      Header="PALLETID"       Binding="{Binding PALLETID}"    HorizontalAlignment="Left" IsReadOnly="True" />
+                        <c1:DataGridTextColumn      Header="Error Message"       Binding="{Binding ERROR_MSG}"    HorizontalAlignment="Left" IsReadOnly="True" />
+                    </c1:C1DataGrid.Columns>
+                </c1:C1DataGrid>
+
+                <Border Grid.Row="4" Background="#e8ebed" BorderThickness="1" BorderBrush="#8a8a8a" />
+                <Grid Grid.Row="4" >
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="13"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="30"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="34" />
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="0" Grid.Column="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Right">
+                            <TextBlock Style="{StaticResource SearchCondition_MandatoryMarkStyle}" />
+                            <TextBlock Grid.Row="0" Grid.Column="0" Text="{Binding ConverterParameter='작업조', Converter={StaticResource GlobalObjectDicConverter}, RelativeSource={RelativeSource Self}}" HorizontalAlignment="Right" Style="{StaticResource Content_Search_LabelStyle}" />
+                        </StackPanel>
+                        <TextBox Grid.Row="0" Grid.Column="1" x:Name="txtShift" IsReadOnly="True"  HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalAlignment="Center" Margin="3, 3, 10, 3" />
+                        <StackPanel Grid.Row="0" Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Right">
+                            <TextBlock Style="{StaticResource SearchCondition_MandatoryMarkStyle}" />
+                            <TextBlock Grid.Row="0" Grid.Column="2" Text="{Binding ConverterParameter='작업시간', Converter={StaticResource GlobalObjectDicConverter}, RelativeSource={RelativeSource Self}}" HorizontalAlignment="Right" Style="{StaticResource Content_Search_LabelStyle}" />
+                        </StackPanel>
+                        <TextBox Grid.Row="0" Grid.Column="3" x:Name="txtShiftDateTime" IsReadOnly="True"  HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalAlignment="Center" Margin="3, 3, 10, 3" />
+                        <StackPanel Grid.Row="0" Grid.Column="4" Orientation="Horizontal" HorizontalAlignment="Right">
+                            <TextBlock Style="{StaticResource SearchCondition_MandatoryMarkStyle}" />
+                            <TextBlock Grid.Row="0" Grid.Column="4" Text="{Binding ConverterParameter='작업자', Converter={StaticResource GlobalObjectDicConverter}, RelativeSource={RelativeSource Self}}" HorizontalAlignment="Right" Style="{StaticResource Content_Search_LabelStyle}" />
+                        </StackPanel>
+                        <TextBox Grid.Row="0" Grid.Column="5" x:Name="txtWorker" IsReadOnly="True"  HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalAlignment="Center" Margin="3, 3, 3, 3" />
+
+                        <TextBox Grid.Row="0" Grid.Column="7" x:Name="txtShiftStartTime" IsReadOnly="True"  HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="3, 3, 3, 3" Visibility="Collapsed" />
+                        <TextBox Grid.Row="0" Grid.Column="7" x:Name="txtShiftEndTime" IsReadOnly="True"  HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="3, 3, 3, 3" Visibility="Collapsed" />
+                        <uc:UcBaseButton x:Name="btnShift" Margin="0,0,10,0" Grid.Column="6" Content="{Binding Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{DynamicResource Content_SearchButtonStyle}" HorizontalAlignment="Left" IsCancel="True" Click="btnShift_Click"/>
+                    </Grid>
+                </Grid>
+            </Grid>
+
+        </ctrlLib:LGCLayout>
+
+        <ctrlLib:LoadingIndicator x:Name="loadingIndicator" Grid.Row="999" Grid.Column="999" />
+    </Grid>
+</UserControl>

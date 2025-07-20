@@ -1,0 +1,124 @@
+﻿<c1:C1Window x:Class="LGC.GMES.MES.CMM001.Popup.CMM_BOX_CART_DETAIL"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:c1="http://schemas.componentone.com/winfx/2006/xaml"
+		     xmlns:System="clr-namespace:System;assembly=mscorlib"
+             xmlns:ctrlLib="clr-namespace:LGC.GMES.MES.ControlsLibrary;assembly=LGC.GMES.MES.ControlsLibrary"        
+             ctrlLib:LGCPopupWindowExtension.ApplyStyle="True"
+             Header="{Binding Converter={StaticResource GlobalObjectDicConverter}, ConverterParameter='대차상세'}" 
+             Tag="ProtoType01Windows01"  Height="700" Width="950"  IsResizable="True" Loaded="C1Window_Loaded"  >
+
+    <c1:C1Window.Resources>
+        <ResourceDictionary Source="/LGC.GMES.MES.ControlsLibrary;Component/ControlStyles.xaml"/>
+    </c1:C1Window.Resources>
+
+    <Grid>
+        <Grid.Resources>
+            <DataTemplate x:Key="ResultTemplate">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Text="{Binding}" HorizontalAlignment="Right"></TextBlock>
+                </Grid>
+            </DataTemplate>
+        </Grid.Resources>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="8" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="8" />
+            <RowDefinition Height="8" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="8" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="8" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="8" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="8" />
+        </Grid.ColumnDefinitions>
+
+
+        <Border Grid.Row="0" BorderThickness="1" Grid.RowSpan="99" Grid.ColumnSpan="99" BorderBrush="#ffbebebe" Style="{StaticResource BorderSubTitleStyle}"/>
+        <Border Grid.Row="2" BorderThickness="1,0,1,1" Grid.ColumnSpan="99" BorderBrush="#ffbebebe" Style="{StaticResource BorderSubTitleStyle}"/>
+
+        <Grid Grid.Row ="1" Grid.Column="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="8" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+
+            <TextBlock                     Grid.Column="0" Text="{Binding ConverterParameter='설비', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}"/>
+            <TextBox x:Name="txtEquipment" Grid.Column="1" MinWidth="300" Style="{StaticResource Content_InputForm_TextBoxStyle}" IsEnabled="False" />
+            <TextBlock                     Grid.Column="3" Text="{Binding ConverterParameter='대차', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}"/>
+            <TextBox x:Name="txtCartID"    Grid.Column="4" MinWidth="180" Style="{StaticResource Content_InputForm_TextBoxStyle}" IsEnabled="False" />
+
+        </Grid>
+
+        <Grid Grid.Row ="4" Grid.Column="1">
+            <c1:C1DataGrid Grid.Row="2" 
+                            Grid.Column="0" 
+                            Grid.ColumnSpan="99" 
+                            x:Name="dgCart" 
+                            IsReadOnly="False" 
+                            HeadersVisibility="Column" 
+                            SelectionMode="SingleCell" 
+                            FrozenColumnCount="1"
+                            FrozenBottomRowsCount="1">
+                <c1:C1DataGrid.Columns>
+                    <c1:DataGridTextColumn        Header = "No"                    Binding = "{Binding ROWNUM}"                HorizontalAlignment="Center" IsReadOnly="True" />
+                    <c1:DataGridTextColumn        Header = "대차 ID"               Binding = "{Binding CTNR_ID}"               HorizontalAlignment="Center" IsReadOnly="True" />
+                    <c1:DataGridTextColumn        Header = "조립 Lot ID"           Binding = "{Binding ASSY_LOTID}"            HorizontalAlignment="Center" IsReadOnly="True" />
+                    <c1:DataGridTextColumn        Header = "InBox ID"              Binding = "{Binding LOTID}"                 HorizontalAlignment="Center" IsReadOnly="True" />
+                    <c1:DataGridTextColumn        Header = "PRJT_NAME"             Binding = "{Binding PRJT_NAME}"             HorizontalAlignment="Center" IsReadOnly="True" />
+                    <c1:DataGridTextColumn        Header = "작업구분"              Binding = "{Binding FORM_WRK_TYPE_NAME}"    HorizontalAlignment="Center" IsReadOnly="True" />
+                    <c1:DataGridTextColumn        Header = "구분"                  Binding = "{Binding WIP_QLTY_TYPE_NAME}"    HorizontalAlignment="Center" IsReadOnly="True" Visibility="Collapsed"/>
+                    <c1:DataGridTextColumn        Header = "용량등급"              Binding = "{Binding CAPA_GRD_CODE}"         HorizontalAlignment="Center" IsReadOnly="True" Visibility="Collapsed"/>
+                    <c1:DataGridTextColumn        Header = "InBox 유형"            Binding = "{Binding INBOX_TYPE_NAME}"       HorizontalAlignment="Center" IsReadOnly="True" />
+                    <c1:DataGridNumericColumn     Header = "Cell 수량"             Binding = "{Binding CELL_QTY}"              HorizontalAlignment="Right" Format="#,##0" IsReadOnly="True">
+                        <c1:DataGridAggregate.AggregateFunctions>
+                            <c1:DataGridAggregatesCollection>
+                                <c1:DataGridAggregateSum ResultTemplate="{StaticResource ResultTemplate}" ></c1:DataGridAggregateSum>
+                            </c1:DataGridAggregatesCollection>
+                        </c1:DataGridAggregate.AggregateFunctions>
+                    </c1:DataGridNumericColumn>
+                    <c1:DataGridNumericColumn     Header = "InBox 수량"            Binding = "{Binding INBOX_QTY}"             HorizontalAlignment="Right" Format="#,##0" IsReadOnly="True">
+                        <c1:DataGridAggregate.AggregateFunctions>
+                            <c1:DataGridAggregatesCollection>
+                                <c1:DataGridAggregateSum ResultTemplate="{StaticResource ResultTemplate}" ></c1:DataGridAggregateSum>
+                            </c1:DataGridAggregatesCollection>
+                        </c1:DataGridAggregate.AggregateFunctions>
+                    </c1:DataGridNumericColumn>
+                    <c1:DataGridTextColumn        Header = "완성일시"              Binding = "{Binding WIPDTTM_ED}"            HorizontalAlignment="Center" IsReadOnly="True" />
+                </c1:C1DataGrid.Columns>
+
+                <c1:C1DataGrid.BottomRows>
+                    <c1:DataGridSummaryRow x:Name="summaryPallet" RowStyle="{StaticResource SummaryRowStyle}"/>
+                </c1:C1DataGrid.BottomRows>
+
+            </c1:C1DataGrid>
+
+        </Grid>
+
+        <Grid Grid.Row ="6" Grid.Column="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="8"/>
+                <ColumnDefinition Width="100"/>
+            </Grid.ColumnDefinitions>
+
+            <Button x:Name="btnClose"  Grid.Column="3" Content="{Binding ConverterParameter=닫기, Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{DynamicResource Content_MainButtonStyle}" Click="btnClose_Click" />
+        </Grid>
+        <ctrlLib:LoadingIndicator x:Name="loadingIndicator" Grid.Row="0" Grid.RowSpan="999" Grid.Column="0" Grid.ColumnSpan="999" />
+
+    </Grid>
+
+</c1:C1Window>

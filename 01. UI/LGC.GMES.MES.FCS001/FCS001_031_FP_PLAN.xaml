@@ -1,0 +1,108 @@
+﻿<c1:C1Window x:Class="LGC.GMES.MES.FCS001.FCS001_031_FP_PLAN"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:c1="http://schemas.componentone.com/winfx/2006/xaml"
+		     xmlns:System="clr-namespace:System;assembly=mscorlib"
+             xmlns:ctrlLib="clr-namespace:LGC.GMES.MES.ControlsLibrary;assembly=LGC.GMES.MES.ControlsLibrary"
+             xmlns:uc="clr-namespace:LGC.GMES.MES.CMM001.Controls;assembly=LGC.GMES.MES.CMM001"
+             ctrlLib:LGCPopupWindowExtension.ApplyStyle="True"
+             Header="{Binding Converter={StaticResource GlobalObjectDicConverter}, ConverterParameter='EOL_PLAN'}" 
+             Tag="ProtoType01Windows01" Height="600" Width="1200" IsResizable="True" Loaded="C1Window_Loaded">
+    <c1:C1Window.Resources>
+        <ResourceDictionary Source="/LGC.GMES.MES.ControlsLibrary;Component/ControlStyles.xaml"/>
+    </c1:C1Window.Resources>
+    <Grid>
+        <ctrlLib:LGCLayout x:Name="LayoutRoot" Tag="EOL 생산계획">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="8" />
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <Border Grid.Row="0"  Grid.Column="0" Grid.ColumnSpan="99" Background="#fff2f2f2" BorderThickness="1" BorderBrush="#ffd1d1d1"></Border>
+                <Border Grid.Row="2"  Grid.Column="0" Grid.ColumnSpan="99" Background="#fff2f2f2" BorderThickness="1" BorderBrush="#ffd1d1d1"></Border>
+
+                <Grid Grid.Row="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="4" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="4"/>
+                    </Grid.RowDefinitions>
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="5"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="5"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="5"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="5"/>
+                        <ColumnDefinition Width="10"/>
+                        <ColumnDefinition Width="5"/>                        
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="5"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Grid Grid.Row="1" Grid.Column="1" >
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="4*"/>
+                            <ColumnDefinition Width="6*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock      Grid.Row="0"  Grid.Column="0" Text="{Binding ConverterParameter=조회기간, Converter={StaticResource GlobalObjectDicConverter}, RelativeSource={RelativeSource Self}}" HorizontalAlignment="Right" Style="{StaticResource Content_InputForm_LabelStyle}" />
+                        <Grid  Grid.Row="0" Grid.Column="1" >
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <ctrlLib:LGCDatePicker Grid.Column="0"  x:Name="dtpDateFrom"  DatepickerType="Date" SelectedDataTimeChanged="dtpDateFrom_SelectedDataTimeChanged"/>
+                            <TextBlock  Grid.Column="1" Text="~" Style="{StaticResource Content_InputForm_LabelStyle}" Margin="3,0,3,0"/>
+                            <ctrlLib:LGCDatePicker Grid.Column="2"  x:Name="dtpDateTo"  DatepickerType="Date" SelectedDataTimeChanged="dtpDateTo_SelectedDataTimeChanged"/>
+                        </Grid>
+                    </Grid>
+                    
+                    <Grid Grid.Row="1" Grid.Column="3">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="4*"/>
+                            <ColumnDefinition Width="6*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock                          Grid.Row="0" Grid.Column="0" Margin="0,0,5,0" Text="{Binding ConverterParameter='동', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}" VerticalAlignment="Center" />
+                        <uc:UcBaseComboBox  x:Name="cboArea"    Grid.Row="0" Grid.Column="1" MinHeight="23" DisplayMemberPath="CBO_NAME" SelectedValuePath="CBO_CODE" Style="{StaticResource C1ComboBoxStyle}"   AutoComplete="False" />
+                    </Grid>
+
+                    <Grid Grid.Row="1" Grid.Column="5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="4*"/>
+                            <ColumnDefinition Width="6*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock                          Grid.Row="0" Grid.Column="0" Margin="0,0,5,0" Text="{Binding ConverterParameter='LINE_ID', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}" VerticalAlignment="Center" />
+                        <uc:UcBaseComboBox  x:Name="cboLine"    Grid.Row="0" Grid.Column="1" MinHeight="23" DisplayMemberPath="CBO_NAME" SelectedValuePath="CBO_CODE" Style="{StaticResource C1ComboBoxStyle}"   AutoComplete="False" />
+                    </Grid>
+
+                    <Grid Grid.Row="1" Grid.Column="9">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <uc:UcBaseButton         x:Name="btnSearch"  Grid.Row="0" Grid.Column="0"  Content="{Binding ConverterParameter=SEARCH, Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource SearchButtonStyle}" Cursor="Hand" Click="btnSearch_Click" />
+                    </Grid>
+                </Grid>
+
+                <Grid Grid.Row="2" Grid.Column="1">
+                    <uc:UcBaseDataGrid x:Name="dgPlan" IsReadOnly="False" HeadersVisibility="Column" SelectionMode="SingleCell" Margin="5">
+                        <c1:C1DataGrid.Columns>
+                            <c1:DataGridTextColumn       Header = "LINE_ID"     Binding = "{Binding EQSGNAME}"               IsReadOnly="True" HorizontalAlignment="Center" />
+                            <c1:DataGridTextColumn       Header = "PLAN_DATE"   Binding = "{Binding PLAN_DTTM}"              IsReadOnly="True" HorizontalAlignment="Center" />
+                            <c1:DataGridTextColumn       Header = "PJT"         Binding = "{Binding PRJT_NAME}"              IsReadOnly="True" HorizontalAlignment="Center" />
+                            <c1:DataGridTextColumn       Header = "MODEL"       Binding = "{Binding ITEM_ID}"                IsReadOnly="True" HorizontalAlignment="Center" />
+                            <c1:DataGridNumericColumn    Header = "PLAN_QTY"    Binding = "{Binding INPUT_PLAN_QTY}"         IsReadOnly="True" HorizontalAlignment="Right" Format="###,###,##0" />
+                            <c1:DataGridTextColumn       Header = "PRIORITY"    Binding = "{Binding PLAN_PROD_PRIORITY_NO}"  IsReadOnly="True" HorizontalAlignment="Center" />
+                            <c1:DataGridTextColumn       Header = "PLAN_ID"     Binding = "{Binding FP_PLAN_ID}"             IsReadOnly="True" HorizontalAlignment="Center" />
+                        </c1:C1DataGrid.Columns>
+                    </uc:UcBaseDataGrid>
+                </Grid>
+            </Grid>
+        </ctrlLib:LGCLayout>
+        <ctrlLib:LoadingIndicator x:Name="loadingIndicator" Grid.Row="999" Grid.Column="999" />
+    </Grid>
+</c1:C1Window>

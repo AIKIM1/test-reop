@@ -1,0 +1,130 @@
+﻿<UserControl xmlns:ss="http://schemas.grapecity.com/windows/spreadsheet/2012"  x:Class="LGC.GMES.MES.COM001.COM001_141"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:c1="http://schemas.componentone.com/winfx/2006/xaml"
+             xmlns:ctrlLib="clr-namespace:LGC.GMES.MES.ControlsLibrary;assembly=LGC.GMES.MES.ControlsLibrary"
+             mc:Ignorable="d" 
+             d:DesignHeight="768" d:DesignWidth="1024" Loaded="UserControl_Loaded">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/LGC.GMES.MES.ControlsLibrary;component/ControlStyles.xaml" />
+                <ResourceDictionary Source="/LGC.GMES.MES.ControlsLibrary;component/ControlTemplates/LGCDatePicker.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.Resources> 
+            <DataTemplate x:Key="ItemTemplate">
+                <WrapPanel>
+                    <Image Width="138" Height="138" Stretch="Fill" Source="{Binding}" Margin="3,3,3,3" />
+                </WrapPanel>
+            </DataTemplate>
+            <DataTemplate x:Key="ResultTemplate">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <!--<ColumnDefinition Width="*"/>-->
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Text="{Binding}" HorizontalAlignment="Right" Padding="0,0,5,0"  />
+                </Grid>
+            </DataTemplate>
+        </Grid.Resources>
+        <ctrlLib:LGCLayout x:Name="LayoutRoot" Tag="RTLS Location 정보조회">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="45"/>
+                    <RowDefinition Height="8" />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+
+                <!--조회영역-->
+                <Grid Grid.Column="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="45" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="15" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="200" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="300" />
+                        <ColumnDefinition Width="70" />
+                        <ColumnDefinition Width="150" />
+                        <ColumnDefinition />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="8" />
+                    </Grid.ColumnDefinitions>
+
+                    <!--백그라운드용-->
+                    <Border     Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="11" Style="{StaticResource Content_InputForm_LabelBorderStyle}"/>
+
+                    <!--조회조건-->
+                    <!--ROW1-->
+                    <TextBlock  Grid.Row="0" Grid.Column="1" Text="{Binding ConverterParameter='동', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}"/>
+                    <c1:C1ComboBox   Grid.Row="0" Grid.Column="2" x:Name="cboArea" Style="{StaticResource C1ComboBoxStyle}" AutoComplete="False" SelectedItemChanged="cboArea_SelectedItemChanged"/>
+
+                    <TextBlock  Grid.Row="0" Grid.Column="3" Text="{Binding ConverterParameter='RTLS 구역', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}"/>
+                    <c1:C1ComboBox   Grid.Row="0" Grid.Column="4" x:Name="cboLocation" Style="{StaticResource C1ComboBoxStyle}" AutoComplete="False" DisplayMemberPath="LOCATION_NAME" SelectedValuePath="LOCATION_ID" SelectedIndex="0"/>
+                    <!--조회 버튼-->
+                    <Button     Grid.Row="0" Grid.Column="9" x:Name="btnSearch" Content="{Binding ConverterParameter=SEARCH, Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource SearchButtonStyle}" Cursor="Hand" Click="btnSearch_Click"  />
+
+                </Grid>
+
+                <!--LOT 리스트-->
+                <Grid Grid.Row="2" Grid.Column="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="34"/>
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+
+                    <!--백그라운드용-->
+                    <Border  Grid.Row="0" Grid.Column="0" Grid.RowSpan="2" Style="{StaticResource Content_InputForm_ContentBorderStyle}"/>
+                    <Border Grid.Row="0" Grid.Column="0" BorderThickness="1" BorderBrush="#ffbebebe" Style="{StaticResource BorderSubTitleStyle}"/>
+                    <TextBlock x:Name="tbListCount" Grid.Row="0" Grid.Column="1" Text="[ 0 건 ]" Style="{StaticResource Content_InputForm_LabelStyle}" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="8,0,0,5"/>
+                    <Grid   Grid.Row="1" Grid.Column="0" >
+                        <c1:C1DataGrid x:Name="dgPalletInfo" HeadersVisibility="None" IsReadOnly="True"  SelectionMode="SingleRange" LoadedCellPresenter="dgPalletInfo_LoadedCellPresenter" >
+                            <c1:C1DataGrid.Columns>
+
+                                <c1:DataGridTextColumn      Header = "[Pjt Group Name,Pjt Group Name]"             Binding = "{Binding MODLGROUP}"        HorizontalAlignment="Center" Width="1*" />
+                                <c1:DataGridTextColumn      Header = "[Pjt,Pjt]"             Binding = "{Binding MODLNAME}"        HorizontalAlignment="Center"  Width="Auto"/>
+                                <c1:DataGridTextColumn      Header = "[Type,Type]"               Binding = "{Binding PRODUCTNAME}"          HorizontalAlignment="Center"  Width="Auto"/>
+                                <c1:DataGridTextColumn      Header = "[Prod. ID,Prod. ID]"               Binding = "{Binding MODLID}"          HorizontalAlignment="Center"  Width="Auto"/>
+                                <c1:DataGridTextColumn      Header = "[Line,Line]"             Binding = "{Binding GNRT_EQSGNAME}"             HorizontalAlignment="Center"  Width="Auto"/>
+                                <c1:DataGridTextColumn      Header = "[LOT,ID]"             Binding = "{Binding LOTID}"             HorizontalAlignment="Center"  Width="Auto"/>
+                                <c1:DataGridTextColumn      Header = "[LOT,Operation]"                Binding = "{Binding PROCNAME}"           HorizontalAlignment="Center"  Width="Auto"/>
+                                <c1:DataGridTextColumn      Header = "[LOT,Status]"             Binding = "{Binding WIPSNAME}"          HorizontalAlignment="Center"  Width="Auto"/>
+                                <c1:DataGridTextColumn      Header = "[HOLD,MES]"          Binding = "{Binding WIPHOLD}"        HorizontalAlignment="Center"  Width="Auto"/>
+                                <c1:DataGridTextColumn      Header = "[HOLD,QMS]"  Binding = "{Binding QMS_HOLD}"          HorizontalAlignment="Center"  Width="Auto"/>
+                                <c1:DataGridTextColumn      Header = "[OQC Result,OQC Result]"  Binding = "{Binding OQC_RESULT}"             HorizontalAlignment="Center"   Width="Auto"/>
+                                <c1:DataGridTextColumn      Header = "[Location,ID]"    Binding = "{Binding LOCATION_ID}"           HorizontalAlignment="Center"   Width="1*" />
+                                <c1:DataGridTextColumn      Header = "[Location,Status]"               Binding = "{Binding LOT_USG_TYPE_CODE}"          HorizontalAlignment="Center" Width="Auto"/>
+                                <c1:DataGridTextColumn      Header = "[Location,Input Date]"               Binding = "{Binding UPDDTTM}"          HorizontalAlignment="Center" Width="Auto"/>
+                                <c1:DataGridTextColumn      Header = "[Location,Aging]"      Binding = "{Binding AGING}"           HorizontalAlignment="Center" Width="Auto"/>
+                                <c1:DataGridTextColumn      Header = "[Carrier ID,Carrier ID]"               Binding = "{Binding CARRIER_ID}"        HorizontalAlignment="Center"  Width="Auto"/>
+                                <c1:DataGridTextColumn      Header = "[Abnormal,YN]"               Binding = "{Binding DELAY_YN}"          HorizontalAlignment="Center" Width="Auto" />
+                                <c1:DataGridTextColumn      Header = "[Abnormal,Reason]"               Binding = "{Binding ABNORMAL_REASON}"           HorizontalAlignment="Center"  Width="1*"  />
+
+                            </c1:C1DataGrid.Columns>
+                            <!--<c1:C1DataGrid.BottomRows >
+                                <c1:DataGridSummaryRow x:Name="summary" RowStyle="{StaticResource SummaryRowStyle}"/>
+                            </c1:C1DataGrid.BottomRows>-->
+                            <c1:C1DataGrid.TopRows>
+                                <c1:DataGridColumnHeaderRow />
+                                <c1:DataGridColumnHeaderRow />
+                            </c1:C1DataGrid.TopRows>
+                            <c1:C1RowIndexHeaderBehavior.RowIndexHeaderBehavior>
+                                <c1:C1RowIndexHeaderBehavior InitialIndex="1"/>
+                            </c1:C1RowIndexHeaderBehavior.RowIndexHeaderBehavior>
+                        </c1:C1DataGrid>
+                    </Grid>
+                </Grid>
+            </Grid>
+        </ctrlLib:LGCLayout>
+
+        <ctrlLib:LoadingIndicator x:Name="loadingIndicator" Grid.Row="999" Grid.Column="999" />
+    </Grid>
+</UserControl>

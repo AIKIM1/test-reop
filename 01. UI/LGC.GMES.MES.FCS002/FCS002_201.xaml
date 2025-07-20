@@ -1,0 +1,140 @@
+﻿<UserControl x:Class="LGC.GMES.MES.FCS002.FCS002_201"
+             xmlns:ss="http://schemas.grapecity.com/windows/spreadsheet/2012"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:c1="http://schemas.componentone.com/winfx/2006/xaml"
+             xmlns:ctrlLib="clr-namespace:LGC.GMES.MES.ControlsLibrary;assembly=LGC.GMES.MES.ControlsLibrary"
+             xmlns:CMM001="clr-namespace:LGC.GMES.MES.CMM001;assembly=LGC.GMES.MES.CMM001"
+             mc:Ignorable="d" 
+             d:DesignHeight="1024" d:DesignWidth="1280"  Loaded="UserControl_Loaded" >
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/LGC.GMES.MES.ControlsLibrary;component/ControlStyles.xaml" />
+                <ResourceDictionary Source="/LGC.GMES.MES.ControlsLibrary;component/ControlTemplates/LGCDatePicker.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid x:Name="grdMain">
+        <ctrlLib:LGCLayout x:Name="LayoutRoot" Tag="Aging Rack 적재현황" Grid.ColumnSpan="2">
+            <ctrlLib:LGCLayout.Content>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="8"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <Border Grid.Row="0" Background="#fff2f2f2" BorderThickness="1" BorderBrush="#ffd1d1d1"/>
+                    <Grid   Grid.Row="0" Grid.Column="0" >
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="11" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="11" />
+                        </Grid.RowDefinitions>
+                        
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="13" />
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="13"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Button     Grid.Row="1" Grid.Column="2" x:Name="btnSearch" Margin="4" Content="{Binding ConverterParameter='조회' , Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource SearchButtonStyle}"  Cursor="Hand" Click="btnSearch_Click" />
+
+                    </Grid>
+                    <!--조회 영역-->
+                    <!--ROW 02-->
+                    <Grid   Grid.Row="2" Grid.Column="0" >
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="34"/>
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="0" /> <!--1시간 Aging 9동은 한개밖에 읍다고 하여, 숨김-->
+                            <!--<ColumnDefinition Width="3.3*" />--> <!--10분 Aging 9동은 일단 읍다고 하여, 숨김--> 
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        
+                        <!--백그라운드용-->
+                        <Border Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="99" Grid.RowSpan="2" Style="{StaticResource Content_InputForm_ContentBorderStyle}"/>
+                        <Border Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="99" BorderThickness="1" BorderBrush="#ffbebebe" Style="{StaticResource BorderSubTitleStyle}"/>
+
+                        <TextBlock Grid.Row="0" Grid.Column="0" Style="{StaticResource Content_ModuleTitleStyle}"><Run Text="{Binding ConverterParameter='1 Hour Aging CV #1', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}"/></TextBlock>
+                        <Grid Grid.Row="1" Grid.Column="0" >
+                            <c1:C1DataGrid x:Name="dgList" IsReadOnly="True" HeadersVisibility="Row" SelectionMode="SingleRow" FrozenColumnCount="2" FrozenTopRowsCount="2" Grid.ColumnSpan="2" Margin="8" LoadedRowHeaderPresenter="dgList_LoadedRowHeaderPresenter">
+                                <c1:C1DataGrid.Columns>
+                                    <c1:DataGridTextColumn      Header = "[Route,Route]"                    Binding = "{Binding ROUTID}"           HorizontalAlignment="Center" />
+                                    <c1:DataGridTextColumn      Header = "[Lot ID,Lot ID]"                  Binding = "{Binding PROD_LOTID}"       HorizontalAlignment="Center" />
+                                    <c1:DataGridTextColumn      Header = "[Tray No,Tray No]"                Binding = "{Binding LOTID}"            HorizontalAlignment="Center" Visibility="Collapsed"  />
+                                    <c1:DataGridTextColumn      Header = "[Tray ID,Tray ID]"                Binding = "{Binding CSTID}"            HorizontalAlignment="Center" />
+                                    <c1:DataGridTextColumn      Header = "[Special Aging,Set Time (min)]"   Binding = "{Binding SET_TIME}"         HorizontalAlignment="Center" />
+                                    <c1:DataGridTextColumn      Header = "[Special Aging,Start Time]"       Binding = "{Binding WIPDTTM_ST}"       HorizontalAlignment="Center" Format ="yyyy-MM-dd HH:mm:ss" />
+                                    <c1:DataGridTextColumn      Header = "[Special Aging,End Time]"         Binding = "{Binding WIPDTTM_ED}"       HorizontalAlignment="Center" Format ="yyyy-MM-dd HH:mm:ss" />
+                                    <c1:DataGridTextColumn      Header = "[Special Aging,Input Time]"       Binding = "{Binding WIPDTTM_IN}"       HorizontalAlignment="Center" Format ="yyyy-MM-dd HH:mm:ss" />
+                                </c1:C1DataGrid.Columns>
+
+                                <c1:C1DataGrid.TopRows>
+                                    <c1:DataGridColumnHeaderRow />
+                                    <c1:DataGridColumnHeaderRow />
+                                </c1:C1DataGrid.TopRows>
+
+                            </c1:C1DataGrid>
+                        </Grid>
+
+                        <TextBlock Grid.Row="0" Grid.Column="1" Style="{StaticResource Content_ModuleTitleStyle}"><Run Text="{Binding ConverterParameter='1 Hour Aging CV #2', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}"/></TextBlock>
+                        <Grid Grid.Row="1" Grid.Column="1" >
+                            <c1:C1DataGrid x:Name="dgList2" IsReadOnly="True" HeadersVisibility="None" SelectionMode="SingleRow" FrozenColumnCount="2" FrozenTopRowsCount="2" Grid.ColumnSpan="2" Margin="8">
+                                <c1:C1DataGrid.Columns>
+                                    <c1:DataGridTextColumn      Header = "[Route,Route]"                    Binding = "{Binding ROUTID}"        HorizontalAlignment="Center" />
+                                    <c1:DataGridTextColumn      Header = "[Lot ID,Lot ID]"                  Binding = "{Binding PROD_LOTID}"    HorizontalAlignment="Center" />
+                                    <c1:DataGridTextColumn      Header = "[Tray No,Tray No]"                Binding = "{Binding LOTID}"         HorizontalAlignment="Center" Visibility="Collapsed"  />
+                                    <c1:DataGridTextColumn      Header = "[Tray ID,Tray ID]"                Binding = "{Binding CSTID}"         HorizontalAlignment="Center" />
+                                    <c1:DataGridTextColumn      Header = "[Special Aging,Set Time (min)]"   Binding = "{Binding SET_TIME}"      HorizontalAlignment="Center" />
+                                    <c1:DataGridTextColumn      Header = "[Special Aging,Start Time]"       Binding = "{Binding WIPDTTM_ST}"    HorizontalAlignment="Center" Format ="yyyy-MM-dd HH:mm:ss" />
+                                    <c1:DataGridTextColumn      Header = "[Special Aging,End Time]"         Binding = "{Binding WIPDTTM_ED}"    HorizontalAlignment="Center" Format ="yyyy-MM-dd HH:mm:ss" />
+                                    <c1:DataGridTextColumn      Header = "[Special Aging,Input Time]"       Binding = "{Binding WIPDTTM_IN}"    HorizontalAlignment="Center" Format ="yyyy-MM-dd HH:mm:ss" />
+                                </c1:C1DataGrid.Columns>
+
+                                <c1:C1DataGrid.TopRows>
+                                    <c1:DataGridColumnHeaderRow />
+                                    <c1:DataGridColumnHeaderRow />
+                                </c1:C1DataGrid.TopRows>
+
+                            </c1:C1DataGrid>
+                        </Grid>
+
+                        <!--<TextBlock Grid.Row="0" Grid.Column="2" Style="{StaticResource Content_ModuleTitleStyle}"><Run Text="{Binding ConverterParameter='10 min Aging CV #1', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" /></TextBlock>-->
+                        <Grid Grid.Row="1" Grid.Column="2" Visibility="Collapsed" >
+                            <c1:C1DataGrid x:Name="dgList3" IsReadOnly="True" HeadersVisibility="None" SelectionMode="SingleRow" FrozenColumnCount="2" FrozenTopRowsCount="2" Grid.ColumnSpan="2" Margin="8">
+                                <c1:C1DataGrid.Columns>
+                                    <c1:DataGridTextColumn      Header = "[Route,Route]"                    Binding = "{Binding ROUTID}"         HorizontalAlignment="Center" />
+                                    <c1:DataGridTextColumn      Header = "[Lot ID,Lot ID]"                  Binding = "{Binding PROD_LOTID}"     HorizontalAlignment="Center" />
+                                    <c1:DataGridTextColumn      Header = "[Tray No,Tray No]"                Binding = "{Binding LOTID}"          HorizontalAlignment="Center" Visibility="Collapsed"  />
+                                    <c1:DataGridTextColumn      Header = "[Tray ID,Tray ID]"                Binding = "{Binding CSTID}"          HorizontalAlignment="Center" />
+                                    <c1:DataGridTextColumn      Header = "[Special Aging,Set Time (min)]"   Binding = "{Binding SET_TIME}"       HorizontalAlignment="Center" />
+                                    <c1:DataGridTextColumn      Header = "[Special Aging,Start Time]"       Binding = "{Binding START_TIME}"     HorizontalAlignment="Center" Format ="yyyy-MM-dd HH:mm:ss" />
+                                    <c1:DataGridTextColumn      Header = "[Special Aging,End Time]"         Binding = "{Binding END_TIME}"       HorizontalAlignment="Center" Format ="yyyy-MM-dd HH:mm:ss" />
+                                    <c1:DataGridTextColumn      Header = "[Special Aging,Input Time]"       Binding = "{Binding MDF_TIME}"       HorizontalAlignment="Center" Format ="yyyy-MM-dd HH:mm:ss" />
+                                </c1:C1DataGrid.Columns>
+
+                                <c1:C1DataGrid.TopRows>
+                                    <c1:DataGridColumnHeaderRow />
+                                    <c1:DataGridColumnHeaderRow />
+                                </c1:C1DataGrid.TopRows>
+
+                            </c1:C1DataGrid>
+                        </Grid>
+                        
+                    </Grid>
+                </Grid>
+            </ctrlLib:LGCLayout.Content>
+        </ctrlLib:LGCLayout>
+
+        <ctrlLib:LoadingIndicator x:Name="loadingIndicator" Grid.Row="999" Grid.Column="999" />
+    </Grid>
+</UserControl>

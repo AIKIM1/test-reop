@@ -1,0 +1,117 @@
+<!--*************************************************************************************
+ Created Date : 2023.05.29
+      Creator : 
+   Decription : 포장 출고 (Location 관리) - SHIPPING_ORDER
+
+ [Change History]
+  2023.05.29  주재홍 : Initial Created.
+  2023.07.21  주재홍 : 현장 테스트후 3차 개선
+  2023.07.31  주재홍 : BizAct 다국어
+**************************************************************************************-->
+
+
+<c1:C1Window x:Class="LGC.GMES.MES.COM001.COM001_383_SHIPPING_ORDER"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:c1="http://schemas.componentone.com/winfx/2006/xaml"
+		     xmlns:System="clr-namespace:System;assembly=mscorlib"
+             xmlns:ctrlLib="clr-namespace:LGC.GMES.MES.ControlsLibrary;assembly=LGC.GMES.MES.ControlsLibrary"        
+             xmlns:cmm001="clr-namespace:LGC.GMES.MES.CMM001;assembly=LGC.GMES.MES.CMM001"
+             ctrlLib:LGCPopupWindowExtension.ApplyStyle="True"
+             x:Name="com001_002_PilotWORegister"
+             Header="{Binding Converter={StaticResource GlobalObjectDicConverter}, ConverterParameter='출고요청'}" 
+             Tag="ProtoType01Windows01" Height="600" Width="400" IsResizable="True" Loaded="C1Window_Loaded" >
+
+        <c1:C1Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/LGC.GMES.MES.ControlsLibrary;Component/ControlStyles.xaml"/>
+                <ResourceDictionary Source="/LGC.GMES.MES.CMM001;component/PopupFindControlStyle.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </c1:C1Window.Resources>
+
+    <Grid>
+    <Grid.RowDefinitions>
+        <RowDefinition Height="*" />
+        <RowDefinition Height="5"/>
+        <RowDefinition Height="Auto"/>
+    </Grid.RowDefinitions>
+    <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="*"/>
+    </Grid.ColumnDefinitions>
+
+    <Grid Grid.Row="0" >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="2"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="4*"/>
+                <ColumnDefinition Width="3*"/>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="30"/>
+            </Grid.ColumnDefinitions>
+
+            <!--title-->
+            <!-- <Border Grid.Row="0" Grid.Column="0" Grid.RowSpan="99" Grid.ColumnSpan="99" Background="#FAFAFA" BorderThickness="1" BorderBrush="#B3B3B3"></Border> -->
+            <Border Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="5" Style="{StaticResource Content_InputForm_LabelBorderStyle}" BorderBrush="#c8294b" ></Border>
+
+            <Border     Grid.Row="1"  Grid.Column="0"  Grid.ColumnSpan="99"  Height="50"            BorderThickness="0.3" Style="{StaticResource BorderSubTitleStyle}"/>
+            <TextBlock  Grid.Row="1"  Grid.Column="0"  Text="{Binding ConverterParameter='MODEL',                  Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_TextBlockStyle}" FontWeight="SemiBold" HorizontalAlignment="Right"/>
+            <cmm001:PopupFindControl Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="99"
+                                                    SelectedValuePath="CBO_CODE" DisplayMemberPath="CBO_NAME"
+                                                    x:Name="popSearchTopProdID"   
+                                                    Width="Auto" Margin="0,0,10,0"
+                                                    ValueChanged="popSearchProdID_ValueChanged">
+            </cmm001:PopupFindControl>
+
+            <Border     Grid.Row="2"  Grid.Column="0"  Grid.ColumnSpan="99"   Height="50"           BorderThickness="0.3" Style="{StaticResource BorderSubTitleStyle}"/>
+            <TextBlock  Grid.Row="2"  Grid.Column="0"  Text="{Binding ConverterParameter='입고창고',                  Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_TextBlockStyle}" FontWeight="SemiBold" HorizontalAlignment="Right"/>
+            <c1:C1ComboBox   Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="99" x:Name="cboTOSLOC" Style="{StaticResource C1ComboBoxStyle}" AutoComplete="False" DisplayMemberPath="CBO_NAME" SelectedValuePath="CBO_CODE"  SelectedValueChanged="cboTOSLOC_SelectedValueChanged"  />
+
+            <Border     Grid.Row="3"  Grid.Column="0"  Grid.ColumnSpan="99"   Height="50"           BorderThickness="0.3" Style="{StaticResource BorderSubTitleStyle}"/>
+            <TextBlock  Grid.Row="3"  Grid.Column="0"  Text="{Binding ConverterParameter='출하처',                  Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_TextBlockStyle}" FontWeight="SemiBold" HorizontalAlignment="Right"/>
+            <c1:C1ComboBox   Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="99" x:Name="cboSHIPTO" Style="{StaticResource C1ComboBoxStyle}" AutoComplete="False" DisplayMemberPath="CBO_NAME" SelectedValuePath="CBO_CODE"  />
+
+            <Border     Grid.Row="4"  Grid.Column="0"  Grid.ColumnSpan="99"   Height="50"           BorderThickness="0.3" Style="{StaticResource BorderSubTitleStyle}"/>
+            <TextBlock  Grid.Row="4"  Grid.Column="0"  Text="{Binding ConverterParameter='PLT QTY',                 Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_TextBlockStyle}" FontWeight="SemiBold" HorizontalAlignment="Right"/>
+            <TextBox    Grid.Row="4"  Grid.Column="1"  Grid.ColumnSpan="99"  x:Name="txtPalletQTY"       Text="0"    Style="{StaticResource Content_InputForm_TextBoxStyle}" KeyDown="txtPalletQTY_KeyDown" />
+
+            <Border     Grid.Row="5"  Grid.Column="0"  Grid.ColumnSpan="99"  Height="50"            BorderThickness="0.3" Style="{StaticResource BorderSubTitleStyle}"/>
+            <TextBlock  Grid.Row="5"  Grid.Column="0"  Text="{Binding ConverterParameter='REQ_USER',                  Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_TextBlockStyle}" FontWeight="SemiBold" HorizontalAlignment="Right"/>
+            <TextBox    Grid.Row="5"  Grid.Column="1"  Grid.ColumnSpan="2"   x:Name="txtRequestor"    Style="{StaticResource Content_InputForm_TextBoxStyle}" KeyDown="txtRequestor_KeyDown" />
+            <Button     Grid.Row="5"  Grid.Column="3"  x:Name="btnRequestor"    Content="{Binding ConverterParameter=Title17, Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{DynamicResource Content_SearchButtonStyle}" Click="btnRequestor_Click" />
+
+            <Border     Grid.Row="6"  Grid.Column="0"  Grid.ColumnSpan="99"  Height="50"            BorderThickness="0.3" Style="{StaticResource BorderSubTitleStyle}"/>
+            <TextBlock  Grid.Row="6"  Grid.Column="0"  Text="{Binding ConverterParameter='REQ_DATE',                  Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_TextBlockStyle}" FontWeight="SemiBold" HorizontalAlignment="Right"/>
+            <ctrlLib:LGCDatePicker   x:Name="dtpDateFrom"  Grid.Row="6"  Grid.Column="1" Grid.ColumnSpan="99"  DatepickerType="Date"  Width="160" HorizontalAlignment="Left" SelectedDataTimeChanged="dtpDateFrom_SelectedDataTimeChanged" />
+
+            <Border     Grid.Row="7"  Grid.Column="0"  Grid.ColumnSpan="99"   Height="90"           BorderThickness="0.3" Style="{StaticResource BorderSubTitleStyle}"/>
+            <TextBlock  Grid.Row="7"  Grid.Column="0"  Text="{Binding ConverterParameter='NOTE',                  Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_TextBlockStyle}" FontWeight="SemiBold" HorizontalAlignment="Right"/>
+            <TextBox    Grid.Row="7"  Grid.Column="1"  Grid.ColumnSpan="99"   x:Name="txtNote"      AcceptsReturn="True" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" Height="80" MinLines="5" MaxLines="5"/>
+        
+        </Grid>
+
+    <Grid x:Name="ButtonArea" Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="5"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <Button Grid.Column="1" x:Name="btnSave"   Content="{Binding ConverterParameter=저장,   Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{DynamicResource Content_MainButtonSpecialStyle}" Click="btnSave_Click"  />
+            <Button Grid.Column="3" x:Name="btnClose"  Content="{Binding ConverterParameter=닫기,   Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{DynamicResource Content_MainButtonStyle}" Click="btnClose_Click" />
+        </Grid>
+
+        <ctrlLib:LoadingIndicator x:Name="loadingIndicator" Grid.RowSpan="99" Grid.ColumnSpan="99" />
+    </Grid>
+    
+
+</c1:C1Window>

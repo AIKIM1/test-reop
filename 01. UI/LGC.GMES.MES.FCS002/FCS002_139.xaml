@@ -1,0 +1,151 @@
+﻿<UserControl xmlns:ss="hhemas.grapecity.com/windows/spreadsheet/2012"  x:Class="LGC.GMES.MES.FCS002.FCS002_139"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:c1="http://schemas.componentone.com/winfx/2006/xaml"
+             xmlns:ctrlLib="clr-namespace:LGC.GMES.MES.ControlsLibrary;assembly=LGC.GMES.MES.ControlsLibrary"
+             mc:Ignorable="d" 
+             d:DesignHeight="768" d:DesignWidth="1300" Loaded="UserControl_Loaded" >
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/LGC.GMES.MES.ControlsLibrary;component/ControlStyles.xaml" />
+                <ResourceDictionary Source="/LGC.GMES.MES.ControlsLibrary;component/ControlTemplates/LGCDatePicker.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <Style x:Key="CellColorStyle">
+                <Setter Property="TextBlock.Foreground" Value="Blue" />
+            </Style>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid x:Name="grdMain">
+        <Grid.Resources>
+            <DataTemplate x:Key="ItemTemplate">
+                <WrapPanel>
+                    <Image Width="138" Height="138" Stretch="Fill" Source="{Binding}" Margin="3,3,3,3" />
+                </WrapPanel>
+            </DataTemplate>
+            <DataTemplate x:Key="ResultTemplate">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Text="{Binding}" HorizontalAlignment="Right" Padding="0,0,5,0"  />
+                </Grid>
+            </DataTemplate>
+
+        </Grid.Resources>
+
+        <ctrlLib:LGCLayout x:Name="LayoutRoot" Tag="Tray-Lot 정보관리" Grid.ColumnSpan="2">
+            <Grid>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="8"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <!--조회영역-->
+                    <Grid x:Name="SearchArea" Grid.Row="0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="4" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="4" />
+                        </Grid.RowDefinitions>
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="13"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="13"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Border Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="99" Grid.RowSpan="4" Background="#fff2f2f2" BorderThickness="1" BorderBrush="#ffd1d1d1"></Border>
+
+                        <!--조회 버튼-->
+                        <!--조회조건 ROW1-->
+                        <TextBlock                        Grid.Row="1" Grid.Column="1" Text="{Binding ConverterParameter='TRAY_ID', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}"/>
+                        <TextBox   x:Name="txtTrayID"     Grid.Row="1" Grid.Column="2" MinWidth="150" Style="{StaticResource Content_InputForm_MandatoryTextBoxStyle}" KeyDown="txtTrayID_KeyDown" />
+
+                        <TextBlock                        Grid.Row="1" Grid.Column="4" Text="{Binding ConverterParameter='TRAY_LOT_ID', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}"/>
+                        <TextBox   x:Name="txtTrayLotID"  Grid.Row="1" Grid.Column="5" MinWidth="150" Style="{StaticResource Content_InputForm_ReadOnlyTextBoxStyle}" />
+
+                        <Button    x:Name="btnSave"     Grid.Row="1" Grid.Column="7" Content="{Binding ConverterParameter='저장' , Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_MainButtonSpecialStyle}"  Cursor="Hand" Click="btnSave_Click"  />
+                    </Grid>
+
+                    <!--조회리스트-->
+                    <Grid x:Name="LotInfoArea" Grid.Row="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="6.5*"/>
+                            <ColumnDefinition Width="8"/>
+                            <ColumnDefinition Width="3.5*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Border Grid.Row="0" Grid.Column="0" Grid.RowSpan="2" Background="#fff2f2f2" BorderThickness="1" BorderBrush="#ffd1d1d1"></Border>
+
+                        <Grid Grid.Row="1" Grid.Column="0">
+                            <c1:C1DataGrid x:Name="dgTrayLotList"
+                                       IsReadOnly="True"
+                                       HeadersVisibility="All"
+                                       FrozenColumnCount="5" 
+                                       SelectionMode="SingleRow"
+                                       Margin="8"
+                                       MouseDoubleClick="dgTrayLotList_MouseDoubleClick"
+                                       LoadedCellPresenter="dgTrayLotList_LoadedCellPresenter"
+                                       LoadedRowHeaderPresenter="dgTrayLotList_LoadedRowHeaderPresenter">
+                                <c1:C1DataGrid.Columns>
+                                    <c1:DataGridCheckBoxColumn x:Name="CHK" Width="40" Binding = "{Binding CHK}" HorizontalAlignment="Center" IsReadOnly="True" CanUserFilter="False" CanUserSort="False" CanUserResize="False" Visibility="Collapsed"/>
+                                    <c1:DataGridTemplateColumn Width="Auto" HorizontalAlignment="Center" CanUserFilter="False" CanUserSort="False" CanUserResize="False">
+                                        <c1:DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Button x:Name="btnDelRow" Width="Auto" Click="btnDelRow_Click">
+                                                    <Image Source="/LGC.GMES.MES.ControlsLibrary;component/Images/LGC/ico-delete.png" Width="16" Height="16" />
+                                                </Button>
+                                            </DataTemplate>
+                                        </c1:DataGridTemplateColumn.CellTemplate>
+                                    </c1:DataGridTemplateColumn>
+                                    <c1:DataGridTextColumn Header = "EMPTY_ENABLE_FLAG"   Binding = "{Binding EMPTY_ENABLE_FLAG}"  HorizontalAlignment="Center" />
+                                    <c1:DataGridTextColumn Header = "CST유형"             Binding = "{Binding CSTTNAME}"           HorizontalAlignment="Center" Visibility="Collapsed" />
+                                    <c1:DataGridTextColumn Header = "CST유형"             Binding = "{Binding CSTTYPE}"            HorizontalAlignment="Center" Visibility="Collapsed"/>
+                                    <c1:DataGridTextColumn Header = "CSTID"               Binding = "{Binding CSTID}"              HorizontalAlignment="Center" CellContentStyle="{StaticResource ResourceKey=CellColorStyle}"/>
+                                    <c1:DataGridTextColumn Header = "CST상태"             Binding = "{Binding CSTSNAME}"           HorizontalAlignment="Center" />
+                                    <c1:DataGridTextColumn Header = "CST상태"             Binding = "{Binding CSTSTAT}"            HorizontalAlignment="Center" Visibility="Collapsed"/>
+                                    <c1:DataGridTextColumn Header = "LOTID"               Binding = "{Binding LOTID}"              HorizontalAlignment="Center" />
+                                    <c1:DataGridTextColumn Header = "LOTTYPE"             Binding = "{Binding LOTTYPE}"            HorizontalAlignment="Center" />
+                                    <c1:DataGridTextColumn Header = "생성자"              Binding = "{Binding INSUSER}"            HorizontalAlignment="Center" />
+                                    <c1:DataGridTextColumn Header = "생성일시"            Binding = "{Binding INSDTTM}"            HorizontalAlignment="Center" />
+                                    <c1:DataGridTextColumn Header = "수정자"              Binding = "{Binding UPDUSER}"            HorizontalAlignment="Center" />
+                                    <c1:DataGridTextColumn Header = "수정일시"            Binding = "{Binding UPDDTTM}"            HorizontalAlignment="Center" />
+                                </c1:C1DataGrid.Columns>
+                            </c1:C1DataGrid>
+
+                        </Grid>
+
+                        <GridSplitter Grid.Column="1" ResizeDirection="Columns" Grid.RowSpan="2" ShowsPreview="True" Style="{StaticResource GridSplitterStyle}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" />
+
+                        <Border Grid.Row="0" Grid.Column="2" Grid.RowSpan="2" Grid.ColumnSpan="3" Background="#fff2f2f2" BorderThickness="1" BorderBrush="#ffd1d1d1"></Border>
+
+                        <Grid Grid.Row="1" Grid.Column="2">
+                            <c1:C1DataGrid x:Name="dgSubLotList" Grid.Row="0" Grid.Column="0" IsReadOnly="False" HeadersVisibility="Column" FrozenColumnCount="2" SelectionMode="SingleRow"  LoadedCellPresenter="dgSubLotList_LoadedCellPresenter" Margin="8" LoadedRowHeaderPresenter="dgSubLotList_LoadedRowHeaderPresenter"  >
+                                <c1:C1DataGrid.Columns>
+                                    <c1:DataGridTextColumn     Header = "순번"            Binding = "{Binding ROW_NUM}"           HorizontalAlignment="Center" IsReadOnly="True" Width="Auto" />
+                                    <c1:DataGridTextColumn     Header = "CELL_ID"         Binding = "{Binding SUBLOTID}"          HorizontalAlignment="Center" IsReadOnly="True" />
+                                    <c1:DataGridTextColumn     Header = "FINL_JUDG_CODE"  Binding = "{Binding SUBLOTJUDGE}"       HorizontalAlignment="Center" IsReadOnly="True" />
+                                    <c1:DataGridTextColumn     Header = "JUDG_TIME"       Binding = "{Binding UPDDTTM}"           HorizontalAlignment="Center" IsReadOnly="True" />
+                                    <c1:DataGridTextColumn     Header = "JUDG_GRADE"      Binding = "{Binding SUBLOT_GRD_CODE}"   HorizontalAlignment="Center" IsReadOnly="True" />
+                                </c1:C1DataGrid.Columns>
+                            </c1:C1DataGrid>
+
+                        </Grid>
+                    </Grid>
+                </Grid>
+            </Grid>
+        </ctrlLib:LGCLayout>
+        <ctrlLib:LoadingIndicator x:Name="loadingIndicator" Grid.Row="999" Grid.Column="999"/>
+    </Grid>
+</UserControl>

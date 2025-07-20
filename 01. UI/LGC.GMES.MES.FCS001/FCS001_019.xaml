@@ -1,0 +1,112 @@
+﻿<UserControl x:Class="LGC.GMES.MES.FCS001.FCS001_019"
+             xmlns:ss="http://schemas.grapecity.com/windows/spreadsheet/2012"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:c1="http://schemas.componentone.com/winfx/2006/xaml"
+             xmlns:ctrlLib="clr-namespace:LGC.GMES.MES.ControlsLibrary;assembly=LGC.GMES.MES.ControlsLibrary"
+             xmlns:uc="clr-namespace:LGC.GMES.MES.CMM001.Controls;assembly=LGC.GMES.MES.CMM001"
+             mc:Ignorable="d" 
+             d:DesignHeight="768" d:DesignWidth="1124"  Loaded="UserControl_Loaded" >
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/LGC.GMES.MES.ControlsLibrary;component/ControlStyles.xaml" />
+                <ResourceDictionary Source="/LGC.GMES.MES.ControlsLibrary;component/ControlTemplates/LGCDatePicker.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <Grid x:Name="grdMain">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="11*"/>
+            <RowDefinition Height="245*"/>
+        </Grid.RowDefinitions>
+        <ctrlLib:LGCLayout x:Name="LayoutRoot" Tag="저전압 Lot SPEC" Grid.RowSpan="2" >
+            <ctrlLib:LGCLayout.Content>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="8"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <Border Grid.Row="0" Background="#fff2f2f2" BorderThickness="1" BorderBrush="#ffd1d1d1"/>
+
+                    <Grid   Grid.Row="0" Grid.Column="0" >
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="11" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="11" />
+                        </Grid.RowDefinitions>
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="13" />
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>                            
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="10"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="13"/>
+                        </Grid.ColumnDefinitions>
+
+                        <!--조회조건 ROW1-->
+                        <TextBlock                         Grid.Row="1" Grid.Column="1" Text="{Binding ConverterParameter='SEL_PERIOD', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}" VerticalAlignment="Center" />
+                        <ctrlLib:LGCDatePicker             Grid.Row="1" Grid.Column="2" x:Name="dtpFromDate" DatepickerType="Date" IsNullInitValue="True" />
+                        <TextBlock                         Grid.Row="1" Grid.Column="3" Text="~" HorizontalAlignment="Center" Style="{StaticResource SearchCondition_LabelStyle}" />
+                        <ctrlLib:LGCDatePicker             Grid.Row="1" Grid.Column="4" x:Name="dtpToDate" DatepickerType="Date" IsNullInitValue="True" />
+
+                        <TextBlock                         Grid.Row="1" Grid.Column="5" Text="{Binding ConverterParameter='LINE_ID', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}" VerticalAlignment="Center" />
+                        <uc:UcBaseComboBox  x:Name="cboLine"   Grid.Row="1" Grid.Column="6" MinHeight="23" Style="{StaticResource C1ComboBoxStyle}" AutoComplete="False" SelectedIndexChanged="cboLine_SelectedIndexChanged" />
+
+                        <TextBlock                         Grid.Row="1" Grid.Column="7" Text="{Binding ConverterParameter='MODEL', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}" VerticalAlignment="Center" />
+                        <uc:UcBaseComboBox  x:Name="cboModel"  Grid.Row="1" Grid.Column="8" MinHeight="23" Style="{StaticResource C1ComboBoxStyle_Mandatory}" AutoComplete="False" SelectedIndexChanged="cboModel_SelectedIndexChanged" />
+
+                        <TextBlock                         Grid.Row="1" Grid.Column="9" Grid.ColumnSpan="3" Text="{Binding ConverterParameter='PACKAGE_LOT_BASE', Converter={StaticResource GlobalObjectDicConverter}, RelativeSource={RelativeSource Self}}" HorizontalAlignment="Left" Style="{StaticResource SearchCondition_LabelStyle}" Foreground="Red" FontWeight="Bold" />
+                        <!--E SPEC수정 버튼-->
+                        <uc:UcBaseButton     x:Name="btnESPECUpdate" Grid.Row="1" Grid.Column="12" Height="Auto" Content="{Binding ConverterParameter=UPDATE_E_SPEC, Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_MainButtonSpecialStyle}" Cursor="Hand" Click="btnESPECUpdate_Click" />
+                        <!--조회 버튼-->
+                        <uc:UcBaseButton         x:Name="btnSearch" Grid.Row="1" Grid.Column="14" Height="Auto" Content="{Binding ConverterParameter=SEARCH, Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource SearchButtonStyle}" Cursor="Hand" Click="btnSearch_Click" />
+                    </Grid>
+
+                    <!--조회 영역-->
+                    <!--ROW 02-->
+                    <Border Grid.Row="2" Background="#fff2f2f2" BorderThickness="1" BorderBrush="#ffbebebe"></Border>
+
+                    <Grid Grid.Row="2" Grid.Column="0" >
+                        <uc:UcBaseDataGrid x:Name="dgLowVoltage" Grid.Row="0" Grid.Column="0" Margin="8" IsReadOnly="True" HeadersVisibility="Column" FrozenColumnCount="1" SelectionMode="MultiRange" 
+                                           MouseDoubleClick="dgLowVoltage_MouseDoubleClick" 
+                                           LoadedCellPresenter="dgLowVoltage_LoadedCellPresenter" 
+                                           LoadedColumnHeaderPresenter="dgLowVoltage_LoadedColumnHeaderPresenter" >
+                            <c1:C1DataGrid.Columns>
+                                <c1:DataGridTextColumn      Header = "PKG_LOT_ID"         Binding = "{Binding DAY_GR_LOTID}"         HorizontalAlignment="Center" />
+                                <c1:DataGridNumericColumn   Header = "WORK_PER"           Binding = "{Binding POPLATN_PROG_RATE}"    HorizontalAlignment="Right" Format="###,###,##0" />
+                                <c1:DataGridNumericColumn   Header = "SPEC_ULMT"          Binding = "{Binding ABS_MAX_VALUE}"        HorizontalAlignment="Right" Format="###,###,##0.###" />
+                                <c1:DataGridNumericColumn   Header = "BAD_CNT"            Binding = "{Binding BAD_CNT}"              HorizontalAlignment="Right" Format="###,###,##0" />
+                                <c1:DataGridNumericColumn   Header = "BAD_RATE"           Binding = "{Binding BAD_RATE}"             HorizontalAlignment="Right" Format="###,###,##0.###" />
+                                <c1:DataGridNumericColumn   Header = "E_BAD_CNT"          Binding = "{Binding E_BAD_CNT}"            HorizontalAlignment="Right" Format="###,###,##0" />
+                                <c1:DataGridNumericColumn   Header = "E_GR_PER"           Binding = "{Binding E_GR_PER}"             HorizontalAlignment="Right" Format="###,###,##0.###" />
+                                <c1:DataGridNumericColumn   Header = "E_GRADE_DEFECT_RATE" Binding = "{Binding E_BAD_RATE}"           HorizontalAlignment="Right" Format="###,###,##0.###" />
+                                <c1:DataGridNumericColumn   Header = "E_GR_PER_LIMIT"     Binding = "{Binding E_GR_PER_LIMIT}"       HorizontalAlignment="Right" Format="###,###,##0" />
+                                <c1:DataGridNumericColumn   Header = "PKG_LOT_INPUT_QTY"  Binding = "{Binding PACK_INPUT_QTY}"       HorizontalAlignment="Right" Format="###,###,##0" />
+                                <c1:DataGridTextColumn      Header = "SHIPNG_PLAN_DATE"   Binding = "{Binding WAIT_TIME}"            HorizontalAlignment="Center"  />                                
+                            </c1:C1DataGrid.Columns>
+                        </uc:UcBaseDataGrid>
+                    </Grid>
+                </Grid>
+            </ctrlLib:LGCLayout.Content>
+        </ctrlLib:LGCLayout>
+
+        <ctrlLib:LoadingIndicator x:Name="loadingIndicator" Grid.ColumnSpan="1" Grid.RowSpan="2" />
+    </Grid>
+</UserControl>

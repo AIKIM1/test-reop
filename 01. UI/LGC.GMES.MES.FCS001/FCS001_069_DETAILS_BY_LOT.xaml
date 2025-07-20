@@ -1,0 +1,108 @@
+﻿<c1:C1Window x:Class="LGC.GMES.MES.FCS001.FCS001_069_DETAILS_BY_LOT"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:c1="http://schemas.componentone.com/winfx/2006/xaml"
+		     xmlns:System="clr-namespace:System;assembly=mscorlib"
+             xmlns:uc="clr-namespace:LGC.GMES.MES.CMM001.Controls;assembly=LGC.GMES.MES.CMM001"
+             xmlns:ctrlLib="clr-namespace:LGC.GMES.MES.ControlsLibrary;assembly=LGC.GMES.MES.ControlsLibrary"             
+             Tag="ProtoType01Windows01" Height="700" Width="1630" IsResizable="True" 
+             ctrlLib:LGCPopupWindowExtension.ApplyStyle="True"
+             Header="{Binding Converter={StaticResource GlobalObjectDicConverter}, ConverterParameter='INQUIRY_BY_LOT'}" 
+             Loaded="C1Window_Loaded">
+    <c1:C1Window.Resources>
+        <ResourceDictionary Source="/LGC.GMES.MES.ControlsLibrary;Component/ControlStyles.xaml"/>
+    </c1:C1Window.Resources>
+
+    <Grid>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="150" />
+                <RowDefinition Height="8" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <Grid Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2">
+                <uc:UcBaseDataGrid x:Name="dgMaster"
+                                   IsReadOnly="True"
+                                   IsColumnHeaderWrap="True"
+                                   HeadersVisibility="None"
+                                   FrozenTopRowsCount="2" 
+                                   FrozenColumnCount="5" 
+                                   SelectionMode="MultiRange"
+                                   Margin="8"
+                                   ExecuteDataCompleted="dgMaster_ExecuteDataCompleted">
+
+                    <c1:C1DataGrid.Columns>
+                        <c1:DataGridTextColumn    Header = "[생산일자,생산일자]"                     Binding = "{Binding CALDATE}"                ctrlLib:DataGridMergeExtension.MergeMode="VERTICALHIERARCHI" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+                        <c1:DataGridTextColumn    Header = "[라인,라인]"                             Binding = "{Binding EQSGID}"                 ctrlLib:DataGridMergeExtension.MergeMode="VERTICALHIERARCHI" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+                        <c1:DataGridTextColumn    Header = "[모델,모델]"                             Binding = "{Binding MDLLOT_ID}"              ctrlLib:DataGridMergeExtension.MergeMode="VERTICALHIERARCHI" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+                        <c1:DataGridTextColumn    Header = "[공정,공정]"                             Binding = "{Binding PROCID}"                 ctrlLib:DataGridMergeExtension.MergeMode="VERTICALHIERARCHI" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+                        <c1:DataGridTextColumn    Header = "[PKG_MODEL,PKG_MODEL]"                   Binding = "{Binding PROD_LOTID}"             ctrlLib:DataGridMergeExtension.MergeMode="VERTICALHIERARCHI" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+                        <c1:DataGridNumericColumn Header = "[PKG_LOT_INPUT_QTY,PMM_210]"             Binding = "{Binding PKG_INPUT_QTY_DAY_SUM}"  ctrlLib:DataGridMergeExtension.MergeMode="VERTICALHIERARCHI" HorizontalAlignment="Right"  VerticalAlignment="Top" Format="#,##0" Visibility="Collapsed"/>
+                        <c1:DataGridNumericColumn Header = "[PKG_LOT_INPUT_QTY,PMM_110]"             Binding = "{Binding PKG_INPUT_QTY_RPT_SUM}"  ctrlLib:DataGridMergeExtension.MergeMode="VERTICALHIERARCHI" HorizontalAlignment="Right"  VerticalAlignment="Top" Format="#,##0" Visibility="Collapsed"/>
+                        <c1:DataGridNumericColumn Header = "[PKG_LOT_INPUT_QTY,차이량]"              Binding = "{Binding DIFF_PKG_INPUT_QTY_SUM}" ctrlLib:DataGridMergeExtension.MergeMode="VERTICALHIERARCHI" HorizontalAlignment="Right"  VerticalAlignment="Top" Format="#,##0" Visibility="Collapsed"/>
+                        <c1:DataGridNumericColumn Header = "[PKG_LOT_GOOD_QTY,PMM_210]"              Binding = "{Binding PKG_GOOD_QTY_DAY_SUM}"   ctrlLib:DataGridMergeExtension.MergeMode="VERTICALHIERARCHI" HorizontalAlignment="Right"  VerticalAlignment="Top" Format="#,##0" Visibility="Collapsed"/>
+                        <c1:DataGridNumericColumn Header = "[PKG_LOT_GOOD_QTY,PMM_110]"              Binding = "{Binding PKG_GOOD_QTY_RPT_SUM}"   ctrlLib:DataGridMergeExtension.MergeMode="VERTICALHIERARCHI" HorizontalAlignment="Right"  VerticalAlignment="Top" Format="#,##0" Visibility="Collapsed"/>
+                        <c1:DataGridNumericColumn Header = "[PKG_LOT_GOOD_QTY,차이량]"               Binding = "{Binding DIFF_PKG_GOOD_QTY_SUM}"  ctrlLib:DataGridMergeExtension.MergeMode="VERTICALHIERARCHI" HorizontalAlignment="Right"  VerticalAlignment="Top" Format="#,##0" Visibility="Collapsed"/>
+                        <c1:DataGridTextColumn    Header = "[TRAY_LOT_ID,TRAY_LOT_ID]"               Binding = "{Binding LOTID}"                  HorizontalAlignment="Center"/>
+                        <c1:DataGridNumericColumn Header = "[TRAY_LOT_INPUT_QTY,TRAY_LOT_INPUT_QTY]" Binding = "{Binding INPUT_QTY}"              HorizontalAlignment="Right" Format="#,##0"/>
+                        <c1:DataGridNumericColumn Header = "[INPUT_QTY_BY_LOT,PMM_210]"              Binding = "{Binding INPUT_QTY_DAY_LOT}"      HorizontalAlignment="Right" Format="#,##0"/>
+                        <c1:DataGridNumericColumn Header = "[INPUT_QTY_BY_LOT,PMM_110]"              Binding = "{Binding INPUT_QTY_RPT_LOT}"      HorizontalAlignment="Right" Format="#,##0"/>
+                        <c1:DataGridNumericColumn Header = "[INPUT_QTY_BY_LOT,차이량]"               Binding = "{Binding DIFF_INPUT_QTY_LOT}"     HorizontalAlignment="Right" Format="#,##0"/>
+                        <c1:DataGridNumericColumn Header = "[GOOD_QTY_BY_LOT,PMM_210]"               Binding = "{Binding GOOD_QTY_DAY_LOT}"       HorizontalAlignment="Right" Format="#,##0"/>
+                        <c1:DataGridNumericColumn Header = "[GOOD_QTY_BY_LOT,PMM_110]"               Binding = "{Binding GOOD_QTY_RPT_LOT}"       HorizontalAlignment="Right" Format="#,##0"/>
+                        <c1:DataGridNumericColumn Header = "[GOOD_QTY_BY_LOT,차이량]"                Binding = "{Binding DIFF_GOOD_QTY_LOT}"      HorizontalAlignment="Right" Format="#,##0"/>
+                        <c1:DataGridNumericColumn Header = "[BAD_QTY_BY_LOT,PMM_210]"                Binding = "{Binding DFCT_QTY_DAY_LOT}"       HorizontalAlignment="Right" Format="#,##0"/>
+                        <c1:DataGridNumericColumn Header = "[BAD_QTY_BY_LOT,PMM_110]"                Binding = "{Binding DFCT_QTY_RPT_LOT}"       HorizontalAlignment="Right" Format="#,##0"/>
+                        <c1:DataGridNumericColumn Header = "[BAD_QTY_BY_LOT,차이량]"                 Binding = "{Binding DIFF_DFCT_QTY_LOT}"      HorizontalAlignment="Right" Format="#,##0"/>
+                    </c1:C1DataGrid.Columns>
+
+                    <c1:C1DataGrid.TopRows>
+                        <c1:DataGridColumnHeaderRow />
+                        <c1:DataGridColumnHeaderRow />
+                    </c1:C1DataGrid.TopRows>
+
+                </uc:UcBaseDataGrid>
+            </Grid>
+
+            <Grid Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2">
+                <uc:UcBaseDataGrid x:Name="dgDetail"
+                                   IsReadOnly="True"
+                                   IsColumnHeaderWrap="True"
+                                   HeadersVisibility="None"
+                                   FrozenTopRowsCount="3"
+                                   FrozenColumnCount="2"
+                                   SelectionMode="MultiRange"
+                                   MouseDoubleClick="dgDetail_MouseDoubleClick"
+                                   LoadedCellPresenter="dgDetail_LoadedCellPresenter">
+                    <c1:C1DataGrid.Columns>
+                        <c1:DataGridTextColumn    Header = "[CELL_ID,CELL_ID,CELL_ID]"                            Binding = "{Binding SUBLOTID}"        HorizontalAlignment="Center"/>
+                        <c1:DataGridTextColumn    Header = "[CSTSLOT,CSTSLOT,CSTSLOT]"                            Binding = "{Binding CSTSLOT}"         HorizontalAlignment="Center"/>
+                        <c1:DataGridTextColumn    Header = "[LAST_GRADE,LAST_GRADE,LAST_GRADE]"                   Binding = "{Binding FINL_JUDG_CODE}"  HorizontalAlignment="Center"/>
+                        <c1:DataGridTextColumn    Header = "[CURRENT_GRADE,CURRENT_GRADE,CURRENT_GRADE]"          Binding = "{Binding SUBLOTJUDGE}"     HorizontalAlignment="Center"/>
+                        <c1:DataGridTextColumn    Header = "[INPUT_DIFF,INPUT_DIFF,INPUT_DIFF]"                   Binding = "{Binding DIFF_INPUT_YN}"   HorizontalAlignment="Center"/>
+                        <c1:DataGridTextColumn    Header = "[BAD_DIFF,BAD_DIFF,BAD_DIFF]"                         Binding = "{Binding DIFF_DFCT_YN}"    HorizontalAlignment="Center"/>
+                        <c1:DataGridTextColumn    Header = "[INPUT_EXCLUD_REASON,PMM_210,PROC_HIST_MISS]"         Binding = "{Binding EXCEPT_DAY_YN}"   HorizontalAlignment="Center"/>
+                        <c1:DataGridTextColumn    Header = "[INPUT_EXCLUD_REASON,PMM_110,PROD_PERF_MISS]"         Binding = "{Binding NON_RPT_RSLT_YN}" HorizontalAlignment="Center"/>
+                        <c1:DataGridTextColumn    Header = "[INPUT_EXCLUD_REASON,PMM_110,공정검사]"               Binding = "{Binding LQC_REQ_YN}"      HorizontalAlignment="Center"/>
+                        <c1:DataGridTextColumn    Header = "[INPUT_EXCLUD_REASON,PMM_110,PQC_INSP]"               Binding = "{Binding PQC_REQ_YN}"      HorizontalAlignment="Center"/>
+                        <c1:DataGridTextColumn    Header = "[IV_BAD_YN,PMM_210,PMM_210]"                          Binding = "{Binding DAY_DFCT_YN}"     HorizontalAlignment="Center"/>
+                        <c1:DataGridTextColumn    Header = "[IV_BAD_YN,PMM_110,PMM_110]"                          Binding = "{Binding RPT_DFCT_YN}"     HorizontalAlignment="Center"/>
+                    </c1:C1DataGrid.Columns>
+
+                    <c1:C1DataGrid.TopRows>
+                        <c1:DataGridColumnHeaderRow />
+                        <c1:DataGridColumnHeaderRow />
+                        <c1:DataGridColumnHeaderRow />
+                    </c1:C1DataGrid.TopRows>
+                </uc:UcBaseDataGrid>
+            </Grid>
+        </Grid>
+        
+        <ctrlLib:LoadingIndicator x:Name="loadingIndicator" Grid.Row="999" Grid.Column="999"  />
+    </Grid>
+</c1:C1Window>

@@ -1,0 +1,497 @@
+﻿<c1:C1Window xmlns:UserControls="clr-namespace:LGC.GMES.MES.ControlsLibrary;assembly=LGC.GMES.MES.ControlsLibrary"
+			 x:Class="LGC.GMES.MES.ControlsLibrary.ManualViewer"
+         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:c1="http://schemas.componentone.com/winfx/2006/xaml"
+		xmlns:System="clr-namespace:System;assembly=mscorlib"
+        xmlns:ctrlLib="clr-namespace:LGC.GMES.MES.ControlsLibrary;assembly=LGC.GMES.MES.ControlsLibrary"        
+        Header="{Binding Converter={StaticResource GlobalObjectDicConverter}, ConverterParameter='HelpManual'}" 
+        Tag="ManualViewer" Height="650" Width="1100" IsResizable="True" >
+	<!--ctrlLib:LGCPopupWindowExtension.ApplyStyle="True"-->
+	<c1:C1Window.Style>
+		<Style TargetType="{x:Type c1:C1Window}">
+			<Setter Property="BorderBrush" Value="#FF828282"/>
+			<Setter Property="Background" Value="White"/>
+			<Setter Property="HeaderBackground" Value="White"/>
+			<Setter Property="ButtonBackground" Value="Transparent"/>
+			<Setter Property="MouseOverBrush" Value="Transparent"/>
+			<Setter Property="PressedBrush" Value="Transparent"/>
+			<Setter Property="IsEnabled" Value="True"/>
+			<Setter Property="Cursor" Value="Arrow"/>
+			<Setter Property="ModalBackground" Value="#28000000"/>
+			<Setter Property="BorderThickness" Value="2"/>
+			<Setter Property="ButtonForeground" Value="Transparent"/>
+			<Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+			<Setter Property="VerticalContentAlignment" Value="Stretch"/>
+			<Setter Property="Foreground" Value="Black"/>
+			<Setter Property="HeaderForeground" Value="#ff4c4c4c"/>
+			<Setter Property="HeaderFontWeight" Value="SemiBold" />
+			<Setter Property="HeaderFontSize" Value="14" />
+			<Setter Property="HorizontalHeaderAlignment" Value="Left"/>
+			<Setter Property="VerticalHeaderAlignment" Value="Center"/>
+			<Setter Property="Padding" Value="27,20,27,24"/>
+			<Setter Property="HeaderPadding" Value="27,0,0,0"/>
+			<Setter Property="ShowMaximizeButton" Value="False" />
+			<Setter Property="ShowMinimizeButton" Value="False" />
+			<Setter Property="HeaderTemplate">
+				<Setter.Value>
+					<DataTemplate>
+						<TextBlock Text="{Binding}" FontSize="25" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+					</DataTemplate>
+				</Setter.Value>
+			</Setter>
+			<Setter Property="Template">
+				<Setter.Value>
+					<ControlTemplate TargetType="{x:Type c1:C1Window}">
+						<Grid x:Name="Root" MinWidth="70" MinHeight="58">
+							<VisualStateManager.VisualStateGroups>
+								<VisualStateGroup x:Name="ActiveStates">
+									<VisualState x:Name="Inactive">
+										<Storyboard>
+											<ObjectAnimationUsingKeyFrames BeginTime="0" Duration="0:0:0.001" Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="InactiveShade">
+												<DiscreteObjectKeyFrame KeyTime="0">
+													<DiscreteObjectKeyFrame.Value>
+														<Visibility>Visible</Visibility>
+													</DiscreteObjectKeyFrame.Value>
+												</DiscreteObjectKeyFrame>
+											</ObjectAnimationUsingKeyFrames>
+										</Storyboard>
+									</VisualState>
+									<VisualState x:Name="Active"/>
+								</VisualStateGroup>
+								<VisualStateGroup x:Name="WindowStateStates">
+									<VisualState x:Name="Minimized">
+										<Storyboard>
+											<ObjectAnimationUsingKeyFrames BeginTime="0" Duration="0:0:0.001" Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="BackgroundElement">
+												<DiscreteObjectKeyFrame KeyTime="0">
+													<DiscreteObjectKeyFrame.Value>
+														<Visibility>Collapsed</Visibility>
+													</DiscreteObjectKeyFrame.Value>
+												</DiscreteObjectKeyFrame>
+											</ObjectAnimationUsingKeyFrames>
+											<ObjectAnimationUsingKeyFrames BeginTime="0" Duration="0:0:0.001" Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="HeaderBackground">
+												<DiscreteObjectKeyFrame KeyTime="0">
+													<DiscreteObjectKeyFrame.Value>
+														<Visibility>Collapsed</Visibility>
+													</DiscreteObjectKeyFrame.Value>
+												</DiscreteObjectKeyFrame>
+											</ObjectAnimationUsingKeyFrames>
+											<ObjectAnimationUsingKeyFrames BeginTime="0" Duration="0:0:0.001" Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="HeaderMinimized">
+												<DiscreteObjectKeyFrame KeyTime="0">
+													<DiscreteObjectKeyFrame.Value>
+														<Visibility>Visible</Visibility>
+													</DiscreteObjectKeyFrame.Value>
+												</DiscreteObjectKeyFrame>
+											</ObjectAnimationUsingKeyFrames>
+											<ObjectAnimationUsingKeyFrames BeginTime="0" Duration="0:0:0.001" Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="ContentGrid">
+												<DiscreteObjectKeyFrame KeyTime="0">
+													<DiscreteObjectKeyFrame.Value>
+														<Visibility>Collapsed</Visibility>
+													</DiscreteObjectKeyFrame.Value>
+												</DiscreteObjectKeyFrame>
+											</ObjectAnimationUsingKeyFrames>
+											<ObjectAnimationUsingKeyFrames BeginTime="0" Duration="0:0:0.001" Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="MaximizeGlyph">
+												<DiscreteObjectKeyFrame KeyTime="0">
+													<DiscreteObjectKeyFrame.Value>
+														<Visibility>Visible</Visibility>
+													</DiscreteObjectKeyFrame.Value>
+												</DiscreteObjectKeyFrame>
+											</ObjectAnimationUsingKeyFrames>
+											<ObjectAnimationUsingKeyFrames BeginTime="0" Duration="0:0:0.001" Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="MinRestoreGlyph">
+												<DiscreteObjectKeyFrame KeyTime="0">
+													<DiscreteObjectKeyFrame.Value>
+														<Visibility>Visible</Visibility>
+													</DiscreteObjectKeyFrame.Value>
+												</DiscreteObjectKeyFrame>
+											</ObjectAnimationUsingKeyFrames>
+											<ObjectAnimationUsingKeyFrames BeginTime="0" Duration="0:0:0.001" Storyboard.TargetProperty="(Grid.RowSpan)" Storyboard.TargetName="InactiveShade">
+												<DiscreteObjectKeyFrame KeyTime="0">
+													<DiscreteObjectKeyFrame.Value>
+														<System:Int32>1</System:Int32>
+													</DiscreteObjectKeyFrame.Value>
+												</DiscreteObjectKeyFrame>
+											</ObjectAnimationUsingKeyFrames>
+											<ObjectAnimationUsingKeyFrames BeginTime="0" Duration="0:0:0.001" Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="MinimGlyph">
+												<DiscreteObjectKeyFrame KeyTime="0">
+													<DiscreteObjectKeyFrame.Value>
+														<Visibility>Collapsed</Visibility>
+													</DiscreteObjectKeyFrame.Value>
+												</DiscreteObjectKeyFrame>
+											</ObjectAnimationUsingKeyFrames>
+										</Storyboard>
+									</VisualState>
+									<VisualState x:Name="Maximized">
+										<Storyboard>
+											<ObjectAnimationUsingKeyFrames BeginTime="0" Duration="0:0:0.001" Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="RestoreGlyph">
+												<DiscreteObjectKeyFrame KeyTime="0">
+													<DiscreteObjectKeyFrame.Value>
+														<Visibility>Visible</Visibility>
+													</DiscreteObjectKeyFrame.Value>
+												</DiscreteObjectKeyFrame>
+											</ObjectAnimationUsingKeyFrames>
+											<ObjectAnimationUsingKeyFrames BeginTime="0" Duration="0:0:0.001" Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="MaximizeGlyph">
+												<DiscreteObjectKeyFrame KeyTime="0">
+													<DiscreteObjectKeyFrame.Value>
+														<Visibility>Collapsed</Visibility>
+													</DiscreteObjectKeyFrame.Value>
+												</DiscreteObjectKeyFrame>
+											</ObjectAnimationUsingKeyFrames>
+										</Storyboard>
+									</VisualState>
+									<VisualState x:Name="Floating">
+										<Storyboard>
+											<ObjectAnimationUsingKeyFrames BeginTime="0" Duration="0:0:0.001" Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="MaximizeGlyph">
+												<DiscreteObjectKeyFrame KeyTime="0">
+													<DiscreteObjectKeyFrame.Value>
+														<Visibility>Visible</Visibility>
+													</DiscreteObjectKeyFrame.Value>
+												</DiscreteObjectKeyFrame>
+											</ObjectAnimationUsingKeyFrames>
+										</Storyboard>
+									</VisualState>
+								</VisualStateGroup>
+								<VisualStateGroup x:Name="OpenStates">
+									<VisualState x:Name="Open"/>
+									<VisualState x:Name="Closed"/>
+								</VisualStateGroup>
+							</VisualStateManager.VisualStateGroups>
+							<Border x:Name="BackgroundElement" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" CornerRadius="0" />
+							<Grid>
+								<Grid.RowDefinitions>
+									<RowDefinition Height="59" />
+									<RowDefinition/>
+								</Grid.RowDefinitions>
+								<Border x:Name="HeaderBackground" Background="{TemplateBinding HeaderBackground}" Margin="2,2,2,1" BorderThickness="0,0,0,1" BorderBrush="{TemplateBinding BorderBrush}"/>
+								<Border x:Name="HeaderMinimized" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding HeaderBackground}" CornerRadius="0" Visibility="Collapsed"/>
+								<Grid>
+									<Grid.ColumnDefinitions>
+										<ColumnDefinition/>
+										<ColumnDefinition Width="Auto"/>
+									</Grid.ColumnDefinitions>
+									<Grid x:Name="Drag" Background="#01010101" Grid.Column="0">
+										<Grid.ColumnDefinitions>
+											<ColumnDefinition Width="27"/>
+											<ColumnDefinition Width="Auto"/>
+											<ColumnDefinition Width="*"/>
+										</Grid.ColumnDefinitions>
+										<Border Background="Transparent"/>
+										<Image x:Name="gmes" Grid.Column="1" Source="/LGC.GMES.MES.ControlsLibrary;Component/Images/LGC/Logo_GMES_Manual.png"   Margin="0,0,0,0" Stretch="None"/>
+										<ContentControl Grid.Column="2" Foreground="{TemplateBinding HeaderForeground}" FontWeight="Normal"  FontStyle="{TemplateBinding HeaderFontStyle}" FontStretch="{TemplateBinding HeaderFontStretch}" FontSize="{TemplateBinding HeaderFontSize}" FontFamily="{TemplateBinding HeaderFontFamily}" HorizontalContentAlignment="{TemplateBinding HorizontalHeaderAlignment}" IsTabStop="False" VerticalContentAlignment="{TemplateBinding VerticalHeaderAlignment}">
+											<ContentPresenter x:Name="HeaderPresenter" ContentTemplate="{TemplateBinding HeaderTemplate}" HorizontalAlignment="{TemplateBinding HorizontalHeaderAlignment}" Margin="5,0,0,0" VerticalAlignment="{TemplateBinding VerticalHeaderAlignment}"/>
+										</ContentControl>
+									</Grid>
+									<StackPanel x:Name="Buttons" Grid.Column="1" HorizontalAlignment="Right" Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,21,0">
+										<Button x:Name="Minimize" BorderBrush="{TemplateBinding BorderBrush}" Background="{TemplateBinding ButtonBackground}" Height="18" IsTabStop="False" Margin="0,0,1,0" c1:ClearStyleExtensions.MouseOverBrush="{TemplateBinding MouseOverBrush}" c1:ClearStyleExtensions.PressedBrush="{TemplateBinding PressedBrush}" Width="24">
+											<Button.Style>
+												<Style TargetType="{x:Type Button}">
+													<Setter Property="Template">
+														<Setter.Value>
+															<ControlTemplate TargetType="{x:Type Button}">
+																<Grid>
+																	<VisualStateManager.VisualStateGroups>
+																		<VisualStateGroup x:Name="FocusStates">
+																			<VisualState x:Name="Unfocused"/>
+																			<VisualState x:Name="Focused"/>
+																		</VisualStateGroup>
+																		<VisualStateGroup x:Name="CommonStates">
+																			<VisualState x:Name="MouseOver">
+																				<Storyboard>
+																					<ObjectAnimationUsingKeyFrames BeginTime="0" Duration="0:0:0.001" Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="MouseOverElement">
+																						<DiscreteObjectKeyFrame KeyTime="0">
+																							<DiscreteObjectKeyFrame.Value>
+																								<Visibility>Visible</Visibility>
+																							</DiscreteObjectKeyFrame.Value>
+																						</DiscreteObjectKeyFrame>
+																					</ObjectAnimationUsingKeyFrames>
+																				</Storyboard>
+																			</VisualState>
+																			<VisualState x:Name="Pressed">
+																				<Storyboard>
+																					<ObjectAnimationUsingKeyFrames BeginTime="0" Duration="0:0:0.001" Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="PressedElement">
+																						<DiscreteObjectKeyFrame KeyTime="0">
+																							<DiscreteObjectKeyFrame.Value>
+																								<Visibility>Visible</Visibility>
+																							</DiscreteObjectKeyFrame.Value>
+																						</DiscreteObjectKeyFrame>
+																					</ObjectAnimationUsingKeyFrames>
+																				</Storyboard>
+																			</VisualState>
+																			<VisualState x:Name="Disabled">
+																				<Storyboard>
+																					<ObjectAnimationUsingKeyFrames BeginTime="0" Duration="0:0:0.001" Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="DisabledVisualElement">
+																						<DiscreteObjectKeyFrame KeyTime="0">
+																							<DiscreteObjectKeyFrame.Value>
+																								<Visibility>Visible</Visibility>
+																							</DiscreteObjectKeyFrame.Value>
+																						</DiscreteObjectKeyFrame>
+																					</ObjectAnimationUsingKeyFrames>
+																				</Storyboard>
+																			</VisualState>
+																			<VisualState x:Name="Normal"/>
+																		</VisualStateGroup>
+																	</VisualStateManager.VisualStateGroups>
+																	<c1:C1BrushBuilder x:Name="BackgroundBrush" DesignColor="#FFD1DCE8" ExtrapolationMethod="Absolute" IsHitTestVisible="False" Input="{TemplateBinding Background}" Visibility="Collapsed">
+																		<c1:C1BrushBuilder.DesignBrush>
+																			<LinearGradientBrush EndPoint="0,1">
+																				<GradientStop Color="#FFFAFBFC"/>
+																				<GradientStop Color="#FFFAFBFC" Offset="0.5"/>
+																				<GradientStop Color="#FFD1DCE8" Offset="0.5"/>
+																				<GradientStop Color="#FFA4B9D0" Offset="1"/>
+																			</LinearGradientBrush>
+																		</c1:C1BrushBuilder.DesignBrush>
+																	</c1:C1BrushBuilder>
+																	<c1:C1BrushBuilder x:Name="MouseOverBrush" DesignColor="#FFBFE1EA" ExtrapolationMethod="Absolute" IsHitTestVisible="False" Input="{TemplateBinding c1:ClearStyleExtensions.MouseOverBrush}" Visibility="Collapsed">
+																		<c1:C1BrushBuilder.DesignBrush>
+																			<LinearGradientBrush EndPoint="0,1">
+																				<GradientStop Color="#FFDCEEF3"/>
+																				<GradientStop Color="#FFDCEEF3" Offset="0.5"/>
+																				<GradientStop Color="#FFBFE1EA" Offset="0.5"/>
+																				<GradientStop Color="#FF98CFDE" Offset="1"/>
+																			</LinearGradientBrush>
+																		</c1:C1BrushBuilder.DesignBrush>
+																	</c1:C1BrushBuilder>
+																	<c1:C1BrushBuilder x:Name="PressedBrush" DesignColor="#FF8ED1E2" ExtrapolationMethod="Absolute" IsHitTestVisible="False" Input="{TemplateBinding c1:ClearStyleExtensions.PressedBrush}" Visibility="Collapsed">
+																		<c1:C1BrushBuilder.DesignBrush>
+																			<LinearGradientBrush EndPoint="0,1">
+																				<GradientStop Color="#FFD5EDF3"/>
+																				<GradientStop Color="#FFB8E1EB" Offset="0.5"/>
+																				<GradientStop Color="#FF8ED1E2" Offset="0.5"/>
+																				<GradientStop Color="#FF7CC2D4" Offset="1"/>
+																			</LinearGradientBrush>
+																		</c1:C1BrushBuilder.DesignBrush>
+																	</c1:C1BrushBuilder>
+																	<c1:C1BrushBuilder x:Name="InnerBorderBrush" DesignBrush="#FFFAFBFC" DesignColor="#FFD1DCE8" ExtrapolationMethod="Absolute" IsHitTestVisible="False" Input="{TemplateBinding Background}" Visibility="Collapsed"/>
+																	<c1:C1BrushBuilder x:Name="InnerBorderMouseOverBrush" DesignBrush="#FFFAFBFC" DesignColor="#FFBFE1EA" ExtrapolationMethod="Absolute" IsHitTestVisible="False" Input="{TemplateBinding c1:ClearStyleExtensions.MouseOverBrush}" Visibility="Collapsed"/>
+																	<c1:C1BrushBuilder x:Name="InnerBorderPressedBrush" DesignBrush="#FFFAFBFC" DesignColor="#FF8ED1E2" ExtrapolationMethod="Absolute" IsHitTestVisible="False" Input="{TemplateBinding c1:ClearStyleExtensions.PressedBrush}" Visibility="Collapsed"/>
+																	<Border x:Name="BackgroundElement" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="1" Background="{Binding Output, ElementName=BackgroundBrush}" CornerRadius="1">
+																		<Border BorderBrush="{Binding Output, ElementName=InnerBorderBrush}" BorderThickness="1" CornerRadius="1"/>
+																	</Border>
+																	<Border x:Name="MouseOverElement" BorderThickness="1" Background="{Binding Output, ElementName=MouseOverBrush}" CornerRadius="1" Visibility="Collapsed">
+																		<Border BorderBrush="{Binding Output, ElementName=InnerBorderMouseOverBrush}" BorderThickness="1" CornerRadius="1"/>
+																	</Border>
+																	<Border x:Name="PressedElement" BorderThickness="1" Background="{Binding Output, ElementName=PressedBrush}" CornerRadius="1" Visibility="Collapsed">
+																		<Border BorderBrush="{Binding Output, ElementName=InnerBorderPressedBrush}" BorderThickness="1" CornerRadius="1"/>
+																	</Border>
+																	<ContentPresenter ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" ContentStringFormat="{TemplateBinding ContentStringFormat}" Margin="2"/>
+																	<Border x:Name="DisabledVisualElement" Background="#77E8E8E8" CornerRadius="1" Visibility="Collapsed"/>
+																</Grid>
+															</ControlTemplate>
+														</Setter.Value>
+													</Setter>
+												</Style>
+											</Button.Style>
+											<Grid>
+												<Border x:Name="MinimGlyph" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="1" Background="{TemplateBinding ButtonForeground}" Height="5" Margin="0,0,0,2" VerticalAlignment="Bottom" Width="12"/>
+												<Grid x:Name="MinRestoreGlyph" Height="12" Visibility="Collapsed" Width="12">
+													<Path Data="M3.5,3.5L3.5,6.5 6.5,6.5 6.5,3.5z M0.9,0.5L9,0.5C9,0.5,9.5,0.7,9.5,1L9.5,9C9.5,9.3,9.3,9.5,9,9.5L0.9,9.5C0.68,9.5,0.5,9.3,0.5,9L0.5,1C0.5,0.7,0.7,0.5,0.9,0.5z" Fill="{TemplateBinding ButtonForeground}" Margin="0,2,2,0" Stretch="None" Stroke="{TemplateBinding BorderBrush}"/>
+													<Path Data="M0.9,0.5L9,0.5C9.3,0.5,9.5,0.72,9.5,1L9.5,9C9.5,9.2,9.3,9.5,9,9.5L7.5,9.5 7.5,3C7.5,2.7,7.3,2.5,7.09,2.5L0.5,2.5 0.5,1C0.5,0.72,0.68,0.5,0.9,0.5z" Fill="{TemplateBinding ButtonForeground}" HorizontalAlignment="Right" Height="10" Stretch="None" Stroke="{TemplateBinding BorderBrush}" VerticalAlignment="Top" Width="10"/>
+												</Grid>
+											</Grid>
+										</Button>
+										<Button x:Name="Maximize" BorderBrush="{TemplateBinding BorderBrush}" Background="{TemplateBinding ButtonBackground}" Height="18" IsTabStop="False" Margin="0,0,1,0" c1:ClearStyleExtensions.MouseOverBrush="{TemplateBinding MouseOverBrush}" c1:ClearStyleExtensions.PressedBrush="{TemplateBinding PressedBrush}" Width="24">
+											<Button.Style>
+												<Style TargetType="{x:Type Button}">
+													<Setter Property="Template">
+														<Setter.Value>
+															<ControlTemplate TargetType="{x:Type Button}">
+																<Grid>
+																	<VisualStateManager.VisualStateGroups>
+																		<VisualStateGroup x:Name="FocusStates">
+																			<VisualState x:Name="Unfocused"/>
+																			<VisualState x:Name="Focused"/>
+																		</VisualStateGroup>
+																		<VisualStateGroup x:Name="CommonStates">
+																			<VisualState x:Name="MouseOver">
+																				<Storyboard>
+																					<ObjectAnimationUsingKeyFrames BeginTime="0" Duration="0:0:0.001" Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="MouseOverElement">
+																						<DiscreteObjectKeyFrame KeyTime="0">
+																							<DiscreteObjectKeyFrame.Value>
+																								<Visibility>Visible</Visibility>
+																							</DiscreteObjectKeyFrame.Value>
+																						</DiscreteObjectKeyFrame>
+																					</ObjectAnimationUsingKeyFrames>
+																				</Storyboard>
+																			</VisualState>
+																			<VisualState x:Name="Pressed">
+																				<Storyboard>
+																					<ObjectAnimationUsingKeyFrames BeginTime="0" Duration="0:0:0.001" Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="PressedElement">
+																						<DiscreteObjectKeyFrame KeyTime="0">
+																							<DiscreteObjectKeyFrame.Value>
+																								<Visibility>Visible</Visibility>
+																							</DiscreteObjectKeyFrame.Value>
+																						</DiscreteObjectKeyFrame>
+																					</ObjectAnimationUsingKeyFrames>
+																				</Storyboard>
+																			</VisualState>
+																			<VisualState x:Name="Disabled">
+																				<Storyboard>
+																					<ObjectAnimationUsingKeyFrames BeginTime="0" Duration="0:0:0.001" Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="DisabledVisualElement">
+																						<DiscreteObjectKeyFrame KeyTime="0">
+																							<DiscreteObjectKeyFrame.Value>
+																								<Visibility>Visible</Visibility>
+																							</DiscreteObjectKeyFrame.Value>
+																						</DiscreteObjectKeyFrame>
+																					</ObjectAnimationUsingKeyFrames>
+																				</Storyboard>
+																			</VisualState>
+																			<VisualState x:Name="Normal"/>
+																		</VisualStateGroup>
+																	</VisualStateManager.VisualStateGroups>
+																	<c1:C1BrushBuilder x:Name="BackgroundBrush" DesignColor="#FFD1DCE8" ExtrapolationMethod="Absolute" IsHitTestVisible="False" Input="{TemplateBinding Background}" Visibility="Collapsed">
+																		<c1:C1BrushBuilder.DesignBrush>
+																			<LinearGradientBrush EndPoint="0,1">
+																				<GradientStop Color="#FFFAFBFC"/>
+																				<GradientStop Color="#FFFAFBFC" Offset="0.5"/>
+																				<GradientStop Color="#FFD1DCE8" Offset="0.5"/>
+																				<GradientStop Color="#FFA4B9D0" Offset="1"/>
+																			</LinearGradientBrush>
+																		</c1:C1BrushBuilder.DesignBrush>
+																	</c1:C1BrushBuilder>
+																	<c1:C1BrushBuilder x:Name="MouseOverBrush" DesignColor="#FFBFE1EA" ExtrapolationMethod="Absolute" IsHitTestVisible="False" Input="{TemplateBinding c1:ClearStyleExtensions.MouseOverBrush}" Visibility="Collapsed">
+																		<c1:C1BrushBuilder.DesignBrush>
+																			<LinearGradientBrush EndPoint="0,1">
+																				<GradientStop Color="#FFDCEEF3"/>
+																				<GradientStop Color="#FFDCEEF3" Offset="0.5"/>
+																				<GradientStop Color="#FFBFE1EA" Offset="0.5"/>
+																				<GradientStop Color="#FF98CFDE" Offset="1"/>
+																			</LinearGradientBrush>
+																		</c1:C1BrushBuilder.DesignBrush>
+																	</c1:C1BrushBuilder>
+																	<c1:C1BrushBuilder x:Name="PressedBrush" DesignColor="#FF8ED1E2" ExtrapolationMethod="Absolute" IsHitTestVisible="False" Input="{TemplateBinding c1:ClearStyleExtensions.PressedBrush}" Visibility="Collapsed">
+																		<c1:C1BrushBuilder.DesignBrush>
+																			<LinearGradientBrush EndPoint="0,1">
+																				<GradientStop Color="#FFD5EDF3"/>
+																				<GradientStop Color="#FFB8E1EB" Offset="0.5"/>
+																				<GradientStop Color="#FF8ED1E2" Offset="0.5"/>
+																				<GradientStop Color="#FF7CC2D4" Offset="1"/>
+																			</LinearGradientBrush>
+																		</c1:C1BrushBuilder.DesignBrush>
+																	</c1:C1BrushBuilder>
+																	<c1:C1BrushBuilder x:Name="InnerBorderBrush" DesignBrush="#FFFAFBFC" DesignColor="#FFD1DCE8" ExtrapolationMethod="Absolute" IsHitTestVisible="False" Input="{TemplateBinding Background}" Visibility="Collapsed"/>
+																	<c1:C1BrushBuilder x:Name="InnerBorderMouseOverBrush" DesignBrush="#FFFAFBFC" DesignColor="#FFBFE1EA" ExtrapolationMethod="Absolute" IsHitTestVisible="False" Input="{TemplateBinding c1:ClearStyleExtensions.MouseOverBrush}" Visibility="Collapsed"/>
+																	<c1:C1BrushBuilder x:Name="InnerBorderPressedBrush" DesignBrush="#FFFAFBFC" DesignColor="#FF8ED1E2" ExtrapolationMethod="Absolute" IsHitTestVisible="False" Input="{TemplateBinding c1:ClearStyleExtensions.PressedBrush}" Visibility="Collapsed"/>
+																	<Border x:Name="BackgroundElement" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="1" Background="{Binding Output, ElementName=BackgroundBrush}" CornerRadius="1">
+																		<Border BorderBrush="{Binding Output, ElementName=InnerBorderBrush}" BorderThickness="1" CornerRadius="1"/>
+																	</Border>
+																	<Border x:Name="MouseOverElement" BorderThickness="1" Background="{Binding Output, ElementName=MouseOverBrush}" CornerRadius="1" Visibility="Collapsed">
+																		<Border BorderBrush="{Binding Output, ElementName=InnerBorderMouseOverBrush}" BorderThickness="1" CornerRadius="1"/>
+																	</Border>
+																	<Border x:Name="PressedElement" BorderThickness="1" Background="{Binding Output, ElementName=PressedBrush}" CornerRadius="1" Visibility="Collapsed">
+																		<Border BorderBrush="{Binding Output, ElementName=InnerBorderPressedBrush}" BorderThickness="1" CornerRadius="1"/>
+																	</Border>
+																	<ContentPresenter ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" ContentStringFormat="{TemplateBinding ContentStringFormat}" Margin="2"/>
+																	<Border x:Name="DisabledVisualElement" Background="#77E8E8E8" CornerRadius="1" Visibility="Collapsed"/>
+																</Grid>
+															</ControlTemplate>
+														</Setter.Value>
+													</Setter>
+												</Style>
+											</Button.Style>
+											<Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+												<Path x:Name="MaximizeGlyph" Data="M3.4,3.6L3.4,6.4 8.6,6.4 8.6,3.6 3.4,3.6z M1,0.5L11,0.5C11.27,0.5,11.5,0.72,11.5,1L11.5,9C11.5,9.27,11.27,9.5,11,9.5L1,9.5C0.72,9.5,0.5,9.27,0.5,9L0.5,1C0.5,0.72385764,0.72385764,0.5,1,0.5z" Fill="{TemplateBinding ButtonForeground}" Height="10" Stretch="None" Stroke="{TemplateBinding BorderBrush}" Width="12"/>
+												<Grid x:Name="RestoreGlyph" Height="12" Visibility="Collapsed" Width="12">
+													<Path Data="M3.5,3.5L3.5,6.5 6.5,6.5 6.5,3.5z M0.89999998,0.5L9,0.5C9,0.5,9.5,0.69999999,9.5,1L9.5,9C9.5,9.3000002,9.3000002,9.5,9,9.5L0.89999998,9.5C0.68000001,9.5,0.5,9.3000002,0.5,9L0.5,1C0.5,0.69999999,0.69999999,0.5,0.89999998,0.5z" Fill="{TemplateBinding ButtonForeground}" Height="10" Margin="0,2,2,0" Stroke="{TemplateBinding BorderBrush}" Width="10"/>
+													<Path Data="M0.89999998,0.5L9,0.5C9.3000002,0.5,9.5,0.72000003,9.5,1L9.5,9C9.5,9.1999998,9.3000002,9.5,9,9.5L7.5,9.5 7.5,3C7.5,2.7,7.3000002,2.5,7.0900002,2.5L0.5,2.5 0.5,1C0.5,0.72000003,0.68000001,0.5,0.89999998,0.5z" Fill="{TemplateBinding ButtonForeground}" HorizontalAlignment="Right" Height="10" Stroke="{TemplateBinding BorderBrush}" VerticalAlignment="Top" Width="10"/>
+												</Grid>
+											</Grid>
+										</Button>
+										<Grid>
+											<Grid.ColumnDefinitions>
+												<ColumnDefinition Width="1*" />
+												<ColumnDefinition Width="1*" />
+												<ColumnDefinition Width="1*" />
+												<ColumnDefinition Width="1*" />
+												<ColumnDefinition Width="*" />
+											</Grid.ColumnDefinitions>
+											<TextBlock Grid.Column="0" Margin="10,0,0,0" Text="IT HELPDESK" VerticalAlignment="Center" HorizontalAlignment="Left" FontWeight="{TemplateBinding HeaderFontWeight}" FontStyle="{TemplateBinding HeaderFontStyle}" FontStretch="{TemplateBinding HeaderFontStretch}" FontSize="12"  FontFamily="{TemplateBinding HeaderFontFamily}"></TextBlock>
+											<TextBlock Grid.Column="1" Margin="2,0,0,0" Text=":1651-8005" VerticalAlignment="Center" HorizontalAlignment="Left"  FontStyle="{TemplateBinding HeaderFontStyle}" FontStretch="{TemplateBinding HeaderFontStretch}" FontSize="12"  FontFamily="{TemplateBinding HeaderFontFamily}"></TextBlock>
+											<TextBlock Grid.Column="2" Margin="10,0,0,0" Text="SM" VerticalAlignment="Center" HorizontalAlignment="Left" FontWeight="{TemplateBinding HeaderFontWeight}" FontStyle="{TemplateBinding HeaderFontStyle}" FontStretch="{TemplateBinding HeaderFontStretch}" FontSize="12"  FontFamily="{TemplateBinding HeaderFontFamily}"></TextBlock>
+											<TextBlock Grid.Column="3" Margin="2,0,10,0" Text="{Binding ConverterParameter=SMPhoneNumber,   Converter={StaticResource GlobalObjectDicConverter}, RelativeSource={RelativeSource Self}}" VerticalAlignment="Center" HorizontalAlignment="Left"  FontStyle="{TemplateBinding HeaderFontStyle}" FontStretch="{TemplateBinding HeaderFontStretch}" FontSize="12"  FontFamily="{TemplateBinding HeaderFontFamily}"></TextBlock>
+											<!--<Image x:Name="helpdesk" Source="/LGIT.GMES.SL.ControlsLibrary;Component/Images/LGC/helpdesk_bg6.png"  Height="25" Margin="0,0,21,0" Stretch="Fill"/>
+											<TextBlock x:Name="phone" Text="{Binding ConverterParameter=SMPhoneNumber,   Converter={StaticResource GlobalObjectDicConverter}, RelativeSource={RelativeSource Self}}" VerticalAlignment="Center" HorizontalAlignment="Left" FontWeight="{TemplateBinding HeaderFontWeight}" FontStyle="{TemplateBinding HeaderFontStyle}" FontStretch="{TemplateBinding HeaderFontStretch}" FontSize="12"  FontFamily="{TemplateBinding HeaderFontFamily}" Margin="207,0,15,0"></TextBlock>-->
+											<!--<TextBlock x:Name="phone" Text="사내 0393" VerticalAlignment="Center" HorizontalAlignment="Left" FontWeight="{TemplateBinding HeaderFontWeight}" FontStyle="{TemplateBinding HeaderFontStyle}" FontStretch="{TemplateBinding HeaderFontStretch}" FontSize="18"  FontFamily="{TemplateBinding HeaderFontFamily}" Margin="285,0,15,0"></TextBlock>-->
+										</Grid>
+										<Button x:Name="Close" BorderBrush="Transparent" Background="{TemplateBinding ButtonBackground}" Height="17" Width="17" IsTabStop="False">
+											<Button.Style>
+												<Style TargetType="{x:Type Button}">
+													<Setter Property="Template">
+														<Setter.Value>
+															<ControlTemplate TargetType="{x:Type Button}">
+																<Grid>
+																	<VisualStateManager.VisualStateGroups>
+																		<VisualStateGroup x:Name="FocusStates">
+																			<VisualState x:Name="Unfocused"/>
+																			<VisualState x:Name="Focused"/>
+																		</VisualStateGroup>
+																		<VisualStateGroup x:Name="CommonStates">
+																			<VisualState x:Name="MouseOver"/>
+																			<VisualState x:Name="Pressed"/>
+																			<VisualState x:Name="Disabled"/>
+																			<VisualState x:Name="Normal"/>
+																		</VisualStateGroup>
+																	</VisualStateManager.VisualStateGroups>
+																	<ContentPresenter ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" ContentStringFormat="{TemplateBinding ContentStringFormat}"/>
+																</Grid>
+															</ControlTemplate>
+														</Setter.Value>
+													</Setter>
+												</Style>
+											</Button.Style>
+											<Image Stretch="Fill" Width="17" Height="17" Source="/LGC.GMES.MES.ControlsLibrary;Component/Images/LGC/icon_popup_close.png" />
+										</Button>
+									</StackPanel>
+								</Grid>
+								<Border x:Name="InactiveShade" Background="#77E8E8E8" CornerRadius="3" IsHitTestVisible="False" Grid.RowSpan="2" Visibility="Collapsed"/>
+								<Grid x:Name="ContentGrid" Grid.Row="1" Panel.ZIndex="-1">
+									<ContentPresenter x:Name="Content" Cursor="{TemplateBinding Cursor}" ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+								</Grid>
+								<Border x:Name="Resize" BorderBrush="Transparent" BorderThickness="7" Grid.RowSpan="2"/>
+							</Grid>
+						</Grid>
+					</ControlTemplate>
+				</Setter.Value>
+			</Setter>
+		</Style>
+	</c1:C1Window.Style>
+	<c1:C1Window.Resources>
+		<ResourceDictionary Source="/LGC.GMES.MES.ControlsLibrary;Component/ControlStyles.xaml"/>
+	</c1:C1Window.Resources>
+	<Grid>
+		<Grid.Resources>
+			<ResourceDictionary>
+				<ResourceDictionary.MergedDictionaries>
+					<ResourceDictionary Source="/LGC.GMES.MES.ControlsLibrary;component/ControlStyles.xaml" />
+				</ResourceDictionary.MergedDictionaries>
+			</ResourceDictionary>
+		</Grid.Resources>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="10" />
+			<ColumnDefinition Width="Auto" />
+			<ColumnDefinition Width="*"/>
+		</Grid.ColumnDefinitions>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="*" />
+			<RowDefinition Height="Auto" />
+		</Grid.RowDefinitions>
+
+		<Rectangle Grid.Column="0" Fill="#ffd8d8d8" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" MouseLeftButtonDown="Rectangle_MouseLeftButtonDown_1"/>
+		<Image Grid.Column="0" x:Name="imgClose" Source="/LGC.GMES.MES.ControlsLibrary;component/Images/LGC/icon_search_close.png" Width="4" Height="8" Stretch="Fill" VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="Visible" MouseLeftButtonDown="Rectangle_MouseLeftButtonDown_1" />
+		<Image Grid.Column="0" x:Name="imgOpen" Source="/LGC.GMES.MES.ControlsLibrary;component/Images/LGC/icon_search_open.png"  Width="4" Height="8" Stretch="Fill" VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="Collapsed" MouseLeftButtonDown="Rectangle_MouseLeftButtonDown_1" />
+
+		<c1:C1TreeView Grid.Column="1" Width="200" ShowLines="False" LineStroke="LightGray" LineThickness="1"  x:Name="tvProcTree" ScrollViewer.HorizontalScrollBarVisibility="Disabled"  ScrollViewer.VerticalScrollBarVisibility="Auto">
+		</c1:C1TreeView>
+
+		<c1:C1PdfViewer x:Name="pdf" Grid.Column="2" SizeChanged="pdf_SizeChanged_1" />
+		<Grid Grid.Row ="1" Grid.ColumnSpan="3">
+			<Grid.RowDefinitions>
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
+			</Grid.RowDefinitions>
+			<Rectangle Margin="0,9" Style="{StaticResource Content_MainButtonDividerStyle}"/>
+			<StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Center">
+				<Button Margin="5,0,0,0" Content="{Binding ConverterParameter=Close, Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_MainButtonStyle}" x:Name="btnClose" Click="btnClose_Click_1"/>
+			</StackPanel>
+		</Grid>
+	</Grid>
+	
+</c1:C1Window>

@@ -1,0 +1,200 @@
+﻿<c1:C1Window x:Class="LGC.GMES.MES.COM001.COM001_014_LOSS_DETL"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:c1="http://schemas.componentone.com/winfx/2006/xaml"
+		     xmlns:System="clr-namespace:System;assembly=mscorlib"
+             xmlns:ctrlLib="clr-namespace:LGC.GMES.MES.ControlsLibrary;assembly=LGC.GMES.MES.ControlsLibrary"      
+             xmlns:uc="clr-namespace:LGC.GMES.MES.CMM001.Controls;assembly=LGC.GMES.MES.CMM001"
+             ctrlLib:LGCPopupWindowExtension.ApplyStyle="True"
+             Header="{Binding Converter={StaticResource GlobalObjectDicConverter}, ConverterParameter='부동내역'}" 
+             Tag="ProtoType01Windows01" Height="1000" Width="1500" IsResizable="True" Loaded="C1Window_Loaded">
+    <c1:C1Window.Resources>
+        <ResourceDictionary Source="/LGC.GMES.MES.ControlsLibrary;Component/ControlStyles.xaml"/>
+    </c1:C1Window.Resources>
+    <Grid>
+        <ctrlLib:LGCLayout x:Name="LayoutRoot" Tag="부동내역">
+            <Grid>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="8" />
+                        <RowDefinition Height="50" />
+                    </Grid.RowDefinitions>
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="1" />
+                    </Grid.ColumnDefinitions>
+
+                    <!-- 부동내역명으로 필터링 START -->
+                    <Grid Grid.Row="0" Grid.Column="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="50" />
+                        </Grid.ColumnDefinitions>
+                        <TextBox Grid.Row="1" Grid.Column="1" x:Name="txtLossFilter" Style="{StaticResource TextBoxBaseStyle}" KeyDown="txtLossFilter_KeyDown" />
+                        <uc:UcBaseButton  Grid.Row="1" Grid.Column="2" x:Name="btnLossFilter" Content="{Binding ConverterParameter=Title17,   Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{DynamicResource Content_SearchButtonStyle}" Click="btnLossFilter_Click"  Cursor="Hand" Margin="0,3,5,0" VerticalAlignment="Center" />
+                    </Grid>
+                    <!--부동내역명으로 필터링 END -->
+                    
+                    <Grid Grid.Row="1" Grid.Column="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="5"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="5"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="5"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Grid Grid.Row="1" Grid.Column="0">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="5"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+
+                            <TextBlock      Grid.Row="0" Text="{Binding ConverterParameter='즐겨찾기', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}" HorizontalAlignment="Left"/>
+
+                            <uc:UcBaseDataGrid x:Name="dgZero" Grid.Row="2" IsReadOnly="True" HeadersVisibility="Column" FrozenColumnCount="2" SelectionMode="SingleRow" MouseDoubleClick="dgOne_MouseDoubleClick" LoadedCellPresenter="dgZero_LoadedCellPresenter">
+                                <c1:C1DataGrid.Columns>
+                                    <c1:DataGridTemplateColumn  Width="26" HorizontalAlignment="Center">
+                                        <c1:DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Image  Width="14" Height="14" Stretch="Fill" VerticalAlignment="Center" HorizontalAlignment="Center" Cursor="Hand" MouseLeftButtonDown="imgFav_Click"/>
+                                            </DataTemplate>
+                                        </c1:DataGridTemplateColumn.CellTemplate>
+                                    </c1:DataGridTemplateColumn>
+                                    <c1:DataGridTextColumn      Header = "1레벨"       Binding = "{Binding UPPR_LOSS_CODE}"          HorizontalAlignment="Center" Visibility="Collapsed"/>
+                                    <c1:DataGridTextColumn      Header = "LOSSCODE"    Binding = "{Binding LOSS_CODE}"               HorizontalAlignment="Center" Visibility="Collapsed"/>
+                                    <c1:DataGridTextColumn      Header = "부동내역명"  Binding = "{Binding LOSS_DETL_CODE}"          HorizontalAlignment="Center" Visibility="Collapsed"/>
+                                    <c1:DataGridTextColumn      Header = "부동내역명"  Binding = "{Binding LOSS_DETL_NAME}"          HorizontalAlignment="Center" />
+                                    <c1:DataGridTextColumn      Header = "TMP_IDX"     Binding = "{Binding TMP_IDX}"                 HorizontalAlignment="Center" Visibility="Collapsed"/>
+
+                                </c1:C1DataGrid.Columns>
+                            </uc:UcBaseDataGrid>
+                        </Grid>
+                        <Grid Grid.Row="1" Grid.Column="2">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="5"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+
+                            <TextBlock      Grid.Row="0" Text="{Binding ConverterParameter='비가동', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}" HorizontalAlignment="Left"/>
+
+                            <uc:UcBaseDataGrid x:Name="dgOne" Grid.Row="2" IsReadOnly="True" HeadersVisibility="Column" FrozenColumnCount="2" SelectionMode="SingleRow" MouseDoubleClick="dgOne_MouseDoubleClick" LoadedCellPresenter="dgOne_LoadedCellPresenter">
+                                <c1:C1DataGrid.Columns>
+                                    <c1:DataGridTemplateColumn  Width="26" HorizontalAlignment="Center">
+                                        <c1:DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Image  Width="14" Height="14" Stretch="Fill" VerticalAlignment="Center" HorizontalAlignment="Center" Cursor="Hand" MouseLeftButtonDown="imgFav_Click"/>
+                                            </DataTemplate>
+                                        </c1:DataGridTemplateColumn.CellTemplate>
+                                    </c1:DataGridTemplateColumn>
+                                    <c1:DataGridTextColumn      Header = "1레벨"       Binding = "{Binding UPPR_LOSS_CODE}"          HorizontalAlignment="Center" Visibility="Collapsed"/>
+                                    <c1:DataGridTextColumn      Header = "LOSSCODE"    Binding = "{Binding LOSS_CODE}"               HorizontalAlignment="Center" Visibility="Collapsed"/>
+                                    <c1:DataGridTextColumn      Header = "부동내역명"  Binding = "{Binding LOSS_DETL_CODE}"          HorizontalAlignment="Center" Visibility="Collapsed"/>
+                                    <c1:DataGridTextColumn      Header = "부동내역명"  Binding = "{Binding LOSS_DETL_NAME}"          HorizontalAlignment="Center" />
+                                    <c1:DataGridTextColumn      Header = "TMP_IDX"     Binding = "{Binding TMP_IDX}"                 HorizontalAlignment="Center" Visibility="Collapsed"/>
+
+                                </c1:C1DataGrid.Columns>
+                            </uc:UcBaseDataGrid>
+                        </Grid>
+                        <Grid Grid.Row="0" Grid.Column="4">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="5"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <TextBlock      Grid.Row="0" Text="{Binding ConverterParameter='비부하', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}" HorizontalAlignment="Left"/>
+                            <uc:UcBaseDataGrid x:Name="dgTwo" Grid.Row="2" IsReadOnly="True" HeadersVisibility="Column" FrozenColumnCount="2" SelectionMode="SingleRow" MouseDoubleClick="dgOne_MouseDoubleClick" LoadedCellPresenter="dgTwo_LoadedCellPresenter">
+                                <c1:C1DataGrid.Columns>
+                                    <c1:DataGridTemplateColumn Width="26" HorizontalAlignment="Center">
+                                        <c1:DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Image Width="14" Height="14" Stretch="Fill" VerticalAlignment="Center" HorizontalAlignment="Center" Cursor="Hand" MouseLeftButtonDown="imgFav_Click"/>
+                                            </DataTemplate>
+                                        </c1:DataGridTemplateColumn.CellTemplate>
+                                    </c1:DataGridTemplateColumn>
+                                    <c1:DataGridTextColumn      Header = "1레벨"       Binding = "{Binding UPPR_LOSS_CODE}"          HorizontalAlignment="Center" Visibility="Collapsed"/>
+                                    <c1:DataGridTextColumn      Header = "LOSSCODE"    Binding = "{Binding LOSS_CODE}"               HorizontalAlignment="Center" Visibility="Collapsed"/>
+                                    <c1:DataGridTextColumn      Header = "부동내역명"  Binding = "{Binding LOSS_DETL_CODE}"          HorizontalAlignment="Center" Visibility="Collapsed"/>
+                                    <c1:DataGridTextColumn      Header = "부동내역명"  Binding = "{Binding LOSS_DETL_NAME}"          HorizontalAlignment="Center" />
+                                    <c1:DataGridTextColumn      Header = "TMP_IDX"     Binding = "{Binding TMP_IDX}"                 HorizontalAlignment="Center" Visibility="Collapsed"/>
+
+                                </c1:C1DataGrid.Columns>
+                            </uc:UcBaseDataGrid>
+                        </Grid>
+                        <Grid Grid.Row="0" Grid.Column="6">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="5"/>
+                                <RowDefinition Height="*"/>
+                                <!--<RowDefinition Height="5"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="5"/>
+                                <RowDefinition Height="*"/>-->
+                            </Grid.RowDefinitions>
+
+                            <TextBlock      Grid.Row="0" Text="{Binding ConverterParameter='비조업', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}" HorizontalAlignment="Left"/>
+                            <uc:UcBaseDataGrid x:Name="dgThree" Grid.Row="2" IsReadOnly="True" HeadersVisibility="Column" FrozenColumnCount="2" SelectionMode="SingleRow" MouseDoubleClick="dgOne_MouseDoubleClick" LoadedCellPresenter="dgThree_LoadedCellPresenter">
+                                <c1:C1DataGrid.Columns>
+                                    <c1:DataGridTemplateColumn  Width="26" HorizontalAlignment="Center">
+                                        <c1:DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Image Width="14" Height="14" Stretch="Fill" VerticalAlignment="Center" HorizontalAlignment="Center" Cursor="Hand" MouseLeftButtonDown="imgFav_Click"/>
+                                            </DataTemplate>
+                                        </c1:DataGridTemplateColumn.CellTemplate>
+                                    </c1:DataGridTemplateColumn>
+                                    <c1:DataGridTextColumn      Header = "1레벨"       Binding = "{Binding UPPR_LOSS_CODE}"          HorizontalAlignment="Center" Visibility="Collapsed"/>
+                                    <c1:DataGridTextColumn      Header = "LOSSCODE"    Binding = "{Binding LOSS_CODE}"               HorizontalAlignment="Center" Visibility="Collapsed"/>
+                                    <c1:DataGridTextColumn      Header = "부동내역명"  Binding = "{Binding LOSS_DETL_CODE}"          HorizontalAlignment="Center" Visibility="Collapsed"/>
+                                    <c1:DataGridTextColumn      Header = "부동내역명"  Binding = "{Binding LOSS_DETL_NAME}"          HorizontalAlignment="Center" />
+                                    <c1:DataGridTextColumn      Header = "TMP_IDX"     Binding = "{Binding TMP_IDX}"                 HorizontalAlignment="Center" Visibility="Collapsed"/>
+
+                                </c1:C1DataGrid.Columns>
+                            </uc:UcBaseDataGrid>
+
+                            <!--<TextBlock      Grid.Row="4" Text="{Binding ConverterParameter='무효가동', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}" HorizontalAlignment="Left"/>
+                            <c1:C1DataGrid x:Name="dgFour" Grid.Row="6" IsReadOnly="True" HeadersVisibility="Column" FrozenColumnCount="2" SelectionMode="SingleRow" MouseDoubleClick="dgOne_MouseDoubleClick" LoadedCellPresenter="dgFour_LoadedCellPresenter">
+                                <c1:C1DataGrid.Columns>
+                                    <c1:DataGridTemplateColumn  Width="26" HorizontalAlignment="Center">
+                                        <c1:DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Image Width="14" Height="14" Stretch="Fill" VerticalAlignment="Center" HorizontalAlignment="Center" Cursor="Hand" MouseLeftButtonDown="imgFav_Click"/>
+                                            </DataTemplate>
+                                        </c1:DataGridTemplateColumn.CellTemplate>
+                                    </c1:DataGridTemplateColumn>
+                                    <c1:DataGridTextColumn      Header = "1레벨"       Binding = "{Binding UPPR_LOSS_CODE}"          HorizontalAlignment="Center" Visibility="Collapsed"/>
+                                    <c1:DataGridTextColumn      Header = "LOSSCODE"    Binding = "{Binding LOSS_CODE}"               HorizontalAlignment="Center" Visibility="Collapsed"/>
+                                    <c1:DataGridTextColumn      Header = "부동내역명"  Binding = "{Binding LOSS_DETL_CODE}"          HorizontalAlignment="Center" Visibility="Collapsed"/>
+                                    <c1:DataGridTextColumn      Header = "부동내역명"  Binding = "{Binding LOSS_DETL_NAME}"          HorizontalAlignment="Center" />
+                                    <c1:DataGridTextColumn      Header = "TMP_IDX"     Binding = "{Binding TMP_IDX}"                 HorizontalAlignment="Center" Visibility="Collapsed"/>
+
+                                </c1:C1DataGrid.Columns>
+                            </c1:C1DataGrid>-->
+                        </Grid>
+
+                    </Grid>
+
+
+                    <Grid Grid.Row="3" Grid.Column="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <uc:UcBaseButton     x:Name="btnClose" Grid.Column="1" Content="{Binding ConverterParameter=닫기, Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{DynamicResource Content_MainButtonNoMinWidthSpecialStyle}" Margin="0,0,5,0" Click="btnClose_Click"/>
+                    </Grid>
+
+                </Grid>
+            </Grid>
+        </ctrlLib:LGCLayout>
+
+        <ctrlLib:LoadingIndicator x:Name="loadingIndicator" Grid.Row="999" Grid.Column="999" />
+    </Grid>
+</c1:C1Window>

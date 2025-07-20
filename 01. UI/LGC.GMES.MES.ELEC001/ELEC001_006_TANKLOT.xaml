@@ -1,0 +1,127 @@
+<c1:C1Window x:Class="LGC.GMES.MES.ELEC001.ELEC001_006_TANKLOT"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:c1="http://schemas.componentone.com/winfx/2006/xaml"
+		     xmlns:System="clr-namespace:System;assembly=mscorlib"
+             xmlns:ctrlLib="clr-namespace:LGC.GMES.MES.ControlsLibrary;assembly=LGC.GMES.MES.ControlsLibrary"        
+             ctrlLib:LGCPopupWindowExtension.ApplyStyle="True"
+             Header="{Binding Converter={StaticResource GlobalObjectDicConverter}, ConverterParameter='Tank Lot 생성'}" 
+             Tag="ProtoType01Windows01" Height="300" Width="800" IsResizable="True" Loaded="C1Window_Loaded" >
+
+    <c1:C1Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/LGC.GMES.MES.ControlsLibrary;component/ControlStyles.xaml" />
+                <ResourceDictionary Source="/LGC.GMES.MES.ControlsLibrary;component/ControlTemplates/LGCDatePicker.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </c1:C1Window.Resources>
+
+    <Grid>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="3*"/>
+                <ColumnDefinition Width="5"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="5"/>
+                <ColumnDefinition Width="3*"/>
+            </Grid.ColumnDefinitions>
+            <Grid Grid.Column="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="5"/>
+                    <RowDefinition Height="1*"/>
+                </Grid.RowDefinitions>
+                <Border Grid.Row="0" Style="{StaticResource Content_InputForm_GroupBorderStyle}"/>
+                <TextBlock     Grid.Row="0" Grid.Column="1" Style="{StaticResource Content_ModuleTitleStyle}">
+                                <Run Text="{Binding ConverterParameter='생산 Batch', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}"/>
+                </TextBlock>
+                <Grid x:Name="LotList" Grid.Row="2" Grid.Column="1">
+                    <c1:C1DataGrid Grid.Row="2" x:Name="dgLotInfo" IsReadOnly="True" HeadersVisibility="Column" SelectionMode="MultiRange">
+                        <c1:C1DataGrid.Columns>
+                            <c1:DataGridTemplateColumn Name="CHK" Width="35" >
+                                <c1:DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <CheckBox IsChecked="{Binding CHK, Mode=TwoWay}" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                                    </DataTemplate>
+                                </c1:DataGridTemplateColumn.CellTemplate>
+                            </c1:DataGridTemplateColumn>
+                            <c1:DataGridTextColumn        Header = "Batch ID"     Binding = "{Binding BATCHID}"     HorizontalAlignment="Center" IsReadOnly="True" />
+                            <c1:DataGridTextColumn        Header = "생산량"       Binding = "{Binding BATCH_QTY}"   HorizontalAlignment="Center" IsReadOnly="True"/>
+                            <c1:DataGridTextColumn        Header = "Tank 수량"    Binding = "{Binding TANK_QTY}"    HorizontalAlignment="Center" />
+                        </c1:C1DataGrid.Columns>
+                    </c1:C1DataGrid>
+                </Grid>
+            </Grid>
+            <Grid Grid.Column ="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="5"/>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                </Grid.RowDefinitions>
+
+                <Button x:Name="btnSelect"   Grid.Row="2" Content="{Binding ConverterParameter=T1, Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{DynamicResource Content_SubTaskButtonNextStyle}" Click="btnAdd_Click" />
+                <Button x:Name="btnUnSelect" Grid.Row="4" Content="{Binding ConverterParameter=T2, Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{DynamicResource Content_SubTaskButtonPrevStyle}" Click="btnDel_Click" />
+            </Grid>
+            <Grid Grid.Column="4">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="5"/>
+                    <RowDefinition Height="1*"/>                    
+                </Grid.RowDefinitions>
+                <Border Grid.Row="0" Style="{StaticResource Content_InputForm_GroupBorderStyle}"/>
+                <TextBlock     Grid.Row="0" Grid.Column="1" Style="{StaticResource Content_ModuleTitleStyle}">
+                                <Run Text="{Binding ConverterParameter='Tank Lot', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}"/>
+                </TextBlock>
+                <Grid Grid.Row ="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="5"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="5"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="5"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="5"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock  Grid.Row="0" Grid.Column="0" Text="{Binding ConverterParameter='Tank Lot Size', Converter={StaticResource GlobalObjectDicConverter}, RelativeSource={RelativeSource Self}}" HorizontalAlignment="Right" Style="{StaticResource SearchCondition_LabelStyle}" />
+                    <TextBox    Grid.Row="0" Grid.Column="2" Style="{StaticResource Content_InputForm_ReadOnlyTextBoxStyle}" x:Name="txtLotSize" CharacterCasing="Upper" IsReadOnly="True"/>
+                    <TextBlock  Grid.Row="2" Grid.Column="0" Text="{Binding ConverterParameter='Tank Lot', Converter={StaticResource GlobalObjectDicConverter}, RelativeSource={RelativeSource Self}}" HorizontalAlignment="Right" Style="{StaticResource SearchCondition_LabelStyle}" />
+                    <TextBox    Grid.Row="2" Grid.Column="2" Style="{StaticResource Content_InputForm_ReadOnlyTextBoxStyle}" x:Name="txtTankLot" CharacterCasing="Upper" IsReadOnly="True"/>
+                    <TextBlock  Grid.Row="4" Grid.Column="0" Text="{Binding ConverterParameter='생성시간', Converter={StaticResource GlobalObjectDicConverter}, RelativeSource={RelativeSource Self}}" HorizontalAlignment="Right" Style="{StaticResource SearchCondition_LabelStyle}" />
+                    <Grid x:Name="grdTank" Grid.Row="4" Grid.Column="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="5"/>
+                            <ColumnDefinition Width="1*"/>
+                        </Grid.ColumnDefinitions>
+                        <ctrlLib:LGCDatePicker Grid.Column="0" x:Name="dtpDate" DatepickerType ="Date" />
+                        <c1:C1TimeEditor  Grid.Column="2" x:Name="TimeEditor" Style="{StaticResource C1TimeEditorStyle}" />
+                    </Grid>
+                    <Grid Grid.Row ="6" Grid.Column="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="10"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Button x:Name="btnSave"    Grid.Column="1" Content="{Binding ConverterParameter='Lot 생성', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{DynamicResource Content_MainButtonSpecialStyle}" Click="btnSave_Click"/>
+                    </Grid>
+                </Grid>
+            </Grid>
+        </Grid>
+
+        <ctrlLib:LoadingIndicator x:Name="loadingIndicator" Grid.Row="999" Grid.Column="999" />
+    </Grid>
+
+</c1:C1Window>

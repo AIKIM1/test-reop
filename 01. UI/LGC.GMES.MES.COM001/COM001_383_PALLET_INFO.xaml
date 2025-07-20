@@ -1,0 +1,125 @@
+<!--*************************************************************************************
+ Created Date : 2023.05.29
+      Creator : 
+   Decription : 포장 출고 (Location 관리) - PALLET_INFO
+
+ [Change History]
+  2023.05.29  주재홍 : Initial Created.
+  2023.07.21  주재홍 : 현장 테스트후 3차 개선
+  2023.07.31  주재홍 : BizAct 다국어
+**************************************************************************************-->
+
+<c1:C1Window x:Class="LGC.GMES.MES.COM001.COM001_383_PALLET_INFO"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:c1="http://schemas.componentone.com/winfx/2006/xaml"
+		     xmlns:System="clr-namespace:System;assembly=mscorlib"
+             xmlns:ctrlLib="clr-namespace:LGC.GMES.MES.ControlsLibrary;assembly=LGC.GMES.MES.ControlsLibrary"        
+             xmlns:cmm001="clr-namespace:LGC.GMES.MES.CMM001;assembly=LGC.GMES.MES.CMM001"
+             xmlns:uc="clr-namespace:LGC.GMES.MES.CMM001.Controls;assembly=LGC.GMES.MES.CMM001"
+             ctrlLib:LGCPopupWindowExtension.ApplyStyle="True"
+             Header="{Binding Converter={StaticResource GlobalObjectDicConverter}, ConverterParameter='Pallet Info'}" 
+             Tag="ProtoType01Windows01" Height="600" Width="800" IsResizable="True" Loaded="C1Window_Loaded" >
+
+    <c1:C1Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/LGC.GMES.MES.ControlsLibrary;Component/ControlStyles.xaml"/>
+                <ResourceDictionary Source="/LGC.GMES.MES.CMM001;component/PopupFindControlStyle.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </c1:C1Window.Resources>
+
+    <Grid Height="497" VerticalAlignment="Bottom">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="5" />
+            <RowDefinition Height="8*" />
+            <RowDefinition Height="5"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="5"/>
+        </Grid.RowDefinitions>
+
+        <Grid x:Name="SearchArea" Grid.Row="0">
+            <Grid Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="5"/>
+                    <ColumnDefinition Width="2*"/>
+                </Grid.ColumnDefinitions>
+            </Grid>
+        </Grid>
+        <Grid x:Name="Search" Grid.Row="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="5"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock  Grid.Row="0" Grid.Column="0" Text="{Binding ConverterParameter='WHID', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}"/>
+            <uc:UcBaseComboBox             Grid.Row="0" Grid.Column="1" x:Name="cboSection" Style="{StaticResource C1ComboBoxStyle}" AutoComplete="False" IsEnabled="False" />
+            
+            <TextBlock  Grid.Row="0" Grid.Column="2" Text="{Binding ConverterParameter='Location', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}"/>
+            <ctrlLib:MultiSelectionBox Grid.Row="0" Grid.Column="3" x:Name="cboLocation"  IsEnabled="False" />
+
+            <TextBlock  Grid.Row="0" Grid.Column="4" Text="{Binding ConverterParameter='PJT', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}"/>
+            <TextBox    Grid.Row="0" Grid.Column="5"    x:Name="txtProjectName" Style="{StaticResource SearchCondition_TextBoxStyle}"  IsEnabled="False" />
+
+            <Grid Grid.Row="2" Grid.Column="5" Grid.ColumnSpan="3">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="5"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="5"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="5"/>
+                </Grid.ColumnDefinitions>
+            </Grid>
+        </Grid>
+       
+        <Grid x:Name="ListArea" Grid.Row="2">
+            <uc:UcBaseDataGrid x:Name="dgPalletInfo" IsReadOnly="False" HeadersVisibility="Column" >
+                <c1:C1DataGrid.Columns>
+                    <c1:DataGridTextColumn           Header = "SEQ"                 Binding = "{Binding PROIRITY}"          IsReadOnly="True"  HorizontalAlignment="Right"   /> 
+                    <c1:DataGridTextColumn           Header = "Pallet ID"           Binding = "{Binding BOXID}"             IsReadOnly="True"  HorizontalAlignment="Center"  />
+                    <c1:DataGridTextColumn           Header = "Pallet BCD ID"       Binding = "{Binding PLLT_BCD_ID}"       IsReadOnly="True"  HorizontalAlignment="Center"  />
+                    <c1:DataGridTextColumn           Header = "QTY"                 Binding = "{Binding TOTAL_QTY}"         IsReadOnly="False" HorizontalAlignment="Right"  Format="#,##0" />
+                    <c1:DataGridTextColumn           Header = "Line"                Binding = "{Binding EQSGNAME}"          IsReadOnly="False" HorizontalAlignment="Left"    />
+                    <c1:DataGridTextColumn           Header = "생산유효일"           Binding = "{Binding VLD_DATE}"          IsReadOnly="True"  HorizontalAlignment="Center"  /> 
+                </c1:C1DataGrid.Columns>
+            </uc:UcBaseDataGrid>
+            
+            <cmm001:PopupFindControl Visibility="Collapsed" Grid.Column="1"
+                                                    SelectedValuePath="BAS_ITEM_ID"
+                                                    DisplayMemberPath="BAS_ITEM_NAME"
+                                                    x:Name="xPopup1"   
+                                                    Width="200" Margin="0,0,10,0">
+            </cmm001:PopupFindControl>
+        </Grid>
+
+        <Grid x:Name="ButtonArea" Grid.Row="4">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="96"/>
+                <ColumnDefinition Width="5"/>
+                <ColumnDefinition Width="96"/>
+                <ColumnDefinition Width="5"/>
+                <ColumnDefinition Width="96"/>
+                <ColumnDefinition Width="5"/>
+            </Grid.ColumnDefinitions>
+            <!--<uc:UcBaseButton Grid.Column="1" x:Name="btnLoad"   Content="{Binding ConverterParameter=Load,   Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{DynamicResource Content_MainButtonSpecialStyle}" Click="btnLoad_Click" />-->
+            <uc:UcBaseButton Grid.Column="5" x:Name="btnClose"  Content="{Binding ConverterParameter=닫기,   Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{DynamicResource Content_MainButtonStyle}" Click="btnClose_Click" />
+        </Grid>
+
+        <ctrlLib:LoadingIndicator x:Name="loadingIndicator" Grid.Row="0" Grid.Column="0" Grid.RowSpan="99" Grid.ColumnSpan="99"/>
+    </Grid>
+
+</c1:C1Window>

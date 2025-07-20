@@ -1,0 +1,91 @@
+﻿<c1:C1Window x:Class="LGC.GMES.MES.COM001.COM001_032_SUMPOPUP"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:c1="http://schemas.componentone.com/winfx/2006/xaml"
+		     xmlns:System="clr-namespace:System;assembly=mscorlib"
+             xmlns:ctrlLib="clr-namespace:LGC.GMES.MES.ControlsLibrary;assembly=LGC.GMES.MES.ControlsLibrary"        
+             ctrlLib:LGCPopupWindowExtension.ApplyStyle="True"
+             Header="{Binding Converter={StaticResource GlobalObjectDicConverter}, ConverterParameter='대차 유형별 현황'}" 
+             Tag="ProtoType01Windows01" Height="700" Width="700" IsResizable="True" Loaded="C1Window_Loaded" >
+
+    <c1:C1Window.Resources>
+        <ResourceDictionary Source="/LGC.GMES.MES.ControlsLibrary;Component/ControlStyles.xaml"/>
+    </c1:C1Window.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="5" />
+            <RowDefinition Height="33" />
+        </Grid.RowDefinitions>
+        <!--content area-->
+        <Grid Grid.Row ="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="15"/>
+                <RowDefinition Height="3*"/>
+            </Grid.RowDefinitions>
+
+            <c1:C1DataGrid x:Name="dgCartTypeList" Grid.Row="0" Grid.Column="0" Grid.RowSpan="3" IsReadOnly="True" HeadersVisibility="Column" HorizontalScrollBarVisibility="Hidden" SelectionMode="SingleRow">
+                <c1:C1DataGrid.Columns>
+                    <c1:DataGridTextColumn      Header = "대차구분"        Binding = "{Binding CART_NAME}"   HorizontalAlignment="Left" />
+                    <c1:DataGridTextColumn      Header = "전체수량"        Binding = "{Binding TOTAL_COUNT}" HorizontalAlignment="Right" />
+                    <c1:DataGridTextColumn      Header = "상차 유/무 수량" Binding = "{Binding EMPTY_COUNT}" HorizontalAlignment="Right" />
+                    <c1:DataGridTextColumn      Header = "이동중(10분)"    Binding = "{Binding USE_COUNT}"   HorizontalAlignment="Right" />
+                </c1:C1DataGrid.Columns>
+            </c1:C1DataGrid>
+
+            <c1:C1DataGrid x:Name="dgLocationList" Grid.Row="0" Grid.Column="0" IsReadOnly="True" HeadersVisibility="Column" HorizontalScrollBarVisibility="Hidden" SelectionMode="SingleRow" SelectionChanged="dgLocationList_SelectionChanged">
+                <c1:C1DataGrid.Columns>
+                    <c1:DataGridTextColumn      Header = "LOCATION NO"     Binding = "{Binding LOCATION_CODE}"      HorizontalAlignment="Center" Visibility="Hidden"/>
+                    <c1:DataGridTextColumn      Header = "LOCATION"        Binding = "{Binding LOCATION_NAME}"      HorizontalAlignment="Left" />
+                    <c1:DataGridTextColumn      Header = "CART NO"         Binding = "{Binding CART_NO}"            HorizontalAlignment="Left"  Visibility="Hidden" />
+                    <c1:DataGridTextColumn      Header = "CART TYPE"       Binding = "{Binding CART_TYPE_NAME}"     HorizontalAlignment="Left" Visibility="Hidden" />
+                    <c1:DataGridTextColumn      Header = "EMPTY Y/N"       Binding = "{Binding EMPTY_FLAG}"         HorizontalAlignment="Center" Visibility="Hidden" />
+                    <c1:DataGridTextColumn      Header = "AREA ABBR"       Binding = "{Binding AREA_ABBR_CODE}"     HorizontalAlignment="Center" Visibility="Hidden" />
+                    <c1:DataGridTextColumn      Header = "PROD TYPE"       Binding = "{Binding PRODTYPE}"           HorizontalAlignment="Center" Visibility="Hidden" />
+                    <c1:DataGridTextColumn      Header = "PROC ABBR"       Binding = "{Binding PROC_ABBR_CODE}"     HorizontalAlignment="Center" Visibility="Hidden" />
+                    <c1:DataGridTextColumn      Header = "생산주(Week)"    Binding = "{Binding YYYYMMWEEK}"           HorizontalAlignment="Center" Visibility="Hidden" />
+                    <c1:DataGridTextColumn      Header = "수량"            Binding = "{Binding QTY}"                HorizontalAlignment="Right" />
+                </c1:C1DataGrid.Columns>
+            </c1:C1DataGrid>
+
+            <c1:C1DataGrid x:Name="dgLocationLottList" Grid.Row="2" Grid.Column="0" IsReadOnly="True" HeadersVisibility="Column" HorizontalScrollBarVisibility="Hidden" SelectionMode="SingleRow">
+                <c1:C1DataGrid.Columns>
+                    <c1:DataGridTextColumn      Header = "LOCATION NO"     Binding = "{Binding LOCATION_CODE}"      HorizontalAlignment="Center" Visibility="Hidden"/>
+                    <c1:DataGridTextColumn      Header = "LOCATION"            Binding = "{Binding LOCATION_NAME}"      HorizontalAlignment="Left" Visibility="Hidden" />
+                    <c1:DataGridTextColumn      Header = "CART NO"         Binding = "{Binding CART_NO}"            HorizontalAlignment="Left"  Visibility="Hidden" />
+                    <c1:DataGridTextColumn      Header = "CART TYPE"       Binding = "{Binding CART_TYPE_NAME}"     HorizontalAlignment="Left" Visibility="Hidden" />
+                    <c1:DataGridTextColumn      Header = "EMPTY Y/N"       Binding = "{Binding EMPTY_FLAG}"         HorizontalAlignment="Center" Visibility="Hidden" />
+                    <c1:DataGridTextColumn      Header = "AREA ABBR"       Binding = "{Binding AREA_ABBR_CODE}"     HorizontalAlignment="Center" Visibility="Hidden" />
+                    <c1:DataGridTextColumn      Header = "PROD TYPE"       Binding = "{Binding PRODTYPE}"           HorizontalAlignment="Center" Visibility="Hidden" />
+                    <c1:DataGridTextColumn      Header = "PROC ABBR"       Binding = "{Binding PROC_ABBR_CODE}"     HorizontalAlignment="Center" Visibility="Hidden" />
+                    <c1:DataGridTextColumn      Header = "생산주(Week)"    Binding = "{Binding YYYYMMWEEK}"         HorizontalAlignment="Center" />
+                    <c1:DataGridTextColumn      Header = "수량"            Binding = "{Binding QTY}"                HorizontalAlignment="Right" />
+                </c1:C1DataGrid.Columns>
+            </c1:C1DataGrid>
+
+        </Grid>
+
+
+        <!--button area-->
+        <Grid Grid.Row ="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="10"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <Button x:Name="btnClose" Grid.Column="3" Content="{Binding ConverterParameter='닫기', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{DynamicResource Content_MainButtonStyle}" Click="btnClose_Click" />
+        </Grid>
+
+
+        <ctrlLib:LoadingIndicator x:Name="loadingIndicator" Grid.Row="999" Grid.Column="999" />
+    </Grid>
+</c1:C1Window>

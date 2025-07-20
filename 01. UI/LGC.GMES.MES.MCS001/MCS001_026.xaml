@@ -1,0 +1,141 @@
+﻿<UserControl x:Class="LGC.GMES.MES.MCS001.MCS001_026" 
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	 	     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+		     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:c1="http://schemas.componentone.com/winfx/2006/xaml"
+		     xmlns:ctrlLib="clr-namespace:LGC.GMES.MES.ControlsLibrary;assembly=LGC.GMES.MES.ControlsLibrary" 
+             mc:Ignorable="d" d:DesignHeight="768"
+		     d:DesignWidth="1024" Loaded="UserControl_Loaded"
+             >
+
+	<UserControl.Resources>
+		<ResourceDictionary>
+			<ResourceDictionary.MergedDictionaries>
+				<ResourceDictionary Source="/LGC.GMES.MES.ControlsLibrary;component/ControlStyles.xaml" />
+			</ResourceDictionary.MergedDictionaries>
+		</ResourceDictionary>
+	</UserControl.Resources>
+
+	<Grid>
+        <ctrlLib:LGCLayout x:Name="LayoutRoot" Tag="물류 오류 모니터링">
+			<Grid>
+				<Grid.RowDefinitions>
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="8" />
+					<RowDefinition Height="*" />
+				</Grid.RowDefinitions>
+
+				<!--백그라운드용-->
+				<Border Grid.Row="0" Grid.Column="0" Style="{StaticResource Content_InputForm_LabelBorderStyle}" />
+
+				<!--조회영역-->
+				<Grid Grid.Row="0">
+					<Grid.RowDefinitions>
+						<RowDefinition Height="8" />
+						<RowDefinition Height="Auto" />
+						<RowDefinition Height="8" />
+					</Grid.RowDefinitions>
+					<Grid.ColumnDefinitions>
+					    <ColumnDefinition Width="13"/>
+						<ColumnDefinition Width="*" />
+					    <ColumnDefinition Width="10"/>
+						<ColumnDefinition Width="*" />
+					    <ColumnDefinition Width="10"/>
+						<ColumnDefinition Width="*" />
+					    <ColumnDefinition Width="Auto"/>
+					    <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="4" />
+						<ColumnDefinition Width="Auto" />
+						<ColumnDefinition Width="13" />
+					</Grid.ColumnDefinitions>
+					<!--조회조건-->
+
+					<!--ROW1-->
+
+				    <Border     Grid.Row="0" Grid.Column="0" Grid.RowSpan="3" Grid.ColumnSpan="99" Style="{StaticResource Content_InputForm_LabelBorderStyle}"/>
+
+				    <Grid Grid.Row="1" Grid.Column="1" >
+				        <Grid.ColumnDefinitions>
+				            <ColumnDefinition Width="3*"/>
+				            <ColumnDefinition Width="7*"/>
+				        </Grid.ColumnDefinitions>
+				        <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Right">
+				            <TextBlock  Text="{Binding ConverterParameter='창고구간', Converter={StaticResource GlobalObjectDicConverter}, RelativeSource={RelativeSource Self}}" Style="{StaticResource Content_Search_LabelStyle}" />
+				        </StackPanel>
+                        <ctrlLib:MultiSelectionBox Grid.Row="0" Grid.Column="1" x:Name="msbWarehouseSection" DisplayMemberPath="EQPTNAME" SelectedValuePath="EQPTID" />
+                    </Grid>
+
+				    <Grid Grid.Row="1" Grid.Column="3">
+				        <Grid.ColumnDefinitions>
+				            <ColumnDefinition Width="3*"/>
+				            <ColumnDefinition Width="7*"/>
+				        </Grid.ColumnDefinitions>
+				        <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Right">
+				            <TextBlock  Text="{Binding ConverterParameter='AGV구간', Converter={StaticResource GlobalObjectDicConverter}, RelativeSource={RelativeSource Self}}" Style="{StaticResource Content_Search_LabelStyle}" />
+				        </StackPanel>
+                        <ctrlLib:MultiSelectionBox Grid.Row="0" Grid.Column="1" x:Name="msbAgvSection" DisplayMemberPath="EQPTNAME" SelectedValuePath="EQPTID" />
+                    </Grid>
+
+					<Grid Grid.Row="1" Grid.Column="5">
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="3*" />
+							<ColumnDefinition Width="7*" />
+						</Grid.ColumnDefinitions>
+					</Grid>
+
+				    <Grid Grid.Row="1" Grid.Column="7">
+				        <Grid.ColumnDefinitions>
+				            <ColumnDefinition Width="3*" />
+				            <ColumnDefinition Width="7*" />
+				        </Grid.ColumnDefinitions>
+				    </Grid>
+
+				    <TextBlock Grid.Row="1"  Grid.Column="6" Text="{Binding ConverterParameter='자동조회', Converter={StaticResource GlobalObjectDicConverter}, RelativeSource={RelativeSource Self}}" Style="{StaticResource SearchCondition_LabelStyle}" />
+                    
+				    <c1:C1ComboBox Grid.Row="1"  Grid.Column="7" x:Name="cboAutoSearch" Margin="4,3,0,3" AutoComplete="False" DisplayMemberPath="NAME" SelectedValuePath="CODE" SelectedValueChanged="cboAutoSearch_SelectedValueChanged"  Width="Auto" MinWidth="40"/>
+                    
+                    <!--조회 버튼-->
+					<Button Grid.Row="1" Grid.Column="9" x:Name="btnSearch"
+							Content="{Binding ConverterParameter=SEARCH, Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}"
+							Style="{StaticResource SearchButtonStyle}" Cursor="Hand" Click="btnSearch_Click" />
+				</Grid>
+
+			    <Border Grid.Row="2" Grid.Column="0" Style="{StaticResource Content_InputForm_ContentBorderStyle}"/>
+				<!--LOT 리스트-->
+				<Grid Grid.Row="2" >
+                    <c1:C1DataGrid x:Name="dgList" 
+                                   Margin="8"
+                                   IsReadOnly="True" 
+                                   HeadersVisibility="Column"
+                                   FrozenColumnCount="2" 
+                                   SelectionMode="SingleRow"
+                                   LoadedCellPresenter="dgList_LoadedCellPresenter" 
+                                   UnloadedCellPresenter="dgList_UnloadedCellPresenter" 
+                                   >
+                        <c1:C1DataGrid.Columns>
+                            <c1:DataGridTextColumn Header="반송구간" Binding="{Binding EQGRNAME}" HorizontalAlignment="Center" />
+                            <c1:DataGridTextColumn Header="반송명령ID" Binding="{Binding LOGIS_CMD_ID}" HorizontalAlignment="Center" />
+                            <c1:DataGridTextColumn Header="반송명령상태" Binding="{Binding CMD_STATNAME}" HorizontalAlignment="Left" />
+                            <c1:DataGridTextColumn Header="반송명령 생성시간" Binding="{Binding LOGIS_CMD_GNRT_DTTM}" HorizontalAlignment="Center" />
+                            <c1:DataGridTextColumn Header="반송명령생성 후 경과시간" Binding="{Binding GNRT_DIFF}" HorizontalAlignment="Center" />
+                            <c1:DataGridTextColumn Header="반송명령 시작시간(설비)" Binding="{Binding LOGIS_CMD_STRT_DTTM}" HorizontalAlignment="Center" />
+                            <c1:DataGridTextColumn Header="반송명령 시작 후 경과시간" Binding="{Binding STRT_DIFF}" HorizontalAlignment="Center" />
+                            <c1:DataGridTextColumn Header="반송명령 종료시간" Binding="{Binding LOGIS_CMD_END_DTTM}" HorizontalAlignment="Center" />
+                            <c1:DataGridTextColumn Header="EQPTNAME" Binding="{Binding EQPTNAME}" HorizontalAlignment="Left" />
+                            <c1:DataGridTextColumn Header="TRBL_1" Binding="{Binding TRBL_1}" HorizontalAlignment="Right" />
+                            <c1:DataGridTextColumn Header="TRBL_2" Binding="{Binding TRBL_2}" HorizontalAlignment="Right" />
+                            <c1:DataGridTextColumn Header="TRBL_3" Binding="{Binding TRBL_3}" HorizontalAlignment="Right" />
+                            <c1:DataGridTextColumn Header="TRBL_4" Binding="{Binding TRBL_4}" HorizontalAlignment="Right" />
+                            <c1:DataGridTextColumn Header="TRBL_5" Binding="{Binding TRBL_5}" HorizontalAlignment="Right" />
+                            <c1:DataGridTextColumn Header="TRBL_6" Binding="{Binding TRBL_6}" HorizontalAlignment="Right" />
+                            <c1:DataGridTextColumn Header="TRBL_7" Binding="{Binding TRBL_7}" HorizontalAlignment="Right" />
+                            <c1:DataGridTextColumn Header="트러블상세" Binding="{Binding REQ_USERNAME}" HorizontalAlignment="Left" Visibility="Collapsed" />
+                        </c1:C1DataGrid.Columns>
+                    </c1:C1DataGrid>
+                </Grid>
+			</Grid>
+		</ctrlLib:LGCLayout>
+		<ctrlLib:LoadingIndicator x:Name="loadingIndicator" Grid.Row="999" Grid.Column="999" />
+	</Grid>
+</UserControl>

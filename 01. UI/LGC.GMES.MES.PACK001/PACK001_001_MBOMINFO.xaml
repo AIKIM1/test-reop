@@ -1,0 +1,121 @@
+﻿<c1:C1Window x:Class="LGC.GMES.MES.PACK001.PACK001_001_MBOMINFO"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:c1="http://schemas.componentone.com/winfx/2006/xaml"
+		     xmlns:System="clr-namespace:System;assembly=mscorlib"
+             xmlns:ctrlLib="clr-namespace:LGC.GMES.MES.ControlsLibrary;assembly=LGC.GMES.MES.ControlsLibrary"        
+             ctrlLib:LGCPopupWindowExtension.ApplyStyle="True"
+             Header="{Binding Converter={StaticResource GlobalObjectDicConverter}, ConverterParameter='BOM정보'}" 
+             Tag="ProtoType01Windows01" Height="450" Width="750" IsResizable="True" Loaded="C1Window_Loaded" >
+
+    <c1:C1Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/LGC.GMES.MES.ControlsLibrary;Component/ControlStyles.xaml"/>
+                <ResourceDictionary Source="/LGC.GMES.MES.ControlsLibrary;component/ControlTemplates/C1DataGridStyle.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </c1:C1Window.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="15" />
+            <RowDefinition Height="44" />
+        </Grid.RowDefinitions>
+        <!--content area-->
+        <!--MBOM정보-->
+        <Grid Grid.Row="0">
+            
+            <Grid.RowDefinitions>
+                <RowDefinition Height="41"/>
+                <RowDefinition Height="8"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <!--<Border Grid.Row="0" Grid.ColumnSpan="3" BorderThickness="1" BorderBrush="#ffbebebe" Style="{StaticResource BorderSubTitleStyle}"/>-->
+            <!--<Border Grid.Row="0" Grid.ColumnSpan="3" Style="{StaticResource Content_InputForm_GroupBorderStyle}"/>-->
+            <!--<Border Grid.Row="0" Grid.ColumnSpan="3" Grid.RowSpan="4" Style="{StaticResource Content_InputForm_GroupBorderStyle}"/>-->
+
+            <!--1Row-->
+            <!--<TextBlock  Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3"  Style="{StaticResource Content_ModuleTitleStyle}">
+                                    <Run Text="{Binding ConverterParameter='BOM정보', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}"/>
+            </TextBlock>-->
+
+            <Border Grid.Row="0" Grid.Column="0" Style="{StaticResource Condition_BorderStyle}"></Border>
+            <Grid Grid.Row="0" Grid.Column="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="12"/>
+                </Grid.ColumnDefinitions>
+
+                <Grid Grid.Column="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1.5*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Text="{Binding ConverterParameter='LINE', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}" HorizontalAlignment="Right"/>
+                    <TextBox   Grid.Column="1"  x:Name="txtEqsgName" Style="{StaticResource Content_InputForm_ReadOnlyTextBoxStyle}"    KeyDown="txtProdID_KeyDown" />
+                </Grid>
+
+                <Grid Grid.Column="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1.5*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Text="{Binding ConverterParameter='공정', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}" HorizontalAlignment="Right"/>
+                    <TextBox   Grid.Column="1"   x:Name="txtProcName" Style="{StaticResource Content_InputForm_ReadOnlyTextBoxStyle}"    KeyDown="txtProdID_KeyDown" />
+                </Grid>
+
+                <Grid Grid.Column="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1.5*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Text="{Binding ConverterParameter='제품ID', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}" HorizontalAlignment="Right"/>
+                    <TextBox   Grid.Column="1"   x:Name="txtProdID" Style="{StaticResource Content_InputForm_ReadOnlyTextBoxStyle}"    KeyDown="txtProdID_KeyDown" />
+                </Grid>
+
+            </Grid>
+
+            <c1:C1DataGrid Grid.Row="2" Grid.Column="0" x:Name="dgBomList" IsReadOnly="True" HeadersVisibility="Column" SelectionMode="SingleCell" >
+                <c1:C1DataGrid.Columns>
+                    <c1:DataGridTextColumn        Header = "제품ID"                Binding = "{Binding PRODID}"           HorizontalAlignment="Center" Width="Auto" Visibility="Collapsed"/>
+                    <c1:DataGridTextColumn        Header = "제품명"                Binding = "{Binding PRODNAME}"         HorizontalAlignment="Left" Width="Auto" Visibility="Collapsed"/>
+                    <c1:DataGridTextColumn        Header = "자재ID"                Binding = "{Binding MTRLID}"                HorizontalAlignment="Center" Width="Auto" />
+                    <c1:DataGridTextColumn        Header = "자재명"                Binding = "{Binding MTRL_PRODNAME}"   HorizontalAlignment="Center" Width="Auto" />
+                    <c1:DataGridTextColumn        Header = "임시자재ID"            Binding = "{Binding TMP_MTRLID}"                HorizontalAlignment="Center" Width="Auto" />
+                    <c1:DataGridTextColumn        Header = "임시자재명"            Binding = "{Binding TMP_MTRL_PRODNAME}"   HorizontalAlignment="Center" Width="Auto" />
+                    <c1:DataGridTextColumn        Header = "대체자재 사용여부"     Binding = "{Binding ALT_MTRL_USE_FLAG}"                HorizontalAlignment="Center" Width="Auto" />
+                    <c1:DataGridTextColumn        Header = "대체자재ID"            Binding = "{Binding ALT_MTRL}"                HorizontalAlignment="Center" Width="Auto" />
+                    <c1:DataGridTextColumn        Header = "투입공정"              Binding = "{Binding INPUT_PROCNAME}"     HorizontalAlignment="Left" Width="Auto"    />
+                    <c1:DataGridTextColumn        Header = "투입공정"              Binding = "{Binding INPUT_PROCNAME}"     HorizontalAlignment="Left" Width="Auto"    />
+                    <c1:DataGridTextColumn        Header = "소요량"                Binding = "{Binding MTRL_QTY}"     HorizontalAlignment="Center" Width="Auto" />
+                    <c1:DataGridTextColumn        Header = "INPUT_PROCID"          Binding = "{Binding INPUT_PROCID}"     HorizontalAlignment="Left" Width="Auto"    Visibility="Collapsed"/>
+                    <c1:DataGridTextColumn        Header = "투입공정"              Binding = "{Binding INPUT_PROCNAME}"     HorizontalAlignment="Left" Width="Auto"    />
+                    
+                    
+                </c1:C1DataGrid.Columns>
+            </c1:C1DataGrid>
+        </Grid>
+
+
+        <!--<Border Grid.Row="2" Style="{StaticResource Content_InputForm_LabelBorderStyle}" />-->
+        <!--button area-->
+        <Grid Grid.Row ="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <Button x:Name="btnClose" Grid.Column="1" Content="{Binding ConverterParameter=닫기, Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{DynamicResource Content_MainButtonStyle}" Click="btnClose_Click" />
+        </Grid>
+        
+        <ctrlLib:LoadingIndicator x:Name="loadingIndicator" Grid.Row="999" Grid.Column="999" />
+    </Grid>
+    
+</c1:C1Window>

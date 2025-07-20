@@ -1,0 +1,92 @@
+﻿<UserControl xmlns:ss="hhemas.grapecity.com/windows/spreadsheet/2012"  x:Class="LGC.GMES.MES.FCS001.FCS001_071"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:c1="http://schemas.componentone.com/winfx/2006/xaml"
+             xmlns:ctrlLib="clr-namespace:LGC.GMES.MES.ControlsLibrary;assembly=LGC.GMES.MES.ControlsLibrary"
+             xmlns:uc="clr-namespace:LGC.GMES.MES.CMM001.Controls;assembly=LGC.GMES.MES.CMM001"
+             mc:Ignorable="d" 
+             d:DesignHeight="768" d:DesignWidth="1024" Loaded="UserControl_Loaded">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/LGC.GMES.MES.ControlsLibrary;component/ControlStyles.xaml" />
+                <ResourceDictionary Source="/LGC.GMES.MES.ControlsLibrary;component/ControlTemplates/LGCDatePicker.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    
+    <Grid x:Name="grdMain">
+        <ctrlLib:LGCLayout x:Name="LayoutRoot" Tag="작업조건 Report">
+            <Grid>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="8"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <Grid x:Name="SearchTop" Grid.Row="0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="11"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="11"/>
+                        </Grid.RowDefinitions>
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="13"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="13"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Border           Grid.Row="0" Grid.Column="0" Grid.RowSpan="3" Grid.ColumnSpan="99" Background="#fff2f2f2" BorderThickness="1" BorderBrush="#ffd1d1d1"></Border>
+
+                        <!--조회영역-->
+                        <TextBlock        Grid.Row="1" Grid.Column="1" Text="{Binding ConverterParameter='MODEL', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}" />
+                        <uc:UcBaseComboBox    Grid.Row="1" Grid.Column="2" x:Name="cboModel" Style="{StaticResource C1ComboBoxStyle}" AutoComplete="False" />
+
+                        <TextBlock        Grid.Row="1" Grid.Column="3" Text="{Binding ConverterParameter='ROUTE_ID', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}"/>
+                        <uc:UcBaseComboBox    Grid.Row="1" Grid.Column="4" x:Name="cboRoute" Style="{StaticResource C1ComboBoxStyle}" AutoComplete="False" />
+
+                        <uc:UcBaseButton           Grid.Row="1" Grid.Column="6" x:Name="btnSearch" Content="{Binding ConverterParameter='SEARCH' , Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource SearchButtonStyle}"  Cursor="Hand" Click="btnSearch_Click"  />
+                    </Grid>
+
+                    <Border Grid.Row="2" Background="#fff2f2f2" BorderThickness="1" BorderBrush="#ffbebebe"></Border>
+                    <!--조회리스트-->
+                    <Grid Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="99">
+
+                        <uc:UcBaseDataGrid x:Name="dgCondReport" IsReadOnly="False" HeadersVisibility="None" FrozenTopRowsCount="2" FrozenColumnCount="4" Margin="8" SelectionMode="MultiRange" >
+                            <c1:C1DataGrid.Columns>
+                                <c1:DataGridTextColumn     Header = "[ROUTE_ID,ROUTE_ID]"          Binding = "{Binding ROUTID}"           IsReadOnly="True" HorizontalAlignment="Center" />
+                                <c1:DataGridTextColumn     Header = "[OP_NAME,OP_NAME]"            Binding = "{Binding PROCNAME}"         IsReadOnly="True" HorizontalAlignment="Center" />
+                                <c1:DataGridTextColumn     Header = "[OP_ID,OP_ID]"                Binding = "{Binding PROCID}"           IsReadOnly="True" HorizontalAlignment="Center" />
+                                <c1:DataGridTextColumn     Header = "[OP_STEP,OP_STEP]"            Binding = "{Binding PROC_STEP_NO}"     IsReadOnly="True" HorizontalAlignment="Center" />
+                                <c1:DataGridNumericColumn  Header = "[WORK_COND,CC_VAL]"           Binding = "{Binding CCURNT_VALUE}"     IsReadOnly="True" HorizontalAlignment="Right" Format="###,##0" />
+                                <c1:DataGridNumericColumn  Header = "[WORK_COND,CV_VAL]"           Binding = "{Binding CVLTG_VALUE}"      IsReadOnly="True" HorizontalAlignment="Right" Format="###,##0" />
+                                <c1:DataGridNumericColumn  Header = "[WORK_COND,FINAL_TIME_MIN]"   Binding = "{Binding END_TIME}"         IsReadOnly="True" HorizontalAlignment="Right" Format="###,##0" />
+                                <c1:DataGridNumericColumn  Header = "[WORK_COND,JUDG_VOLT_VAL]"    Binding = "{Binding JUDG_VLTG_VALUE}"  IsReadOnly="True" HorizontalAlignment="Right" Format="###,##0" />
+                                <c1:DataGridNumericColumn  Header = "[WORK_COND,FINAL_CURR_VAL]"   Binding = "{Binding END_CURNT_VALUE}"  IsReadOnly="True" HorizontalAlignment="Right" Format="###,##0" />
+                                <c1:DataGridNumericColumn  Header = "[WORK_COND,FINAL_VOLT_VAL]"   Binding = "{Binding END_VLTG_VALUE}"   IsReadOnly="True" HorizontalAlignment="Right" Format="###,##0" />
+                                <c1:DataGridNumericColumn  Header = "[WORK_COND,FINAL_CAPA_VAL]"   Binding = "{Binding END_CAPA_VALUE}"   IsReadOnly="True" HorizontalAlignment="Right" Format="###,##0" />
+                                <c1:DataGridNumericColumn  Header = "[WORK_COND,ULMT_VOLT_VAL_MV]" Binding = "{Binding VLTG_MAX_VALUE}"   IsReadOnly="True" HorizontalAlignment="Right" Format="###,##0" />
+                                <c1:DataGridNumericColumn  Header = "[WORK_COND,LLMT_VOLT_VAL_MV]" Binding = "{Binding VLTG_MIN_VALUE}"   IsReadOnly="True" HorizontalAlignment="Right" Format="###,##0" />
+                                <c1:DataGridNumericColumn  Header = "[WORK_COND,대기시간(분)]"     Binding = "{Binding WAIT_TIME}"        IsReadOnly="True" HorizontalAlignment="Right" Format="###,##0" />
+                            </c1:C1DataGrid.Columns>
+                            <c1:C1DataGrid.TopRows>
+                                <c1:DataGridColumnHeaderRow />
+                                <c1:DataGridColumnHeaderRow />
+                            </c1:C1DataGrid.TopRows>
+                        </uc:UcBaseDataGrid>
+                    </Grid>
+                </Grid>
+            </Grid>
+        </ctrlLib:LGCLayout>
+        <ctrlLib:LoadingIndicator x:Name="loadingIndicator" Grid.Row="999" Grid.Column="999"/>
+    </Grid>
+</UserControl>

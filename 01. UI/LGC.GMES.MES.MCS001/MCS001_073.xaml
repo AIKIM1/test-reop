@@ -1,0 +1,123 @@
+<UserControl x:Class="LGC.GMES.MES.MCS001.MCS001_073"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:c1="http://schemas.componentone.com/winfx/2006/xaml"
+             xmlns:ctrlLib="clr-namespace:LGC.GMES.MES.ControlsLibrary;assembly=LGC.GMES.MES.ControlsLibrary"
+             mc:Ignorable="d" 
+             d:DesignHeight="768" d:DesignWidth="1024" 
+             Loaded="UserControl_Loaded">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/LGC.GMES.MES.ControlsLibrary;component/ControlStyles.xaml" />
+                <ResourceDictionary Source="/LGC.GMES.MES.ControlsLibrary;component/ControlTemplates/LGCDatePicker.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid x:Name="grdMain">
+
+        <ctrlLib:LGCLayout x:Name="LayoutRoot" Tag="VD 대기 창고 입고 LOT 조회" Grid.ColumnSpan="2">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="8" />
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <Border Grid.Row="0" Grid.Column="0" Style="{StaticResource Content_InputForm_LabelBorderStyle}" />
+                <!--조회영역-->
+                <Grid Grid.Row="0" Grid.Column="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="8" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="8" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="13"/>
+                        <ColumnDefinition Width="1.*"/>
+                        <ColumnDefinition Width="10"/>
+                        <ColumnDefinition Width="1.*"/>
+                        <ColumnDefinition Width="10"/>
+                        <ColumnDefinition Width="2.*"/>                        
+                        <ColumnDefinition Width="30"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="13"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Grid Grid.Row="1" Grid.Column="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="3*"/>
+                            <ColumnDefinition Width="7*"/>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Right">
+                            <TextBlock  Text="{Binding ConverterParameter='Stocker', Converter={StaticResource GlobalObjectDicConverter}, RelativeSource={RelativeSource Self}}" Style="{StaticResource Content_Search_LabelStyle}" />
+                        </StackPanel>
+                        <c1:C1ComboBox  Grid.Row="0"  Grid.Column="1" x:Name="cboStocker"  DisplayMemberPath="EQPTNAME" SelectedValuePath="EQPTID"  Style="{StaticResource C1ComboBoxStyle}" AutoComplete="False" SelectedValueChanged="cboStocker_SelectedValueChanged" />
+                    </Grid>
+
+                    <Grid Grid.Row="1" Grid.Column="3">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="4*"/>
+                            <ColumnDefinition Width="6*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Row="0"  Grid.Column="0" Text="{Binding ConverterParameter='Lot ID', Converter={StaticResource GlobalObjectDicConverter}, RelativeSource={RelativeSource Self}}" 
+                                   Style="{StaticResource Content_InputForm_LabelStyle}" />
+                        <TextBox   Grid.Row="0"  Grid.Column="1" x:Name="txtLotId" CharacterCasing="Upper" Style="{StaticResource SearchCondition_TextBoxStyle}" MinWidth="100"/>
+                    </Grid>
+
+                    <Grid Grid.Row="1" Grid.Column="7">
+                        <Button x:Name="btnSearch"      Grid.Row="0" Grid.Column="0"   Content="{Binding ConverterParameter=SEARCH,    Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource SearchButtonStyle}" Cursor="Hand" Click="btnSearch_Click" />
+                    </Grid>
+
+                </Grid>
+
+                <Border Grid.Row="2" Grid.Column="0" Style="{StaticResource Content_InputForm_ContentBorderStyle}"/>
+                <!--LOT 리스트-->
+                <Grid Grid.Row="2" Grid.Column="0">
+                    <c1:C1DataGrid x:Name="dgLotList" 
+                                   Grid.ColumnSpan="3"
+                                   IsReadOnly="True" 
+                                   HeadersVisibility="Column" 
+                                   FrozenColumnCount="3" 
+                                   SelectionMode="SingleCell" 
+                                   Margin="8"
+                                   >
+                        <c1:C1DataGrid.Columns>
+                            <c1:DataGridNumericColumn	Header = "순위"		         Binding = "{Binding ROW_NUM}"     HorizontalAlignment="Right" />
+                            <c1:DataGridTextColumn      Header = "창고명"            Binding = "{Binding EQPTNAME}"    HorizontalAlignment="Center" />
+                            <c1:DataGridTextColumn      Header = "Rack ID"           Binding = "{Binding RACK_ID}"     HorizontalAlignment="Center" />
+                            <c1:DataGridTextColumn      Header = "RACK명"            Binding = "{Binding RACKNAME}"    HorizontalAlignment="Center" />
+                            <c1:DataGridTextColumn      Header = "프로젝트명"        Binding = "{Binding PRJT_NAME}"   HorizontalAlignment="Center" />
+                            <c1:DataGridTextColumn      Header = "PRODNAME"          Binding = "{Binding PRODNAME}"    HorizontalAlignment="Center" />
+                            <c1:DataGridTextColumn      Header = "입고일시"          Binding = "{Binding WH_RCV_DTTM}" HorizontalAlignment="Center" />
+                            <c1:DataGridTextColumn      Header = "LOT ID"            Binding = "{Binding LOTID}"       HorizontalAlignment="Center" />
+                            <c1:DataGridTextColumn      Header = "수량"              Binding = "{Binding WIPQTY2}"     HorizontalAlignment="Center" />
+                            <c1:DataGridTextColumn      Header = "LOT상태"           Binding = "{Binding WIPSTAT}"     HorizontalAlignment="Center" />
+                            <c1:DataGridTextColumn Header = "LOT 유형"        Binding = "{Binding LOTTYPE}"           HorizontalAlignment="Center" Visibility="Collapsed"/>
+                            <c1:DataGridTextColumn Header = "LOT 유형"        Binding = "{Binding LOTYNAME}"          HorizontalAlignment="Center" />
+                            <c1:DataGridTextColumn      Header = "유효일자"          Binding = "{Binding VLD_DATE}"    HorizontalAlignment="Center" />
+                            <c1:DataGridTextColumn      Header = "경과일수"          Binding = "{Binding PAST_DAY}"    HorizontalAlignment="Center" />
+                            <c1:DataGridTextColumn      Header = "HOLD 여부"         Binding = "{Binding WIPHOLD}"     HorizontalAlignment="Center" />
+
+                            <c1:DataGridTextColumn      Header = "HOLD 비고"         Binding = "{Binding HOLD_NOTE}"   HorizontalAlignment="Left" />
+                            <c1:DataGridTextColumn      Header = "HOLD 시간"         Binding = "{Binding HOLD_DTTM}"   HorizontalAlignment="Center" />
+                            <c1:DataGridTextColumn      Header = "HOLD 사유명"       Binding = "{Binding HOLD_NAME}"   HorizontalAlignment="Left" />
+                            <c1:DataGridTextColumn      Header = "HOLD 등록자"       Binding = "{Binding HOLD_USERNAME}"   HorizontalAlignment="Left" />
+                            <c1:DataGridTextColumn      Header = "HOLD 담당자"       Binding = "{Binding ACTION_USERNAME}"   HorizontalAlignment="Left" />
+
+                            <c1:DataGridTextColumn      Header = "모델"              Binding = "{Binding MODLID}"      HorizontalAlignment="Center" />
+                            <c1:DataGridTextColumn      Header = "단위"              Binding = "{Binding UNIT_CODE}"   HorizontalAlignment="Center" />
+                            <c1:DataGridTextColumn      Header = "버전"              Binding = "{Binding PROD_VER_CODE}" HorizontalAlignment="Center" />
+                            <c1:DataGridTextColumn      Header = "PROCNAME"          Binding = "{Binding PROCNAME}"    HorizontalAlignment="Center" />
+                        </c1:C1DataGrid.Columns>
+                    </c1:C1DataGrid>
+                </Grid>
+
+            </Grid>
+        </ctrlLib:LGCLayout>
+
+        <ctrlLib:LoadingIndicator x:Name="loadingIndicator" Grid.Row="999" Grid.Column="999" />
+    </Grid>
+</UserControl>

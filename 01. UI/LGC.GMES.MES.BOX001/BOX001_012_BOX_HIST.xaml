@@ -1,0 +1,67 @@
+﻿<c1:C1Window x:Class="LGC.GMES.MES.BOX001.BOX001_012_BOX_HIST"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:c1="http://schemas.componentone.com/winfx/2006/xaml"
+		     xmlns:System="clr-namespace:System;assembly=mscorlib"
+             xmlns:ctrlLib="clr-namespace:LGC.GMES.MES.ControlsLibrary;assembly=LGC.GMES.MES.ControlsLibrary" 
+             xmlns:uc="clr-namespace:LGC.GMES.MES.CMM001.Controls;assembly=LGC.GMES.MES.CMM001"       
+             ctrlLib:LGCPopupWindowExtension.ApplyStyle="True"
+             Header="{Binding Converter={StaticResource GlobalObjectDicConverter}, ConverterParameter='이력정보'}" 
+             Tag="ProtoType01Windows01" Height="400" Width="800" IsResizable="True" Loaded="C1Window_Loaded" Initialized="C1Window_Initialized" >
+
+    <c1:C1Window.Resources>
+        <ResourceDictionary Source="/LGC.GMES.MES.ControlsLibrary;Component/ControlStyles.xaml"/>
+    </c1:C1Window.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="15" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <!--Contents area-->
+
+        <Grid Grid.Row ="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="8" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="8" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="8" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="8" />
+            </Grid.ColumnDefinitions>
+            <Grid Grid.Row="1" Grid.Column="1">
+                <c1:C1DataGrid  Grid.Row="2" x:Name="dgList" IsReadOnly="True" HeadersVisibility="Column" SelectionMode="MultiRange" >
+                    <c1:C1DataGrid.Columns>
+                        <c1:DataGridTextColumn Header = "출고ID"        Binding = "{Binding RCV_ISS_ID}" HorizontalAlignment="Center"/>
+                        <c1:DataGridTextColumn Header = "PALLETID"      Binding = "{Binding BOXID}"      HorizontalAlignment="Center"/>
+                        <c1:DataGridTextColumn Header = "활동명"        Binding = "{Binding ACTID}"     HorizontalAlignment="Center" Visibility="Collapsed" />
+                        <c1:DataGridTextColumn Header = "활동명"        Binding = "{Binding ACTNAME}"     HorizontalAlignment="Center" />
+                        <c1:DataGridTextColumn Header = "활동일시"      Binding = "{Binding ACTDTTM}" HorizontalAlignment="Center"/>
+                        <c1:DataGridTextColumn Header = "활동수량"      Binding = "{Binding ACTQTY}" HorizontalAlignment="Center" Format="#,##0"/>
+                        <c1:DataGridTextColumn Header = "제품코드"      Binding = "{Binding PRODID}"     HorizontalAlignment="Center"/>
+                        <c1:DataGridTextColumn Header = "Project"       Binding = "{Binding PRJT_NAME}" HorizontalAlignment="Center"/>
+                    </c1:C1DataGrid.Columns>
+                </c1:C1DataGrid>
+
+            </Grid>
+        </Grid>
+
+        <!--button area-->
+        <Grid Grid.Row ="3">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="5"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <uc:UcBaseButton x:Name="btnClose" Grid.Column="3" Content="{Binding ConverterParameter='닫기', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{DynamicResource Content_MainButtonStyle}" Click="btnClose_Clicked" />
+        </Grid>
+
+        <ctrlLib:LoadingIndicator x:Name="loadingIndicator" />
+    </Grid>
+</c1:C1Window>

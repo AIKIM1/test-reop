@@ -1,0 +1,256 @@
+﻿<UserControl x:Class="LGC.GMES.MES.FCS001.FCS001_128"
+             xmlns:ss="http://schemas.grapecity.com/windows/spreadsheet/2012"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:c1="http://schemas.componentone.com/winfx/2006/xaml"
+             xmlns:ctrlLib="clr-namespace:LGC.GMES.MES.ControlsLibrary;assembly=LGC.GMES.MES.ControlsLibrary"
+             xmlns:uc="clr-namespace:LGC.GMES.MES.CMM001.Controls;assembly=LGC.GMES.MES.CMM001"
+             mc:Ignorable="d" 
+             d:DesignHeight="768" d:DesignWidth="1920"  Loaded="UserControl_Loaded" >
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/LGC.GMES.MES.ControlsLibrary;component/ControlStyles.xaml" />
+                <ResourceDictionary Source="/LGC.GMES.MES.ControlsLibrary;component/ControlTemplates/LGCDatePicker.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    
+    <Grid x:Name="grdMain">
+        <ctrlLib:LGCLayout x:Name="LayoutRoot" Tag="설비별 공 Tray Type 관리" Grid.ColumnSpan="2">
+            <ctrlLib:LGCLayout.Content>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="AUTO"/>
+                        <RowDefinition Height="8"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="8"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="8"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Border Grid.Row="0" Grid.ColumnSpan="3" Background="#fff2f2f2" BorderThickness="1" BorderBrush="#ffd1d1d1"/>
+
+                    <!-- Row 0-->
+                    <Grid   Grid.Row="0" Grid.ColumnSpan="3">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="11"/>
+                            <RowDefinition Height="40"/>
+                            <RowDefinition Height="11"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="11"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="11"/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock              Grid.Row="1" Grid.Column="1"  Text="{Binding ConverterParameter='EQP_TYPE',Converter={StaticResource GlobalObjectDicConverter},Mode =OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}"/>
+                        <uc:UcBaseComboBox          Grid.Row="1" Grid.Column="2"  x:Name="cboEqp" Style="{StaticResource C1ComboBoxStyle}" AutoComplete="False" Width="auto" SelectionCommitted="cboEqp_SelectionCommitted" />
+
+                        <TextBlock              Grid.Row="1" Grid.Column="4"  Text="{Binding ConverterParameter='사용여부', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}" />
+                        <uc:UcBaseComboBox          Grid.Row="1" Grid.Column="5"  x:Name="cboUseFlag" Style="{StaticResource C1ComboBoxStyle}" AutoComplete="False" Width="auto"/>
+
+                        <uc:UcBaseButton                 Grid.Row="1" Grid.Column="7" x:Name="btnSearch" Margin="3"  Content="{Binding ConverterParameter=조회 , Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource SearchButtonStyle}"  Cursor="Hand" Click="btnSearch_Click"  />
+                    </Grid>
+
+                    <!-- Row 2-->
+                    <Grid Grid.Row="2" Grid.ColumnSpan="3">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="11"/>
+                            <RowDefinition Height="11*"/>
+                            <RowDefinition Height="4"/>
+                            <RowDefinition Height="102*"/>
+                            <RowDefinition Height="4"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="13"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="13"/>
+                        </Grid.ColumnDefinitions>
+                        <Border Grid.Row="0" Grid.RowSpan="99" Grid.Column="0" Grid.ColumnSpan="99" Background="#fff2f2f2" BorderThickness="1" BorderBrush="#ffbebebe">
+                        </Border>
+                        <Grid Grid.Row="1" Grid.Column="1">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="4"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="4"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding ConverterParameter=EQP_TYPE, Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}" HorizontalAlignment="Left" />
+                            <uc:UcBaseButton             Grid.Column="2" Grid.Row="1" Margin="4" x:Name="Loc_btnUnitPlus"  Content="{Binding ConverterParameter='Plus',   Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{DynamicResource Content_ModuleButtonAddStyle}" Click="Loc_btnUnitPlus_Click"/>
+                            <uc:UcBaseButton             Grid.Column="3" Grid.Row="1" Margin="4" x:Name="Loc_btnUnitMinus" Content="{Binding ConverterParameter='Minus',  Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{DynamicResource Content_ModuleButtonDeleteStyle}" Click="Loc_btnUnitMinus_Click"/>
+                            <uc:UcBaseButton             Grid.Column="4" Grid.Row="1" x:Name="Loc_btnSave" Margin="2" Content="{Binding ConverterParameter='SAVE' , Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_MainButtonSpecialStyle}"  Cursor="Hand" Click="Loc_btnSave_Click"/>
+                        </Grid>
+
+                        <Grid Grid.Row="3" Grid.Column="1">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1768*"/>
+                                <ColumnDefinition Width="127*"/>
+                            </Grid.ColumnDefinitions>
+                            <uc:UcBaseDataGrid x:Name="dgLOC" HeadersVisibility="None" Margin="10,0,0,10" IsReadOnly="False" FrozenColumnCount="4" FrozenTopRowsCount="2" SelectionMode="SingleRow"
+                                           LoadedRowHeaderPresenter="dgLOC_LoadedRowHeaderPresenter"  PreviewMouseLeftButtonDown="dgLOC_PreviewMouseLeftButtonDown" CommittedEdit="dgLOC_CommittedEdit" Grid.ColumnSpan="2" RenderTransformOrigin="0,0" ScrollViewer.CanContentScroll="True" >
+                                <c1:C1DataGrid.Columns>
+                                    <c1:DataGridCheckBoxColumn      Binding = "{Binding CHK, Mode=TwoWay}" Width="Auto"        HorizontalAlignment="Center" CanUserSort="False" />
+                                    <c1:DataGridTextColumn          Header = "[CV_INOUT_LOC_ID,CV_INOUT_LOC_ID]"               Binding = "{Binding CNVR_LOCATION_ID}"                  IsReadOnly="False"       HorizontalAlignment="Center" />
+                                    <c1:DataGridComboBoxColumn      Header = "[RANGE_LOC_YN,RANGE_LOC_YN]"                     Binding = "{Binding RANGE_LOCATION_FLAG}"               IsReadOnly="False"      HorizontalAlignment="Center" />
+                                    <c1:DataGridTextColumn          Header = "[EQPT_GR_TYPE_CODE,EQPT_GR_TYPE_CODE]"           Binding = "{Binding EQPT_GR_TYPE_CODE}"                 IsReadOnly="False"      HorizontalAlignment="Center" />
+                                    <c1:DataGridComboBoxColumn      Header = "[LANE_ID,LANE_ID]"                               Binding = "{Binding LANE_ID}"                           IsReadOnly="False"      HorizontalAlignment="Center" MinWidth="120" />
+                                    <c1:DataGridComboBoxColumn      Header = "[FULL_TRAY,INTO_YN]"                             Binding = "{Binding REAL_TRAY_RCV_ENABLE_FLAG}"         IsReadOnly="False"      HorizontalAlignment="Center" />
+                                    <c1:DataGridComboBoxColumn      Header = "[FULL_TRAY,OUT_YN]"                              Binding = "{Binding REAL_TRAY_ISS_ENABLE_FLAG}"         IsReadOnly="False"      HorizontalAlignment="Center" />
+                                    <c1:DataGridTextColumn          Header = "[FULL_TRAY,INTO_ORDER]"                          Binding = "{Binding REAL_TRAY_RCV_PRIORITY_NO}"         IsReadOnly="False"      HorizontalAlignment="Center" />
+                                    <c1:DataGridComboBoxColumn      Header = "[EMPTY_TRAY,INTO_YN]"                            Binding = "{Binding EMPTY_TRAY_RCV_ENABLE_FLAG}"        IsReadOnly="False"      HorizontalAlignment="Center" />
+                                    <c1:DataGridComboBoxColumn      Header = "[EMPTY_TRAY,OUT_YN]"                             Binding = "{Binding EMPTY_TRAY_ISS_ENABLE_FLAG}"        IsReadOnly="False"      HorizontalAlignment="Center" />
+                                    <c1:DataGridTextColumn          Header = "[EMPTY_TRAY,INTO_ORDER]"                         Binding = "{Binding EMPTY_TRAY_RCV_PRIORITY_NO}"        IsReadOnly="False"      HorizontalAlignment="Center" />
+                                    <c1:DataGridTextColumn          Header = "[CV_BUFFER_LENGTH,CV_BUFFER_LENGTH]"             Binding = "{Binding CNVR_BUF_LEN_VALUE}"                IsReadOnly="False"      HorizontalAlignment="Center" />
+                                    <c1:DataGridTextColumn          Header = "[CV_INOUT_LOC_DESC,CV_INOUT_LOC_DESC]"           Binding = "{Binding CNVR_LOCATION_DESC}"                IsReadOnly="False"      HorizontalAlignment="Center" />
+                                    <c1:DataGridComboBoxColumn      Header = "[USE_FLAG,USE_FLAG]"                             Binding = "{Binding USE_FLAG}"                          IsReadOnly="False"      HorizontalAlignment="Center" />
+                                    <c1:DataGridTextColumn          Header = "[UPDUSER,UPDUSER]"                               Binding = "{Binding UPDUSER}"                           IsReadOnly="True"       HorizontalAlignment="Center" />
+                                    <c1:DataGridTextColumn          Header = "[UPDDTTM,UPDDTTM]"                               Binding = "{Binding UPDDTTM}"                           IsReadOnly="True"       HorizontalAlignment="Center" />
+                                    <c1:DataGridTextColumn          Header = "[INSUSER,INSUSER]"                               Binding = "{Binding INSUSER}"                           IsReadOnly="True"       HorizontalAlignment="Center" Visibility="Hidden" />
+                                    <c1:DataGridTemplateColumn>
+                                        <c1:DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Button x:Name="btnForce" Content="{Binding ConverterParameter='강제출고' , Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_MainButtonSpecialStyle}"  Cursor="Hand" Click="btnForce_Click"/>
+                                            </DataTemplate>
+                                        </c1:DataGridTemplateColumn.CellTemplate>
+                                    </c1:DataGridTemplateColumn>
+                                </c1:C1DataGrid.Columns>
+                                <c1:C1DataGrid.TopRows>
+                                    <c1:DataGridColumnHeaderRow />
+                                    <c1:DataGridColumnHeaderRow />
+                                </c1:C1DataGrid.TopRows>
+                            </uc:UcBaseDataGrid>
+                        </Grid>
+                    </Grid>
+
+                    <!-- Row 4 -->
+                    <Grid Grid.Row="4" Grid.Column="0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="11*"/>
+                            <RowDefinition Height="4"/>
+                            <RowDefinition Height="102*"/>
+                            <RowDefinition Height="11"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Border Grid.Row="0" Grid.RowSpan="99" Grid.Column="0" Grid.ColumnSpan="99" Background="#fff2f2f2" BorderThickness="1" BorderBrush="#ffd1d1d1"/>
+                        <Grid Grid.Row="0" Grid.Column="0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="17"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="8"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding ConverterParameter=EQP,         Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}" HorizontalAlignment="Left" />
+                            <uc:UcBaseButton    Grid.Row="1" Grid.Column="2" Margin="4" x:Name="Eqp_btnUnitPlus"            Content="{Binding ConverterParameter='Plus',       Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{DynamicResource Content_ModuleButtonAddStyle}" Click="Eqp_btnUnitPlus_Click"/>
+                            <uc:UcBaseButton    Grid.Row="1" Grid.Column="3" Margin="4" x:Name="Eqp_btnUnitMinus"           Content="{Binding ConverterParameter='Minus',      Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{DynamicResource Content_ModuleButtonDeleteStyle}" Click="Eqp_btnUnitMinus_Click"/>
+                            <uc:UcBaseButton    Grid.Row="1" Grid.Column="4" Margin="2" x:Name="Eqp_btnSave"                Content="{Binding ConverterParameter='SAVE' ,      Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_MainButtonSpecialStyle}"  Cursor="Hand" Click="Eqp_btnSave_Click"/>
+                            <!--  <uc:UcBaseButton    Grid.Row="1" Grid.Column="5" Margin="2" x:Name="btnDisableMapping"      Content="{Binding ConverterParameter='매핑해제' ,  Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_MainButtonSpecialStyle}"  Cursor="Hand" Click="btnDisableMapping_Click"/>-->
+                        </Grid>
+
+                        <Grid Grid.Row="2" Grid.Column="0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="17"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <uc:UcBaseDataGrid x:Name="dgEQP" LoadedRowHeaderPresenter="dgEQP_LoadedRowHeaderPresenter"  PreviewMouseLeftButtonDown="dgEQP_PreviewMouseLeftButtonDown" CommittedEdit="dgEQP_CommittedEdit" HeadersVisibility="Column" IsReadOnly="False"  FrozenColumnCount="3" FrozenTopRowsCount="1" SelectionMode="MultiRange"
+                                        Grid.Column="2" Margin="0,10,0,-10">
+                                <!--1->로 변경-->
+                                <c1:C1DataGrid.Columns>
+                                    <c1:DataGridTextColumn      Header = "PORT_ID"                        IsReadOnly="False"   Binding = "{Binding PORT_ID}"                           HorizontalAlignment="Center"/>
+                                    <c1:DataGridTextColumn      Header = "EQP_ID"                         IsReadOnly="True"    Binding = "{Binding EQPTID}"                            HorizontalAlignment="Center" />
+                                    <c1:DataGridTextColumn      Header = "EQP_NAME"                       IsReadOnly="True"    Binding = "{Binding EQPTNAME}"                          HorizontalAlignment="Center" />
+                                    <c1:DataGridTemplateColumn>
+                                        <c1:DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Button x:Name="btnDisableMapping" Content="{Binding ConverterParameter='매핑해제' , Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_MainButtonSpecialStyle}"  Cursor="Hand" Click="btnDisableMapping_Click"/>
+                                            </DataTemplate>
+                                        </c1:DataGridTemplateColumn.CellTemplate>
+                                    </c1:DataGridTemplateColumn>
+                                </c1:C1DataGrid.Columns>
+                            </uc:UcBaseDataGrid>
+                        </Grid>
+                    </Grid>
+
+                    <Grid Grid.Row="4" Grid.Column="2">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="11*"/>
+                            <RowDefinition Height="4"/>
+                            <RowDefinition Height="102*"/>
+                            <RowDefinition Height="11"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="13"/>
+                        </Grid.ColumnDefinitions>
+                        <Border Grid.Row="0" Grid.RowSpan="99" Grid.Column="0" Grid.ColumnSpan="99" Background="#fff2f2f2" BorderThickness="1" BorderBrush="#ffd1d1d1"></Border>
+                        <Grid Grid.Row="0" Grid.Column="0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="17"/>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="8"/>
+                                <ColumnDefinition Width="107*"/>
+                                <ColumnDefinition Width="477*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding ConverterParameter=EMPTY_TRAY_TYPE, Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}" HorizontalAlignment="Left" />
+                            <StackPanel Grid.Row="0" Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Right">
+                                <TextBlock Text ="▶" Style="{StaticResource SearchCondition_MandatoryMarkStyle}" Margin="0,0,-5,0" />
+                                <TextBlock Text="{Binding ConverterParameter= EQP, Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}" HorizontalAlignment="Left" />
+                            </StackPanel>
+                            <TextBox   Grid.Column="3" x:Name="txtEQP"  MinWidth="100"  Style="{StaticResource Content_InputForm_ReadOnlyTextBoxStyle}" Margin="3,4.561,3,0" VerticalAlignment="Top" />
+                            <TextBlock Grid.Column="4" Text="{Binding ConverterParameter= 설비ID, Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}" HorizontalAlignment="Left" />
+                            <TextBox   Grid.Column="5" x:Name="txtEQUIPMENT"  MinWidth="100"  Style="{StaticResource Content_InputForm_ReadOnlyTextBoxStyle}" />
+                        </Grid>
+                        <Grid Grid.Row="2" Grid.Column="0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="181*"/>
+                                <ColumnDefinition Width="59*"/>
+                                <ColumnDefinition Width="703*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <uc:UcBaseDataGrid x:Name="dgTrayType" HeadersVisibility="Column" IsReadOnly="False"  FrozenColumnCount="3" FrozenTopRowsCount="1" SelectionMode="SingleRow"
+                                         Grid.ColumnSpan="3" Margin="10,0,-10,0"  >
+                                <c1:C1DataGrid.Columns>
+                                    <c1:DataGridComboBoxColumn  Header = "USE_FLAG"                       IsReadOnly="False"  Binding = "{Binding USE_FLAG}"                          HorizontalAlignment="Center" />
+                                    <c1:DataGridTextColumn      Header = "EQP_TYPE"                       IsReadOnly="False"  Binding = "{Binding EQPT_GR_TYPE_CODE}"                            HorizontalAlignment="Center" />
+                                    <c1:DataGridTextColumn      Header = "EQPTID"                         IsReadOnly="False"  Binding = "{Binding EQPTID}"                            HorizontalAlignment="Center" />
+                                    <c1:DataGridComboBoxColumn  Header = "TRAY_TYPE"                      IsReadOnly="False"  Binding = "{Binding TRAY_TYPE_CODE}"                    HorizontalAlignment="Center"/>
+                                    <c1:DataGridTextColumn      Header = "UPDUSER"                        IsReadOnly="True"   Binding = "{Binding UPDUSER}"                           HorizontalAlignment="Center" />
+                                    <c1:DataGridTextColumn      Header = "INSUSER"                        IsReadOnly="True"   Binding = "{Binding INSUSER}"                           HorizontalAlignment="Center" Visibility="Hidden" />
+                                    <c1:DataGridTextColumn      Header = "UPDDTTM"                        IsReadOnly="True"   Binding = "{Binding UPDDTTM}"                           HorizontalAlignment="Center" />
+                                </c1:C1DataGrid.Columns>
+                            </uc:UcBaseDataGrid>
+                        </Grid>
+                    </Grid>
+                </Grid>
+            </ctrlLib:LGCLayout.Content>
+        </ctrlLib:LGCLayout>
+
+        <ctrlLib:LoadingIndicator x:Name="loadingIndicator" Grid.Row="999" Grid.Column="999" />
+    </Grid>
+</UserControl>

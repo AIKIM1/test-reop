@@ -1,0 +1,427 @@
+﻿<UserControl xmlns:ss="http://schemas.grapecity.com/windows/spreadsheet/2012"  x:Class="LGC.GMES.MES.COM001.COM001_148"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:c1="http://schemas.componentone.com/winfx/2006/xaml"
+             xmlns:ctrlLib="clr-namespace:LGC.GMES.MES.ControlsLibrary;assembly=LGC.GMES.MES.ControlsLibrary"                   
+             xmlns:cmm001="clr-namespace:LGC.GMES.MES.CMM001;assembly=LGC.GMES.MES.CMM001"
+             mc:Ignorable="d" 
+             d:DesignHeight="768" d:DesignWidth="1280" Loaded="UserControl_Loaded">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/LGC.GMES.MES.ControlsLibrary;component/ControlStyles.xaml" />
+                <ResourceDictionary Source="/LGC.GMES.MES.ControlsLibrary;component/ControlTemplates/LGCDatePicker.xaml" />
+                <ResourceDictionary Source="/LGC.GMES.MES.CMM001;component/PopupFindControlStyle.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid x:Name="grdMain" Background="#ffDDDDDD">
+        <ctrlLib:LGCLayout x:Name="LayoutRoot" Tag="슬라이딩 짝맞춤 그룹 관리">
+            <ctrlLib:LGCLayout.Content>
+                <Grid x:Name="MainContent">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="10" />
+                        <RowDefinition Height="1*" />
+                        <RowDefinition Height="10" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="10" />
+                        <ColumnDefinition Width="7.5*" />
+                        <ColumnDefinition Width="8" />
+                        <ColumnDefinition Width="2.5*" />
+                        <ColumnDefinition Width="10" />
+                    </Grid.ColumnDefinitions>
+
+                    <GridSplitter Grid.Row="0" Grid.Column="2" Grid.RowSpan="3" ResizeDirection="Columns" ShowsPreview="True" Style="{StaticResource GridSplitterStyle}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" />
+
+                    <!--왼쪽-->
+                    <Grid x:Name="GroupArea" Grid.Row="1" Grid.Column="1">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="0" />
+                            <RowDefinition Height="84" />
+                            <RowDefinition Height="8" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="8" />
+                            <RowDefinition Height="350" />
+                            <RowDefinition Height="0" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="0" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="0" />
+                        </Grid.ColumnDefinitions>
+
+                        <!--조회조건-->
+                        <Grid x:Name="SearchArea" Grid.Row="1" Grid.Column="1">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="13" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="8" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="10" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="8" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="30" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="13" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="14" />
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="10" />
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="14" />
+                            </Grid.RowDefinitions>
+                            <Border Grid.Row="0" Grid.Column="0" Grid.RowSpan="99" Grid.ColumnSpan="99" Style="{StaticResource Condition_BorderStyle}" />
+                            <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding ConverterParameter='기간', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}" />
+                            <Grid Grid.Row="1" Grid.Column="3" Margin="0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <ctrlLib:LGCDatePicker x:Name="dtpFDate"  Grid.Column="0"  DatepickerType="Date" IsEnabled="True" Margin="0" />
+                                <TextBlock Grid.Column="1" Text="{Binding ConverterParameter='~', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}" />
+                                <ctrlLib:LGCDatePicker x:Name="dtpTDate"  Grid.Column="2"  DatepickerType="Date" IsEnabled="True" Margin="0" />
+                            </Grid>
+                            <TextBlock      Grid.Row="1" Grid.Column="5" Text="{Binding ConverterParameter='그룹유형', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}" />
+                            <c1:C1ComboBox  Grid.Row="1" Grid.Column="7" x:Name="cboGroupType" Style="{StaticResource C1ComboBoxStyle}" DisplayMemberPath="CBO_NAME" SelectedValuePath="CBO_CODE" AutoComplete="False" Margin="0" />
+                            <TextBlock      Grid.Row="3" Grid.Column="1" Text="{Binding ConverterParameter='양극 제품ID', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}" />
+                            <cmm001:PopupFindControl Grid.Row="3" Grid.Column="3" x:Name="popSearchCAProdID" SelectedValuePath="PRODID" DisplayMemberPath="DESCRIPTION_NEW"  PopupDisplayMode="TextOnly" />
+                            <TextBlock      Grid.Row="3" Grid.Column="5" Text="{Binding ConverterParameter='음극 제품ID', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}" />
+                            <cmm001:PopupFindControl Grid.Row="3" Grid.Column="7" x:Name="popSearchANProdID" SelectedValuePath="PRODID" DisplayMemberPath="DESCRIPTION_NEW"  PopupDisplayMode="TextOnly" />
+                            <Button         Grid.Row="2" Grid.RowSpan="2" Grid.Column="9" x:Name="btnSearch"  Content="{Binding ConverterParameter=SEARCH, Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource SearchButtonStyle}" Cursor="Hand" Margin="0" Click="btnSearch_Click" />
+                        </Grid>
+
+                        <!--Group List-->
+                        <Grid x:Name="GroupList" Grid.Row="3" Grid.Column="1">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="15" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="8" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="5" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="8" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="34" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+                            <Border Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="99" BorderThickness="1" Style="{StaticResource BorderSubTitleStyle}" />
+
+                            <TextBlock      Grid.Row="0" Grid.Column="1" Text="{Binding ConverterParameter='GROUPLIST', Converter={StaticResource GlobalObjectDicConverter}, RelativeSource={RelativeSource Self}}" HorizontalAlignment="Left" Style="{StaticResource Content_Search_LabelStyle}" />
+                            <Button Grid.Row="0" Grid.Column="3" x:Name="btnNewGroup" Content="{Binding ConverterParameter=신규, Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{DynamicResource Content_MainButtonNoMinWidthSpecialStyle}" Cursor="Hand" Click="btnNewGroup_Click"/>
+                            <Button Grid.Row="0" Grid.Column="5" x:Name="btnDelGroup" Content="{Binding ConverterParameter=삭제, Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{DynamicResource Content_MainButtonNoMinWidthSpecialStyle}" Cursor="Hand" Click="btnDelGroup_Click"/>
+
+                            <Border Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="99" BorderThickness="1,0,1,1" Style="{StaticResource Content_InputForm_GroupBorderStyle}" />
+                            <c1:C1DataGrid x:Name="dgGroupList"
+                                           Grid.Row="1"
+                                           Grid.Column="0"
+                                           Grid.ColumnSpan="7"
+                                           IsReadOnly="False"
+                                           HeadersVisibility="None"
+                                           SelectionMode="SingleRow"
+                                           FrozenTopRowsCount="2"
+                                           CanUserSort="False" 
+                                           CanUserFilter="False"
+                                           Margin="8" >
+                                <c1:C1DataGrid.Columns>
+                                    <c1:DataGridTemplateColumn   EditOnSelection="True" Name="CHK" Width="Auto" HorizontalAlignment="Center" IsReadOnly="False">
+                                        <c1:DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <RadioButton GroupName="dgGrpChoiceGroup" IsChecked="{Binding CHK, Mode=OneWay}" Name="dgGrpChoice" HorizontalAlignment="Center" Checked="dgGrpChoice_Checked"  />
+                                            </DataTemplate>
+                                        </c1:DataGridTemplateColumn.CellTemplate>
+                                    </c1:DataGridTemplateColumn>
+                                    <c1:DataGridTextColumn        Header = "[그룹번호, 그룹번호]"        Binding = "{Binding SLID_MATC_GR_NO}"          HorizontalAlignment="Center" CanUserFilter="False" CanUserGroup="False" IsReadOnly="True" />
+                                    <c1:DataGridTextColumn        Header = "[그룹유형, 그룹유형]"        Binding = "{Binding SLID_MATC_GR_TYPE}"        HorizontalAlignment="Center" CanUserFilter="False" CanUserGroup="False" IsReadOnly="True" Visibility="Collapsed" />
+                                    <c1:DataGridTextColumn        Header = "[그룹유형, 그룹유형]"        Binding = "{Binding SLID_MATC_GR_TYPE_NAME}"   HorizontalAlignment="Center" CanUserFilter="False" CanUserGroup="False" IsReadOnly="True" />
+                                    <c1:DataGridTextColumn        Header = "[그룹상태, 그룹상태]"        Binding = "{Binding SLID_MATC_GR_STAT}"        HorizontalAlignment="Center" CanUserFilter="False" CanUserGroup="False" IsReadOnly="True" Visibility="Collapsed" />
+                                    <c1:DataGridTextColumn        Header = "[그룹상태, 그룹상태]"        Binding = "{Binding SLID_MATC_GR_STAT_NAME}"   HorizontalAlignment="Center" CanUserFilter="False" CanUserGroup="False" IsReadOnly="True" />
+                                    <c1:DataGridTextColumn        Header = "[양극 제품ID, 양극 제품ID]"  Binding = "{Binding CA_PRODID}"                HorizontalAlignment="Center" CanUserFilter="False" CanUserGroup="False" IsReadOnly="True" />
+                                    <c1:DataGridTextColumn        Header = "[양극 제품ID, 양극 제품ID]"  Binding = "{Binding CA_PRODNAME}"              HorizontalAlignment="Center" CanUserFilter="False" CanUserGroup="False" IsReadOnly="True" Visibility="Collapsed" />
+                                    <c1:DataGridTextColumn        Header = "[TAB_양극, 최소값]"          Binding = "{Binding CA_SLID_MINVALUE}"         HorizontalAlignment="Right" Format="###,###,##0.##" CanUserFilter="False" CanUserGroup="False" IsReadOnly="True" />
+                                    <c1:DataGridTextColumn        Header = "[TAB_양극, 최대값]"          Binding = "{Binding CA_SLID_MAXVALUE}"         HorizontalAlignment="Right" Format="###,###,##0.##" CanUserFilter="False" CanUserGroup="False" IsReadOnly="True" />
+                                    <c1:DataGridTextColumn        Header = "[BOTTOM_양극, 최소값]"       Binding = "{Binding CA_SLID_MINVALUE2}"        HorizontalAlignment="Right" Format="###,###,##0.##" CanUserFilter="False" CanUserGroup="False" IsReadOnly="True" />
+                                    <c1:DataGridTextColumn        Header = "[BOTTOM_양극, 최대값]"       Binding = "{Binding CA_SLID_MAXVALUE2}"        HorizontalAlignment="Right" Format="###,###,##0.##" CanUserFilter="False" CanUserGroup="False" IsReadOnly="True" />
+                                    <c1:DataGridTextColumn        Header = "[음극 제품ID, 음극 제품ID]"  Binding = "{Binding AN_PRODID}"              HorizontalAlignment="Center" CanUserFilter="False" CanUserGroup="False" IsReadOnly="True" />
+                                    <c1:DataGridTextColumn        Header = "[음극 제품ID, 음극 제품ID]"  Binding = "{Binding AN_PRODNAME}"            HorizontalAlignment="Center" CanUserFilter="False" CanUserGroup="False" IsReadOnly="True" Visibility="Collapsed" />
+                                    <c1:DataGridTextColumn        Header = "[TAB_음극, 최소값]"          Binding = "{Binding AN_SLID_MINVALUE}"         HorizontalAlignment="Right" Format="###,###,##0.##" CanUserFilter="False" CanUserGroup="False" IsReadOnly="True" />
+                                    <c1:DataGridTextColumn        Header = "[TAB_음극, 최대값]"          Binding = "{Binding AN_SLID_MAXVALUE}"         HorizontalAlignment="Right" Format="###,###,##0.##" CanUserFilter="False" CanUserGroup="False" IsReadOnly="True" />
+                                    <c1:DataGridTextColumn        Header = "[BOTTOM_음극, 최소값]"       Binding = "{Binding AN_SLID_MINVALUE2}"        HorizontalAlignment="Right" Format="###,###,##0.##" CanUserFilter="False" CanUserGroup="False" IsReadOnly="True" />
+                                    <c1:DataGridTextColumn        Header = "[BOTTOM_음극, 최대값]"       Binding = "{Binding AN_SLID_MAXVALUE2}"        HorizontalAlignment="Right" Format="###,###,##0.##" CanUserFilter="False" CanUserGroup="False" IsReadOnly="True" />
+                                    <c1:DataGridTextColumn        Header = "[특이사항, 특이사항]"        Binding = "{Binding REMARKS}"                  HorizontalAlignment="Center" CanUserFilter="False" CanUserGroup="False" IsReadOnly="True" />
+                                    <c1:DataGridTextColumn        Header = "[담당자, 담당자]"            Binding = "{Binding MGR_USERID}"               HorizontalAlignment="Left"   CanUserFilter="False" CanUserGroup="False" IsReadOnly="True" Visibility="Collapsed" />
+                                    <c1:DataGridTextColumn        Header = "[담당자, 담당자]"            Binding = "{Binding MGR_USERNAME}"             HorizontalAlignment="Left"   CanUserFilter="False" CanUserGroup="False" IsReadOnly="True" />
+                                    <c1:DataGridTextColumn        Header = "[TRGT_LINE_EQPT, TRGT_LINE_EQPT]"  Binding = "{Binding RSV_EQSG_EQPT_NAME}"   HorizontalAlignment="Left" CanUserFilter="False" CanUserGroup="False"  IsReadOnly="True" />
+                                    <c1:DataGridDateTimeColumn    Header = "[등록일, 등록일]"            Binding = "{Binding SLID_MATC_GR_REGDTTM}"     HorizontalAlignment="Center" CanUserFilter="False" CanUserGroup="False" IsReadOnly="True" />
+                                    <c1:DataGridTextColumn        Header = "[수정자, 수정자]"            Binding = "{Binding UPDUSER}"                  HorizontalAlignment="Center" CanUserFilter="False" CanUserGroup="False" IsReadOnly="True" Visibility="Collapsed" />
+                                    <c1:DataGridTextColumn        Header = "[수정자, 수정자]"            Binding = "{Binding UPDUSERNAME}"              HorizontalAlignment="Center" CanUserFilter="False" CanUserGroup="False" IsReadOnly="True" />
+                                    <c1:DataGridDateTimeColumn    Header = "[수정일시, 수정일시]"        Binding = "{Binding UPDDTTM}"                  HorizontalAlignment="Center" CanUserFilter="False" CanUserGroup="False" IsReadOnly="True" />
+                                    <c1:DataGridTextColumn        Header = "[TRGT_AREAID,TRGT_AREAID]"   Binding = "{Binding TRGT_AREAID}"              HorizontalAlignment="Center" CanUserFilter="False" CanUserGroup="False" IsReadOnly="True" Visibility="Collapsed" />
+                                    <c1:DataGridTextColumn        Header = "[TRGT_EQSGID,TRGT_EQSGID]"   Binding = "{Binding TRGT_EQSGID}"              HorizontalAlignment="Center" CanUserFilter="False" CanUserGroup="False" IsReadOnly="True" Visibility="Collapsed" />
+                                    <c1:DataGridTextColumn        Header = "[RSV_EQPTID,RSV_EQPTID]"     Binding = "{Binding RSV_EQPTID}"               HorizontalAlignment="Center" CanUserFilter="False" CanUserGroup="False" IsReadOnly="True" Visibility="Collapsed" />
+                                </c1:C1DataGrid.Columns>
+                                <c1:C1DataGrid.TopRows>
+                                    <c1:DataGridColumnHeaderRow />
+                                    <c1:DataGridColumnHeaderRow />
+                                </c1:C1DataGrid.TopRows>
+                            </c1:C1DataGrid>
+                        </Grid>
+
+                        <!--Group 세부내용-->
+                        <Grid x:Name="GroupDetail" Grid.Row="5" Grid.Column="1">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="15" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="8" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="8" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="8" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="34" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+                            <Border Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="99" BorderThickness="1" Style="{StaticResource BorderSubTitleStyle}" />
+
+                            <TextBlock      Grid.Row="0" Grid.Column="1" Text="{Binding ConverterParameter='GROUPDETAIL', Converter={StaticResource GlobalObjectDicConverter}, RelativeSource={RelativeSource Self}}" HorizontalAlignment="Left" Style="{StaticResource Content_Search_LabelStyle}" />
+                            <Button Grid.Row="0" Grid.Column="5" x:Name="btnSaveGroup" Content="{Binding ConverterParameter=저장, Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{DynamicResource Content_MainButtonNoMinWidthSpecialStyle}" Cursor="Hand" Click="btnSaveGroup_Click"/>
+                            <Border Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="99" BorderThickness="1,0,1,1" Style="{StaticResource Content_InputForm_GroupBorderStyle}" />
+                            <Grid Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="7">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="8" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="8" />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="8" />
+                                    <RowDefinition Height="40" />
+                                    <RowDefinition Height="40" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="8" />
+                                </Grid.RowDefinitions>
+                                <Grid Grid.Row="1" Grid.Column="1">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="130" />
+                                        <ColumnDefinition Width="150" />
+                                        <ColumnDefinition Width="5" />
+                                        <ColumnDefinition Width="90" />
+                                        <ColumnDefinition Width="5" />
+                                        <ColumnDefinition Width="100" />
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="40" />
+                                        <ColumnDefinition Width="100" />
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="5" />
+                                        <ColumnDefinition Width="100" />
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*" />
+
+                                    </Grid.ColumnDefinitions>
+                                    <Border Grid.Column="0" Grid.ColumnSpan="99" BorderThickness="1" BorderBrush="#ffbebebe" CornerRadius="5" Style="{StaticResource BorderSubTitleStyle}" />
+                                    <TextBlock  Grid.Column="0" Text="{Binding ConverterParameter='그룹번호', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}" />
+                                    <TextBox    Grid.Column="1" x:Name="txtGroupNo" Style="{StaticResource SearchCondition_TextBoxStyle}"  IsReadOnly="True"  Margin="0" />
+                                    <TextBlock  Grid.Column="5" Text="{Binding ConverterParameter='그룹유형', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}" />
+                                    <c1:C1ComboBox Grid.Column="6" x:Name="cboDetailGroupType" Style="{StaticResource C1ComboBoxStyle}" DisplayMemberPath="CBO_NAME" SelectedValuePath="CBO_CODE" AutoComplete="False" Margin="0" />
+
+                                    <TextBlock      Grid.Column="8" x:Name="Trgt_area" Text="{Binding ConverterParameter='TRGT_AREA', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}" />
+                                    <c1:C1ComboBox  Grid.Column="9" x:Name="cboTrgtArea" DisplayMemberPath="" SelectedValuePath=""  Style="{StaticResource C1ComboBoxStyle}" AutoComplete="False"  SelectedValueChanged="cboTrgtArea_SelectedValueChanged" />
+                                    <TextBlock      Grid.Column="11" x:Name="Trgt_eqsg" Text="{Binding ConverterParameter='TRGT_EQSG', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}" />
+                                    <c1:C1ComboBox  Grid.Column="12" x:Name="cboTrgtEquiptmentSegment" DisplayMemberPath="" SelectedValuePath=""  Style="{StaticResource C1ComboBoxStyle}" AutoComplete="False"  SelectedValueChanged="cboTrgtEquiptmentSegment_SelectedValueChanged" />
+                                </Grid>
+                                <Grid Grid.Row="2" Grid.Column="1">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="130" />
+                                        <ColumnDefinition Width="150" />
+                                        <ColumnDefinition Width="5" />
+                                        <ColumnDefinition Width="90" />
+                                        <ColumnDefinition Width="5" />
+                                        <ColumnDefinition Width="100" />
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="5" />
+                                        <ColumnDefinition Width="100" />
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="5" />
+                                        <ColumnDefinition Width="100" />
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Border Grid.Column="0" Grid.ColumnSpan="99" BorderThickness="1" BorderBrush="#ffbebebe" CornerRadius="5" Style="{StaticResource BorderSubTitleStyle}" />
+                                    <TextBlock  Grid.Column="0" Text="{Binding ConverterParameter='양극 제품ID', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}" />
+                                    <cmm001:PopupFindControl x:Name="popSetCAProdID" Grid.Column="1" MinWidth="150" MaxWidth="150" SelectedValuePath="PRODID" DisplayMemberPath="DESCRIPTION_NEW"  PopupDisplayMode="TextOnly" />
+                                    <Button Grid.Row="0" Grid.Column="3" x:Name="btnSaveLot_C" Content="{Binding ConverterParameter=LOT조회, Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{DynamicResource Content_MainButtonNoMinWidthSpecialStyle}" Cursor="Hand" Click="btnSaveLot_C_Click"/>
+                                    <TextBlock      Grid.Column="5" x:Name="Trgt_eqpt_C" Text="{Binding ConverterParameter='TRGT_EQPT', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}" />
+                                    <c1:C1ComboBox  Grid.Column="6" x:Name="cboTrgtEquipment_C" DisplayMemberPath="" SelectedValuePath=""  Style="{StaticResource C1ComboBoxStyle}" AutoComplete="False"   />
+
+
+                                </Grid>
+                                <Grid x:Name="grdResvTrgt" Grid.Row="3" Grid.Column="1">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="130" />
+                                        <ColumnDefinition Width="150" />
+                                        <ColumnDefinition Width="5" />
+                                        <ColumnDefinition Width="90" />
+                                        <ColumnDefinition Width="5" />
+                                        <ColumnDefinition Width="100" />
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="5" />
+                                        <ColumnDefinition Width="100" />
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="5" />
+                                        <ColumnDefinition Width="100" />
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Border Grid.Column="0" Grid.ColumnSpan="99" BorderThickness="1" BorderBrush="#ffbebebe" CornerRadius="5" Style="{StaticResource BorderSubTitleStyle}" />
+
+                                    <TextBlock  Grid.Column="0" Text="{Binding ConverterParameter='음극 제품ID', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}" />
+                                    <cmm001:PopupFindControl x:Name="popSetANProdID" Grid.Column="1" MinWidth="150" MaxWidth="150" SelectedValuePath="PRODID" DisplayMemberPath="DESCRIPTION_NEW"  PopupDisplayMode="TextOnly" />
+                                    <Button Grid.Row="0" Grid.Column="3" x:Name="btnSaveLot_A" Content="{Binding ConverterParameter=LOT조회, Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{DynamicResource Content_MainButtonNoMinWidthSpecialStyle}" Cursor="Hand" Click="btnSaveLot_A_Click"/>
+                                    <TextBlock      Grid.Column="5" x:Name="Trgt_eqpt_A" Text="{Binding ConverterParameter='TRGT_EQPT', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}" />
+                                    <c1:C1ComboBox  Grid.Column="6" x:Name="cboTrgtEquipment_A" DisplayMemberPath="" SelectedValuePath=""  Style="{StaticResource C1ComboBoxStyle}" AutoComplete="False"   />
+                                  </Grid>
+                                <Border Grid.Row="4" Grid.Column="1" BorderThickness="1" BorderBrush="#ffbebebe" CornerRadius="5" Style="{StaticResource BorderSubTitleStyle}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                    <Grid Grid.Row="4" Grid.Column="1" Margin="8">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="*"/>
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="120"/>
+                                            <ColumnDefinition Width="120"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock  Grid.Column="0" Text="{Binding ConverterParameter='담당자', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}" />
+                                        <TextBox x:Name="txtMgrName" Grid.Row="0" Grid.Column="1" Style="{StaticResource SearchCondition_TextBoxStyle}" KeyDown="txtMgrName_KeyDown" />
+                                        <Button  x:Name="btnReqUser" Grid.Row="0" Grid.Column="2" Content="{Binding ConverterParameter=Title17,   Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{DynamicResource Content_SearchButtonStyle}" HorizontalAlignment="Left" Click="btnReqUser_Click" />
+                                        <TextBox x:Name="txtMgrId" Grid.Row="0" Grid.Column="3" Style="{StaticResource SearchCondition_TextBoxStyle}" Width="100" IsReadOnly="True" HorizontalAlignment="Left" Grid.ColumnSpan="2" Margin="10,3,0,3"/>
+                                        <TextBlock  Grid.Row="1" Grid.Column="0" Text="{Binding ConverterParameter='특이사항', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}" />
+                                        <TextBox x:Name="txtRemark" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3" Style="{StaticResource Content_InputForm_TextBoxStyle}"   AcceptsReturn="True" Width="Auto" Height="Auto" VerticalScrollBarVisibility="Auto" MaxLength="1000"/>
+                                    </Grid>
+                                </Border>
+                            </Grid>
+                        </Grid>
+                    </Grid>
+
+                    <!--오른쪽-->
+                    <Grid x:Name="LotArea" Grid.Row="1" Grid.Column="3">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="15" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="8" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="5" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="8" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="34" />
+                            <RowDefinition Height="8" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="8" />
+                            <RowDefinition Height="34" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <!--양극LOTLIST-->
+                        <Border Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="99" BorderThickness="1" Style="{StaticResource BorderSubTitleStyle}" />
+                        <TextBlock      Grid.Row="0" Grid.Column="1" Text="{Binding ConverterParameter='양극 LOTLIST', Converter={StaticResource GlobalObjectDicConverter}, RelativeSource={RelativeSource Self}}" HorizontalAlignment="Left" Style="{StaticResource Content_Search_LabelStyle}" />
+                        <Button Grid.Row="0" Grid.Column="3" x:Name="btnADDLot_C" Content="{Binding ConverterParameter=추가, Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{DynamicResource Content_MainButtonNoMinWidthSpecialStyle}" Cursor="Hand" Click="btnADDLot_C_Click"/>
+                        <Button Grid.Row="0" Grid.Column="5" x:Name="btnDeleteLot" Content="{Binding ConverterParameter=해제, Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{DynamicResource Content_MainButtonNoMinWidthSpecialStyle}" Cursor="Hand" Click="btnDeleteLot_Click"/>
+                        <Button Grid.Row="0" Grid.Column="5" x:Name="btnClear_C" Content="{Binding ConverterParameter=초기화, Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{DynamicResource Content_MainButtonNoMinWidthSpecialStyle}" Cursor="Hand" Click="btnClear_C_Click" Visibility="Collapsed"/>
+                        <Border Grid.Row="1" Grid.RowSpan="99" Grid.Column="0" Grid.ColumnSpan="99" BorderThickness="1,0,1,1" Style="{StaticResource Content_InputForm_GroupBorderStyle}" />
+                        <c1:C1DataGrid x:Name="dgLotList"
+                                       Grid.Row="2"
+                                       Grid.Column="0"
+                                       Grid.ColumnSpan="7"
+                                       IsReadOnly="True"
+                                       HeadersVisibility="Column"
+                                       SelectionMode="MultiRow"
+                                       CanUserSort="False" 
+                                       CanUserFilter="False"
+                                       Margin="8" >
+                            <c1:C1DataGrid.Columns>
+                                <c1:DataGridTemplateColumn   EditOnSelection="True" Name="CHK" Width="40" HorizontalAlignment="Center" >
+                                    <c1:DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <CheckBox IsChecked="{Binding CHK, Mode=TwoWay}" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                                        </DataTemplate>
+                                    </c1:DataGridTemplateColumn.CellTemplate>
+                                </c1:DataGridTemplateColumn>
+                                <c1:DataGridTextColumn   Header = "LOTID"                 Binding = "{Binding LOTID}"              HorizontalAlignment="Center" CanUserFilter="False" CanUserGroup="False" IsReadOnly="True" />
+                                <c1:DataGridTextColumn   Header = "TAB_VALUE"             Binding = "{Binding TAB_VALUE}"          HorizontalAlignment="Right"  CanUserFilter="False" CanUserGroup="False" IsReadOnly="True" />
+                                <c1:DataGridTextColumn   Header = "BOTTOM_VALUE"          Binding = "{Binding BOTTOM_VALUE}"       HorizontalAlignment="Right"  CanUserFilter="False" CanUserGroup="False" IsReadOnly="True" />
+                                <c1:DataGridTextColumn   Header = "PRODID"                Binding = "{Binding PRODID}"             HorizontalAlignment="Center" CanUserFilter="False" CanUserGroup="False" IsReadOnly="True" />
+                                <c1:DataGridTextColumn   Header = "LOT상태"               Binding = "{Binding WIPSTAT}"            HorizontalAlignment="Center" CanUserFilter="False" CanUserGroup="False" IsReadOnly="True" Visibility="Collapsed" />
+                             
+                                <c1:DataGridTemplateColumn Width="Auto" HorizontalAlignment="Center" CanUserFilter="False" CanUserSort="False" CanUserResize="False" Name="DEL">
+                                    <c1:DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Button x:Name="btnDelRow_C" Width="Auto" Click="btnDelRow_C_Click">
+                                                <Image Source="/LGC.GMES.MES.COM001;component/Images/ico-delete.png" Width="16" Height="16" />
+                                            </Button>
+                                        </DataTemplate>
+                                    </c1:DataGridTemplateColumn.CellTemplate>
+                                </c1:DataGridTemplateColumn>
+                            </c1:C1DataGrid.Columns>
+                        </c1:C1DataGrid>
+                        <!--음극LOTLIST-->
+                        <Border Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="99" BorderThickness="1" Style="{StaticResource BorderSubTitleStyle}" />
+                        <TextBlock      Grid.Row="4" Grid.Column="1" Text="{Binding ConverterParameter='음극 LOTLIST', Converter={StaticResource GlobalObjectDicConverter}, RelativeSource={RelativeSource Self}}" HorizontalAlignment="Left" Style="{StaticResource Content_Search_LabelStyle}" />
+                        <Button Grid.Row="4" Grid.Column="3" x:Name="btnADDLot_A" Content="{Binding ConverterParameter=추가, Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{DynamicResource Content_MainButtonNoMinWidthSpecialStyle}" Cursor="Hand" Click="btnADDLot_A_Click"/>
+                        <Button Grid.Row="4" Grid.Column="5" x:Name="btnDeleteLot_A" Content="{Binding ConverterParameter=해제, Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{DynamicResource Content_MainButtonNoMinWidthSpecialStyle}" Cursor="Hand" Click="btnDeleteLot_A_Click"/>
+                        <Button Grid.Row="4" Grid.Column="5" x:Name="btnClear_A" Content="{Binding ConverterParameter=초기화, Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{DynamicResource Content_MainButtonNoMinWidthSpecialStyle}" Cursor="Hand" Click="btnClear_A_Click" Visibility="Collapsed"/>
+                        <Border Grid.Row="5" Grid.RowSpan="99" Grid.Column="0" Grid.ColumnSpan="99" BorderThickness="1,0,1,1" Style="{StaticResource Content_InputForm_GroupBorderStyle}" />
+                        <c1:C1DataGrid x:Name="dgLotList_A"
+                                       Grid.Row="6"
+                                       Grid.Column="0"
+                                       Grid.ColumnSpan="7"
+                                       IsReadOnly="True"
+                                       HeadersVisibility="Column"
+                                       SelectionMode="MultiRow"
+                                       CanUserSort="False" 
+                                       CanUserFilter="False"
+                                       Margin="8" >
+                            <c1:C1DataGrid.Columns>
+                                <c1:DataGridTemplateColumn   EditOnSelection="True" Name="CHK" Width="40" HorizontalAlignment="Center" >
+                                    <c1:DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <CheckBox IsChecked="{Binding CHK, Mode=TwoWay}" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                                        </DataTemplate>
+                                    </c1:DataGridTemplateColumn.CellTemplate>
+                                </c1:DataGridTemplateColumn>
+                                <c1:DataGridTextColumn   Header = "LOTID"                 Binding = "{Binding LOTID}"             HorizontalAlignment="Center" CanUserFilter="False" CanUserGroup="False" IsReadOnly="True" />
+                                <c1:DataGridTextColumn   Header = "TAB_VALUE"             Binding = "{Binding TAB_VALUE}"         HorizontalAlignment="Right"  CanUserFilter="False" CanUserGroup="False" IsReadOnly="True" />
+                                <c1:DataGridTextColumn   Header = "BOTTOM_VALUE"          Binding = "{Binding BOTTOM_VALUE}"      HorizontalAlignment="Right"  CanUserFilter="False" CanUserGroup="False" IsReadOnly="True" />
+                                <c1:DataGridTextColumn   Header = "PRODID"                Binding = "{Binding PRODID}"            HorizontalAlignment="Center" CanUserFilter="False" CanUserGroup="False" IsReadOnly="True" />
+                                <c1:DataGridTextColumn   Header = "LOT상태"               Binding = "{Binding WIPSTAT}"           HorizontalAlignment="Center" CanUserFilter="False" CanUserGroup="False" IsReadOnly="True" Visibility="Collapsed" />
+                              
+                                <c1:DataGridTemplateColumn Width="Auto" HorizontalAlignment="Center" CanUserFilter="False" CanUserSort="False" CanUserResize="False" Name="DEL">
+                                    <c1:DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Button x:Name="btnDelRow_A" Width="Auto" Click="btnDelRow_A_Click">
+                                                <Image Source="/LGC.GMES.MES.COM001;component/Images/ico-delete.png" Width="16" Height="16" />
+                                            </Button>
+                                        </DataTemplate>
+                                    </c1:DataGridTemplateColumn.CellTemplate>
+                                </c1:DataGridTemplateColumn>
+
+                            </c1:C1DataGrid.Columns>
+                        </c1:C1DataGrid>
+
+                    </Grid>
+
+                </Grid>
+            </ctrlLib:LGCLayout.Content>
+        </ctrlLib:LGCLayout>
+
+        <ctrlLib:LoadingIndicator x:Name="loadingIndicator" Grid.Row="999" Grid.Column="999" />
+    </Grid>
+</UserControl>

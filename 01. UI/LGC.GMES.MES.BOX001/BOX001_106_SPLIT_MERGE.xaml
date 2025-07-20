@@ -1,0 +1,114 @@
+﻿<c1:C1Window x:Class="LGC.GMES.MES.BOX001.BOX001_106_SPLIT_MERGE"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:c1="http://schemas.componentone.com/winfx/2006/xaml"
+		     xmlns:System="clr-namespace:System;assembly=mscorlib"
+             xmlns:ctrlLib="clr-namespace:LGC.GMES.MES.ControlsLibrary;assembly=LGC.GMES.MES.ControlsLibrary"  
+             xmlns:uc="clr-namespace:LGC.GMES.MES.CMM001.Controls;assembly=LGC.GMES.MES.CMM001"      
+             ctrlLib:LGCPopupWindowExtension.ApplyStyle="True"
+             Header="{Binding Converter={StaticResource GlobalObjectDicConverter}, ConverterParameter='포장 분할/병합'}" 
+             Tag="ProtoType01Windows01" Height="700" Width="900" IsResizable="True" Loaded="C1Window_Loaded" >
+
+    <c1:C1Window.Resources>
+        <ResourceDictionary Source="/LGC.GMES.MES.ControlsLibrary;Component/ControlStyles.xaml"/>
+    </c1:C1Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="80"/>
+            <RowDefinition Height="34"/>
+        </Grid.RowDefinitions>
+        <c1:C1DataGrid Grid.Row="0" x:Name="dgTop"  HeadersVisibility="Column" SelectionMode="SingleRow" >
+            <c1:C1DataGrid.Columns>
+                <c1:DataGridTemplateColumn   EditOnSelection="True" Name="CHK" Width="Auto" HorizontalAlignment="Center" >
+                    <c1:DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <CheckBox  IsChecked="{Binding CHK, Mode=OneWay}" Name="dgTopChoice" HorizontalAlignment="Center" Checked="dgTopChoice_Checked" Unchecked="dgTopChoice_Unchecked"/>
+                        </DataTemplate>
+                    </c1:DataGridTemplateColumn.CellTemplate>
+                </c1:DataGridTemplateColumn>
+                <c1:DataGridTextColumn        Header = "PALLET ID"         Binding = "{Binding PALLETID}"   HorizontalAlignment="Center"  IsReadOnly="True"/>
+                <c1:DataGridTextColumn        Header = "조립 LOT ID"         Binding = "{Binding PKG_LOTID}"   HorizontalAlignment="Center" IsReadOnly="True"/>
+                <c1:DataGridTextColumn        Header = "전압등급"           Binding = "{Binding PRDT_GRD_CODE}"   HorizontalAlignment="Center" IsReadOnly="True"/>
+                <c1:DataGridNumericColumn        Header = "Cell수량"            Binding = "{Binding WIPQTY2}"   HorizontalAlignment="Center" IsReadOnly="True" />
+                <c1:DataGridNumericColumn        Header = "Cell수량"            Binding = "{Binding WIPQTY}"   HorizontalAlignment="Center" IsReadOnly="False" Visibility="Collapsed"/>
+                <c1:DataGridTextColumn        Header = "작업유형"           Binding = "{Binding PACK_WRK_TYPE_NAME}"   HorizontalAlignment="Center" IsReadOnly="True"/>
+                <c1:DataGridTextColumn        Header = "작업유형"           Binding = "{Binding PACK_WRK_TYPE_CODE}"   HorizontalAlignment="Center" Visibility="Collapsed" IsReadOnly="True"/>
+                <c1:DataGridTextColumn        Header = "Line"         Binding = "{Binding EQSGNAME}"   HorizontalAlignment="Center" IsReadOnly="True" />
+                <c1:DataGridTextColumn        Header = "Line"         Binding = "{Binding EQSGID}"   HorizontalAlignment="Center" Visibility="Collapsed" IsReadOnly="True"/>
+                <c1:DataGridTextColumn        Header = "Project"         Binding = "{Binding PROJECT}"   HorizontalAlignment="Center" Format="###,###,##0.##" IsReadOnly="True" />
+                <c1:DataGridTextColumn        Header = "제품코드"     Binding = "{Binding PRODID}"   HorizontalAlignment="Center" IsReadOnly="True"/>
+                <c1:DataGridTextColumn        Header = "특성호기"         Binding = "{Binding CHR_EQPTNAME}"   HorizontalAlignment="Center" IsReadOnly="True"/>
+                <c1:DataGridTextColumn        Header = "Winder 호기"         Binding = "{Binding WND_EQPTNAME}"   HorizontalAlignment="Center" IsReadOnly="True"/>
+                <c1:DataGridTextColumn        Header = "Winder 호기"         Binding = "{Binding WND_EQPTID}"   HorizontalAlignment="Center" Visibility="Collapsed" IsReadOnly="True"/>
+                <c1:DataGridTextColumn        Header = "Group ID"         Binding = "{Binding WND_GR_CODE}"   HorizontalAlignment="Center" IsReadOnly="True"/>
+                <c1:DataGridTextColumn        Header = "SOC"         Binding = "{Binding SOC_VALUE}"   HorizontalAlignment="Center" IsReadOnly="True"/>
+                <c1:DataGridTextColumn        Header = "PACK_NOTE"         Binding = "{Binding PACK_NOTE}"   HorizontalAlignment="Center" IsReadOnly="True"/>
+                <c1:DataGridTextColumn        Header = "BOXID"         Binding = "{Binding BOXID}"   HorizontalAlignment="Center" Visibility="Collapsed" IsReadOnly="True"/>
+            </c1:C1DataGrid.Columns>
+        </c1:C1DataGrid>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <uc:UcBaseButton x:Name="btnDownwards" Grid.Column="1" Height="Auto" Content="▼" FontSize="17"   Style="{DynamicResource Content_MainButtonSpecialStyle}" VerticalAlignment="Center" Click="btnDownwards_Click"/>
+            <uc:UcBaseButton x:Name="btnUpwards" Grid.Column="3" Height="Auto" Content="▲" FontSize="17" Style="{DynamicResource Content_MainButtonSpecialStyle}" VerticalAlignment="Center" Click="btnUpwards_Click"/>
+        </Grid>
+        <c1:C1DataGrid Grid.Row="2" x:Name="dgBot"  HeadersVisibility="Column" SelectionMode="SingleRow" CommittingRowEdit="dgBot_CommittingRowEdit">
+            <c1:C1DataGrid.Columns>
+                <c1:DataGridTemplateColumn   EditOnSelection="True" Name="CHK" Width="Auto" HorizontalAlignment="Center">
+                    <c1:DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <CheckBox  IsChecked="{Binding CHK, Mode=OneWay}" Name="dgBotChoice" HorizontalAlignment="Center" Checked="dgBotChoice_Checked" Unchecked="dgBotChoice_Unchecked"/>
+                        </DataTemplate>
+                    </c1:DataGridTemplateColumn.CellTemplate>
+                </c1:DataGridTemplateColumn>
+                <c1:DataGridTextColumn        Header = "PALLET ID"         Binding = "{Binding PALLETID}"   HorizontalAlignment="Center" IsReadOnly="True"/>
+                <c1:DataGridTextColumn        Header = "조립 LOT ID"         Binding = "{Binding PKG_LOTID}"   HorizontalAlignment="Center" IsReadOnly="True"/>
+                <c1:DataGridTextColumn        Header = "전압등급"           Binding = "{Binding PRDT_GRD_CODE}"   HorizontalAlignment="Center" IsReadOnly="True"/>
+                <c1:DataGridTextColumn        Header = "Cell수량"            Binding = "{Binding WIPQTY2}"   HorizontalAlignment="Center" IsReadOnly="False"/>
+                <c1:DataGridTextColumn        Header = "Cell수량"            Binding = "{Binding WIPQTY}"   HorizontalAlignment="Center" IsReadOnly="False" Visibility="Collapsed"/>
+                <c1:DataGridTextColumn        Header = "작업유형"           Binding = "{Binding PACK_WRK_TYPE_NAME}"   HorizontalAlignment="Center" IsReadOnly="True"/>
+                <c1:DataGridTextColumn        Header = "작업유형"           Binding = "{Binding PACK_WRK_TYPE_CODE}"   HorizontalAlignment="Center" Visibility="Collapsed" IsReadOnly="True"/>
+                <c1:DataGridTextColumn        Header = "Line"         Binding = "{Binding EQSGNAME}"   HorizontalAlignment="Center" IsReadOnly="True"/>
+                <c1:DataGridTextColumn        Header = "Line"         Binding = "{Binding EQSGID}"   HorizontalAlignment="Center" Visibility="Collapsed" IsReadOnly="True"/>
+                <c1:DataGridTextColumn        Header = "Project"         Binding = "{Binding PROJECT}"   HorizontalAlignment="Center" Format="###,###,##0.##" IsReadOnly="True"/>
+                <c1:DataGridTextColumn        Header = "제품코드"     Binding = "{Binding PRODID}"   HorizontalAlignment="Center" IsReadOnly="True"/>
+                <c1:DataGridTextColumn        Header = "특성호기"         Binding = "{Binding CHR_EQPTNAME}"   HorizontalAlignment="Center" IsReadOnly="True"/>
+                <c1:DataGridTextColumn        Header = "Winder 호기"         Binding = "{Binding WND_EQPTNAME}"   HorizontalAlignment="Center" IsReadOnly="True"/>
+                <c1:DataGridTextColumn        Header = "Winder 호기"         Binding = "{Binding WND_EQPTID}"   HorizontalAlignment="Center" Visibility="Collapsed" IsReadOnly="True"/>
+                <c1:DataGridTextColumn        Header = "Group ID"         Binding = "{Binding WND_GR_CODE}"   HorizontalAlignment="Center" IsReadOnly="True"/>
+                <c1:DataGridTextColumn        Header = "SOC"         Binding = "{Binding SOC_VALUE}"   HorizontalAlignment="Center" IsReadOnly="True"/>
+                <c1:DataGridTextColumn        Header = "PACK_NOTE"         Binding = "{Binding PACK_NOTE}"   HorizontalAlignment="Center" IsReadOnly="True"/>
+                <c1:DataGridTextColumn        Header = "BOXID"         Binding = "{Binding BOXID}"   HorizontalAlignment="Center" Visibility="Collapsed" IsReadOnly="True"/>
+            </c1:C1DataGrid.Columns>
+        </c1:C1DataGrid>
+
+        <Grid Grid.Row="3">
+            <StackPanel Orientation="Vertical" VerticalAlignment="Top">
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Top">
+                    <TextBlock   Grid.Row="6"  Grid.Column="10" Text="{Binding ConverterParameter='사유', Converter={StaticResource GlobalObjectDicConverter}, RelativeSource={RelativeSource Self}}" Style="{StaticResource Content_ModuleTitleStyle }" />
+                    <TextBlock Style="{StaticResource SearchCondition_MandatoryMarkStyle}"/>
+                </StackPanel>
+                <TextBox x:Name="txtRemark" TextWrapping="Wrap" VerticalContentAlignment="Top" Height="50" FontSize="14"></TextBox>
+            </StackPanel>
+        </Grid>
+        <Grid Grid.Row="4">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="5"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="13"/>
+            </Grid.ColumnDefinitions>
+            <uc:UcBaseButton x:Name="btnSave"    Grid.Column="1" Content="{Binding ConverterParameter=저장, Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{DynamicResource Content_MainButtonSpecialStyle}" Click="btnSave_Click"/>
+            <uc:UcBaseButton x:Name="btnCancel" Grid.Column="3" Content="{Binding ConverterParameter=취소, Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{DynamicResource Content_MainButtonStyle}" Margin="4,0,4,0" Click="btnCancel_Click" />
+        </Grid>
+    </Grid>
+</c1:C1Window>

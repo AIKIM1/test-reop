@@ -1,0 +1,241 @@
+﻿<UserControl x:Class="LGC.GMES.MES.COM001.COM001_260_CST"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:c1="http://schemas.componentone.com/winfx/2006/xaml"
+             xmlns:ctrlLib="clr-namespace:LGC.GMES.MES.ControlsLibrary;assembly=LGC.GMES.MES.ControlsLibrary"
+             xmlns:uc="clr-namespace:LGC.GMES.MES.CMM001.Controls;assembly=LGC.GMES.MES.CMM001"
+             mc:Ignorable="d" 
+             d:DesignHeight="768" d:DesignWidth="1024" Loaded="UserControl_Loaded">
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/LGC.GMES.MES.ControlsLibrary;component/ControlStyles.xaml" />
+                <ResourceDictionary Source="/LGC.GMES.MES.ControlsLibrary;component/ControlTemplates/LGCDatePicker.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <Style x:Key="CellColorStyle">
+                <Setter Property="TextBlock.Foreground" Value="Blue" />
+            </Style>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <Grid x:Name="grdMain">
+        <ctrlLib:LGCLayout x:Name="LayoutRoot" Tag="Carrier 연계관리">
+            <ctrlLib:LGCLayout.Content>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="8"/>
+                    </Grid.RowDefinitions>
+
+                    <Grid Grid.Row="0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="3" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="8" />
+                        </Grid.RowDefinitions>
+
+                        <Grid Grid.Row="1">
+                            <c1:C1TabControl>
+                                <c1:C1TabItem x:Name="TabMapping"  Header="{Binding ConverterParameter='연계', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" GotFocus="TabMapping_GotFocus">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="15*"/>
+                                            <ColumnDefinition Width="8*"/>
+                                            <ColumnDefinition Width="182*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="51" />
+                                            <RowDefinition Height="8" />
+                                            <RowDefinition Height="*" />
+                                        </Grid.RowDefinitions>
+                                        <Border Grid.Row="0" Background="#EFF1F3" BorderThickness="1" BorderBrush="#9F9F9F" Grid.ColumnSpan="3" Margin="0,0,0.001,7.667" Grid.RowSpan="2" />
+                                        <Grid Grid.Row="0" Grid.ColumnSpan="3" Margin="0,0,0.001,7.667" Grid.RowSpan="2">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="13"/>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="10"/>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="2*"/>
+                                                <ColumnDefinition Width="80"/>
+                                                <ColumnDefinition Width="30"/>
+                                            </Grid.ColumnDefinitions>
+
+                                            <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Left">
+                                                <TextBlock Style="{StaticResource SearchCondition_MandatoryMarkStyle}" />
+                                                <TextBlock Text="{Binding ConverterParameter='CSTID', Converter={StaticResource GlobalObjectDicConverter}, RelativeSource={RelativeSource Self}}" HorizontalAlignment="Right" Style="{StaticResource Content_Search_LabelStyle}" />
+                                                <TextBox x:Name="txtCSTID" CharacterCasing="Upper" Width="120" KeyDown="txtCSTID_KeyDown"/>
+                                            </StackPanel>
+
+                                            <StackPanel Grid.Row="0" Grid.Column="3" Orientation="Horizontal" HorizontalAlignment="Left">
+                                                <TextBlock Style="{StaticResource SearchCondition_MandatoryMarkStyle}" />
+                                                <TextBlock Text="{Binding ConverterParameter='LOTID', Converter={StaticResource GlobalObjectDicConverter}, RelativeSource={RelativeSource Self}}" HorizontalAlignment="Right" Style="{StaticResource Content_Search_LabelStyle}" />
+                                                <TextBox x:Name="txtLOTID" CharacterCasing="Upper" Width="120" IsReadOnly="True" KeyDown="txtLOTID_KeyDown"/>
+                                            </StackPanel>
+
+                                            <uc:UcBaseButton Grid.Column="5" x:Name="btnSave" Content="{Binding ConverterParameter=저장, Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{DynamicResource Content_MainButtonNoMinWidthSpecialStyle}" Click="btnSave_Click"/>
+
+                                        </Grid>
+                                        <uc:UcBaseDataGrid Grid.Row="2" x:Name="dgMapping" HeadersVisibility="Column" SelectionMode="SingleRow" IsReadOnly="True" Grid.ColumnSpan="3" Margin="0,0.333,0.001,0.333">
+                                            <c1:C1DataGrid.Columns>
+                                                <c1:DataGridCheckBoxColumn x:Name="CHK" Width="40" Binding = "{Binding CHK}" HorizontalAlignment="Center" IsReadOnly="True" CanUserFilter="False" CanUserSort="False" CanUserResize="False" Visibility="Collapsed"/>
+                                                <c1:DataGridTemplateColumn Width="Auto" HorizontalAlignment="Center" CanUserFilter="False" CanUserSort="False" CanUserResize="False">
+                                                    <c1:DataGridTemplateColumn.CellTemplate>
+                                                        <DataTemplate>
+                                                            <Button x:Name="btnDelRow" Width="Auto" Click="btnDelRow_Click">
+                                                                <Image Source="/LGC.GMES.MES.COM001;component/Images/ico-delete.png" Width="16" Height="16" />
+                                                            </Button>
+                                                        </DataTemplate>
+                                                    </c1:DataGridTemplateColumn.CellTemplate>
+                                                </c1:DataGridTemplateColumn>
+                                                <c1:DataGridTextColumn Header = "동" Binding = "{Binding AREANAME}" HorizontalAlignment="Center" />
+                                                <c1:DataGridTextColumn Header = "동" Binding = "{Binding AREAID}" HorizontalAlignment="Center" Visibility="Collapsed" />
+                                                <c1:DataGridTextColumn Header = "CST유형" Binding = "{Binding CSTTNAME}" HorizontalAlignment="Center" />
+                                                <c1:DataGridTextColumn Header = "CST유형" Binding = "{Binding CSTTYPE}" HorizontalAlignment="Center" Visibility="Collapsed"/>
+                                                <c1:DataGridTextColumn Header = "CSTID" Binding = "{Binding CSTID}" HorizontalAlignment="Center" CellContentStyle="{StaticResource ResourceKey=CellColorStyle}"/>
+                                                <c1:DataGridTextColumn Header = "CST상태" Binding = "{Binding CSTSNAME}" HorizontalAlignment="Center" />
+                                                <c1:DataGridTextColumn Header = "CST상태" Binding = "{Binding CSTSTAT}" HorizontalAlignment="Center" Visibility="Collapsed"/>
+                                                <c1:DataGridTextColumn Header = "LOTID" Binding = "{Binding LOTID}" HorizontalAlignment="Center" />
+                                                <c1:DataGridTextColumn Header = "생성자" Binding = "{Binding INSUSER}" HorizontalAlignment="Center" />
+                                                <c1:DataGridTextColumn Header = "생성일시" Binding = "{Binding INSDTTM}" HorizontalAlignment="Center" />
+                                                <c1:DataGridTextColumn Header = "수정자" Binding = "{Binding UPDUSER}" HorizontalAlignment="Center" />
+                                                <c1:DataGridTextColumn Header = "수정일시" Binding = "{Binding UPDDTTM}" HorizontalAlignment="Center" />
+                                            </c1:C1DataGrid.Columns>
+                                        </uc:UcBaseDataGrid>
+                                    </Grid>
+                                </c1:C1TabItem>
+
+                                <c1:C1TabItem x:Name="TabEmpty"  Header="{Binding ConverterParameter='연계해제', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}">
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="51" />
+                                            <RowDefinition Height="8" />
+                                            <RowDefinition Height="*" />
+                                        </Grid.RowDefinitions>
+                                        <Border Grid.Row="0" Background="#EFF1F3" BorderThickness="1" BorderBrush="#9F9F9F" />
+                                        <Grid Grid.Row="0">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="13"/>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="10"/>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="2*"/>
+                                                <ColumnDefinition Width="80"/>
+                                                <ColumnDefinition Width="30"/>
+                                            </Grid.ColumnDefinitions>
+
+                                            <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Left">
+                                                <TextBlock Style="{StaticResource SearchCondition_MandatoryMarkStyle}" />
+                                                <TextBlock Text="{Binding ConverterParameter='CSTID', Converter={StaticResource GlobalObjectDicConverter}, RelativeSource={RelativeSource Self}}" HorizontalAlignment="Right" Style="{StaticResource Content_Search_LabelStyle}" />
+                                                <TextBox x:Name="txtCSTID_Empty" CharacterCasing="Upper" Width="120" KeyDown="txtCSTID_Empty_KeyDown"/>
+                                            </StackPanel>
+
+                                            <StackPanel Grid.Row="0" Grid.Column="3" Orientation="Horizontal" HorizontalAlignment="Left">
+                                                <TextBlock Text="{Binding ConverterParameter='LOTID', Converter={StaticResource GlobalObjectDicConverter}, RelativeSource={RelativeSource Self}}" HorizontalAlignment="Right" Style="{StaticResource Content_Search_LabelStyle}" />
+                                                <TextBox x:Name="txtLOTID_Empty" CharacterCasing="Upper" Width="120" IsReadOnly="True"/>
+                                            </StackPanel>
+
+                                            <uc:UcBaseButton Grid.Column="5" x:Name="btnSave_Empty" Content="{Binding ConverterParameter=저장, Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{DynamicResource Content_MainButtonNoMinWidthSpecialStyle}" Click="btnSave_Empty_Click"/>
+
+                                        </Grid>
+                                        <uc:UcBaseDataGrid Grid.Row="2" x:Name="dgEmpty" HeadersVisibility="Column" SelectionMode="SingleRow" IsReadOnly="True">
+                                            <c1:C1DataGrid.Columns>
+                                                <c1:DataGridCheckBoxColumn x:Name="CHK2" Width="40" Binding = "{Binding CHK}" HorizontalAlignment="Center" IsReadOnly="True" CanUserFilter="False" CanUserSort="False" CanUserResize="False" Visibility="Collapsed"/>
+                                                <c1:DataGridTemplateColumn Width="Auto" HorizontalAlignment="Center" CanUserFilter="False" CanUserSort="False" CanUserResize="False">
+                                                    <c1:DataGridTemplateColumn.CellTemplate>
+                                                        <DataTemplate>
+                                                            <Button x:Name="btnDelRow" Width="Auto" Click="btnDelRow_Click">
+                                                                <Image Source="/LGC.GMES.MES.COM001;component/Images/ico-delete.png" Width="16" Height="16" />
+                                                            </Button>
+                                                        </DataTemplate>
+                                                    </c1:DataGridTemplateColumn.CellTemplate>
+                                                </c1:DataGridTemplateColumn>
+                                                <c1:DataGridTextColumn Header = "동" Binding = "{Binding AREANAME}" HorizontalAlignment="Center" />
+                                                <c1:DataGridTextColumn Header = "동" Binding = "{Binding AREAID}" HorizontalAlignment="Center" Visibility="Collapsed" />
+                                                <c1:DataGridTextColumn Header = "CST유형" Binding = "{Binding CSTTNAME}" HorizontalAlignment="Center" />
+                                                <c1:DataGridTextColumn Header = "CST유형" Binding = "{Binding CSTTYPE}" HorizontalAlignment="Center" Visibility="Collapsed"/>
+                                                <c1:DataGridTextColumn Header = "CSTID" Binding = "{Binding CSTID}" HorizontalAlignment="Center" CellContentStyle="{StaticResource ResourceKey=CellColorStyle}"/>
+                                                <c1:DataGridTextColumn Header = "CST상태" Binding = "{Binding CSTSNAME}" HorizontalAlignment="Center" />
+                                                <c1:DataGridTextColumn Header = "CST상태" Binding = "{Binding CSTSTAT}" HorizontalAlignment="Center" Visibility="Collapsed"/>
+                                                <c1:DataGridTextColumn Header = "LOTID" Binding = "{Binding LOTID}" HorizontalAlignment="Center" />
+                                                <c1:DataGridTextColumn Header = "생성자" Binding = "{Binding INSUSER}" HorizontalAlignment="Center" />
+                                                <c1:DataGridTextColumn Header = "생성일시" Binding = "{Binding INSDTTM}" HorizontalAlignment="Center" />
+                                                <c1:DataGridTextColumn Header = "수정자" Binding = "{Binding UPDUSER}" HorizontalAlignment="Center" />
+                                                <c1:DataGridTextColumn Header = "수정일시" Binding = "{Binding UPDDTTM}" HorizontalAlignment="Center" />
+                                            </c1:C1DataGrid.Columns>
+                                        </uc:UcBaseDataGrid>
+                                    </Grid>
+                                </c1:C1TabItem>
+                                <c1:C1TabItem x:Name="TabInterlock"  Header="{Binding ConverterParameter='비정상 Carrier Interlock 해제', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" GotFocus="TabInterlock_GotFocus">
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="51" />
+                                            <RowDefinition Height="8" />
+                                            <RowDefinition Height="*" />
+                                        </Grid.RowDefinitions>
+                                        <Border Grid.Row="0" Background="#EFF1F3" BorderThickness="1" BorderBrush="#9F9F9F" />
+                                        <Grid Grid.Row="0">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="13"/>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="10"/>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="2*"/>
+                                                <ColumnDefinition Width="80"/>
+                                                <ColumnDefinition Width="30"/>
+                                            </Grid.ColumnDefinitions>
+
+                                            <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Left">
+                                                <TextBlock Style="{StaticResource SearchCondition_MandatoryMarkStyle}" />
+                                                <TextBlock Text="{Binding ConverterParameter='CSTID', Converter={StaticResource GlobalObjectDicConverter}, RelativeSource={RelativeSource Self}}" HorizontalAlignment="Right" Style="{StaticResource Content_Search_LabelStyle}" />
+                                                <TextBox x:Name="txtCSTID2" CharacterCasing="Upper" Width="120" KeyDown="txtCSTID2_KeyDown"/>
+                                            </StackPanel>
+
+                                            <StackPanel Grid.Row="0" Grid.Column="3" Orientation="Horizontal" HorizontalAlignment="Left">
+                                                <TextBlock Text="{Binding ConverterParameter='LOTID', Converter={StaticResource GlobalObjectDicConverter}, RelativeSource={RelativeSource Self}}" HorizontalAlignment="Right" Style="{StaticResource Content_Search_LabelStyle}" Visibility="Collapsed" />
+                                                <TextBox x:Name="txtLOTID2"  CharacterCasing="Upper" Width="120" IsReadOnly="True" Visibility="Collapsed"/>
+                                            </StackPanel>
+
+                                            <uc:UcBaseButton Grid.Column="5" x:Name="btnSave2" Content="{Binding ConverterParameter=저장, Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{DynamicResource Content_MainButtonNoMinWidthSpecialStyle}" Click="btnSave2_Click"/>
+
+                                        </Grid>
+                                        <uc:UcBaseDataGrid Grid.Row="2" x:Name="dgInterlock" HeadersVisibility="Column" SelectionMode="SingleRow" IsReadOnly="True">
+                                            <c1:C1DataGrid.Columns>
+                                                <c1:DataGridCheckBoxColumn x:Name="CHK3" Width="40" Binding = "{Binding CHK}" HorizontalAlignment="Center" IsReadOnly="True" CanUserFilter="False" CanUserSort="False" CanUserResize="False" Visibility="Collapsed"/>
+                                                <c1:DataGridTemplateColumn Width="Auto" HorizontalAlignment="Center" CanUserFilter="False" CanUserSort="False" CanUserResize="False">
+                                                    <c1:DataGridTemplateColumn.CellTemplate>
+                                                        <DataTemplate>
+                                                            <Button x:Name="btnDelRow" Width="Auto" Click="btnDelRowLock_Click">
+                                                                <Image Source="/LGC.GMES.MES.COM001;component/Images/ico-delete.png" Width="16" Height="16" />
+                                                            </Button>
+                                                        </DataTemplate>
+                                                    </c1:DataGridTemplateColumn.CellTemplate>
+                                                </c1:DataGridTemplateColumn>
+                                                <c1:DataGridTextColumn Header = "동"         Binding = "{Binding AREANAME}"  HorizontalAlignment="Center" />
+                                                <c1:DataGridTextColumn Header = "동"         Binding = "{Binding AREAID}"    HorizontalAlignment="Center" Visibility="Collapsed" />
+                                                <c1:DataGridTextColumn Header = "CST유형"    Binding = "{Binding CSTTNAME}"  HorizontalAlignment="Center" />
+                                                <c1:DataGridTextColumn Header = "CST유형"    Binding = "{Binding CSTTYPE}"   HorizontalAlignment="Center" Visibility="Collapsed"/>
+                                                <c1:DataGridTextColumn Header = "CSTID"      Binding = "{Binding CSTID}"     HorizontalAlignment="Center" CellContentStyle="{StaticResource ResourceKey=CellColorStyle}"/>
+                                                <c1:DataGridTextColumn Header = "CST상태"    Binding = "{Binding CSTSNAME}"  HorizontalAlignment="Center" />
+                                                <c1:DataGridTextColumn Header = "CST상태"    Binding = "{Binding CSTSTAT}"   HorizontalAlignment="Center" Visibility="Collapsed"/>
+                                                <c1:DataGridTextColumn Header = "LOTID"      Binding = "{Binding LOTID}"     HorizontalAlignment="Center" />
+                                                <c1:DataGridTextColumn Header = "PORT_NAME"  Binding = "{Binding PORTNAME}"  HorizontalAlignment="Center" />
+                                                <c1:DataGridTextColumn Header = "생성자"     Binding = "{Binding INSUSER}"   HorizontalAlignment="Center" />
+                                                <c1:DataGridTextColumn Header = "생성일시"   Binding = "{Binding INSDTTM}"   HorizontalAlignment="Center" />
+                                                <c1:DataGridTextColumn Header = "수정자"     Binding = "{Binding UPDUSER}"   HorizontalAlignment="Center" />
+                                                <c1:DataGridTextColumn Header = "수정일시"   Binding = "{Binding UPDDTTM}"   HorizontalAlignment="Center" />
+                                            </c1:C1DataGrid.Columns>
+                                        </uc:UcBaseDataGrid>
+                                    </Grid>
+                                </c1:C1TabItem>
+                            </c1:C1TabControl>
+                        </Grid>
+                    </Grid>
+                </Grid>
+            </ctrlLib:LGCLayout.Content>
+        </ctrlLib:LGCLayout>
+        <ctrlLib:LoadingIndicator x:Name="loadingIndicator" Panel.ZIndex="3"/>
+    </Grid>
+</UserControl>

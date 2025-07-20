@@ -1,0 +1,824 @@
+﻿<UserControl x:Class="LGC.GMES.MES.ELEC003.Controls.UcElectrodeProductionResult_CoatingAuto"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:c1="http://schemas.componentone.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:LGC.GMES.MES.ELEC003.Controls"             
+             xmlns:ctrlLib="clr-namespace:LGC.GMES.MES.ControlsLibrary;assembly=LGC.GMES.MES.ControlsLibrary"
+             mc:Ignorable="d" 
+             d:DesignHeight="1000" d:DesignWidth="900">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/LGC.GMES.MES.ControlsLibrary;component/ControlStyles.xaml" />
+                <ResourceDictionary Source="/LGC.GMES.MES.ControlsLibrary;component/ControlTemplates/LGCDatePicker.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid>
+        <ctrlLib:LGCLayout x:Name="LayoutRoot">
+            <Grid >
+                <Grid.Resources>
+                    <DataTemplate x:Key="ResultTemplate">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="1" Text="{Binding}" HorizontalAlignment="Right"></TextBlock>
+                        </Grid>
+                    </DataTemplate>
+                </Grid.Resources>
+
+                <!--start -->
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="8" />
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="8" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="8" />
+                    </Grid.ColumnDefinitions>
+
+                    <Border Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="99" Background="#e8ebed" BorderThickness="1" BorderBrush="#8a8a8a"></Border>
+                    <Border Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="99" Background="#e8ebed" BorderThickness="1" BorderBrush="#8a8a8a"></Border>
+
+                    <GridSplitter Grid.Row="1" Grid.Column="0" ResizeDirection="Rows" Grid.ColumnSpan="3" ShowsPreview="True" Style="{StaticResource GridSplitterVerticalStyle}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" />
+
+                    <Grid Grid.Row="0" Grid.Column="1">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="34"/>
+                            <RowDefinition Height="8"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="8"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="8"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="8" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="8" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="8" />
+                        </Grid.ColumnDefinitions>
+
+                        <!-- Row 0 -->
+                        <TextBlock Grid.Row="0" Grid.Column="0" Style="{StaticResource Content_ModuleTitleStyle}" ><Run Text="{Binding ConverterParameter='생산실적', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}"/></TextBlock>
+
+                        <Grid Grid.Row="0" Grid.Column="2">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="8" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="8" />
+                            </Grid.ColumnDefinitions>
+                            <Rectangle x:Name="recEquipment" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="99" Margin="0,5,0,5"/>
+                            <TextBlock x:Name="txtEquipment" Grid.Row="1" Grid.Column="1" Style="{StaticResource SearchCondition_LabelStyle}" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="Black" />
+                        </Grid>
+
+                        <Grid Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="4">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <Button x:Name="btnSaveRegDefectLane"  Grid.Column="1" Content="{Binding ConverterParameter=전수불량Lane등록, Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{DynamicResource Content_MainButtonNoMinWidthSpecialStyle}" Cursor="Hand" Width="100" Margin="0,0,5,0"/>
+                            <Button x:Name="btnSaveCarrier"        Grid.Column="2" Content="{Binding ConverterParameter=Carrier 연계, Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{DynamicResource Content_MainButtonNoMinWidthSpecialStyle}" Cursor="Hand" Width="100" Margin="0,0,5,0" Click="btnSaveCarrier_Click"/>
+                            <Button x:Name="btnProductionUpdate"   Grid.Column="3" Content="{Binding ConverterParameter=저장, Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{DynamicResource Content_MainButtonNoMinWidthSpecialStyle}" Width="100" Cursor="Hand" Click="btnProductionUpdate_Click"/>
+                        </Grid>
+
+                        <!-- Border -->
+                        <Border Grid.Row="1" Grid.Column="0" Grid.RowSpan="4" Grid.ColumnSpan="99" Background="#ffffffff" />
+
+                        <!-- Row 2 -->
+                        <Grid Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="3">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="4"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="4"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="4"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="8" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="0.3*" />
+                                <ColumnDefinition Width="8" />
+                            </Grid.ColumnDefinitions>
+
+                            <!-- TextBlock -->
+                            <TextBlock                                Grid.Row="0" Grid.Column="1" Text="{Binding ConverterParameter='LOTID', Converter={StaticResource GlobalObjectDicConverter}, RelativeSource={RelativeSource Self}}" Style="{StaticResource SearchCondition_LabelStyle}" />
+                            <TextBox    x:Name="txtLotID"             Grid.Row="0" Grid.Column="2" Style="{StaticResource Content_InputForm_ReadOnlyTextBoxStyle}" CharacterCasing="Upper" HorizontalContentAlignment="Center" FontWeight="Bold" />
+                            <TextBlock                                Grid.Row="0" Grid.Column="3" Text="{Binding ConverterParameter='버전', Converter={StaticResource GlobalObjectDicConverter}, RelativeSource={RelativeSource Self}}"  Style="{StaticResource SearchCondition_LabelStyle}" Margin="8,0,0,0"/>
+
+                            <Grid Grid.Row="0" Grid.Column="4">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <TextBox    x:Name="txtVersion" Grid.Column="0" Style="{StaticResource Content_InputForm_ReadOnlyTextBoxStyle}" CharacterCasing="Upper" HorizontalContentAlignment="Center" FontWeight="Bold" />
+                                <Button     x:Name="btnVersion" Grid.Column="1" Content="{Binding Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{DynamicResource Content_SearchButtonStyle}" HorizontalAlignment="Center" Click="btnVersion_Click"  />
+                            </Grid>
+
+                            <TextBlock   x:Name="tbCurLaneQty"        Grid.Row="0" Grid.Column="5" Text="{Binding ConverterParameter='Lane수', Converter={StaticResource GlobalObjectDicConverter}, RelativeSource={RelativeSource Self}}" Style="{StaticResource SearchCondition_LabelStyle}" />
+                            <!--<c1:C1NumericBox x:Name="txtCurLaneQty"   Grid.Row="0" Grid.Column="6" Style="{StaticResource C1NumericBoxStyle}" Format="F0" ShowButtons="False" IsEnabled="False" HorizontalContentAlignment="Center" />-->
+                            <!--<TextBlock   x:Name="tbLaneQty"           Grid.Row="0" Grid.Column="7" Text="{Binding ConverterParameter='실물Lane수', Converter={StaticResource GlobalObjectDicConverter}, RelativeSource={RelativeSource Self}}" Style="{StaticResource SearchCondition_LabelStyle}" Margin="8,0,0,0"/>-->
+                            <c1:C1NumericBox x:Name="txtLaneQty"      Grid.Row="0" Grid.Column="6" Style="{StaticResource C1NumericBoxStyle}" ShowButtons="False" Format="F0" IsEnabled="False" FontWeight="Bold" HorizontalContentAlignment="Center"/>
+
+                            <TextBlock  x:Name="tbWorkDate"           Grid.Row="2" Grid.Column="1" Text="{Binding ConverterParameter='작업일자', Converter={StaticResource GlobalObjectDicConverter}, RelativeSource={RelativeSource Self}}" Style="{StaticResource SearchCondition_LabelStyle}"/>
+                            <TextBox    x:Name="txtWorkDate"          Grid.Row="2" Grid.Column="2" Style="{StaticResource Content_InputForm_ReadOnlyTextBoxStyle}" CharacterCasing="Upper" HorizontalContentAlignment="Center"/>
+                            <TextBlock  x:Name="tbStartDateTime"      Grid.Row="2" Grid.Column="3" Text="{Binding ConverterParameter='시작시간', Converter={StaticResource GlobalObjectDicConverter}, RelativeSource={RelativeSource Self}}" Style="{StaticResource SearchCondition_LabelStyle}" Margin="8,0,0,0"/>
+                            <TextBox    x:Name="txtStartDateTime"     Grid.Row="2" Grid.Column="4" Style="{StaticResource Content_InputForm_ReadOnlyTextBoxStyle}" CharacterCasing="Upper" HorizontalContentAlignment="Center" />
+                            <TextBlock  x:Name="tbEndDateTime"        Grid.Row="2" Grid.Column="5" Text="{Binding ConverterParameter='종료시간', Converter={StaticResource GlobalObjectDicConverter}, RelativeSource={RelativeSource Self}}" Style="{StaticResource SearchCondition_LabelStyle}" Margin="8,0,0,0"/>
+                            <TextBox    x:Name="txtEndDateTime"       Grid.Row="2" Grid.Column="6" Style="{StaticResource Content_InputForm_ReadOnlyTextBoxStyle}" CharacterCasing="Upper" HorizontalContentAlignment="Center" />
+                            <TextBlock                                Grid.Row="2" Grid.Column="7" Text="{Binding ConverterParameter='상태', Converter={StaticResource GlobalObjectDicConverter}, RelativeSource={RelativeSource Self}}" Style="{StaticResource SearchCondition_LabelStyle}" Margin="8,0,0,0"/>
+                            <TextBox    x:Name="txtWipstat"           Grid.Row="2" Grid.Column="8" Style="{StaticResource Content_InputForm_ReadOnlyTextBoxStyle}" CharacterCasing="Upper" HorizontalContentAlignment="Center" FontWeight="Bold" Foreground="Red"/>
+
+                            <TextBlock                                Grid.Row="4" Grid.Column="1" Text="{Binding ConverterParameter='단위', Converter={StaticResource GlobalObjectDicConverter}, RelativeSource={RelativeSource Self}}" Style="{StaticResource SearchCondition_LabelStyle}" />
+                            <TextBox    x:Name="txtUnit"              Grid.Row="4" Grid.Column="2" Style="{StaticResource Content_InputForm_ReadOnlyTextBoxStyle}" CharacterCasing="Upper" HorizontalContentAlignment="Center" />
+                            <TextBlock  x:Name="tbOutCstID"           Grid.Row="4" Grid.Column="3" Text="{Binding ConverterParameter='OUT_CARRIERID', Converter={StaticResource GlobalObjectDicConverter}, RelativeSource={RelativeSource Self}}" Style="{StaticResource SearchCondition_LabelStyle}" />
+                            <TextBox    x:Name="txtOutCstID"          Grid.Row="4" Grid.Column="4" Style="{StaticResource Content_InputForm_TextBoxStyle}" CharacterCasing="Upper" HorizontalContentAlignment="Center" />
+                            <TextBlock  x:Name="tbFinalCut"           Grid.Row="4" Grid.Column="5" Text="{Binding ConverterParameter='FINALCUT', Converter={StaticResource GlobalObjectDicConverter}, RelativeSource={RelativeSource Self}}" HorizontalAlignment="Right" Style="{StaticResource SearchCondition_LabelStyle}" Margin="8,0,0,0" />
+                            <CheckBox   x:Name="chkFinalCut"          Grid.Row="4" Grid.Column="6"  Style="{StaticResource SearchCondition_CheckBoxStyle}" IsChecked="False"  FlowDirection="RightToLeft" />
+                            <TextBlock  x:Name="tbFastTrack"          Grid.Row="4" Grid.Column="7" Text="{Binding ConverterParameter='FastTrack', Converter={StaticResource GlobalObjectDicConverter}, RelativeSource={RelativeSource Self}}" HorizontalAlignment="Right" Style="{StaticResource SearchCondition_LabelStyle}" Margin="8,0,0,0" Visibility="Collapsed" />
+                            <CheckBox   x:Name="chkFastTrack"         Grid.Row="4" Grid.Column="8"  Style="{StaticResource SearchCondition_CheckBoxStyle}" IsChecked="False"  FlowDirection="RightToLeft" Visibility="Collapsed" Click="chkFastTrack_Click" />
+
+                            <TextBlock  x:Name="tbInputQty"           Grid.Row="6" Grid.Column="1" Text="{Binding ConverterParameter='투입량', Converter={StaticResource GlobalObjectDicConverter}, RelativeSource={RelativeSource Self}}" Style="{StaticResource SearchCondition_LabelStyle}"/>
+                            <c1:C1NumericBox x:Name="txtInputQty"     Grid.Row="6" Grid.Column="2" Style="{StaticResource C1NumericBoxStyle}" ShowButtons="False" Format="F2" IsEnabled="False" FontWeight="Bold" Background="Yellow" />
+                            <TextBlock  x:Name="tbGoodQty"            Grid.Row="6" Grid.Column="3" Text="{Binding ConverterParameter='양품량', Converter={StaticResource GlobalObjectDicConverter}, RelativeSource={RelativeSource Self}}" Style="{StaticResource SearchCondition_LabelStyle}" Margin="8,0,0,0" />
+                            <c1:C1NumericBox x:Name="txtGoodQty"      Grid.Row="6" Grid.Column="4" Style="{StaticResource C1NumericBoxStyle}" ShowButtons="False" Format="F2" IsEnabled="False" FontWeight="Bold" SelectOnFocus="Always" />
+                            <TextBlock  x:Name="tbRemainQty"          Grid.Row="6" Grid.Column="5" Text="{Binding ConverterParameter='잔량', Converter={StaticResource GlobalObjectDicConverter}, RelativeSource={RelativeSource Self}}" Style="{StaticResource SearchCondition_LabelStyle}" Margin="8,0,0,0"/>
+                            <c1:C1NumericBox x:Name="txtRemainQty"    Grid.Row="6" Grid.Column="6" Style="{StaticResource C1NumericBoxStyle}" ShowButtons="False" Format="F2" IsEnabled="False" FontWeight="Bold" />
+                        </Grid>
+
+                        <!-- Row 4 -->
+                        <Grid x:Name="grdResult" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="5">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="8"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="8" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="8" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock  x:Name="tbEquipmentQty" Grid.Row="0" Grid.Column="1" Text="{Binding ConverterParameter='설비수량', Converter={StaticResource GlobalObjectDicConverter}, RelativeSource={RelativeSource Self}}" HorizontalAlignment="Right" Style="{StaticResource SearchCondition_LabelStyle}" VerticalAlignment="Top"/>
+                            <TextBlock  x:Name="tbResultQty"    Grid.Row="2" Grid.Column="1" Text="{Binding ConverterParameter='실적수량', Converter={StaticResource GlobalObjectDicConverter}, RelativeSource={RelativeSource Self}}" HorizontalAlignment="Right" Style="{StaticResource SearchCondition_LabelStyle}" VerticalAlignment="Top"/>
+
+                            <!-- 설비수량 -->
+                            <c1:C1DataGrid x:Name="dgProductEquipment" 
+                                           Grid.Row="0"
+                                           Grid.Column="3"
+                                           IsReadOnly="True" 
+                                           CanUserSort="False" 
+                                           CanUserFilter="False" 
+                                           HeadersVisibility="Column"
+                                           SelectionMode="SingleRow">
+                                <c1:C1DataGrid.Columns>
+                                    <c1:DataGridNumericColumn Header="총 길이"           Binding="{Binding EQPT_TOTL_QTY}"           HorizontalAlignment="Right" Format="F2" Tag="N" />
+                                    <c1:DataGridNumericColumn Header="양면길이"          Binding="{Binding EQPT_TOP_BACK_QTY}"       HorizontalAlignment="Right" Format="F2" Tag="N" />
+                                    <c1:DataGridNumericColumn Header="단면길이"          Binding="{Binding EQPT_TOP_QTY}"            HorizontalAlignment="Right" Format="F2" Tag="N" />
+                                    <c1:DataGridNumericColumn Header="단선횟수"          Binding="{Binding EQPT_WEB_BREAK_CNT}"      HorizontalAlignment="Right" Format="0" Tag="N" />
+                                    <c1:DataGridNumericColumn Header="단선길이(BACK)"    Binding="{Binding EQPT_WEB_BREAK_BACK_QTY}" HorizontalAlignment="Right" Format="F2" Tag="N" />
+                                    <c1:DataGridNumericColumn Header="단선길이(TOP)"     Binding="{Binding EQPT_WEB_BREAK_TOP_QTY}"  HorizontalAlignment="Right" Format="F2" Tag="N" />
+                                </c1:C1DataGrid.Columns>
+                            </c1:C1DataGrid>
+
+                            <!-- 실적수량 -->
+                            <c1:C1DataGrid x:Name="dgProductResult" 
+                                           Grid.Row="2"
+                                           Grid.Column="3"
+                                           IsReadOnly="False" 
+                                           CanUserSort="False" 
+                                           CanUserFilter="False" 
+                                           HeadersVisibility="None"
+                                           SelectionMode="SingleRow"
+                                           LoadedCellPresenter="dgProductResult_LoadedCellPresenter"
+                                           UnloadedCellPresenter="dgProductResult_UnloadedCellPresenter" >
+                                <c1:C1DataGrid.Columns>
+                                    <c1:DataGridTextColumn    Header="[LOTID,LOTID]"                 Binding="{Binding LOTID}"                   HorizontalAlignment="Center" IsReadOnly="True" Visibility="Collapsed"/>
+                                    <c1:DataGridTextColumn    Header="[OUT_CARRIERID,OUT_CARRIERID]" Binding="{Binding OUT_CSTID}"               HorizontalAlignment="Center" Visibility="Collapsed"/>
+                                    <c1:DataGridTextColumn    Header="[이전LOTID,이전LOTID]"         Binding="{Binding PR_LOTID}"                HorizontalAlignment="Center" IsReadOnly="True" Visibility="Collapsed"/>
+                                    <c1:DataGridTextColumn    Header="[CarrierID,CarrierID]"         Binding="{Binding CSTID}"                   HorizontalAlignment="Center" IsReadOnly="True" Visibility="Collapsed" />
+                                    <c1:DataGridTextColumn    Header="[구분,구분]"                   Binding="{Binding INPUT_VALUE_TYPE}"        HorizontalAlignment="Left"   IsReadOnly="True" />
+                                    <c1:DataGridNumericColumn Header="[생산수량, BACK]"              Binding="{Binding INPUT_BACK_QTY}"          HorizontalAlignment="Right"  IsReadOnly="True" Format="F2" />
+                                    <c1:DataGridNumericColumn Header="[생산수량, TOP]"               Binding="{Binding INPUT_TOP_QTY}"           HorizontalAlignment="Right"  IsReadOnly="True" Format="F2" />
+                                    <c1:DataGridNumericColumn Header="[양품수량, C/Roll]"            Binding="{Binding GOODQTY}"                 HorizontalAlignment="Right"  IsReadOnly="True" Format="F2" />
+                                    <c1:DataGridNumericColumn Header="[양품수량, S/Roll]"            Binding="{Binding GOODQTY2}"                HorizontalAlignment="Right"  IsReadOnly="True" Format="F2" />
+                                    <c1:DataGridNumericColumn Header="[불량수량(BACK), 합계]"        Binding="{Binding DTL_BACK_DEFECT_SUM}"     HorizontalAlignment="Right"  IsReadOnly="True" Format="F2" />
+                                    <c1:DataGridNumericColumn Header="[불량수량(BACK), LOT불량]"     Binding="{Binding DTL_BACK_DEFECT}"         HorizontalAlignment="Right"  IsReadOnly="True" Format="F2" />
+                                    <c1:DataGridNumericColumn Header="[불량수량(BACK), LOSS]"        Binding="{Binding DTL_BACK_LOSS}"           HorizontalAlignment="Right"  IsReadOnly="True" Format="F2" />
+                                    <c1:DataGridNumericColumn Header="[불량수량(BACK), 물품청구]"    Binding="{Binding DTL_BACK_CHARGEPRD}"      HorizontalAlignment="Right"  IsReadOnly="True" Format="F2" />
+                                    <c1:DataGridNumericColumn Header="[불량수량(TOP), 합계]"         Binding="{Binding DTL_TOP_DEFECT_SUM}"      HorizontalAlignment="Right"  IsReadOnly="True" Format="F2" />
+                                    <c1:DataGridNumericColumn Header="[불량수량(TOP), LOT불량]"      Binding="{Binding DTL_TOP_DEFECT}"          HorizontalAlignment="Right"  IsReadOnly="True" Format="F2" />
+                                    <c1:DataGridNumericColumn Header="[불량수량(TOP), LOSS]"         Binding="{Binding DTL_TOP_LOSS}"            HorizontalAlignment="Right"  IsReadOnly="True" Format="F2" />
+                                    <c1:DataGridNumericColumn Header="[불량수량(TOP), 물품청구]"     Binding="{Binding DTL_TOP_CHARGEPRD}"       HorizontalAlignment="Right"  IsReadOnly="True" Format="F2" />
+                                    <c1:DataGridNumericColumn Header="[LANE, LANE]"                  Binding="{Binding LANE_QTY}"                HorizontalAlignment="Right" Format="0" Tag="N" Visibility="Collapsed" />
+                                    <c1:DataGridNumericColumn Header="[PTN, PTN]"                    Binding="{Binding LANE_PTN_QTY}"            HorizontalAlignment="Right" Format="0" Tag="N" Visibility="Collapsed"/>
+                                    <c1:DataGridTextColumn    Header="[BLOCK, BLOCK]"                Binding="{Binding CHG_BLOCK_FLAG}"          HorizontalAlignment="Center" Tag="N" Visibility="Collapsed"/>
+                                </c1:C1DataGrid.Columns>
+                                <c1:C1DataGrid.TopRows>
+                                    <c1:DataGridColumnHeaderRow />
+                                    <c1:DataGridColumnHeaderRow />
+                                </c1:C1DataGrid.TopRows>
+                            </c1:C1DataGrid>
+                        </Grid>
+
+                    </Grid>
+
+                    <Grid x:Name="grdDataCollect" Grid.Row="2" Grid.Column="1" >
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="8"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <c1:C1TabControl Name="tcDataCollect" Grid.Row="1" SelectionChanged="tcDataCollect_SelectionChanged" >
+                            <!-- 불량/LOSS/물품청구 -->
+                            <c1:C1TabItem Name="tiWipReason" Header="{Binding Converter={StaticResource GlobalObjectDicConverter}, ConverterParameter='불량/LOSS/물품청구'}" >
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="34"/>
+                                        <RowDefinition Height="1*"/>
+                                    </Grid.RowDefinitions>
+
+                                    <Grid Grid.Row="0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="1*"/>
+                                            <ColumnDefinition Width="8"/>
+                                            <ColumnDefinition Width="1*"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Left">
+                                            <TextBlock Name="lblTop" Text="{Binding ConverterParameter='TOP', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}" />
+                                        </StackPanel>
+                                        <StackPanel Grid.Row="0" Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Left">
+                                            <TextBlock Name="lblBack" Text="{Binding ConverterParameter='BACK', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}" />
+                                        </StackPanel>
+                                        <Border Grid.Column="2" Grid.ColumnSpan="2">
+                                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Height="Auto">
+                                                <TextBlock Name="txtLVFilter" Text="{Binding ConverterParameter='LV.Filter', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}" Visibility="Collapsed"/>
+                                                <CheckBox x:Name="chkDefectFilter" Style="{StaticResource SearchCondition_CheckBoxStyle}" Content="{Binding Converter={StaticResource GlobalObjectDicConverter}}" Click="chkDefectFilter_Click"  Visibility="Collapsed"/>
+                                                <Border Width="5"/>
+                                                <Button x:Name="btnRollMapUpdate" Content="{Binding ConverterParameter=롤맵수정, Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{DynamicResource Content_MainButtonNoMinWidthSpecialStyle}" Cursor="Hand" Click="btnRollMapUpdate_Click" Visibility="Collapsed" />
+                                                <Border Width="5"/>
+                                                <Button x:Name="btnSaveAllWipReason" Content="{Binding ConverterParameter=전체저장, Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{DynamicResource Content_MainButtonNoMinWidthSpecialStyle}" Cursor="Hand" Click="btnSaveAllWipReason_Click" IsEnabled="False" />
+                                                <Border Width="5"/>
+                                                <Button x:Name="btnSaveWipReason" Content="{Binding ConverterParameter=저장, Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{DynamicResource Content_MainButtonNoMinWidthSpecialStyle}" Cursor="Hand" Click="btnSaveWipReason_Click" IsEnabled="False"  />
+                                            </StackPanel>
+                                        </Border>
+                                    </Grid>
+
+                                    <Grid Grid.Row="1">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="1*"/>
+                                            <RowDefinition Height="Auto"/>
+                                        </Grid.RowDefinitions>
+
+                                        <Grid Grid.Row="0">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="1*" />
+                                                <ColumnDefinition Width="8" />
+                                                <ColumnDefinition Width="1*" />
+                                            </Grid.ColumnDefinitions>
+                                            <c1:C1DataGrid x:Name="dgWipReasonTop" 
+                                                           Tag="DEFECT_TOP" 
+                                                           Grid.Column="0"
+                                                           HeadersVisibility="Column" 
+                                                           SelectionMode="SingleCell" 
+                                                           CanUserSort="False" 
+                                                           CanUserFilter="False" 
+                                                           ClipboardPasteMode="None" 
+                                                           LoadedCellPresenter="dgWipReasonTop_LoadedCellPresenter"
+                                                           UnloadedCellPresenter="dgWipReasonTop_UnloadedCellPresenter" 
+                                                           BeginningEdit="dgWipReasonTop_BeginningEdit" 
+                                                           CommittedEdit="dgWipReasonTop_CommittedEdit"
+                                                           PreviewKeyDown="dgWipReasonTop_PreviewKeyDown">
+                                                <c1:C1DataGrid.Columns>
+                                                    <c1:DataGridTextColumn     Header="ACTID"                Binding="{Binding ACTID}"                        IsReadOnly="True" HorizontalAlignment="Center" Visibility="Collapsed" />
+                                                    <c1:DataGridTextColumn     Header="ACTNAME"              Binding="{Binding ACTNAME}"                      IsReadOnly="True" HorizontalAlignment="Center" />
+                                                    <c1:DataGridTextColumn     Header="불량코드"             Binding="{Binding RESNCODE}"                     IsReadOnly="True" HorizontalAlignment="Center" Visibility="Collapsed" />
+                                                    <c1:DataGridTextColumn     Header="불량요인"             Binding="{Binding RESNNAME}"                     IsReadOnly="True" HorizontalAlignment="Left" />
+                                                    <c1:DataGridTextColumn     Header="LOSS자동처리"         Binding="{Binding PRCS_ITEM_CODE}"               IsReadOnly="True" HorizontalAlignment="Center" Visibility="Collapsed" />
+                                                    <c1:DataGridTextColumn     Header="불량처리여부"         Binding="{Binding RSLT_EXCL_FLAG}"               IsReadOnly="True" HorizontalAlignment="Center" Visibility="Collapsed" />
+                                                    <c1:DataGridNumericColumn  Header="수량합계"             Binding="{Binding RESNTOTQTY}"                   IsReadOnly="True" HorizontalAlignment="Right"  Visibility="Collapsed" />
+                                                    <c1:DataGridTextColumn     Header="부품"                 Binding="{Binding PARTNAME}"                     IsReadOnly="True" HorizontalAlignment="Center" Visibility="Collapsed" />
+                                                    <c1:DataGridTextColumn     Header="TAG"                  Binding="{Binding TAG_CONV_RATE}"                IsReadOnly="True" HorizontalAlignment="Center" Visibility="Collapsed" />
+                                                    <c1:DataGridTextColumn     Header="횟수상세코드"         Binding="{Binding LINK_DETL_RSN_CODE_TYPE}"      IsReadOnly="True" HorizontalAlignment="Center" Visibility="Collapsed" />
+                                                    <c1:DataGridTextColumn     Header="횟수입력여부"         Binding="{Binding WRK_COUNT_MNGT_FLAG}"          IsReadOnly="True" HorizontalAlignment="Center" Visibility="Collapsed" />
+                                                    <c1:DataGridNumericColumn  Header="횟수"                 Binding="{Binding COUNTQTY}"                     HorizontalAlignment="Right" Minimum="0" Maximum="99" Tag="N" ShowButtons="False" HandleUpDownKeys="False"  />
+                                                    <c1:DataGridNumericColumn  Header="태그수"               Binding="{Binding DFCT_TAG_QTY}"                 Format="F0" Minimum="0" Tag="N" ShowButtons="False" HandleUpDownKeys="False" Visibility="Collapsed" />
+                                                    <c1:DataGridNumericColumn  Header="M수량"                Binding="{Binding CONVRESNQTY}"                  Format="F2" Minimum="0" ShowButtons="False" HandleUpDownKeys="False" Visibility="Collapsed" />
+                                                    <c1:DataGridNumericColumn  Header="수량"                 Binding="{Binding RESNQTY}"                      Format="F2" Minimum="0" ShowButtons="False" HandleUpDownKeys="False" />
+                                                    <c1:DataGridTextColumn     Header="COSTCENTERID"         Binding="{Binding COSTCENTERID}"                 IsReadOnly="True" HorizontalAlignment="Center" Visibility="Collapsed" />
+                                                    <c1:DataGridTextColumn     Header="COSTCENTER"           Binding="{Binding COSTCENTER}"                   IsReadOnly="True" HorizontalAlignment="Center" Visibility="Collapsed" />
+                                                    <c1:DataGridTextColumn     Header="TAG_ALL_APPLY_FLAG"   Binding="{Binding TAG_ALL_APPLY_FLAG}"           IsReadOnly="True" HorizontalAlignment="Center" Visibility="Collapsed" />
+                                                    <c1:DataGridTextColumn     Header="AREA_RESN_CLSS_NAME1" Binding="{Binding AREA_RESN_CLSS_NAME1}"         IsReadOnly="True" HorizontalAlignment="Center" Visibility="Collapsed" />
+                                                    <c1:DataGridTextColumn     Header="AREA_RESN_CLSS_NAME2" Binding="{Binding AREA_RESN_CLSS_NAME2}"         IsReadOnly="True" HorizontalAlignment="Center" Visibility="Collapsed" />
+                                                    <c1:DataGridTextColumn     Header="AREA_RESN_CLSS_NAME3" Binding="{Binding AREA_RESN_CLSS_NAME3}"         IsReadOnly="True" HorizontalAlignment="Center" Visibility="Collapsed" />
+                                                    <c1:DataGridTextColumn     Header="수량입력여부"         Binding="{Binding DFCT_QTY_CHG_BLOCK_FLAG}"      IsReadOnly="True" HorizontalAlignment="Center" Visibility="Collapsed" />
+                                                    <c1:DataGridNumericColumn  Header="자동실적수량"         Binding="{Binding FRST_AUTO_RSLT_RESNQTY}"       Format="F2" Minimum="0" ShowButtons="False" HandleUpDownKeys="False" Visibility="Collapsed" />
+                                                    <c1:DataGridTextColumn     Header="단선여부"             Binding="{Binding WEB_BREAK_FLAG}"               IsReadOnly="True" HorizontalAlignment="Center" Visibility="Collapsed" />
+                                                    <c1:DataGridTextColumn     Header="TOPLOSS기본불량여부"  Binding="{Binding TOP_LOSS_BAS_DFCT_APPLY_FLAG}" IsReadOnly="True" HorizontalAlignment="Center" Visibility="Collapsed" />
+                                                </c1:C1DataGrid.Columns>
+                                            </c1:C1DataGrid>
+
+                                            <GridSplitter Grid.Column="1" ResizeDirection="Columns" ShowsPreview="True" Style="{StaticResource GridSplitterStyle}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" />
+
+                                            <c1:C1DataGrid x:Name="dgWipReasonBack" 
+                                                           Tag="DEFECT_BACK" 
+                                                           Grid.Column="2" 
+                                                           HeadersVisibility="Column" 
+                                                           SelectionMode="SingleCell" 
+                                                           CanUserSort="False" 
+                                                           CanUserFilter="False" 
+                                                           ClipboardPasteMode="None" 
+                                                           Margin="5,0,0,0" 
+                                                           LoadedCellPresenter="dgWipReasonTop_LoadedCellPresenter" 
+                                                           UnloadedCellPresenter="dgWipReasonTop_UnloadedCellPresenter" 
+                                                           BeginningEdit="dgWipReasonTop_BeginningEdit" 
+                                                           CommittedEdit="dgWipReasonTop_CommittedEdit" 
+                                                           PreviewKeyDown="dgWipReasonTop_PreviewKeyDown" 
+                                                           BeganEdit="dgWipReasonBack_BeganEdit"  >
+                                                <c1:C1DataGrid.Columns>
+                                                    <c1:DataGridTextColumn     Header="ACTID"                Binding="{Binding ACTID}"                        IsReadOnly="True" HorizontalAlignment="Center" Visibility="Collapsed" />
+                                                    <c1:DataGridTextColumn     Header="ACTNAME"              Binding="{Binding ACTNAME}"                      IsReadOnly="True" HorizontalAlignment="Center" />
+                                                    <c1:DataGridTextColumn     Header="불량코드"             Binding="{Binding RESNCODE}"                     IsReadOnly="True" HorizontalAlignment="Center" Visibility="Collapsed" />
+                                                    <c1:DataGridTextColumn     Header="불량요인"             Binding="{Binding RESNNAME}"                     IsReadOnly="True" HorizontalAlignment="Left" />
+                                                    <c1:DataGridTextColumn     Header="LOSS자동처리"         Binding="{Binding PRCS_ITEM_CODE}"               IsReadOnly="True" HorizontalAlignment="Center" Visibility="Collapsed" />
+                                                    <c1:DataGridTextColumn     Header="불량처리여부"         Binding="{Binding RSLT_EXCL_FLAG}"               IsReadOnly="True" HorizontalAlignment="Center" Visibility="Collapsed" />
+                                                    <c1:DataGridNumericColumn  Header="수량합계"             Binding="{Binding RESNTOTQTY}"                   IsReadOnly="True" HorizontalAlignment="Right"  Visibility="Collapsed" />
+                                                    <c1:DataGridTextColumn     Header="부품"                 Binding="{Binding PARTNAME}"                     IsReadOnly="True" HorizontalAlignment="Center" Visibility="Collapsed" />
+                                                    <c1:DataGridTextColumn     Header="TAG"                  Binding="{Binding TAG_CONV_RATE}"                IsReadOnly="True" HorizontalAlignment="Center" Visibility="Collapsed" />
+                                                    <c1:DataGridTextColumn     Header="횟수상세코드"         Binding="{Binding LINK_DETL_RSN_CODE_TYPE}"      IsReadOnly="True" HorizontalAlignment="Center" Visibility="Collapsed" />
+                                                    <c1:DataGridTextColumn     Header="횟수입력여부"         Binding="{Binding WRK_COUNT_MNGT_FLAG}"          IsReadOnly="True" HorizontalAlignment="Center" Visibility="Collapsed" />
+                                                    <c1:DataGridCheckBoxColumn Header="전체등록"             Binding="{Binding RESN_TOT_CHK}"                 Name="RESN_TOT_CHK" HorizontalAlignment="Center" EditOnSelection="True" />
+                                                    <c1:DataGridNumericColumn  Header="횟수"                 Binding="{Binding COUNTQTY}"                     HorizontalAlignment="Right" Width="80" Minimum="0" Maximum="99" Tag="N" ShowButtons="False" HandleUpDownKeys="False"  />
+                                                    <c1:DataGridNumericColumn  Header="태그수"               Binding="{Binding DFCT_TAG_QTY}"                 Format="F0" Minimum="0" Tag="N" ShowButtons="False" HandleUpDownKeys="False" Visibility="Collapsed" />
+                                                    <c1:DataGridNumericColumn  Header="M수량"                Binding="{Binding CONVRESNQTY}"                  Format="F2" Minimum="0" ShowButtons="False" HandleUpDownKeys="False" Visibility="Collapsed" />
+                                                    <c1:DataGridNumericColumn  Header="수량"                 Binding="{Binding RESNQTY}"                      Format="F2" Minimum="0" ShowButtons="False" HandleUpDownKeys="False" />
+                                                    <c1:DataGridTextColumn     Header="COSTCENTERID"         Binding="{Binding COSTCENTERID}"                 IsReadOnly="True" HorizontalAlignment="Center" Visibility="Collapsed" />
+                                                    <c1:DataGridTextColumn     Header="COSTCENTER"           Binding="{Binding COSTCENTER}"                   IsReadOnly="True" HorizontalAlignment="Center" Visibility="Collapsed" />
+                                                    <c1:DataGridTextColumn     Header="TAG_ALL_APPLY_FLAG"   Binding="{Binding TAG_ALL_APPLY_FLAG}"           IsReadOnly="True" HorizontalAlignment="Center" Visibility="Collapsed" />
+                                                    <c1:DataGridTextColumn     Header="AREA_RESN_CLSS_NAME1" Binding="{Binding AREA_RESN_CLSS_NAME1}"         IsReadOnly="True" HorizontalAlignment="Center" Visibility="Collapsed" />
+                                                    <c1:DataGridTextColumn     Header="AREA_RESN_CLSS_NAME2" Binding="{Binding AREA_RESN_CLSS_NAME2}"         IsReadOnly="True" HorizontalAlignment="Center" Visibility="Collapsed" />
+                                                    <c1:DataGridTextColumn     Header="AREA_RESN_CLSS_NAME3" Binding="{Binding AREA_RESN_CLSS_NAME3}"         IsReadOnly="True" HorizontalAlignment="Center" Visibility="Collapsed" />
+                                                    <c1:DataGridTextColumn     Header="수량입력여부"         Binding="{Binding DFCT_QTY_CHG_BLOCK_FLAG}"      IsReadOnly="True" HorizontalAlignment="Center" Visibility="Collapsed" />
+                                                    <c1:DataGridNumericColumn  Header="자동실적수량"         Binding="{Binding FRST_AUTO_RSLT_RESNQTY}"       Format="F2" Minimum="0" ShowButtons="False" HandleUpDownKeys="False" Visibility="Collapsed" />
+                                                    <c1:DataGridTextColumn     Header="단선여부"             Binding="{Binding WEB_BREAK_FLAG}"               IsReadOnly="True" HorizontalAlignment="Center" Visibility="Collapsed" />
+                                                    <c1:DataGridTextColumn     Header="TOPLOSS기본불량여부"  Binding="{Binding TOP_LOSS_BAS_DFCT_APPLY_FLAG}" IsReadOnly="True" HorizontalAlignment="Center" Visibility="Collapsed" />
+                                                </c1:C1DataGrid.Columns>
+                                            </c1:C1DataGrid>
+                                        </Grid>
+                                        <Grid x:Name="grdDefectLVFilter" Grid.Row="1" Visibility="Collapsed">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="8"/>
+                                                <ColumnDefinition Width="1*"/>
+                                                <ColumnDefinition Width="8"/>
+                                                <ColumnDefinition Width="1*"/>
+                                                <ColumnDefinition Width="8"/>
+                                                <ColumnDefinition Width="1*"/>
+                                                <ColumnDefinition Width="8"/>
+                                            </Grid.ColumnDefinitions>
+
+                                            <c1:C1DataGrid Grid.Column="1" x:Name="dgLevel1" IsReadOnly="True" HeadersVisibility="None" SelectionMode="SingleCell"  HorizontalScrollBarVisibility="Hidden" CanUserSort="False" CanUserFilter="True" CurrentCellChanged="dgLevel_CurrentCellChanged" LoadedCellPresenter="dgLevel_LoadedCellPresenter" >
+                                                <c1:C1DataGrid.Columns>
+                                                    <c1:DataGridCheckBoxColumn  Name="CHK"        Binding = "{Binding CHK}"              HorizontalAlignment="Center"     IsReadOnly="False"  Width="Auto"/>
+                                                    <c1:DataGridTextColumn        Header = "Level1_Content"          Binding = "{Binding LV_NAME}"     HorizontalAlignment="Center" Width="*" IsReadOnly="True" />
+                                                </c1:C1DataGrid.Columns>
+                                            </c1:C1DataGrid>
+
+                                            <c1:C1DataGrid Grid.Column="3" x:Name="dgLevel2" IsReadOnly="True" HeadersVisibility="None" SelectionMode="SingleCell" HorizontalScrollBarVisibility="Hidden" CanUserSort="False" CanUserFilter="True" CurrentCellChanged="dgLevel_CurrentCellChanged" LoadedCellPresenter="dgLevel_LoadedCellPresenter" >
+                                                <c1:C1DataGrid.Columns>
+                                                    <c1:DataGridCheckBoxColumn  Name="CHK"             Binding = "{Binding CHK}"            HorizontalAlignment="Center"     IsReadOnly="False" Width="Auto"/>
+                                                    <c1:DataGridTextColumn        Header = "Level2_Content"          Binding = "{Binding LV_NAME}"     HorizontalAlignment="Center" Width="*" IsReadOnly="True"/>
+                                                </c1:C1DataGrid.Columns>
+                                            </c1:C1DataGrid>
+
+                                            <c1:C1DataGrid Grid.Column="5" x:Name="dgLevel3" IsReadOnly="True" HeadersVisibility="None" SelectionMode="SingleCell" HorizontalScrollBarVisibility="Hidden" CanUserSort="False" CanUserFilter="True" CurrentCellChanged="dgLevel_CurrentCellChanged" LoadedCellPresenter="dgLevel_LoadedCellPresenter" >
+                                                <c1:C1DataGrid.Columns>
+                                                    <c1:DataGridCheckBoxColumn  Name="CHK"          Binding = "{Binding CHK}"              HorizontalAlignment="Center"     IsReadOnly="False" Width="Auto"/>
+                                                    <c1:DataGridTextColumn        Header = "Level3_Content"          Binding = "{Binding LV_NAME}"     HorizontalAlignment="Center" Width="*" IsReadOnly="True"/>
+                                                </c1:C1DataGrid.Columns>
+                                            </c1:C1DataGrid>
+                                        </Grid>
+                                    </Grid>
+                                </Grid>
+                            </c1:C1TabItem>
+
+                            <!-- 품질정보 -->
+                            <c1:C1TabItem Name="tiQuality" Header="{Binding Converter={StaticResource GlobalObjectDicConverter}, ConverterParameter='품질정보'}" Margin="0" >
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="34" />
+                                        <RowDefinition Height="1*" />
+                                    </Grid.RowDefinitions>
+
+                                    <Grid Grid.Row="0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="1*"/>
+                                            <ColumnDefinition Width="1*"/>
+                                            <ColumnDefinition Width="1*"/>
+                                            <ColumnDefinition Width="1*"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Left">
+                                            <TextBlock Name="lblQualityTop" Text="{Binding ConverterParameter='TOP', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}" />
+                                        </StackPanel>
+                                        <StackPanel Grid.Row="0" Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Left">
+                                            <TextBlock Name="lblQualityBack" Text="{Binding ConverterParameter='BACK', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}" />
+                                        </StackPanel>
+
+                                        <Border Grid.Column="3">
+                                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Height="Auto">
+                                                <Button x:Name="btnSaveQuality" Content="{Binding ConverterParameter=저장, Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{DynamicResource Content_MainButtonNoMinWidthSpecialStyle}" Cursor="Hand" Click="btnSaveQuality_Click" />
+                                            </StackPanel>
+                                        </Border>
+                                    </Grid>
+
+                                    <Grid Grid.Row="1">
+                                        <Grid Name="grdQualityGrid">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="1*"/>
+                                                <ColumnDefinition Width="8"/>
+                                                <ColumnDefinition Width="1*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <c1:C1DataGrid x:Name="dgQualityTop"  
+                                                           Grid.Column="0" 
+                                                           HeadersVisibility="Column" 
+                                                           SelectionMode="MultiRange" 
+                                                           CanUserSort="False" 
+                                                           CanUserFilter="False" 
+                                                           LoadedCellPresenter="dgQualityTop_LoadedCellPresenter" 
+                                                           UnloadedCellPresenter="dgQualityTop_UnloadedCellPresenter" 
+                                                           CommittedEdit="dgQualityTop_CommittedEdit" 
+                                                           PreviewKeyDown="dgQualityTop_PreviewKeyDown" >
+                                                <c1:C1DataGrid.Columns>
+                                                    <c1:DataGridTextColumn Header="항목" Binding="{Binding CLCTITEM}" HorizontalAlignment="Left" IsReadOnly="True" Visibility="Collapsed" />
+                                                    <c1:DataGridTextColumn Header="항목1" Binding="{Binding CLSS_NAME1}" HorizontalAlignment="Left" IsReadOnly="True" >
+                                                        <c1:DataGridAggregate.AggregateFunctions>
+                                                            <c1:DataGridAggregatesCollection>
+                                                                <c1:DataGridAggregateCount />
+                                                            </c1:DataGridAggregatesCollection>
+                                                        </c1:DataGridAggregate.AggregateFunctions>
+                                                    </c1:DataGridTextColumn>
+                                                    <c1:DataGridTextColumn Header="항목2"                Binding="{Binding CLSS_NAME2}"           HorizontalAlignment="Left"   IsReadOnly="True" />
+                                                    <c1:DataGridTextColumn Header="항목3"                Binding="{Binding CLSS_NAME3}"           HorizontalAlignment="Left"   IsReadOnly="True" />
+                                                    <c1:DataGridTextColumn Header="LSL"                  Binding="{Binding LSL}"                  HorizontalAlignment="Center" IsReadOnly="True" />
+                                                    <c1:DataGridTextColumn Header="CSL"                  Binding="{Binding CSL}"                  HorizontalAlignment="Center" IsReadOnly="True" Visibility="Collapsed" />
+                                                    <c1:DataGridTextColumn Header="USL"                  Binding="{Binding USL}"                  HorizontalAlignment="Center" IsReadOnly="True" />
+                                                    <c1:DataGridTextColumn Header="CLCTSEQ"              Binding="{Binding CLCTSEQ}"              HorizontalAlignment="Center" Visibility="Collapsed" />
+                                                    <c1:DataGridTextColumn Header="INSP_VALUE_TYPE_CODE" Binding="{Binding INSP_VALUE_TYPE_CODE}" HorizontalAlignment="Center" Visibility="Collapsed" />
+                                                    <c1:DataGridTemplateColumn Header="측정값"           EditOnSelection="True" Name="CLCTVAL01" MinWidth="80" >
+                                                        <c1:DataGridTemplateColumn.CellTemplate>
+                                                            <DataTemplate>
+                                                                <StackPanel >
+                                                                    <c1:C1NumericBox Value="{Binding Path=CLCTVAL01, Mode=TwoWay, Converter={StaticResource NumericBoxConverter}}" Visibility="{Binding TEXTVISIBLE}" Style="{StaticResource C1NumericBoxStyle}" PreviewKeyUp="dgQualityTop_CLCTVAL01_PreviewKeyUp" LostFocus="dgQualityTop_CLCTVAL01_LostFocus" HorizontalAlignment="Stretch" Format="F2" AllowNull="True" HandleUpDownKeys="False" ShowButtons="False" Background="Transparent" BorderThickness="0" />
+                                                                    <ComboBox  Text="{Binding CLCTVAL01}" Visibility="{Binding COMBOVISIBLE}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" >
+                                                                        <ComboBoxItem>OK</ComboBoxItem>
+                                                                        <ComboBoxItem>NG</ComboBoxItem>
+                                                                    </ComboBox>
+                                                                </StackPanel>
+                                                            </DataTemplate>
+                                                        </c1:DataGridTemplateColumn.CellTemplate>
+                                                        <c1:DataGridAggregate.AggregateFunctions>
+                                                            <c1:DataGridAggregatesCollection>
+                                                                <c1:DataGridAggregateAvg ResultTemplate="{StaticResource ResultTemplate}" />
+                                                            </c1:DataGridAggregatesCollection>
+                                                        </c1:DataGridAggregate.AggregateFunctions>
+                                                    </c1:DataGridTemplateColumn>
+                                                    <c1:DataGridTextColumn Header="단위"                 Binding="{Binding CLCTUNIT}"                     HorizontalAlignment="Left"   IsReadOnly="True"/>
+                                                    <c1:DataGridTextColumn Header="필수체크항목"         Binding="{Binding MAND_INSP_ITEM_FLAG}"          HorizontalAlignment="Center" IsReadOnly="True" Visibility="Collapsed" />
+                                                    <c1:DataGridTextColumn Header="스펙사용필수체크항목" Binding="{Binding SPEC_USE_MAND_INSP_ITEM_FLAG}" HorizontalAlignment="Center" IsReadOnly="True" Visibility="Collapsed" />
+                                                    <c1:DataGridTextColumn Header="세부항목"             Binding="{Binding INSP_ITEM_ID}"                 HorizontalAlignment="Center" IsReadOnly="True" Visibility="Collapsed" />
+                                                    <c1:DataGridTextColumn Header="세부항목명"           Binding="{Binding INSP_ITEM_NAME}"               HorizontalAlignment="Center" IsReadOnly="True" Visibility="Collapsed" />
+                                                    <c1:DataGridTextColumn Header="USL상한치"            Binding="{Binding USL_LIMIT}"                    HorizontalAlignment="Center" IsReadOnly="True" Visibility="Collapsed" />
+                                                    <c1:DataGridTextColumn Header="LSL하한치"            Binding="{Binding LSL_LIMIT}"                    HorizontalAlignment="Center" IsReadOnly="True" Visibility="Collapsed" />
+                                                    <c1:DataGridTextColumn Header="평균"                 Binding="{Binding MEAN}"                         HorizontalAlignment="Center" IsReadOnly="True" Visibility="Collapsed" Name="MEAN" MinWidth="80" />
+                                                </c1:C1DataGrid.Columns>
+                                            </c1:C1DataGrid>
+
+                                            <GridSplitter Grid.Column="1" ResizeDirection="Columns" ShowsPreview="True" Style="{StaticResource GridSplitterStyle}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" />
+
+                                            <c1:C1DataGrid x:Name="dgQualityBack"
+                                                           Grid.Column="2" 
+                                                           IsReadOnly="False" 
+                                                           HeadersVisibility="Column"
+                                                           SelectionMode="MultiRange" 
+                                                           CanUserSort="False" 
+                                                           CanUserFilter="False" 
+                                                           Margin="5,0,0,0" 
+                                                           LoadedCellPresenter="dgQualityTop_LoadedCellPresenter" 
+                                                           UnloadedCellPresenter="dgQualityTop_UnloadedCellPresenter" 
+                                                           CommittedEdit="dgQualityTop_CommittedEdit" 
+                                                           PreviewKeyDown="dgQualityTop_PreviewKeyDown" >
+                                                <c1:C1DataGrid.Columns>
+                                                    <c1:DataGridTextColumn Header="항목"                 Binding="{Binding CLCTITEM}"             HorizontalAlignment="Left"   IsReadOnly="True" Visibility="Collapsed" />
+                                                    <c1:DataGridTextColumn Header="항목1"                Binding="{Binding CLSS_NAME1}"           HorizontalAlignment="Left"   IsReadOnly="True" />
+                                                    <c1:DataGridTextColumn Header="항목2"                Binding="{Binding CLSS_NAME2}"           HorizontalAlignment="Left"   IsReadOnly="True" />
+                                                    <c1:DataGridTextColumn Header="항목3"                Binding="{Binding CLSS_NAME3}"           HorizontalAlignment="Left"   IsReadOnly="True" />
+                                                    <c1:DataGridTextColumn Header="LSL"                  Binding="{Binding LSL}"                  HorizontalAlignment="Center" IsReadOnly="True" />
+                                                    <c1:DataGridTextColumn Header="USL"                  Binding="{Binding USL}"                  HorizontalAlignment="Center" IsReadOnly="True" />
+                                                    <c1:DataGridTextColumn Header="CLCTSEQ"              Binding="{Binding CLCTSEQ}"              HorizontalAlignment="Center" IsReadOnly="True" Visibility="Collapsed" />
+                                                    <c1:DataGridTextColumn Header="INSP_VALUE_TYPE_CODE" Binding="{Binding INSP_VALUE_TYPE_CODE}" HorizontalAlignment="Center" Visibility="Collapsed" />
+                                                    <c1:DataGridTemplateColumn Header="측정값" EditOnSelection="True" Name="CLCTVAL01" MinWidth="80">
+                                                        <c1:DataGridTemplateColumn.CellTemplate>
+                                                            <DataTemplate>
+                                                                <StackPanel>
+                                                                    <c1:C1NumericBox Value="{Binding CLCTVAL01, Mode=TwoWay, Converter={StaticResource NumericBoxConverter}}" Visibility="{Binding TEXTVISIBLE}" Style="{StaticResource C1NumericBoxStyle}"  PreviewKeyUp="dgQualityBack_CLCTVAL01_PreviewKeyUp" LostFocus="dgQualityBack_CLCTVAL01_LostFocus" HorizontalAlignment="Stretch" Format="F2" AllowNull="True" HandleUpDownKeys="False" ShowButtons="False" Background="Transparent" BorderThickness="0" />
+                                                                    <ComboBox  Text="{Binding CLCTVAL01}" Visibility="{Binding COMBOVISIBLE}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" >
+                                                                        <ComboBoxItem>OK</ComboBoxItem>
+                                                                        <ComboBoxItem>NG</ComboBoxItem>
+                                                                    </ComboBox>
+                                                                </StackPanel>
+                                                            </DataTemplate>
+                                                        </c1:DataGridTemplateColumn.CellTemplate>
+                                                    </c1:DataGridTemplateColumn>
+                                                    <c1:DataGridTextColumn    Header="단위"                 Binding="{Binding CLCTUNIT}"                     HorizontalAlignment="Left"   IsReadOnly="True" />
+                                                    <c1:DataGridTextColumn    Header="필수체크항목"         Binding="{Binding MAND_INSP_ITEM_FLAG}"          HorizontalAlignment="Center" IsReadOnly="True" Visibility="Collapsed" />
+                                                    <c1:DataGridTextColumn    Header="스펙사용필수체크항목" Binding="{Binding SPEC_USE_MAND_INSP_ITEM_FLAG}" HorizontalAlignment="Center" IsReadOnly="True" Visibility="Collapsed" />
+                                                    <c1:DataGridTextColumn    Header="세부항목"             Binding="{Binding INSP_ITEM_ID}"                 HorizontalAlignment="Center" IsReadOnly="True" Visibility="Collapsed" />
+                                                    <c1:DataGridTextColumn    Header="세부항목명"           Binding="{Binding INSP_ITEM_NAME}"               HorizontalAlignment="Center" IsReadOnly="True" Visibility="Collapsed" />
+                                                    <c1:DataGridTextColumn    Header="USL상한치"            Binding="{Binding USL_LIMIT}"                    HorizontalAlignment="Center" IsReadOnly="True" Visibility="Collapsed" />
+                                                    <c1:DataGridTextColumn    Header="LSL하한치"            Binding="{Binding LSL_LIMIT}"                    HorizontalAlignment="Center" IsReadOnly="True" Visibility="Collapsed" />
+                                                    <c1:DataGridNumericColumn Header="입력값"               Binding="{Binding CLCTVAL02}"                    Format="F2" Minimum="0" ShowButtons="False" HandleUpDownKeys="False" />
+                                                    <c1:DataGridNumericColumn Header="변환율"               Binding="{Binding INSP_CONV_RATE}"               Format="F2" Minimum="0" ShowButtons="False" HandleUpDownKeys="False" IsReadOnly="True" HorizontalAlignment="Center" Tag="N" />
+                                                </c1:C1DataGrid.Columns>
+                                            </c1:C1DataGrid>
+                                        </Grid>
+                                    </Grid>
+                                </Grid>
+                            </c1:C1TabItem>
+
+                            <!-- 투입자재 -->
+                            <c1:C1TabItem Name="tiInputMaterial" Header="{Binding Converter={StaticResource GlobalObjectDicConverter}, ConverterParameter='투입자재'}" >
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="34"/>
+                                        <RowDefinition Height="1*"/>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="10"/>
+                                        <ColumnDefinition Width="100"/>
+                                        <ColumnDefinition Width="1*"/>
+                                        <ColumnDefinition Width="1*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="5"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <Grid Grid.Row="0" Grid.Column="3">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="5"/>
+                                            <ColumnDefinition Width="1*"/>
+                                            <ColumnDefinition Width="5"/>
+                                        </Grid.ColumnDefinitions>
+                                        <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
+                                            <Button Grid.Column="1" x:Name="btnAddMaterial"  Content="{Binding ConverterParameter=Title11,   Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{DynamicResource Content_ModuleButtonAddStyle}" Click="btnAddMaterial_Click" />
+                                        </StackPanel>
+                                    </Grid>
+                                    <Button x:Name="btnDeleteMaterial" Grid.Row="0" Grid.Column="4" Content="{Binding ConverterParameter=삭제, Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{DynamicResource Content_MainButtonNoMinWidthSpecialStyle}"  Click="btnDeleteMaterial_Click" />
+                                    <Button x:Name="btnSaveMaterial"   Grid.Row="0" Grid.Column="6" Content="{Binding ConverterParameter=저장, Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{DynamicResource Content_MainButtonNoMinWidthSpecialStyle}" Click="btnSaveMaterial_Click" />
+
+                                    <c1:C1DataGrid Grid.Row="1" 
+                                                   Grid.Column="0" 
+                                                   Grid.ColumnSpan="7" 
+                                                   x:Name="dgMaterial" 
+                                                   HeadersVisibility="Column" 
+                                                   SelectionMode="MultiRange" 
+                                                   CanUserSort="False"
+                                                   CanUserFilter="False" 
+                                                   ClipboardPasteMode="None" 
+                                                   CommittedEdit="dgMaterial_CommittedEdit"  >
+                                        <c1:C1DataGrid.Columns>
+                                            <c1:DataGridCheckBoxColumn Width="Auto" Name="CHK" Binding="{Binding CHK}" HorizontalAlignment="Center" EditOnSelection="True" />
+                                            <c1:DataGridComboBoxColumn Header="투입자재" Binding="{Binding MTRLID}"               HorizontalAlignment="Left"   IsReadOnly="false"  EditOnSelection="False" DisplayMemberPath="MTRLNAME" SelectedValuePath="MTRLID" CellContentStyle="{StaticResource Grid_CellContentStyle}" Name="MTRLID"/>
+                                            <c1:DataGridTextColumn     Header="규격"     Binding="{Binding MTRLDESC}"             HorizontalAlignment="Left"   IsReadOnly="True" />
+                                            <c1:DataGridTextColumn     Header="자재LOT"  Binding="{Binding INPUT_LOTID}"          HorizontalAlignment="Center" />
+                                            <c1:DataGridTextColumn     Header="SCANID"   Binding="{Binding SCAN_LOTID}"           HorizontalAlignment="Center" IsReadOnly="True"/>
+                                            <c1:DataGridNumericColumn  Header="사용량"   Binding="{Binding INPUT_QTY}"            HorizontalAlignment="Center" ShowButtons="False" Format="F2" />
+                                            <c1:DataGridTextColumn     Header="단위"     Binding="{Binding UNIT}"                 HorizontalAlignment="Center" />
+                                            <c1:DataGridTextColumn     Header="투입순번" Binding="{Binding INPUT_SEQNO}"          HorizontalAlignment="Center" Visibility="Collapsed" />
+                                        </c1:C1DataGrid.Columns>
+                                    </c1:C1DataGrid>
+                                </Grid>
+                            </c1:C1TabItem>
+
+                            <!-- 특이사항 -->
+                            <c1:C1TabItem Name="tiRemark" Header="{Binding Converter={StaticResource GlobalObjectDicConverter}, ConverterParameter='특이사항'}" >
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="34"/>
+                                        <RowDefinition Height="1*"/>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="1*"/>
+                                        <ColumnDefinition Width="1*"/>
+                                        <ColumnDefinition Width="1*"/>
+                                        <ColumnDefinition Width="1*"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <Grid Grid.Row="0" Grid.ColumnSpan="4">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="1*"/>
+                                            <ColumnDefinition Width="1*"/>
+                                            <ColumnDefinition Width="1*"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Border Grid.Column="3">
+                                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Height="Auto">
+                                                <Button Grid.Column="3" x:Name="btnSaveRemark" Content="{Binding ConverterParameter=저장, Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{DynamicResource Content_MainButtonNoMinWidthSpecialStyle}" Cursor="Hand" Click="btnSaveRemark_Click"/>
+                                            </StackPanel>
+                                        </Border>
+                                    </Grid>
+
+                                    <c1:C1DataGrid Grid.Row="1" 
+                                                   Grid.Column="0"
+                                                   Grid.ColumnSpan="6"
+                                                   x:Name="dgRemark" 
+                                                   HeadersVisibility="Column" 
+                                                   SelectionMode="SingleCell" 
+                                                   CanUserSort="False"
+                                                   CanUserFilter="False" 
+                                                   CanUserAddRows="True" 
+                                                   CanUserRemoveRows="True" 
+                                                   ClipboardPasteMode="None" 
+                                                   LoadedCellPresenter="dgRemark_LoadedCellPresenter" 
+                                                   CommittedEdit="dgRemark_CommittedEdit"> <!--[E20240130-000386] [ESWA PI] 20240129_ElectrodeProcessProgressRemarksHOLDcheckBox -->
+                                        <c1:C1DataGrid.Columns>
+                                            <c1:DataGridTextColumn Header = "LOTID" Binding="{Binding LOTID}" IsReadOnly="True" HorizontalAlignment="Center" Width="100" />
+                                            <!--[E20240130-000386] [ESWA PI] 20240129_ElectrodeProcessProgressRemarksHOLDcheckBox -->
+                                            <c1:DataGridCheckBoxColumn Header = "HOLD"   Binding = "{Binding POST_HOLD}" IsReadOnly="False" HorizontalAlignment="Center" Width="80" />
+                                            <c1:DataGridTemplateColumn Header="REMARK" Width="1*">
+                                                <c1:DataGridTemplateColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <Grid>
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="*"/>
+                                                            </Grid.ColumnDefinitions>
+                                                            <TextBox Grid.Row="0" x:Name="txtRemark" HorizontalAlignment="Stretch" TextAlignment="Left" VerticalScrollBarVisibility="Auto" AcceptsReturn="True" TextWrapping="Wrap" Text="{Binding Path=REMARK, Mode=TwoWay}" Height="Auto" />
+                                                        </Grid>
+                                                    </DataTemplate>
+                                                </c1:DataGridTemplateColumn.CellTemplate>
+                                            </c1:DataGridTemplateColumn>
+                                        </c1:C1DataGrid.Columns>
+                                    </c1:C1DataGrid>
+                                </Grid>
+                            </c1:C1TabItem>
+
+                            <!-- TEST CUT -->
+                            <c1:C1TabItem Name="tiTestcut" Header="{Binding Converter={StaticResource GlobalObjectDicConverter}, ConverterParameter='TESTCUT'}" Margin="0" >
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="34"/>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="34"/>
+                                        <RowDefinition Height="110"/>
+                                        <RowDefinition Height="8"/>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="1*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Border Grid.Row="3" BorderThickness="1" BorderBrush="#ffbebebe" Background="White"/>
+
+                                    <Grid Grid.Row="0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="1*"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Border Grid.Column="0">
+                                            <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Left">
+                                                <TextBlock Text="{Binding ConverterParameter='이력', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}" />
+                                            </StackPanel>
+                                        </Border>
+                                        <StackPanel Grid.Row="0" Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Right" Height="Auto">
+                                            <Button Grid.Column="2" x:Name="btnSaveTestCut" Content="{Binding ConverterParameter=저장, Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{DynamicResource Content_MainButtonNoMinWidthSpecialStyle}" Cursor="Hand" Click="btnSaveTestCut_Click"/>
+                                        </StackPanel>
+                                    </Grid>
+
+                                    <c1:C1DataGrid Grid.Row="1" 
+                                                   Grid.Column="0"
+                                                   x:Name="dgTestCut" 
+                                                   HeadersVisibility="None" 
+                                                   SelectionMode="SingleCell" 
+                                                   CanUserSort="False"
+                                                   CanUserFilter="False"  
+                                                   ClipboardPasteMode="None" 
+                                                   LoadedCellPresenter="dgTestCut_LoadedCellPresenter" >
+                                        <c1:C1DataGrid.Columns>
+                                            <c1:DataGridTemplateColumn Name="CHK" Header="[선택,선택]" Width="40" HorizontalAlignment="Center" >
+                                                <c1:DataGridTemplateColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <CheckBox IsChecked="{Binding CHK, Mode=TwoWay}" VerticalAlignment="Center" HorizontalAlignment="Center" Checked="dgTestCut_CheckBox_Checked" Unchecked="dgTestCut_CheckBox_Checked" />
+                                                    </DataTemplate>
+                                                </c1:DataGridTemplateColumn.CellTemplate>
+                                            </c1:DataGridTemplateColumn>
+                                            <c1:DataGridTextColumn    Header="[APPLY_FLAG, APPLY_FLAG]"      Binding="{Binding LOSS_APPLY_FLAG}"            HorizontalAlignment="Center" IsReadOnly="True" />
+                                            <c1:DataGridTextColumn    Header="[REPORT_TIME, REPORT_TIME]"    Binding="{Binding CUT_RPT_DTTM}"               HorizontalAlignment="Center" IsReadOnly="True" />
+                                            <c1:DataGridNumericColumn Header="[설비수량, 총 길이]"            Binding="{Binding TOTL_LEN_QTY}"               HorizontalAlignment="Right"  IsReadOnly="True"  Format="F2" />
+                                            <c1:DataGridNumericColumn Header="[설비수량, TOP코팅길이]"        Binding="{Binding TOP_COATING_LEN_QTY}"        HorizontalAlignment="Right"  IsReadOnly="True"  Format="F2" />
+                                            <c1:DataGridNumericColumn Header="[설비수량, TOP/BACK코팅길이]"   Binding="{Binding TOP_BACK_COATING_LEN_QTY}"   HorizontalAlignment="Right"  IsReadOnly="True"  Format="F2" />
+                                            <c1:DataGridNumericColumn Header="[LOSS수량, TOP_LOSS]"          Binding="{Binding DTL_TOP_LOSS}"               HorizontalAlignment="Right"  IsReadOnly="True"  Format="F2" />
+                                            <c1:DataGridNumericColumn Header="[LOSS수량, BACK_LOSS]"         Binding="{Binding DTL_BACK_LOSS}"              HorizontalAlignment="Right"  IsReadOnly="True"  Format="F2" />
+                                        </c1:C1DataGrid.Columns>
+                                        <c1:C1DataGrid.TopRows>
+                                            <c1:DataGridColumnHeaderRow />
+                                            <c1:DataGridColumnHeaderRow />
+                                        </c1:C1DataGrid.TopRows>
+                                    </c1:C1DataGrid>
+                                    
+                                    <Grid Grid.Row="2">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="1*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Border Grid.Row="0" Grid.Column="0">
+                                            <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Left">
+                                                <TextBlock Text="{Binding ConverterParameter='LOSS 선택', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}" />
+                                            </StackPanel>
+                                        </Border>
+                                    </Grid>
+                                    
+                                    <Grid Grid.Row="3">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="30"/>
+                                            <RowDefinition Height="35"/>
+                                            <RowDefinition Height="35"/>
+                                            <RowDefinition Height="10"/>
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="10"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="10"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="10"/>
+                                        </Grid.ColumnDefinitions>
+                                        <StackPanel Grid.Row="0" Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Center">
+                                            <TextBlock Text="{Binding ConverterParameter='TOP_LOSS', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}" />
+                                        </StackPanel>
+                                        <StackPanel Grid.Row="0" Grid.Column="3" Orientation="Horizontal" HorizontalAlignment="Center">
+                                            <TextBlock Text="{Binding ConverterParameter='BACK_LOSS', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}" />
+                                        </StackPanel>
+
+                                        <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
+                                            <TextBlock Text="{Binding ConverterParameter='합계수량', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}" />
+                                        </StackPanel>
+                                        <TextBox    x:Name="txtTCTopLossQty"  Grid.Row="1" Grid.Column="2" Style="{StaticResource Content_InputForm_ReadOnlyTextBoxStyle}" CharacterCasing="Upper" HorizontalContentAlignment="Right"/>
+                                        <TextBox    x:Name="txtTCBackLossQty"  Grid.Row="1" Grid.Column="3" Style="{StaticResource Content_InputForm_ReadOnlyTextBoxStyle}" CharacterCasing="Upper" HorizontalContentAlignment="Right"/>
+
+                                        <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
+                                            <TextBlock Text="{Binding ConverterParameter='LOSS 선택', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}" />
+                                        </StackPanel>
+                                        <c1:C1ComboBox   Grid.Row="2" Grid.Column="2" x:Name="cboTCTopLoss" DisplayMemberPath="CBO_NAME" SelectedValuePath="CBO_CODE" Style="{StaticResource C1ComboBoxStyle}" AutoComplete="False" />
+                                        <c1:C1ComboBox   Grid.Row="2" Grid.Column="3" x:Name="cboTCBackLoss" DisplayMemberPath="CBO_NAME" SelectedValuePath="CBO_CODE" Style="{StaticResource C1ComboBoxStyle}" AutoComplete="False" />
+
+                                        <StackPanel Grid.Row="1" Grid.Column="5" Orientation="Horizontal" HorizontalAlignment="Right">
+                                            <TextBlock Text="{Binding ConverterParameter='LOSS_APPLY_FLAG', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}" />
+                                        </StackPanel>
+                                        <StackPanel Grid.Row="1" Grid.Column="6" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Left">
+                                            <RadioButton x:Name="rdoTCApplyY" Style="{StaticResource SearchCondition_RadioButtonStyle}" Content="{Binding ConverterParameter='예', Converter={StaticResource GlobalObjectDicConverter}}"  GroupName="LOSSAPPLY" IsChecked="True" Margin="5,0,10,0" />
+                                            <RadioButton x:Name="rdoTCApplyN"  Style="{StaticResource SearchCondition_RadioButtonStyle}" Content="{Binding ConverterParameter='아니오', Converter={StaticResource GlobalObjectDicConverter}}"  GroupName="LOSSAPPLY" Margin="5,0,10,0" />
+                                        </StackPanel>
+
+                                        <StackPanel Grid.Row="2" Grid.Column="5" Orientation="Horizontal" HorizontalAlignment="Right">
+                                            <TextBlock Text="{Binding ConverterParameter='확정일시', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}" />
+                                        </StackPanel>
+                                        <TextBox    x:Name="txtConfirmTime"  Grid.Row="2" Grid.Column="6" Grid.ColumnSpan="2" Style="{StaticResource Content_InputForm_ReadOnlyTextBoxStyle}" CharacterCasing="Upper" HorizontalContentAlignment="Center"/>
+                                    </Grid>
+                                </Grid>
+                            </c1:C1TabItem>
+
+                        </c1:C1TabControl>
+
+                    </Grid>
+                </Grid>
+
+                <ctrlLib:LoadingIndicator x:Name="loadingIndicator" Grid.Row="999" Grid.Column="999"  />
+
+            </Grid>
+
+        </ctrlLib:LGCLayout>
+    </Grid>
+</UserControl>

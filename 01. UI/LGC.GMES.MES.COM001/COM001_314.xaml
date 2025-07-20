@@ -1,0 +1,794 @@
+﻿<UserControl x:Class="LGC.GMES.MES.COM001.COM001_314"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:LGC.GMES.MES.COM001"
+             xmlns:c1="http://schemas.componentone.com/winfx/2006/xaml" 
+             xmlns:ctrlLib="clr-namespace:LGC.GMES.MES.ControlsLibrary;assembly=LGC.GMES.MES.ControlsLibrary"
+             mc:Ignorable="d"
+             d:DesignHeight="768" d:DesignWidth="1024" Loaded="UserControl_Loaded">
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/LGC.GMES.MES.ControlsLibrary;component/ControlStyles.xaml" />
+                <ResourceDictionary Source="/LGC.GMES.MES.ControlsLibrary;component/ControlTemplates/LGCDatePicker.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <Grid x:Name="grdMain">
+        <ctrlLib:LGCLayout x:Name="LayoutRoot">
+            <ctrlLib:LGCLayout.Content>
+                <Grid>
+                    <c1:C1TabControl SelectionChanged="C1TabControl_SelectionChanged">
+                        <!-- 등록 Tool 목록 -->
+                        <c1:C1TabItem Header="{Binding Converter={StaticResource GlobalObjectDicConverter}, ConverterParameter='등록 Tool 목록'}">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="1"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="5"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+
+                                <!-- Search Area -->
+                                <Grid x:Name="SearchAreaTool" Grid.Row="1" >
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="4" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="4" />
+                                    </Grid.RowDefinitions>
+
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="8" />
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="140" />
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="140" />
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="140" />
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="140" />
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="140" />
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="100" />
+                                        <ColumnDefinition Width="8" />
+                                    </Grid.ColumnDefinitions>
+
+                                    <!--백그라운드용-->
+                                    <Border     Grid.Row="0" Grid.Column="0" Grid.RowSpan="4" Grid.ColumnSpan="14" Style="{StaticResource Content_InputForm_LabelBorderStyle}"/>
+                                    <!--조회조건 -->
+                                    <TextBlock     Grid.Row="1"  Grid.Column="1"  Text="{Binding ConverterParameter='동',                 Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}"/>
+                                    <TextBlock     Grid.Row="1"  Grid.Column="3"  Text="{Binding ConverterParameter='LINE',               Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}"/>
+                                    <TextBlock     Grid.Row="1"  Grid.Column="5"  Text="{Binding ConverterParameter='공정',               Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}"/>
+                                    <TextBlock     Grid.Row="1"  Grid.Column="7"  Text="{Binding ConverterParameter='설비',               Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}"/>
+                                    <TextBlock     Grid.Row="1"  Grid.Column="9"  Text="{Binding ConverterParameter='장착위치',           Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}"/>
+
+                                    <TextBlock     Grid.Row="2"  Grid.Column="1"  Text="{Binding ConverterParameter='Tool유형',           Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}"/>
+                                    <TextBlock     Grid.Row="2"  Grid.Column="3"  Text="{Binding ConverterParameter='ENGRAVING_TOOL_ID',  Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}"/>
+                                    <TextBlock     Grid.Row="2"  Grid.Column="5"  Text="{Binding ConverterParameter='STANDARD_TOOL_ID',   Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}"/>
+                                    <TextBlock     Grid.Row="2"  Grid.Column="7"  Text="{Binding ConverterParameter='TOOLTYPEATTR_CODE',  Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}" />
+
+                                    <TextBox       Grid.Row="1"  Grid.Column="2"  x:Name="txtToolAreaID"            Style="{StaticResource SearchCondition_TextBoxStyle}" IsReadOnly="True"/>
+                                    <c1:C1ComboBox Grid.Row="1"  Grid.Column="4"  x:Name="cboToolEquipmentSegment"  Style="{StaticResource C1ComboBoxStyle}" AutoComplete="False" />
+                                    <c1:C1ComboBox Grid.Row="1"  Grid.Column="6"  x:Name="cboToolProcess"           Style="{StaticResource C1ComboBoxStyle}" AutoComplete="False" />
+                                    <c1:C1ComboBox Grid.Row="1"  Grid.Column="8"  x:Name="cboToolEquipment"         Style="{StaticResource C1ComboBoxStyle}" AutoComplete="False" SelectedIndexChanged="cboToolEquipment_SelectedIndexChanged"/>
+                                    <c1:C1ComboBox Grid.Row="1"  Grid.Column="10" x:Name="cboToolEquipmentMount"    Style="{StaticResource C1ComboBoxStyle}" AutoComplete="False" />
+
+                                    <c1:C1ComboBox Grid.Row="2"  Grid.Column="2"  x:Name="cboToolTypeCode"          Style="{StaticResource C1ComboBoxStyle}" AutoComplete="False" SelectedValueChanged="cboToolTypeCode_SelectedValueChanged" />
+                                    <TextBox       Grid.Row="2"  Grid.Column="4"  x:Name="txtToolID"                Style="{StaticResource SearchCondition_TextBoxStyle}"/>
+                                    <TextBox       Grid.Row="2"  Grid.Column="6"  x:Name="txtStdToolID"             Style="{StaticResource SearchCondition_TextBoxStyle}"/>
+                                    <c1:C1ComboBox Grid.Row="2"  Grid.Column="8"  x:Name="cboToolAttr"              Style="{StaticResource C1ComboBoxStyle}" AutoComplete="False" SelectedValueChanged="cboToolAttr_SelectedValueChanged" />
+                                    <TextBox       Grid.Row="2"  Grid.Column="9"  x:Name="txtToolAttrText"          Style="{StaticResource Content_InputForm_TextBoxStyle}" Grid.ColumnSpan="2" />
+                                    <!-- Button -->
+                                    <Button        Grid.Row="2" Grid.Column="12" x:Name="btnSearchTool" Content="{Binding ConverterParameter=SEARCH, Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource SearchButtonStyle}" Cursor="Hand" HorizontalAlignment="Center" Click="btnSearchTool_Click"/>
+                                    <!--<Button        Grid.Row="2" Grid.Column="10" x:Name="btnRegistration" Content="{Binding ConverterParameter=REGISTRATION, Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource SearchButtonStyle}" Cursor="Hand" HorizontalAlignment="Center" Click="btnRegistration_Click"/>-->
+                                </Grid>
+
+                                <!-- Content Area -->
+                                <Grid Grid.Row="3">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="8"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="8"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="8"/>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="8"/>
+                                    </Grid.RowDefinitions>
+
+                                    <Border Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="3" Grid.RowSpan="3" Background="#e8ebed" BorderThickness="1" BorderBrush="#8a8a8a"/>
+
+
+                                    <Grid Grid.Column="1" Grid.Row="1" x:Name="grdDanamicList" Visibility="Collapsed">
+                                        <!-- Dynamic Grid -->
+                                        <c1:C1DataGrid Grid.Column="1" Grid.Row="1" x:Name="dgDynamicList" Tag="" FrozenColumnCount="1" HeadersVisibility="Column" AutoGenerateColumns="False" SelectionMode="SingleRow" IsReadOnly="True" MouseDoubleClick="dgDynamicList_MouseDoubleClick" LoadedCellPresenter="dgDynamicList_LoadedCellPresenter">
+                                            <c1:C1DataGrid.Columns>
+                                                <c1:DataGridTextColumn Header="ENGRAVING_TOOL_ID"       Binding="{Binding TOOL_ID}"                 HorizontalAlignment="Center" />
+                                                <c1:DataGridTextColumn Header="STANDARD_TOOL_ID"        Binding="{Binding STD_TOOL_ID}"             HorizontalAlignment="Center" />
+                                                <c1:DataGridTextColumn Header="COM_CODE_NAME"           Binding="{Binding COM_CODE_NAME}"           HorizontalAlignment="Center" />
+                                                <c1:DataGridTextColumn Header="LIMIT_USE_COUNT"         Binding="{Binding LIMIT_USE_COUNT}"         HorizontalAlignment="Center" />
+                                                <c1:DataGridTextColumn Header="CA_LIMIT_USE_COUNT"      Binding="{Binding CA_LIMIT_USE_COUNT}"      HorizontalAlignment="Center" Visibility="Collapsed"/>
+                                                <c1:DataGridTextColumn Header="AN_LIMIT_USE_COUNT"      Binding="{Binding AN_LIMIT_USE_COUNT}"      HorizontalAlignment="Center" Visibility="Collapsed"/>
+                                                <c1:DataGridTextColumn Header="ACCU_USE_COUNT"          Binding="{Binding ACCU_USE_COUNT}"          HorizontalAlignment="Center" />
+                                                <c1:DataGridTextColumn Header="LIMIT_POLISH_COUNT"      Binding="{Binding LIMIT_POLISH_COUNT}"      HorizontalAlignment="Center" />
+                                                <c1:DataGridTextColumn Header="ACCU_POLISH_COUNT"       Binding="{Binding ACCU_POLISH_COUNT}"       HorizontalAlignment="Center" />
+                                                <c1:DataGridTextColumn Header="TOOL유형"                Binding="{Binding TOOL_TYPE_CODE}"          HorizontalAlignment="Center" />
+                                                <c1:DataGridTextColumn Header="Tool모델코드"            Binding="{Binding TOOL_MDL_CODE}"           HorizontalAlignment="Center" />
+                                                <c1:DataGridTextColumn Header="CURR_INPUT_EQPT"         Binding="{Binding EQPTNAME}"                HorizontalAlignment="Center" />
+                                                <c1:DataGridTextColumn Header="EQPT_MOUNT_PSTN"         Binding="{Binding EQPT_MOUNT_PSTN_NAME}"    HorizontalAlignment="Center" />
+                                                <c1:DataGridTextColumn Header="비고"                    Binding="{Binding REMARKS}"                 HorizontalAlignment="Left" Width="180" />
+                                                <c1:DataGridTextColumn Header="수정자"                  Binding="{Binding UPDUSER}"                 HorizontalAlignment="Center" />
+                                                <c1:DataGridTextColumn Header="수정일시"                Binding="{Binding UPDDTTM}"                 HorizontalAlignment="Center" />
+                                            </c1:C1DataGrid.Columns>
+                                        </c1:C1DataGrid>
+                                    </Grid>
+
+                                    <Grid Grid.Column="1" Grid.Row="1" x:Name="grdToolList" Visibility="Visible">
+                                        <!-- datagrid -->
+                                        <c1:C1DataGrid x:Name="dgToolList" Tag="" FrozenColumnCount="1" HeadersVisibility="Column" AutoGenerateColumns="False" SelectionMode="SingleRow" IsReadOnly="True" LoadedCellPresenter="dgToolList_LoadedCellPresenter" MouseDoubleClick="dgToolList_MouseDoubleClick">
+                                            <c1:C1DataGrid.Columns>
+                                                <c1:DataGridTextColumn Header="ENGRAVING_TOOL_ID"       Binding="{Binding TOOL_ID}"                 HorizontalAlignment="Center" />
+                                                <c1:DataGridTextColumn Header="STANDARD_TOOL_ID"        Binding="{Binding STD_TOOL_ID}"             HorizontalAlignment="Center" />
+                                                <c1:DataGridTextColumn Header="COM_CODE_NAME"           Binding="{Binding COM_CODE_NAME}"           HorizontalAlignment="Center" />
+                                                <c1:DataGridTextColumn Header="LIMIT_USE_COUNT"         Binding="{Binding LIMIT_USE_COUNT}"         HorizontalAlignment="Center" />
+                                                <c1:DataGridTextColumn Header="CA_LIMIT_USE_COUNT"      Binding="{Binding CA_LIMIT_USE_COUNT}"      HorizontalAlignment="Center" Visibility="Collapsed"/>
+                                                <c1:DataGridTextColumn Header="AN_LIMIT_USE_COUNT"      Binding="{Binding AN_LIMIT_USE_COUNT}"      HorizontalAlignment="Center" Visibility="Collapsed"/>
+                                                <c1:DataGridTextColumn Header="ACCU_USE_COUNT"          Binding="{Binding ACCU_USE_COUNT}"          HorizontalAlignment="Center" />
+                                                <c1:DataGridTextColumn Header="LIMIT_POLISH_COUNT"      Binding="{Binding LIMIT_POLISH_COUNT}"      HorizontalAlignment="Center" />
+                                                <c1:DataGridTextColumn Header="ACCU_POLISH_COUNT"       Binding="{Binding ACCU_POLISH_COUNT}"       HorizontalAlignment="Center" />
+                                                <c1:DataGridTextColumn Header="TOOL유형"                Binding="{Binding TOOL_TYPE_CODE}"          HorizontalAlignment="Center" />
+                                                <c1:DataGridTextColumn Header="Tool모델코드"            Binding="{Binding TOOL_MDL_CODE}"           HorizontalAlignment="Center" />
+                                                <c1:DataGridTextColumn Header="CURR_INPUT_EQPT"         Binding="{Binding EQPTNAME}"                HorizontalAlignment="Center" />
+                                                <c1:DataGridTextColumn Header="EQPT_MOUNT_PSTN"         Binding="{Binding EQPT_MOUNT_PSTN_NAME}"    HorizontalAlignment="Center" />
+                                                <c1:DataGridTextColumn Header="비고"                    Binding="{Binding REMARKS}"                 HorizontalAlignment="Left" Width="180" />
+                                                <c1:DataGridTextColumn Header="수정자"                  Binding="{Binding UPDUSER}"                 HorizontalAlignment="Center" />
+                                                <c1:DataGridTextColumn Header="수정일시"                Binding="{Binding UPDDTTM}"                 HorizontalAlignment="Center" />
+                                                <!-- Collapsed -->
+                                                <c1:DataGridTextColumn Header="현재투입설비ID"          Binding="{Binding EQPTID}"                  HorizontalAlignment="Center" Visibility="Collapsed"/>
+                                                <c1:DataGridTextColumn Header="동"                      Binding="{Binding AREAID}"                  HorizontalAlignment="Center" Visibility="Collapsed"/>
+                                                <c1:DataGridTextColumn Header="전극유형"                Binding="{Binding ELTR_TYPE}"               HorizontalAlignment="Center" Visibility="Collapsed"/>
+                                                <c1:DataGridTextColumn Header="PUNCH조정유형"           Binding="{Binding PUNCH_ADJ_TYPE}"          HorizontalAlignment="Center" Visibility="Collapsed"/>
+                                                <c1:DataGridTextColumn Header="Tool공정코드"            Binding="{Binding TOOL_PROC_CODE}"          HorizontalAlignment="Center" Visibility="Collapsed"/>
+                                                <c1:DataGridTextColumn Header="CUTTER_PSTN"             Binding="{Binding CUTTER_PSTN}"             HorizontalAlignment="Center" Visibility="Collapsed"/>
+                                                <c1:DataGridTextColumn Header="CUTTER_MTRL"             Binding="{Binding CUTTER_MTRL}"             HorizontalAlignment="Center" Visibility="Collapsed"/>
+                                                <c1:DataGridTextColumn Header="SURF_COATING"            Binding="{Binding SURF_COATING}"            HorizontalAlignment="Center" Visibility="Collapsed"/>
+                                                <c1:DataGridTextColumn Header="HEIGHT"                  Binding="{Binding HEIGHT}"                  HorizontalAlignment="Center" Visibility="Collapsed"/>
+                                                <c1:DataGridTextColumn Header="PITCH"                   Binding="{Binding PITCH}"                   HorizontalAlignment="Center" Visibility="Collapsed"/>
+                                                <c1:DataGridTextColumn Header="C_R"                     Binding="{Binding C_R}"                     HorizontalAlignment="Center" Visibility="Collapsed"/>
+                                                <c1:DataGridTextColumn Header="L_R"                     Binding="{Binding L_R}"                     HorizontalAlignment="Center" Visibility="Collapsed"/>
+                                                <c1:DataGridTextColumn Header="MAKER_CODE"              Binding="{Binding MAKER_CODE}"              HorizontalAlignment="Center" Visibility="Collapsed"/>
+                                                <c1:DataGridTextColumn Header="제작일"                  Binding="{Binding MAKE_DAY}"                HorizontalAlignment="Center" Visibility="Collapsed"/>
+                                                <c1:DataGridTextColumn Header="MAKE_QTY"                Binding="{Binding MAKE_QTY}"                HorizontalAlignment="Center" Visibility="Collapsed"/>
+                                                <c1:DataGridTextColumn Header="사용여부"                Binding="{Binding USE_FLAG}"                HorizontalAlignment="Center" Visibility="Collapsed"/>
+                                                <c1:DataGridTextColumn Header="EQPT_MOUNT_PSTN_ID"      Binding="{Binding EQPT_MOUNT_PSTN_ID}"      HorizontalAlignment="Center" Visibility="Collapsed"/>
+                                                <c1:DataGridTextColumn Header="MOUNT_STAT_CHG_DTTM"     Binding="{Binding MOUNT_STAT_CHG_DTTM}"     HorizontalAlignment="Center" Visibility="Collapsed"/>
+                                            </c1:C1DataGrid.Columns>
+                                        </c1:C1DataGrid>
+
+                                        <!-- datagrid / NTC -->
+                                        <c1:C1DataGrid Grid.Column="1" Grid.Row="1" x:Name="dgToolListNM" Tag="NM" FrozenColumnCount="1" HeadersVisibility="Column" AutoGenerateColumns="False" SelectionMode="SingleRow" IsReadOnly="True" Visibility="Collapsed" MouseDoubleClick="dgToolListNM_MouseDoubleClick">
+                                            <c1:C1DataGrid.Columns>
+                                                <c1:DataGridTextColumn Header="ENGRAVING_TOOL_ID"       Binding="{Binding TOOL_ID}"                 HorizontalAlignment="Center" />
+                                                <c1:DataGridTextColumn Header="STANDARD_TOOL_ID"        Binding="{Binding STD_TOOL_ID}"             HorizontalAlignment="Center" />
+                                                <c1:DataGridTextColumn Header="LIMIT_USE_COUNT"         Binding="{Binding LIMIT_USE_COUNT}"         HorizontalAlignment="Center" />
+                                                <c1:DataGridTextColumn Header="CA_LIMIT_USE_COUNT"      Binding="{Binding CA_LIMIT_USE_COUNT}"      HorizontalAlignment="Center" Visibility="Collapsed"/>
+                                                <c1:DataGridTextColumn Header="AN_LIMIT_USE_COUNT"      Binding="{Binding AN_LIMIT_USE_COUNT}"      HorizontalAlignment="Center" Visibility="Collapsed"/>
+                                                <c1:DataGridTextColumn Header="ACCU_USE_COUNT"          Binding="{Binding ACCU_USE_COUNT}"          HorizontalAlignment="Center" />
+                                                <c1:DataGridTextColumn Header="LIMIT_POLISH_COUNT"      Binding="{Binding LIMIT_POLISH_COUNT}"      HorizontalAlignment="Center" />
+                                                <c1:DataGridTextColumn Header="ACCU_POLISH_COUNT"       Binding="{Binding ACCU_POLISH_COUNT}"       HorizontalAlignment="Center" />
+                                                <c1:DataGridTextColumn Header="TOOL유형코드"            Binding="{Binding TOOL_TYPE_CODE}"          HorizontalAlignment="Center" />
+                                                <c1:DataGridTextColumn Header="동"                      Binding="{Binding AREAID}"                  HorizontalAlignment="Center"/>
+                                                <c1:DataGridTextColumn Header="Tool모델코드"            Binding="{Binding TOOL_MDL_CODE}"           HorizontalAlignment="Center" />
+                                                <c1:DataGridTextColumn Header="전극유형"                Binding="{Binding ELTR_TYPE}"               HorizontalAlignment="Center"/>
+                                                <c1:DataGridTextColumn Header="PUNCH조정유형"           Binding="{Binding PUNCH_ADJ_TYPE}"          HorizontalAlignment="Center"/>
+                                                <c1:DataGridTextColumn Header="MAKER_CODE"              Binding="{Binding MAKER_CODE}"              HorizontalAlignment="Center"/>
+                                                <c1:DataGridTextColumn Header="제작일"                  Binding="{Binding MAKE_DAY}"                HorizontalAlignment="Center"/>
+                                                <c1:DataGridTextColumn Header="MAKE_QTY"                Binding="{Binding MAKE_QTY}"                HorizontalAlignment="Center"/>
+                                                <c1:DataGridTextColumn Header="제작 일련번호"           Binding="{Binding MAKE_SEQNO}"              HorizontalAlignment="Center" />
+                                                <c1:DataGridTextColumn Header="비고"                    Binding="{Binding REMARKS}"                 HorizontalAlignment="Left" Width="180" />
+                                                <c1:DataGridTextColumn Header="수정자"                  Binding="{Binding UPDUSER}"                 HorizontalAlignment="Center" />
+                                                <c1:DataGridTextColumn Header="수정일시"                Binding="{Binding UPDDTTM}"                 HorizontalAlignment="Center" />
+                                                <!-- Collapsed -->
+                                                <c1:DataGridTextColumn Header="Tool공정코드"            Binding="{Binding TOOL_PROC_CODE}"          HorizontalAlignment="Center" Visibility="Collapsed"/>
+                                                <c1:DataGridTextColumn Header="CUTTER_PSTN"             Binding="{Binding CUTTER_PSTN}"             HorizontalAlignment="Center" Visibility="Collapsed"/>
+                                                <c1:DataGridTextColumn Header="CUTTER_MTRL"             Binding="{Binding CUTTER_MTRL}"             HorizontalAlignment="Center" Visibility="Collapsed"/>
+                                                <c1:DataGridTextColumn Header="SURF_COATING"            Binding="{Binding SURF_COATING}"            HorizontalAlignment="Center" Visibility="Collapsed"/>
+                                                <c1:DataGridTextColumn Header="HEIGHT"                  Binding="{Binding HEIGHT}"                  HorizontalAlignment="Center" Visibility="Collapsed"/>
+                                                <c1:DataGridTextColumn Header="PITCH"                   Binding="{Binding PITCH}"                   HorizontalAlignment="Center" Visibility="Collapsed"/>
+                                                <c1:DataGridTextColumn Header="C_R"                     Binding="{Binding C_R}"                     HorizontalAlignment="Center" Visibility="Collapsed"/>
+                                                <c1:DataGridTextColumn Header="L_R"                     Binding="{Binding L_R}"                     HorizontalAlignment="Center" Visibility="Collapsed"/>
+                                                <c1:DataGridTextColumn Header="사용여부"                Binding="{Binding USE_FLAG}"                HorizontalAlignment="Center" Visibility="Collapsed"/>
+                                                <c1:DataGridTextColumn Header="생성자"                  Binding="{Binding INSUSER}"                 HorizontalAlignment="Center" Visibility="Collapsed"/>
+                                                <c1:DataGridTextColumn Header="생산일시"                Binding="{Binding INSDTTM}"                 HorizontalAlignment="Center" Visibility="Collapsed"/>
+                                                <c1:DataGridTextColumn Header="공정ID"                  Binding="{Binding PROCID}"                  HorizontalAlignment="Center" Visibility="Collapsed"/>
+                                                <c1:DataGridTextColumn Header="EQPT_MOUNT_PSTN"         Binding="{Binding EQPT_MOUNT_PSTN_NAME}"    HorizontalAlignment="Center" Visibility="Collapsed"/>
+                                                <c1:DataGridTextColumn Header="EQPT_MOUNT_PSTN_ID"      Binding="{Binding EQPT_MOUNT_PSTN_ID}"      HorizontalAlignment="Center" Visibility="Collapsed"/>
+                                            </c1:C1DataGrid.Columns>
+                                        </c1:C1DataGrid>
+
+                                        <!-- datagrid / LAM CUTTER -->
+                                        <c1:C1DataGrid Grid.Column="1" Grid.Row="1" x:Name="dgToolListLC" Tag="LC" FrozenColumnCount="1" HeadersVisibility="Column" AutoGenerateColumns="False" SelectionMode="SingleRow" IsReadOnly="True" Visibility="Collapsed" MouseDoubleClick="dgToolListLC_MouseDoubleClick">
+                                            <c1:C1DataGrid.Columns>
+                                                <c1:DataGridTextColumn Header="ENGRAVING_TOOL_ID"       Binding="{Binding TOOL_ID}"                 HorizontalAlignment="Center" />
+                                                <c1:DataGridTextColumn Header="STANDARD_TOOL_ID"        Binding="{Binding STD_TOOL_ID}"             HorizontalAlignment="Center" />
+                                                <c1:DataGridTextColumn Header="LIMIT_USE_COUNT"         Binding="{Binding LIMIT_USE_COUNT}"         HorizontalAlignment="Center" />
+                                                <c1:DataGridTextColumn Header="CA_LIMIT_USE_COUNT"      Binding="{Binding CA_LIMIT_USE_COUNT}"      HorizontalAlignment="Center" Visibility="Collapsed"/>
+                                                <c1:DataGridTextColumn Header="AN_LIMIT_USE_COUNT"      Binding="{Binding AN_LIMIT_USE_COUNT}"      HorizontalAlignment="Center" Visibility="Collapsed"/>
+                                                <c1:DataGridTextColumn Header="ACCU_USE_COUNT"          Binding="{Binding ACCU_USE_COUNT}"          HorizontalAlignment="Center" />
+                                                <c1:DataGridTextColumn Header="LIMIT_POLISH_COUNT"      Binding="{Binding LIMIT_POLISH_COUNT}"      HorizontalAlignment="Center" />
+                                                <c1:DataGridTextColumn Header="ACCU_POLISH_COUNT"       Binding="{Binding ACCU_POLISH_COUNT}"       HorizontalAlignment="Center" />
+                                                <c1:DataGridTextColumn Header="TOOL유형코드"            Binding="{Binding TOOL_TYPE_CODE}"          HorizontalAlignment="Center" />
+                                                <c1:DataGridTextColumn Header="동"                      Binding="{Binding AREAID}"                  HorizontalAlignment="Center"/>
+                                                <c1:DataGridTextColumn Header="Tool모델코드"            Binding="{Binding TOOL_MDL_CODE}"           HorizontalAlignment="Center" />
+                                                <c1:DataGridTextColumn Header="Tool공정코드"            Binding="{Binding TOOL_PROC_CODE}"          HorizontalAlignment="Center"/>
+                                                <c1:DataGridTextColumn Header="CUTTER_PSTN"             Binding="{Binding CUTTER_PSTN}"             HorizontalAlignment="Center"/>
+                                                <c1:DataGridTextColumn Header="CUTTER_MTRL"             Binding="{Binding CUTTER_MTRL}"             HorizontalAlignment="Center"/>
+                                                <c1:DataGridTextColumn Header="SURF_COATING"            Binding="{Binding SURF_COATING}"            HorizontalAlignment="Center"/>
+                                                <c1:DataGridTextColumn Header="MAKER_CODE"              Binding="{Binding MAKER_CODE}"              HorizontalAlignment="Center"/>
+                                                <c1:DataGridTextColumn Header="제작일"                  Binding="{Binding MAKE_DAY}"                HorizontalAlignment="Center"/>
+                                                <c1:DataGridTextColumn Header="MAKE_QTY"                Binding="{Binding MAKE_QTY}"                HorizontalAlignment="Center"/>
+                                                <c1:DataGridTextColumn Header="제작 일련번호"           Binding="{Binding MAKE_SEQNO}"              HorizontalAlignment="Center" />
+                                                <c1:DataGridTextColumn Header="비고"                    Binding="{Binding REMARKS}"                 HorizontalAlignment="Left" Width="180" />
+                                                <c1:DataGridTextColumn Header="수정자"                  Binding="{Binding UPDUSER}"                 HorizontalAlignment="Center" />
+                                                <c1:DataGridTextColumn Header="수정일시"                Binding="{Binding UPDDTTM}"                 HorizontalAlignment="Center" />
+                                                <!-- Collapsed -->
+                                                <c1:DataGridTextColumn Header="전극유형"                Binding="{Binding ELTR_TYPE}"               HorizontalAlignment="Center" Visibility="Collapsed"/>
+                                                <c1:DataGridTextColumn Header="PUNCH조정유형"           Binding="{Binding PUNCH_ADJ_TYPE}"          HorizontalAlignment="Center" Visibility="Collapsed"/>
+                                                <c1:DataGridTextColumn Header="Tool공정코드"            Binding="{Binding TOOL_PROC_CODE}"          HorizontalAlignment="Center" Visibility="Collapsed"/>
+                                                <c1:DataGridTextColumn Header="CUTTER_PSTN"             Binding="{Binding CUTTER_PSTN}"             HorizontalAlignment="Center" Visibility="Collapsed"/>
+                                                <c1:DataGridTextColumn Header="CUTTER_MTRL"             Binding="{Binding CUTTER_MTRL}"             HorizontalAlignment="Center" Visibility="Collapsed"/>
+                                                <c1:DataGridTextColumn Header="SURF_COATING"            Binding="{Binding SURF_COATING}"            HorizontalAlignment="Center" Visibility="Collapsed"/>
+                                                <c1:DataGridTextColumn Header="HEIGHT"                  Binding="{Binding HEIGHT}"                  HorizontalAlignment="Center" Visibility="Collapsed"/>
+                                                <c1:DataGridTextColumn Header="PITCH"                   Binding="{Binding PITCH}"                   HorizontalAlignment="Center" Visibility="Collapsed"/>
+                                                <c1:DataGridTextColumn Header="C_R"                     Binding="{Binding C_R}"                     HorizontalAlignment="Center" Visibility="Collapsed"/>
+                                                <c1:DataGridTextColumn Header="L_R"                     Binding="{Binding L_R}"                     HorizontalAlignment="Center" Visibility="Collapsed"/>
+                                                <c1:DataGridTextColumn Header="사용여부"                Binding="{Binding USE_FLAG}"                HorizontalAlignment="Center" Visibility="Collapsed"/>
+                                                <c1:DataGridTextColumn Header="생성자"                  Binding="{Binding INSUSER}"                 HorizontalAlignment="Center" Visibility="Collapsed"/>
+                                                <c1:DataGridTextColumn Header="생산일시"                Binding="{Binding INSDTTM}"                 HorizontalAlignment="Center" Visibility="Collapsed"/>
+                                                <c1:DataGridTextColumn Header="공정ID"                  Binding="{Binding PROCID}"                  HorizontalAlignment="Center" Visibility="Collapsed"/>
+                                                <c1:DataGridTextColumn Header="EQPT_MOUNT_PSTN"         Binding="{Binding EQPT_MOUNT_PSTN_NAME}"    HorizontalAlignment="Center" Visibility="Collapsed"/>
+                                                <c1:DataGridTextColumn Header="EQPT_MOUNT_PSTN_ID"      Binding="{Binding EQPT_MOUNT_PSTN_ID}"      HorizontalAlignment="Center" Visibility="Collapsed"/>
+                                            </c1:C1DataGrid.Columns>
+                                        </c1:C1DataGrid>
+
+                                        <!-- datagrid / PKG TAB CUTTER -->
+                                        <c1:C1DataGrid Grid.Column="1" Grid.Row="1" x:Name="dgToolListPC" Tag="PC" FrozenColumnCount="1" HeadersVisibility="Column" AutoGenerateColumns="False" SelectionMode="SingleRow" IsReadOnly="True" Visibility="Collapsed" MouseDoubleClick="dgToolListPC_MouseDoubleClick">
+                                            <c1:C1DataGrid.Columns>
+                                                <c1:DataGridTextColumn Header="ENGRAVING_TOOL_ID"       Binding="{Binding TOOL_ID}"                 HorizontalAlignment="Center" />
+                                                <c1:DataGridTextColumn Header="STANDARD_TOOL_ID"        Binding="{Binding STD_TOOL_ID}"             HorizontalAlignment="Center" />
+                                                <c1:DataGridTextColumn Header="LIMIT_USE_COUNT"         Binding="{Binding LIMIT_USE_COUNT}"         HorizontalAlignment="Center" />
+                                                <c1:DataGridTextColumn Header="CA_LIMIT_USE_COUNT"      Binding="{Binding CA_LIMIT_USE_COUNT}"      HorizontalAlignment="Center" Visibility="Collapsed"/>
+                                                <c1:DataGridTextColumn Header="AN_LIMIT_USE_COUNT"      Binding="{Binding AN_LIMIT_USE_COUNT}"      HorizontalAlignment="Center" Visibility="Collapsed"/>
+                                                <c1:DataGridTextColumn Header="ACCU_USE_COUNT"          Binding="{Binding ACCU_USE_COUNT}"          HorizontalAlignment="Center" />
+                                                <c1:DataGridTextColumn Header="LIMIT_POLISH_COUNT"      Binding="{Binding LIMIT_POLISH_COUNT}"      HorizontalAlignment="Center" />
+                                                <c1:DataGridTextColumn Header="ACCU_POLISH_COUNT"       Binding="{Binding ACCU_POLISH_COUNT}"       HorizontalAlignment="Center" />
+                                                <c1:DataGridTextColumn Header="TOOL유형코드"            Binding="{Binding TOOL_TYPE_CODE}"          HorizontalAlignment="Center" />
+                                                <c1:DataGridTextColumn Header="동"                      Binding="{Binding AREAID}"                  HorizontalAlignment="Center"/>
+                                                <c1:DataGridTextColumn Header="Tool모델코드"            Binding="{Binding TOOL_MDL_CODE}"           HorizontalAlignment="Center" />
+                                                <c1:DataGridTextColumn Header="CUTTER_PSTN"             Binding="{Binding CUTTER_PSTN}"             HorizontalAlignment="Center"/>
+                                                <c1:DataGridTextColumn Header="CUTTER_MTRL"             Binding="{Binding CUTTER_MTRL}"             HorizontalAlignment="Center"/>
+                                                <c1:DataGridTextColumn Header="SURF_COATING"            Binding="{Binding SURF_COATING}"            HorizontalAlignment="Center"/>
+                                                <c1:DataGridTextColumn Header="MAKER_CODE"              Binding="{Binding MAKER_CODE}"              HorizontalAlignment="Center"/>
+                                                <c1:DataGridTextColumn Header="제작일"                  Binding="{Binding MAKE_DAY}"                HorizontalAlignment="Center"/>
+                                                <c1:DataGridTextColumn Header="MAKE_QTY"                Binding="{Binding MAKE_QTY}"                HorizontalAlignment="Center"/>
+                                                <c1:DataGridTextColumn Header="제작 일련번호"           Binding="{Binding MAKE_SEQNO}"              HorizontalAlignment="Center" />
+                                                <c1:DataGridTextColumn Header="비고"                    Binding="{Binding REMARKS}"                 HorizontalAlignment="Left" Width="180" />
+                                                <c1:DataGridTextColumn Header="수정자"                  Binding="{Binding UPDUSER}"                 HorizontalAlignment="Center" />
+                                                <c1:DataGridTextColumn Header="수정일시"                Binding="{Binding UPDDTTM}"                 HorizontalAlignment="Center" />
+                                                <!-- Collapsed -->
+                                                <c1:DataGridTextColumn Header="Tool공정코드"            Binding="{Binding TOOL_PROC_CODE}"          HorizontalAlignment="Center" Visibility="Collapsed"/>
+                                                <c1:DataGridTextColumn Header="전극유형"                Binding="{Binding ELTR_TYPE}"               HorizontalAlignment="Center" Visibility="Collapsed"/>
+                                                <c1:DataGridTextColumn Header="PUNCH조정유형"           Binding="{Binding PUNCH_ADJ_TYPE}"          HorizontalAlignment="Center" Visibility="Collapsed"/>
+                                                <c1:DataGridTextColumn Header="Tool공정코드"            Binding="{Binding TOOL_PROC_CODE}"          HorizontalAlignment="Center" Visibility="Collapsed"/>
+                                                <c1:DataGridTextColumn Header="CUTTER_PSTN"             Binding="{Binding CUTTER_PSTN}"             HorizontalAlignment="Center" Visibility="Collapsed"/>
+                                                <c1:DataGridTextColumn Header="CUTTER_MTRL"             Binding="{Binding CUTTER_MTRL}"             HorizontalAlignment="Center" Visibility="Collapsed"/>
+                                                <c1:DataGridTextColumn Header="SURF_COATING"            Binding="{Binding SURF_COATING}"            HorizontalAlignment="Center" Visibility="Collapsed"/>
+                                                <c1:DataGridTextColumn Header="HEIGHT"                  Binding="{Binding HEIGHT}"                  HorizontalAlignment="Center" Visibility="Collapsed"/>
+                                                <c1:DataGridTextColumn Header="PITCH"                   Binding="{Binding PITCH}"                   HorizontalAlignment="Center" Visibility="Collapsed"/>
+                                                <c1:DataGridTextColumn Header="C_R"                     Binding="{Binding C_R}"                     HorizontalAlignment="Center" Visibility="Collapsed"/>
+                                                <c1:DataGridTextColumn Header="L_R"                     Binding="{Binding L_R}"                     HorizontalAlignment="Center" Visibility="Collapsed"/>
+                                                <c1:DataGridTextColumn Header="사용여부"                Binding="{Binding USE_FLAG}"                HorizontalAlignment="Center" Visibility="Collapsed"/>
+                                                <c1:DataGridTextColumn Header="생성자"                  Binding="{Binding INSUSER}"                 HorizontalAlignment="Center" Visibility="Collapsed"/>
+                                                <c1:DataGridTextColumn Header="생산일시"                Binding="{Binding INSDTTM}"                 HorizontalAlignment="Center" Visibility="Collapsed"/>
+                                                <c1:DataGridTextColumn Header="공정ID"                  Binding="{Binding PROCID}"                  HorizontalAlignment="Center" Visibility="Collapsed"/>
+                                                <c1:DataGridTextColumn Header="EQPT_MOUNT_PSTN"         Binding="{Binding EQPT_MOUNT_PSTN_NAME}"    HorizontalAlignment="Center" Visibility="Collapsed"/>
+                                                <c1:DataGridTextColumn Header="EQPT_MOUNT_PSTN_ID"      Binding="{Binding EQPT_MOUNT_PSTN_ID}"      HorizontalAlignment="Center" Visibility="Collapsed"/>
+                                            </c1:C1DataGrid.Columns>
+                                        </c1:C1DataGrid>
+
+                                        <!-- datagrid / PKG HORN & ANVIL -->
+                                        <c1:C1DataGrid Grid.Column="1" Grid.Row="1" x:Name="dgToolListHO" Tag="HO" FrozenColumnCount="1" HeadersVisibility="Column" AutoGenerateColumns="False" SelectionMode="SingleRow" IsReadOnly="True" Visibility="Collapsed" MouseDoubleClick="dgToolListHO_MouseDoubleClick">
+                                            <c1:C1DataGrid.Columns>
+                                                <c1:DataGridTextColumn Header="ENGRAVING_TOOL_ID"       Binding="{Binding TOOL_ID}"                 HorizontalAlignment="Center" />
+                                                <c1:DataGridTextColumn Header="STANDARD_TOOL_ID"        Binding="{Binding STD_TOOL_ID}"             HorizontalAlignment="Center" />
+                                                <c1:DataGridTextColumn Header="LIMIT_USE_COUNT"         Binding="{Binding LIMIT_USE_COUNT}"         HorizontalAlignment="Center" />
+                                                <c1:DataGridTextColumn Header="CA_LIMIT_USE_COUNT"      Binding="{Binding CA_LIMIT_USE_COUNT}"      HorizontalAlignment="Center" />
+                                                <c1:DataGridTextColumn Header="AN_LIMIT_USE_COUNT"      Binding="{Binding AN_LIMIT_USE_COUNT}"      HorizontalAlignment="Center" />
+                                                <c1:DataGridTextColumn Header="ACCU_USE_COUNT"          Binding="{Binding ACCU_USE_COUNT}"          HorizontalAlignment="Center" />
+                                                <c1:DataGridTextColumn Header="LIMIT_POLISH_COUNT"      Binding="{Binding LIMIT_POLISH_COUNT}"      HorizontalAlignment="Center" />
+                                                <c1:DataGridTextColumn Header="ACCU_POLISH_COUNT"       Binding="{Binding ACCU_POLISH_COUNT}"       HorizontalAlignment="Center" />
+                                                <c1:DataGridTextColumn Header="TOOL유형코드"            Binding="{Binding TOOL_TYPE_CODE}"          HorizontalAlignment="Center" />
+                                                <c1:DataGridTextColumn Header="동"                      Binding="{Binding AREAID}"                  HorizontalAlignment="Center" />
+                                                <c1:DataGridTextColumn Header="Tool모델코드"            Binding="{Binding TOOL_MDL_CODE}"           HorizontalAlignment="Center" />
+                                                <c1:DataGridTextColumn Header="Tool공정코드"            Binding="{Binding TOOL_PROC_CODE}"          HorizontalAlignment="Center"/>
+                                                <c1:DataGridTextColumn Header="HEIGHT"                  Binding="{Binding HEIGHT}"                  HorizontalAlignment="Center"/>
+                                                <c1:DataGridTextColumn Header="PITCH"                   Binding="{Binding PITCH}"                   HorizontalAlignment="Center"/>
+                                                <c1:DataGridTextColumn Header="C_R"                     Binding="{Binding C_R}"                     HorizontalAlignment="Center"/>
+                                                <c1:DataGridTextColumn Header="L_R"                     Binding="{Binding L_R}"                     HorizontalAlignment="Center"/>
+                                                <c1:DataGridTextColumn Header="MAKER_CODE"              Binding="{Binding MAKER_CODE}"              HorizontalAlignment="Center"/>
+                                                <c1:DataGridTextColumn Header="제작일"                  Binding="{Binding MAKE_DAY}"                HorizontalAlignment="Center"/>
+                                                <c1:DataGridTextColumn Header="MAKE_QTY"                Binding="{Binding MAKE_QTY}"                HorizontalAlignment="Center"/>
+                                                <c1:DataGridTextColumn Header="제작 일련번호"           Binding="{Binding MAKE_SEQNO}"              HorizontalAlignment="Center" />
+                                                <c1:DataGridTextColumn Header="비고"                    Binding="{Binding REMARKS}"                 HorizontalAlignment="Left" Width="180" />
+                                                <c1:DataGridTextColumn Header="수정자"                  Binding="{Binding UPDUSER}"                 HorizontalAlignment="Center" />
+                                                <c1:DataGridTextColumn Header="수정일시"                Binding="{Binding UPDDTTM}"                 HorizontalAlignment="Center" />
+                                                <!-- Collapsed -->
+                                                <c1:DataGridTextColumn Header="CUTTER_PSTN"             Binding="{Binding CUTTER_PSTN}"             HorizontalAlignment="Center" Visibility="Collapsed"/>
+                                                <c1:DataGridTextColumn Header="CUTTER_MTRL"             Binding="{Binding CUTTER_MTRL}"             HorizontalAlignment="Center" Visibility="Collapsed"/>
+                                                <c1:DataGridTextColumn Header="SURF_COATING"            Binding="{Binding SURF_COATING}"            HorizontalAlignment="Center" Visibility="Collapsed"/>
+                                                <c1:DataGridTextColumn Header="전극유형"                Binding="{Binding ELTR_TYPE}"               HorizontalAlignment="Center" Visibility="Collapsed"/>
+                                                <c1:DataGridTextColumn Header="PUNCH조정유형"           Binding="{Binding PUNCH_ADJ_TYPE}"          HorizontalAlignment="Center" Visibility="Collapsed"/>
+                                                <c1:DataGridTextColumn Header="Tool공정코드"            Binding="{Binding TOOL_PROC_CODE}"          HorizontalAlignment="Center" Visibility="Collapsed"/>
+                                                <c1:DataGridTextColumn Header="CUTTER_PSTN"             Binding="{Binding CUTTER_PSTN}"             HorizontalAlignment="Center" Visibility="Collapsed"/>
+                                                <c1:DataGridTextColumn Header="CUTTER_MTRL"             Binding="{Binding CUTTER_MTRL}"             HorizontalAlignment="Center" Visibility="Collapsed"/>
+                                                <c1:DataGridTextColumn Header="SURF_COATING"            Binding="{Binding SURF_COATING}"            HorizontalAlignment="Center" Visibility="Collapsed"/>
+                                                <c1:DataGridTextColumn Header="사용여부"                Binding="{Binding USE_FLAG}"                HorizontalAlignment="Center" Visibility="Collapsed"/>
+                                                <c1:DataGridTextColumn Header="생성자"                  Binding="{Binding INSUSER}"                 HorizontalAlignment="Center" Visibility="Collapsed"/>
+                                                <c1:DataGridTextColumn Header="생산일시"                Binding="{Binding INSDTTM}"                 HorizontalAlignment="Center" Visibility="Collapsed"/>
+                                                <c1:DataGridTextColumn Header="공정ID"                  Binding="{Binding PROCID}"                  HorizontalAlignment="Center" Visibility="Collapsed"/>
+                                                <c1:DataGridTextColumn Header="EQPT_MOUNT_PSTN"         Binding="{Binding EQPT_MOUNT_PSTN_NAME}"    HorizontalAlignment="Center" Visibility="Collapsed"/>
+                                                <c1:DataGridTextColumn Header="EQPT_MOUNT_PSTN_ID"      Binding="{Binding EQPT_MOUNT_PSTN_ID}"      HorizontalAlignment="Center" Visibility="Collapsed"/>
+                                            </c1:C1DataGrid.Columns>
+                                        </c1:C1DataGrid>
+                                    </Grid>
+                                </Grid>
+                            </Grid>
+                        </c1:C1TabItem>
+                        <!-- 연마관리 -->
+                        <c1:C1TabItem Header="{Binding Converter={StaticResource GlobalObjectDicConverter}, ConverterParameter='연마관리'}">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="1"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="5"/>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="10"/>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="8"/>
+                                </Grid.RowDefinitions>
+
+                                <!-- Search Area -->
+                                <Grid x:Name="SearchAreaPolish" Grid.Row="1" >
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="4" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="4" />
+                                    </Grid.RowDefinitions>
+
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="8"    />
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="140"  />
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="140"  />
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="140"  />
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="140"  />
+                                        <ColumnDefinition Width="*"    />
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="8"    />
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="8"    />
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="8"    />
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="8"    />
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="8"    />
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="8"    />
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="8"    />
+                                    </Grid.ColumnDefinitions>
+
+                                    <!--백그라운드용-->
+                                    <Border         Grid.Row="0" Grid.Column="0" Grid.RowSpan="3" Grid.ColumnSpan="24" Style="{StaticResource Content_InputForm_LabelBorderStyle}"/>
+
+                                    <TextBlock      Grid.Row="1" Grid.Column="1"  Text="{Binding ConverterParameter='USE_FLAG',              Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}" />
+                                    <TextBlock      Grid.Row="1" Grid.Column="3"  Text="{Binding ConverterParameter='동',                    Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}" />
+                                    <TextBlock      Grid.Row="1" Grid.Column="5"  Text="{Binding ConverterParameter='LINE',                  Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}" />
+                                    <TextBlock      Grid.Row="1" Grid.Column="7"  Text="{Binding ConverterParameter='공정',                  Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}"/>
+                                    <TextBlock      Grid.Row="2" Grid.Column="1"  Text="{Binding ConverterParameter='Tool유형',              Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}" />
+                                    <TextBlock      Grid.Row="2" Grid.Column="3"  Text="{Binding ConverterParameter='ENGRAVING_TOOL_ID',     Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}" />
+                                    <TextBlock      Grid.Row="2" Grid.Column="5"  Text="{Binding ConverterParameter='STANDARD_TOOL_ID',      Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}" />
+
+                                    <c1:C1ComboBox  Grid.Row="1" Grid.Column="2"  x:Name="cboPolishUse"                 Style="{StaticResource C1ComboBoxStyle}" AutoComplete="False" />
+                                    <TextBox        Grid.Row="1" Grid.Column="4"  x:Name="tbPolishAreaID"               Style="{StaticResource Content_InputForm_ReadOnlyTextBoxStyle}" IsReadOnly="True" />
+                                    <c1:C1ComboBox  Grid.Row="1" Grid.Column="6"  x:Name="cboPolishEquipmentSegment"    Style="{StaticResource C1ComboBoxStyle}" AutoComplete="False" />
+                                    <c1:C1ComboBox  Grid.Row="1" Grid.Column="8"  x:Name="cboPolishProcess"             Style="{StaticResource C1ComboBoxStyle}" AutoComplete="False" />
+                                    <c1:C1ComboBox  Grid.Row="2" Grid.Column="2"  x:Name="cboPolishTypeCode"            Style="{StaticResource C1ComboBoxStyle}" AutoComplete="False" />
+                                    <TextBox        Grid.Row="2" Grid.Column="4"  x:Name="tbPolishToolID"               Style="{StaticResource SearchCondition_TextBoxStyle}"  />
+                                    <TextBox        Grid.Row="2" Grid.Column="6"  x:Name="tbPolishStdToolID"            Style="{StaticResource SearchCondition_TextBoxStyle}"  />
+
+                                    <!-- Button -->
+                                    <Button         Grid.Row="1" Grid.Column="10" x:Name="btnLocationChange"    Content="{Binding ConverterParameter='위치변경',      Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}"  Style="{StaticResource Content_MainButtonNoMinWidthSpecialStyle}" Click="btnLocationChange_Click"   Height="Auto" HorizontalAlignment="Center" Visibility="Collapsed"/>
+                                    <Button         Grid.Row="1" Grid.Column="12" x:Name="btnPolishOut"         Content="{Binding ConverterParameter='연마반출',      Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}"  Style="{StaticResource Content_MainButtonNoMinWidthSpecialStyle}" Click="btnPolishOut_Click"        Height="Auto" HorizontalAlignment="Center" Visibility="Collapsed" />
+                                    <Button         Grid.Row="1" Grid.Column="14" x:Name="btnFinishPolish"      Content="{Binding ConverterParameter='연마 후 반입',  Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}"  Style="{StaticResource Content_MainButtonNoMinWidthSpecialStyle}" Click="btnFinishPolish_Click"     Height="Auto" HorizontalAlignment="Center" Visibility="Collapsed" />
+                                    <Button         Grid.Row="1" Grid.Column="16" x:Name="btnCancelPolish"      Content="{Binding ConverterParameter='연마반출 취소', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}"  Style="{StaticResource Content_MainButtonNoMinWidthSpecialStyle}" Click="btnCancelPolish_Click"     Height="Auto" HorizontalAlignment="Center" Visibility="Collapsed" />
+                                    <Button         Grid.Row="1" Grid.Column="18" x:Name="btnWait"              Content="{Binding ConverterParameter='장착대기',      Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}"  Style="{StaticResource Content_MainButtonNoMinWidthSpecialStyle}" Click="btnWait_Click"             Height="Auto" HorizontalAlignment="Center" Visibility="Collapsed" />
+                                    <Button         Grid.Row="1" Grid.Column="20" x:Name="btnUnmount"           Content="{Binding ConverterParameter='반출대기',      Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}"  Style="{StaticResource Content_MainButtonNoMinWidthSpecialStyle}" Click="btnUnmount_Click"          Height="Auto" HorizontalAlignment="Center" Visibility="Collapsed" />
+                                    <Button         Grid.Row="1" Grid.Column="20" x:Name="btnPolish"            Content="{Binding ConverterParameter='연마',          Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}"  Style="{StaticResource Content_MainButtonNoMinWidthSpecialStyle}" Click="btnPolish_Click"           Height="Auto" HorizontalAlignment="Center" />
+                                    <Button         Grid.Row="1" Grid.Column="22" x:Name="btnSearchPolishList"  Content="{Binding ConverterParameter='조회',          Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}"  Style="{StaticResource SearchButtonStyle}"                        Click="btnSearchPolishList_Click" Height="Auto" HorizontalAlignment="Center" />
+                                </Grid>
+
+                                <!-- 연마대상 -->
+                                <Grid Grid.Row="3" Grid.ColumnSpan="2">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="8"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="8"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="8"/>
+                                        <RowDefinition/>
+                                        <RowDefinition Height="8"/>
+                                        <RowDefinition Height="32"/>
+                                        <RowDefinition Height="4"/>
+                                    </Grid.RowDefinitions>
+
+                                    <!-- 경계선 -->
+                                    <Border  Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Grid.RowSpan="5" Background="#e8ebed" BorderThickness="1" BorderBrush="#8a8a8a"></Border>
+
+                                    <!-- datagrid -->
+                                    <c1:C1DataGrid Grid.Column="1" Grid.Row="1" x:Name="dgPolishList" HeadersVisibility="Column" AutoGenerateColumns="False" MouseDoubleClick="dgPolishList_MouseDoubleClick" SelectionMode="SingleRow" LoadedCellPresenter="dgPolishList_LoadedCellPresenter" CommittedEdit="dgPolishList_CommittedEdit" >
+                                        <c1:C1DataGrid.Columns>
+                                            <c1:DataGridTemplateColumn Header="선택" Width="Auto">
+                                                <c1:DataGridTemplateColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <RadioButton GroupName="rbGroupPolishList" IsChecked="{Binding CHK, Mode=TwoWay}" Style="{StaticResource SearchCondition_RadioButtonStyle}" Checked="rbPolishList_Checked"/>
+                                                    </DataTemplate>
+                                                </c1:DataGridTemplateColumn.CellTemplate>
+                                            </c1:DataGridTemplateColumn>
+                                            <c1:DataGridTextColumn Header="ENGRAVING_TOOL_ID"     Binding="{Binding TOOL_ID}"              IsReadOnly="True"  HorizontalAlignment="Center" />
+                                            <c1:DataGridTextColumn Header="STANDARD_TOOL_ID"      Binding="{Binding STD_TOOL_ID}"          IsReadOnly="True"  HorizontalAlignment="Center" />
+                                            <c1:DataGridTextColumn Header="LIMIT_POLISH_COUNT"    Binding="{Binding LIMIT_POLISH_COUNT}"   IsReadOnly="True"  HorizontalAlignment="Center" />
+                                            <c1:DataGridTextColumn Header="ACCU_POLISH_COUNT"     Binding="{Binding ACCU_POLISH_COUNT}"    IsReadOnly="True"  HorizontalAlignment="Center" />
+                                            <c1:DataGridTextColumn Header="ACCU_USE_COUNT"        Binding="{Binding ACCU_USE_COUNT}"       IsReadOnly="True"  HorizontalAlignment="Center" />
+                                            <c1:DataGridTextColumn Header="현재상태"              Binding="{Binding CURR_TOOL_STAT_NAME}"  IsReadOnly="True"  HorizontalAlignment="Center" Visibility="Collapsed" />
+                                            <c1:DataGridTextColumn Header="TOOL_STATE_CODE"       Binding="{Binding CURR_TOOL_STAT_CODE}"  IsReadOnly="True"  HorizontalAlignment="Center" Visibility="Collapsed" />
+                                            <c1:DataGridTextColumn Header="CURR_INPUT_EQPT"       Binding="{Binding EQPTNAME}"             IsReadOnly="True"  HorizontalAlignment="Center" />
+                                            <c1:DataGridTextColumn Header="EQPT_MOUNT_PSTN"       Binding="{Binding EQPT_MOUNT_PSTN_NAME}" IsReadOnly="True"  HorizontalAlignment="Center" />
+                                            <c1:DataGridComboBoxColumn  Header="LOC"              Binding="{Binding LOCATION_ID}"          IsReadOnly="False" HorizontalAlignment="Center"  CellContentStyle="{StaticResource Grid_CellContentStyle}" DisplayMemberPath="CBO_NAME" SelectedValuePath="CBO_CODE"/>
+                                            <c1:DataGridTextColumn Header="비고"                  Binding="{Binding REMARKS}"              IsReadOnly="True"  HorizontalAlignment="Left" Width="180" />
+                                            <c1:DataGridTextColumn Header="최근 처리자"           Binding="{Binding UPDUSER}"              IsReadOnly="True"  HorizontalAlignment="Center" />
+                                            <c1:DataGridTextColumn Header="최근 연마일시"         Binding="{Binding UPDDTTM}"              IsReadOnly="True"  HorizontalAlignment="Center" />
+                                        </c1:C1DataGrid.Columns>
+                                    </c1:C1DataGrid>
+
+                                    <Border Grid.Row="3"  Grid.Column="1" Grid.ColumnSpan="1" Background="#FFF7E9D5" BorderThickness="1" BorderBrush="#8a8a8a"  />
+
+                                    <!-- 연마 처리자 -->
+                                    <Grid   Grid.Row="3"  Grid.Column="1" HorizontalAlignment="Right" >
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="240"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="120"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="8"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <TextBlock Grid.Column="0" Text="{Binding ConverterParameter=사유,   Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}" />
+                                        <TextBlock Grid.Column="2" Text="{Binding ConverterParameter=처리자,     Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}" />
+
+                                        <TextBox   Grid.Column="1" x:Name="txtPolishRsn"    Style="{StaticResource SearchCondition_TextBoxStyle}"/>
+                                        <TextBox   Grid.Column="3" x:Name="txtWorker"       Style="{StaticResource SearchCondition_TextBoxStyle}"/>
+
+                                        <Button    Grid.Column="4" x:Name="btnSearchWorker" Style="{DynamicResource Content_SearchButtonStyle}" Click="btnSearchWorker_Click" HorizontalAlignment="Center" />
+                                    </Grid>
+                                </Grid>
+
+                                <!-- 구분선 -->
+                                <GridSplitter Grid.Row="4" ResizeDirection="Rows" ShowsPreview="True" Style="{StaticResource GridSplitterVerticalStyle}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.ColumnSpan="2"/>
+
+                                <!-- 연마상세이력 -->
+                                <Grid Grid.Row="5" x:Name="grdContentBottom" Grid.ColumnSpan="2">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="8"/>
+                                        <ColumnDefinition Width="127*"/>
+                                        <ColumnDefinition Width="41*"/>
+                                        <ColumnDefinition Width="8"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="8"/>
+                                        <RowDefinition Height="32"/>
+                                        <RowDefinition Height="8"/>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="8"/>
+                                        <RowDefinition Height="35"/>
+                                        <RowDefinition Height="8"/>
+                                    </Grid.RowDefinitions>
+
+                                    <!-- 경계선 -->
+                                    <Border Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="4" Grid.RowSpan="7" Background="#e8ebed" BorderThickness="1" BorderBrush="#8a8a8a"/>
+
+                                    <!-- 연마상세이력 SubTitle -->
+                                    <Grid Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="4" Grid.RowSpan="2">
+                                        <Border Grid.Row="0" BorderThickness="1" Style="{StaticResource BorderSubTitleStyle}"/>
+                                        <TextBlock Text="{Binding Converter={StaticResource GlobalObjectDicConverter}, ConverterParameter='연마상세이력'}" Style="{StaticResource Content_ModuleTitleStyle}"/>
+                                    </Grid>
+
+                                    <!-- datagrid -->
+                                    <c1:C1DataGrid Grid.Column="1" Grid.Row="3" x:Name="dgPolishDetailHistory" HeadersVisibility="Column" AutoGenerateColumns="False" IsReadOnly="True" Grid.ColumnSpan="2">
+                                        <c1:C1DataGrid.Columns>
+                                            <c1:DataGridTextColumn Header="ENGRAVING_TOOL_ID"       Binding="{Binding TOOL_ID}"               HorizontalAlignment="Center" />
+                                            <c1:DataGridTextColumn Header="STANDARD_TOOL_ID"        Binding="{Binding STD_TOOL_ID}"           HorizontalAlignment="Center" />
+                                            <c1:DataGridTextColumn Header="ACCU_POLISH_COUNT"       Binding="{Binding ACCU_POLISH_COUNT}"     HorizontalAlignment="Center" />
+                                            <c1:DataGridTextColumn Header="연마일시"                Binding="{Binding ACTDTTM}"               HorizontalAlignment="Center" />
+                                            <c1:DataGridTextColumn Header="처리자"                  Binding="{Binding UPDUSER}"               HorizontalAlignment="Center" />
+                                            <c1:DataGridTextColumn Header="LIMIT_POLISH_CNT_DATE"   Binding="{Binding LIMIT_USE_COUNT}"       HorizontalAlignment="Center" />
+                                            <c1:DataGridTextColumn Header="ACCU_USE_COUNT"          Binding="{Binding ACCU_USE_COUNT}"        HorizontalAlignment="Center" />
+                                            <c1:DataGridTextColumn Header="EQPT_MOUNT_PSTN"         Binding="{Binding EQPT_MOUNT_PSTN_NAME}"  HorizontalAlignment="Center" />
+                                            <c1:DataGridTextColumn Header="연마사유"                Binding="{Binding POLISH_RSN_NOTE}"       HorizontalAlignment="Left" />
+                                        </c1:C1DataGrid.Columns>
+                                    </c1:C1DataGrid>
+
+                                    <!-- 수량 표기 -->
+                                    <Grid Grid.Row="5"  Grid.Column="1" Grid.ColumnSpan="2">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="5"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="5"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <Border    Grid.Column="0" Grid.ColumnSpan="8" Background="#FFF7E9D5" BorderThickness="1" BorderBrush="#8a8a8a"/>
+
+                                        <TextBlock Grid.Column="1" Text="{Binding ConverterParameter='한계 연마 수량', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}" />
+                                        <TextBox   Grid.Column="2" x:Name="tbLimitCnt" MinWidth="80" Style="{StaticResource Content_InputForm_ReadOnlyTextBoxStyle}" IsReadOnly="True"/>
+                                        <TextBlock Grid.Column="3" Text="/" Style="{StaticResource CellTray_LabelStyle}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        <TextBlock Grid.Column="4" Text="{Binding ConverterParameter='누적 연마 수량', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}" />
+                                        <TextBox   Grid.Column="5" x:Name="tbAccumCnt" MinWidth="80" Style="{StaticResource Content_InputForm_ReadOnlyTextBoxStyle}" IsReadOnly="True"/>
+                                    </Grid>
+                                </Grid>
+                            </Grid>
+                        </c1:C1TabItem>
+                        <!-- LOT별 사용 이력-->
+                        <c1:C1TabItem Header="{Binding Converter={StaticResource GlobalObjectDicConverter}, ConverterParameter='LOT별 사용이력'}" x:Name="tabToolUsageHistByLot">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="1"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="5"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+
+                                <!-- Search Area -->
+                                <Grid x:Name="SearchAreaLotHis" Grid.Row="1" >
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="4" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="4" />
+                                    </Grid.RowDefinitions>
+
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="8"     />
+                                        <ColumnDefinition Width="Auto"  />
+                                        <ColumnDefinition Width="140"   />
+                                        <ColumnDefinition Width="Auto"  />
+                                        <ColumnDefinition Width="140"  />
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="140" />
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="140" />
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="140" />
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="80" />
+                                        <ColumnDefinition Width="8" />
+                                    </Grid.ColumnDefinitions>
+
+                                    <!--백그라운드용-->
+                                    <Border                Grid.Row="0" Grid.Column="0" Grid.RowSpan="4" Grid.ColumnSpan="16" Style="{StaticResource Content_InputForm_LabelBorderStyle}"/>
+
+                                    <TextBlock             Grid.Row="1" Grid.Column="1"  Text="{Binding ConverterParameter='작업시작일자',  Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}" />
+                                    <TextBlock             Grid.Row="1" Grid.Column="3"  Text="~" Style="{StaticResource Content_InputForm_LabelStyle}" HorizontalAlignment="Center"/>
+                                    <TextBlock             Grid.Row="1" Grid.Column="5"  Text="{Binding ConverterParameter='라인',          Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}" />
+                                    <StackPanel            Grid.Row="1" Grid.Column="7" Orientation="Horizontal" HorizontalAlignment="Right">
+                                        <TextBlock         Style="{StaticResource SearchCondition_MandatoryMarkStyle}" />
+                                        <TextBlock         Grid.Row="0"  Grid.Column="0" Text="{Binding ConverterParameter='공정',          Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_Search_LabelStyle}" HorizontalAlignment="Right" />
+                                    </StackPanel>
+
+                                    <TextBlock             Grid.Row="2" Grid.Column="1"  Text="{Binding ConverterParameter='설비',          Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}" />
+                                    <TextBlock             Grid.Row="2" Grid.Column="3"  Text="{Binding ConverterParameter='Tool유형',      Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}" />
+                                    <TextBlock             Grid.Row="2" Grid.Column="5"  Text="{Binding ConverterParameter='ENGRAVING_TOOL_ID',        Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}" />
+                                    <TextBlock             Grid.Row="2" Grid.Column="7"  Text="{Binding ConverterParameter='STANDARD_TOOL_ID',         Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}" />
+                                    <TextBlock             Grid.Row="2" Grid.Column="9"  Text="{Binding ConverterParameter='LOTID',         Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}" />
+                                    <TextBlock             Grid.Row="2" Grid.Column="12" Text="{Binding ConverterParameter='최대 조회 수',  Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}" HorizontalAlignment="Right" />
+
+                                    <ctrlLib:LGCDatePicker Grid.Row="1" Grid.Column="2"  x:Name="dtpFrom" DatepickerType="Date" Loaded="dtpFrom_Loaded"/>
+                                    <ctrlLib:LGCDatePicker Grid.Row="1" Grid.Column="4"  x:Name="dtpTo"   DatepickerType="Date"/>
+                                    <c1:C1ComboBox         Grid.Row="1" Grid.Column="6"  x:Name="cboEquipmentSegment"   Style="{StaticResource C1ComboBoxStyle}" AutoComplete="False"/>
+                                    <c1:C1ComboBox         Grid.Row="1" Grid.Column="8"  x:Name="cboProcess"            Style="{StaticResource C1ComboBoxStyle}" AutoComplete="False"/>
+
+                                    <c1:C1ComboBox         Grid.Row="2" Grid.Column="2"  x:Name="cboEquipment"          Style="{StaticResource C1ComboBoxStyle}" AutoComplete="False"/>
+                                    <c1:C1ComboBox         Grid.Row="2" Grid.Column="4"  x:Name="cboToolTypeCode2"      Style="{StaticResource C1ComboBoxStyle}" AutoComplete="False"/>
+                                    <TextBox               Grid.Row="2" Grid.Column="6"  x:Name="txtToolID2"            Style="{StaticResource Content_InputForm_TextBoxStyle}"/>
+                                    <TextBox               Grid.Row="2" Grid.Column="8"  x:Name="txtStdToolID2"         Style="{StaticResource Content_InputForm_TextBoxStyle}"/>
+                                    <TextBox               Grid.Row="2" Grid.Column="10" x:Name="txtLotID"              Style="{StaticResource Content_InputForm_TextBoxStyle}" CharacterCasing="Upper" />
+                                    <TextBox               Grid.Row="2" Grid.Column="13" x:Name="txtRowCount"           Style="{StaticResource Content_InputForm_ReadOnlyTextBoxStyle}" Text="1000" />
+
+                                    <Button                Grid.Row="2" Grid.Column="14" x:Name="btnToolUsageHist"      Content="{Binding ConverterParameter=SEARCH, Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource SearchButtonStyle}" HorizontalAlignment="Center" Cursor="Hand" Click="btnToolUsageHist_Click"/>
+                                </Grid>
+
+                                <!-- Content Area -->
+                                <Grid Grid.Row="3">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="8"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="8"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="8"/>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="8"/>
+                                    </Grid.RowDefinitions>
+
+                                    <Border Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="99" Grid.RowSpan="99" Background="#e8ebed" BorderThickness="1" BorderBrush="#8a8a8a"/>
+
+                                    <Grid Grid.Column="1" Grid.Row="1">
+                                        <!-- datagrid -->
+                                        <c1:C1DataGrid Grid.Column="1" Grid.Row="1" x:Name="dgToolUsageHistByLot" HeadersVisibility="Column" AutoGenerateColumns="False" SelectionMode="SingleRow" IsReadOnly="True">
+                                            <c1:C1DataGrid.Columns>
+                                                <c1:DataGridTextColumn Header="ENGRAVING_TOOL_ID"       Binding="{Binding TOOL_ID}"                 HorizontalAlignment="Center" />
+                                                <c1:DataGridTextColumn Header="STANDARD_TOOL_ID"        Binding="{Binding STD_TOOL_ID}"             HorizontalAlignment="Center" />
+                                                <c1:DataGridTextColumn Header="TOOL유형"                Binding="{Binding TOOL_TYPE_CODE}"          HorizontalAlignment="Center" />
+                                                <c1:DataGridTextColumn Header="TOOL_MODEL"              Binding="{Binding TOOL_MDL_CODE}"           HorizontalAlignment="Center" />
+                                                <c1:DataGridTextColumn Header="EQPTNAME"                Binding="{Binding EQPTNAME}"                HorizontalAlignment="Center" />
+                                                <c1:DataGridTextColumn Header="LOTID"                   Binding="{Binding LOTID}"                   HorizontalAlignment="Center" />
+                                                <c1:DataGridTextColumn Header="PRJT_NAME"               Binding="{Binding PRJT_NAME}"               HorizontalAlignment="Center" />
+                                                <c1:DataGridTextColumn Header="COM_CODE_NAME"           Binding="{Binding COM_CODE_NAME}"           HorizontalAlignment="Center" />
+                                                <c1:DataGridTextColumn Header="시작누적Count"           Binding="{Binding START_COUNT}"             HorizontalAlignment="Center" />
+                                                <c1:DataGridTextColumn Header="완료누적Count"           Binding="{Binding END_COUNT}"               HorizontalAlignment="Center" />
+                                                <c1:DataGridTextColumn Header="EQPT_MOUNT_PSTN"         Binding="{Binding EQPT_MOUNT_PSTN_NAME}"    HorizontalAlignment="Center" />
+                                                <c1:DataGridTextColumn Header="작업시작일시"            Binding="{Binding LOT_STRT_DTTM}"           HorizontalAlignment="Center" />
+                                                <c1:DataGridTextColumn Header="작업종료일시"            Binding="{Binding LOT_END_DTTM}"            HorizontalAlignment="Center" />
+                                            </c1:C1DataGrid.Columns>
+                                        </c1:C1DataGrid>
+                                    </Grid>
+                                </Grid>
+                            </Grid>
+                        </c1:C1TabItem>
+                        <!-- 탈착이력 조회-->
+                        <c1:C1TabItem Header="{Binding Converter={StaticResource GlobalObjectDicConverter}, ConverterParameter='탈착이력 조회'}" x:Name="tabToolDesorptionHist">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="1"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="5"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+
+                                <!-- Search Area -->
+                                <Grid x:Name="SearchAreaDespHis" Grid.Row="1" >
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="4" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="4" />
+                                    </Grid.RowDefinitions>
+
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="8" />
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="140" />
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="140" />
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="140" />
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="140" />
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="80" />
+                                        <ColumnDefinition Width="8" />
+                                    </Grid.ColumnDefinitions>
+
+                                    <!--백그라운드용-->
+                                    <Border                Grid.Row="0" Grid.Column="0"  Grid.RowSpan="4" Grid.ColumnSpan="16" Style="{StaticResource Content_InputForm_LabelBorderStyle}"/>
+
+                                    <TextBlock             Grid.Row="1" Grid.Column="1"  Text="{Binding ConverterParameter='PRCS_DTTM',     Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}" />
+                                    <TextBlock             Grid.Row="1" Grid.Column="3"  Text="~" Style="{StaticResource Content_InputForm_LabelStyle}" HorizontalAlignment="Center"/>
+                                    <TextBlock             Grid.Row="1" Grid.Column="5"  Text="{Binding ConverterParameter='라인',          Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}" />
+                                    <StackPanel            Grid.Row="1" Grid.Column="7"  Orientation="Horizontal" HorizontalAlignment="Right">
+                                        <TextBlock         Style="{StaticResource SearchCondition_MandatoryMarkStyle}" />
+                                        <TextBlock         Grid.Row="0" Grid.Column="0"  Text="{Binding ConverterParameter='공정',          Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_Search_LabelStyle}" />
+                                    </StackPanel>
+                                    <TextBlock             Grid.Row="2" Grid.Column="1"  Text="{Binding ConverterParameter='설비',          Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}" />
+                                    <TextBlock             Grid.Row="2" Grid.Column="3"  Text="{Binding ConverterParameter='Tool유형',      Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}" />
+                                    <TextBlock             Grid.Row="2" Grid.Column="5"  Text="{Binding ConverterParameter='ENGRAVING_TOOL_ID',        Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}" />
+                                    <TextBlock             Grid.Row="2" Grid.Column="7"  Text="{Binding ConverterParameter='STANDARD_TOOL_ID',         Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}" />
+                                    <TextBlock             Grid.Row="2" Grid.Column="9"  Text="{Binding ConverterParameter='UNMNT_RSN_CODE',Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}" />
+                                    <TextBlock             Grid.Row="2" Grid.Column="12" Text="{Binding ConverterParameter='최대 조회 수',  Converter={StaticResource GlobalObjectDicConverter}, RelativeSource={RelativeSource Self}}" Style="{StaticResource Content_InputForm_LabelStyle}" />
+
+                                    <ctrlLib:LGCDatePicker Grid.Row="1" Grid.Column="2"  x:Name="dtpFrom2" DatepickerType="Date" Loaded="dtpFrom2_Loaded"/>
+                                    <ctrlLib:LGCDatePicker Grid.Row="1" Grid.Column="4"  x:Name="dtpTo2"   DatepickerType="Date"/>
+
+                                    <c1:C1ComboBox         Grid.Row="1" Grid.Column="6"  x:Name="cboEquipmentSegment2" Style="{StaticResource C1ComboBoxStyle}" AutoComplete="False"/>
+                                    <c1:C1ComboBox         Grid.Row="1" Grid.Column="8"  x:Name="cboProcess2"          Style="{StaticResource C1ComboBoxStyle}" AutoComplete="False" SelectedIndexChanged="cboProcess2_SelectedIndexChanged"/>
+                                    <c1:C1ComboBox         Grid.Row="2" Grid.Column="2"  x:Name="cboEquipment2"        Style="{StaticResource C1ComboBoxStyle}" AutoComplete="False"/>
+                                    <c1:C1ComboBox         Grid.Row="2" Grid.Column="4"  x:Name="cboToolTypeCode4"     Style="{StaticResource C1ComboBoxStyle}" AutoComplete="False"/>
+                                    <TextBox               Grid.Row="2" Grid.Column="6"  x:Name="tbToolID3"            Style="{StaticResource Content_InputForm_TextBoxStyle}"/>
+                                    <TextBox               Grid.Row="2" Grid.Column="8"  x:Name="tbStdToolID3"         Style="{StaticResource Content_InputForm_TextBoxStyle}"/>
+                                    <c1:C1ComboBox         Grid.Row="2" Grid.Column="10" x:Name="cboDesorption"        Style="{StaticResource C1ComboBoxStyle}" AutoComplete="False"/>
+                                    <TextBox               Grid.Row="2" Grid.Column="13" x:Name="txtRowCount2"         Style="{StaticResource Content_InputForm_ReadOnlyTextBoxStyle}" Text="1000" />
+
+                                    <Button                Grid.Row="2" Grid.Column="14" x:Name="btnDesorptionSearch"  Content="{Binding ConverterParameter=SEARCH, Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource SearchButtonStyle}" Cursor="Hand" HorizontalAlignment="Center" Click="btnDesorptionSearch_Click"/>
+                                </Grid>
+
+                                <!-- Content Area -->
+                                <Grid Grid.Row="3">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="8"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="8"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="8"/>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="8"/>
+                                    </Grid.RowDefinitions>
+
+                                    <Border Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="99" Grid.RowSpan="99" Background="#e8ebed" BorderThickness="1" BorderBrush="#8a8a8a"/>
+
+                                    <Grid Grid.Column="1" Grid.Row="1">
+                                        <!-- datagrid -->
+                                        <c1:C1DataGrid Grid.Column="1" Grid.Row="1" x:Name="dgdesorptionHist" HeadersVisibility="Column" AutoGenerateColumns="False" SelectionMode="SingleRow" IsReadOnly="True">
+                                            <c1:C1DataGrid.Columns>
+                                                <c1:DataGridTextColumn Header="ENGRAVING_TOOL_ID"     Binding="{Binding TOOL_ID}"               HorizontalAlignment="Center" />
+                                                <c1:DataGridTextColumn Header="STANDARD_TOOL_ID"      Binding="{Binding STD_TOOL_ID}"           HorizontalAlignment="Center" />
+                                                <c1:DataGridTextColumn Header="TOOL유형"              Binding="{Binding TOOL_TYPE_CODE}"        HorizontalAlignment="Center" />
+                                                <c1:DataGridTextColumn Header="TOOL_MODEL"            Binding="{Binding TOOL_MDL_CODE}"         HorizontalAlignment="Center" />
+                                                <c1:DataGridTextColumn Header="EQPTNAME"              Binding="{Binding EQPTNAME}"              HorizontalAlignment="Center" />
+                                                <c1:DataGridTextColumn Header="LOTID"                 Binding="{Binding LOTID}"                 HorizontalAlignment="Center" />
+                                                <c1:DataGridTextColumn Header="UNMNT_TYPE"            Binding="{Binding UNMNT_TYPE}"            HorizontalAlignment="Center" />
+                                                <c1:DataGridTextColumn Header="UNMNT_RSN_CODE"        Binding="{Binding UNMNT_RSN_CODE}"        HorizontalAlignment="Center" />
+                                                <c1:DataGridTextColumn Header="COM_CODE_NAME"         Binding="{Binding COM_CODE_NAME}"         HorizontalAlignment="Center" />
+                                                <c1:DataGridTextColumn Header="사용 횟수/일수"        Binding="{Binding USE_COUNT}"             HorizontalAlignment="Center" />
+                                                <c1:DataGridTextColumn Header="EQPT_MOUNT_PSTN"       Binding="{Binding EQPT_MOUNT_PSTN_NAME}"  HorizontalAlignment="Center" />
+                                                <c1:DataGridTextColumn Header="INSUSER"               Binding="{Binding INSUSER}"               HorizontalAlignment="Center" />
+                                                <c1:DataGridTextColumn Header="PRCS_DTTM"             Binding="{Binding PRCS_DTTM}"             HorizontalAlignment="Center" />
+                                            </c1:C1DataGrid.Columns>
+                                        </c1:C1DataGrid>
+                                    </Grid>
+                                </Grid>
+                            </Grid>
+                        </c1:C1TabItem>
+                    </c1:C1TabControl>
+                </Grid>
+            </ctrlLib:LGCLayout.Content>
+        </ctrlLib:LGCLayout>
+        <ctrlLib:LoadingIndicator x:Name="loadingIndicator" Grid.Row="999" Grid.Column="999"/>
+    </Grid>
+</UserControl>
+
+    
+      

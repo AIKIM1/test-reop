@@ -1,0 +1,86 @@
+﻿<c1:C1Window x:Class="LGC.GMES.MES.ProtoType04.PGM_GUI_196_WAITLOT"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:c1="http://schemas.componentone.com/winfx/2006/xaml"
+		     xmlns:System="clr-namespace:System;assembly=mscorlib"
+             xmlns:ctrlLib="clr-namespace:LGC.GMES.MES.ControlsLibrary;assembly=LGC.GMES.MES.ControlsLibrary"        
+             ctrlLib:LGCPopupWindowExtension.ApplyStyle="True"
+             Header="{Binding Converter={StaticResource GlobalObjectDicConverter}, ConverterParameter='대기LOT조회'}" 
+             Tag="ProtoType01Windows01" Height="500" Width="600" IsResizable="True" >
+
+    <c1:C1Window.Resources>
+        <ResourceDictionary Source="/LGC.GMES.MES.ControlsLibrary;Component/ControlStyles.xaml"/>
+    </c1:C1Window.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="5" />
+            <RowDefinition Height="44" />
+        </Grid.RowDefinitions>
+        <!--content area-->
+        <Grid Grid.Row ="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="34"/>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="150" />
+            </Grid.RowDefinitions>
+            <StackPanel Grid.Row="0" Orientation="Horizontal">
+                <RadioButton GroupName="rdoType" Style="{StaticResource SearchCondition_RadioButtonStyle}" Content="Half-Type" IsChecked="True" Margin="0,0,10,0"/>
+                <RadioButton GroupName="rdoType" Style="{StaticResource SearchCondition_RadioButtonStyle}" Content="Mono-Type" IsChecked="True" Margin="0,0,10,0"/>                
+            </StackPanel>
+            <c1:C1DataGrid Grid.Row="1" Grid.Column="1" x:Name="dgWaitLot" IsReadOnly="False" HeadersVisibility="Column" SelectionMode="MultiRange" >
+                <c1:C1DataGrid.Columns>
+                    <c1:DataGridCheckBoxColumn    Binding = "{Binding Binding01}"   HorizontalAlignment="Center" Width="30" />
+                    <c1:DataGridTextColumn        Header = "대LOT"          Binding = "{Binding Binding01}"     HorizontalAlignment="Center" />
+                    <c1:DataGridTextColumn        Header = "매거진"          Binding = "{Binding Binding02}"     HorizontalAlignment="Center" />
+                    <c1:DataGridTextColumn        Header = "카세트"          Binding = "{Binding Binding02}"     HorizontalAlignment="Center" />
+                    <c1:DataGridTextColumn        Header = "상태"              Binding = "{Binding Binding03}"     HorizontalAlignment="Center" />                    
+                    <c1:DataGridTextColumn        Header = "제품명"            Binding = "{Binding Binding05}"     HorizontalAlignment="Center" />
+                    <c1:DataGridTextColumn        Header = "교체처리"          Binding = "{Binding Binding05}"     HorizontalAlignment="Center" />
+                    <c1:DataGridTextColumn        Header = "수량"              Binding = "{Binding Binding05}"     HorizontalAlignment="Center" />
+                </c1:C1DataGrid.Columns>
+
+            </c1:C1DataGrid>
+
+            <Grid Grid.Row ="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="5" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="100" />
+                    <ColumnDefinition Width="100" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <RadioButton Grid.Row ="0" Grid.Column="0" GroupName="rdoHold" Style="{StaticResource SearchCondition_RadioButtonStyle}" Content="Hold" IsChecked="True" Margin="0,0,10,0"/>
+                <RadioButton Grid.Row ="2" Grid.Column="0" GroupName="rdoHold" Style="{StaticResource SearchCondition_RadioButtonStyle}" Content="Release" IsChecked="True" Margin="0,0,10,0"/>
+
+                <TextBlock      Grid.Row="0" Grid.Column="1" Text="{Binding ConverterParameter='HOLD사유', Converter={StaticResource GlobalObjectDicConverter}, RelativeSource={RelativeSource Self}}" HorizontalAlignment="Right" Style="{StaticResource SearchCondition_LabelStyle}" />
+                <c1:C1ComboBox  Grid.Row="0" Grid.Column="2" Style="{StaticResource C1ComboBoxStyle}" AutoComplete="False" x:Name="cboBiCell" DisplayMemberPath="CBO_NAME" SelectedValuePath="CBO_VALUE"/>
+
+                <TextBox        Grid.Row="2" Grid.Column="1" Grid.RowSpan="2" Grid.ColumnSpan="2" Style="{StaticResource SearchCondition_TextBoxStyle}" x:Name="txtRemark" Height="Auto"/>
+            </Grid>
+        </Grid>
+
+
+        <!--button area-->
+        <Grid Grid.Row ="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="120"/>
+                <ColumnDefinition Width="10"/>
+                <ColumnDefinition Width="120"/>
+            </Grid.ColumnDefinitions>
+
+            <Button x:Name="btnHold" Grid.Column="1" Content="{Binding ConverterParameter='HOLD/RELEASE', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{DynamicResource Content_MainButtonSpecialStyle}"/>
+            <Button x:Name="btnClose"   Grid.Column="3" Content="{Binding ConverterParameter=닫기, Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{DynamicResource Content_MainButtonStyle}" Click="btnClose_Click"  />
+        </Grid>
+
+
+        <ctrlLib:LoadingIndicator x:Name="loadingIndicator" Grid.Row="999" Grid.Column="999" />
+    </Grid>
+</c1:C1Window>

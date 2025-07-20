@@ -1,0 +1,67 @@
+﻿<c1:C1Window x:Class="LGC.GMES.MES.FCS001.FCS001_021_AGING_CARRY_IN"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:c1="http://schemas.componentone.com/winfx/2006/xaml"
+		     xmlns:System="clr-namespace:System;assembly=mscorlib"
+             xmlns:ctrlLib="clr-namespace:LGC.GMES.MES.ControlsLibrary;assembly=LGC.GMES.MES.ControlsLibrary"  
+             xmlns:uc="clr-namespace:LGC.GMES.MES.CMM001.Controls;assembly=LGC.GMES.MES.CMM001"
+             ctrlLib:LGCPopupWindowExtension.ApplyStyle="True"
+             Header="{Binding Converter={StaticResource GlobalObjectDicConverter}, ConverterParameter='Aging 입고처리'}" 
+             Tag="ProtoType01Windows01" Height="300" Width="600" IsResizable="True" Loaded="C1Window_Loaded">
+    <c1:C1Window.Resources>
+        <ResourceDictionary Source="/LGC.GMES.MES.ControlsLibrary;component/ControlTemplates/LGCDatePicker.xaml" />
+    </c1:C1Window.Resources>
+    <Grid>
+        <ctrlLib:LGCLayout x:Name="LayoutRoot" Tag="Aging 입고처리">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="8"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="13"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="13"/>
+                </Grid.ColumnDefinitions>
+                
+                <!-- Row1-->
+                <TextBlock              Grid.Row="0" Grid.Column="1" Text="{Binding ConverterParameter='TRAY_ID', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}" Margin="3"/>
+                <TextBox                Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="5" x:Name="txtTrayId"  Style="{StaticResource Content_InputForm_ReadOnlyTextBoxStyle}"/>
+
+                <TextBlock              Grid.Row="1" Grid.Column="1" Text="{Binding ConverterParameter='AGING_FLAG', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}" Margin="3"/>
+                <uc:UcBaseComboBox          Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="5" x:Name="cboAgingType" DisplayMemberPath="" SelectedValuePath=""  Style="{StaticResource C1ComboBoxStyle}" AutoComplete="False" SelectionCommitted="cboAgingType_SelectionCommitted" />
+                
+                <TextBlock              Grid.Row="2" Grid.Column="1" Text="{Binding ConverterParameter='SC_LINE', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}" Margin="3"/>
+                <uc:UcBaseComboBox          Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="5" x:Name="cboSCLine" DisplayMemberPath="" SelectedValuePath=""  Style="{StaticResource C1ComboBoxStyle}" AutoComplete="False" SelectionCommitted="cboSCLine_SelectionCommitted"/>
+                
+                <TextBlock              Grid.Row="3" Grid.Column="1" Text="{Binding ConverterParameter='열', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}" Margin="3"/>
+                <uc:UcBaseComboBox          Grid.Row="3" Grid.Column="2" x:Name="cboRow" DisplayMemberPath="" SelectedValuePath=""  Style="{StaticResource C1ComboBoxStyle}" AutoComplete="False" SelectionCommitted="cboRow_SelectionCommitted" />
+                
+                <TextBlock              Grid.Row="3" Grid.Column="3" Text="{Binding ConverterParameter='COL', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}" Margin="3"/>
+                <uc:UcBaseComboBox          Grid.Row="3" Grid.Column="4" x:Name="cboCol" DisplayMemberPath="" SelectedValuePath=""  Style="{StaticResource C1ComboBoxStyle}" AutoComplete="False" SelectionCommitted="cboColl_SelectionCommitted"/>
+                
+                <TextBlock              Grid.Row="3" Grid.Column="5" Text="{Binding ConverterParameter='STG', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}" Margin="3"/>
+                <uc:UcBaseComboBox          Grid.Row="3" Grid.Column="6" x:Name="cboStg" DisplayMemberPath="" SelectedValuePath=""  Style="{StaticResource C1ComboBoxStyle}" AutoComplete="False" />
+
+                <TextBlock              Grid.Row="4" Grid.Column="1" Text="{Binding ConverterParameter='RCV_DATE', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}" Margin="3"/>
+                <ctrlLib:LGCDatePicker  Grid.Row="4" Grid.Column="2" x:Name="dtpDate" DatepickerType="Date" IsNullInitValue="True" />
+                <c1:C1DateTimePicker    Grid.Row="4" Grid.Column="3" x:Name="dtpTime" CustomTimeFormat="HH:mm" HorizontalAlignment="Left" Margin="4,0,0,0" VerticalAlignment="Center" EditMode="Time"/>
+
+                <uc:UcBaseCheckBox               Grid.Row="4" Grid.Column="4" Grid.ColumnSpan="2" x:Name="chkNotJudgCell" Content="{Binding ConverterParameter='AUTO_INPUT', Converter={StaticResource GlobalObjectDicConverter}}"  
+                                        Style="{StaticResource SearchCondition_CheckBoxStyle}" MinWidth="100" Margin="3" IsChecked="False" Checked="chkNotJudgCell_CheckedChanged" Unchecked="chkNotJudgCell_Unchecked" />
+
+                <uc:UcBaseButton                 Grid.Row="6" Grid.Column="1" x:Name="btnSave" Grid.ColumnSpan="6" Content="{Binding ConverterParameter='SAVE', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{DynamicResource Content_MainControl02Style}" Width="80" Click="btnSave_Click"/>
+            </Grid>
+        </ctrlLib:LGCLayout>
+    </Grid>
+</c1:C1Window>

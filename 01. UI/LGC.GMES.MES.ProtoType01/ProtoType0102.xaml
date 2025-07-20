@@ -1,0 +1,206 @@
+﻿<UserControl x:Class="LGC.GMES.MES.ProtoType01.ProtoType0102"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:c1="http://schemas.componentone.com/winfx/2006/xaml"
+             xmlns:ctrlLib="clr-namespace:LGC.GMES.MES.ControlsLibrary;assembly=LGC.GMES.MES.ControlsLibrary"
+             mc:Ignorable="d" 
+             d:DesignHeight="768" d:DesignWidth="1024"
+             Loaded="UserControl_Loaded">
+    
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/LGC.GMES.MES.ControlsLibrary;component/ControlStyles.xaml" />
+                <ResourceDictionary Source="/LGC.GMES.MES.ControlsLibrary;component/ControlTemplates/LGCDatePicker.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    
+    <Grid>
+
+        <ctrlLib:LGCNormalLayout x:Name="LayoutRoot" Tag="프로그램 이름" SearchClick="LayoutRoot_SearchClick">
+
+            <ctrlLib:LGCNormalLayout.SearchArea>
+
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="71"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <!--기간-->
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                        <TextBlock Style="{StaticResource SearchCondition_MandatoryMarkStyle}"/>
+                        <TextBlock Style="{StaticResource SearchCondition_LabelStyle}" Text="{Binding ConverterParameter=Period, Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}"/>
+                    </StackPanel>
+                    <ctrlLib:LGCDatePicker Grid.Row="0" Grid.Column="1" Margin="7,0,0,0" x:Name="dtpDateFrom" DatepickerType="Date" />
+                    <ctrlLib:LGCDatePicker Grid.Row="1" Grid.Column="1" Margin="7,6,0,0" x:Name="dtpDateTo" DatepickerType="Month"/>
+
+                    <!--RadioButton-->
+                    <RadioButton Grid.Row="2" Grid.Column="1" Margin="7,10,0,0" Style="{StaticResource SearchCondition_RadioButtonStyle}" Content="In Date" Name="rdoStocked" IsChecked="True"/>
+                    <RadioButton Grid.Row="3" Grid.Column="1" Margin="7,6,0,0" Style="{StaticResource SearchCondition_RadioButtonStyle}" Content="Insp.Date" Name="rdoIqcAct"/>
+
+                    <!--원소재-->
+                    <StackPanel Grid.Row="4"  Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,10,0,0">
+                        <TextBlock Style="{StaticResource SearchCondition_MandatoryMarkStyle}"/>
+                        <TextBlock Style="{StaticResource SearchCondition_LabelStyle}" Text="{Binding ConverterParameter='Raw Materials', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}"/>
+                    </StackPanel>
+                    <ComboBox Grid.Row="4" Grid.Column="1" Margin="7,10,0,0" Style="{StaticResource SearchCondition_ComboBoxStyle}" x:Name="cboOrigMtrl" DisplayMemberPath="CBO_NAME" SelectedValuePath="NOTES"/>
+
+                    <!--폭-->
+                    <StackPanel Grid.Row="5"  Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,10,0,0">
+                        <TextBlock Style="{StaticResource SearchCondition_MandatoryMarkStyle}"/>
+                        <TextBlock Style="{StaticResource SearchCondition_LabelStyle}" Text="{Binding ConverterParameter=Width, Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}"/>
+                    </StackPanel>
+                    <ComboBox Grid.Row="5" Grid.Column="1" Margin="7,10,0,0" Style="{StaticResource SearchCondition_ComboBoxStyle}" x:Name="cboMtrlWidth" DisplayMemberPath="CBO_NAME" SelectedValuePath="CBO_CODE" />
+
+                    <!--Maker-->
+                    <StackPanel Grid.Row="6"  Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,10,0,0">
+                        <TextBlock Style="{StaticResource SearchCondition_MandatoryMarkStyle}"/>
+                        <TextBlock Style="{StaticResource SearchCondition_LabelStyle}" Text="{Binding ConverterParameter=Maker, Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}"/>
+                    </StackPanel>
+                    <ComboBox Grid.Row="6" Grid.Column="1" Margin="7,10,0,0" Style="{StaticResource SearchCondition_ComboBoxStyle}" x:Name="cboMaker" DisplayMemberPath="CBO_NAME" SelectedValuePath="CBO_CODE" />
+
+                    <!--Grade-->
+                    <TextBlock Grid.Row="7" Margin="0,10,0,0" x:Name="tblGrade" Style="{StaticResource SearchCondition_LabelStyle}" Text="{Binding ConverterParameter=Grade, Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" />
+                    <ComboBox Grid.Row="7" Grid.Column="1" Margin="7,10,0,0" Style="{StaticResource SearchCondition_ComboBoxStyle}" x:Name="cboGrade" DisplayMemberPath="CBO_NAME" SelectedValuePath="CBO_CODE" />
+
+                    <!--수입검사 판정-->
+                    <TextBlock Grid.Row="8" Margin="0,10,0,0" Style="{StaticResource SearchCondition_LabelStyle}" Text="{Binding ConverterParameter='IQC Judge', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}"/>
+                    <ComboBox Grid.Row="8" Grid.Column="1" Margin="7,10,0,0" Style="{StaticResource SearchCondition_ComboBoxStyle}" x:Name="cboIqcPass" DisplayMemberPath="CMCDNAME" SelectedValuePath="CMCODE"/>
+
+                    <!--자재ID-->
+                    <TextBlock Grid.Row="9" Margin="0,10,0,0" Style="{StaticResource SearchCondition_LabelStyle}" Text="{Binding ConverterParameter='MTRLID', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}"/>
+                    <TextBox Grid.Row="9" Grid.Column="1" Margin="7,10,0,0" Style="{StaticResource SearchCondition_TextBoxStyle}" x:Name="txtMtrlId" CharacterCasing="Upper"/>
+
+                    <Button x:Name="button01"    Grid.Row="10" Grid.Column="1"  Margin="7,10,0,0" Content="{Binding ConverterParameter=PopUp,   Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{DynamicResource Content_MainButtonSpecialStyle}"  VerticalAlignment="Top" HorizontalAlignment="Center" Click="button01_Click"/>
+                </Grid>
+
+            </ctrlLib:LGCNormalLayout.SearchArea>
+            
+            <ctrlLib:LGCNormalLayout.Content>
+                
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="8" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <c1:C1DataGrid x:Name="dgDatagrid" Grid.Row="0" Grid.Column="0" IsReadOnly="True" HeadersVisibility="Column" FrozenColumnCount="2" SelectionMode="SingleRow" SelectionChanged="dgDatagrid_SelectionChanged"  >
+
+                        <c1:C1DataGrid.Columns>
+
+                            <c1:DataGridTextColumn Header="From"      Binding="{Binding From}"              HorizontalAlignment="Center" />
+                            <c1:DataGridTextColumn Header="Subject"   Binding="{Binding Subject}"           HorizontalAlignment="Center" />
+                            <c1:DataGridTextColumn Header="Received"  Binding="{Binding Received}"          HorizontalAlignment="Center" />
+                            <c1:DataGridTextColumn Header="Size"      Binding="{Binding Size}"              HorizontalAlignment="Center" />
+                            <c1:DataGridTextColumn Header="Read"      Binding="{Binding Read}"              HorizontalAlignment="Center" />
+                            <c1:DataGridTextColumn Header="Flagged"   Binding="{Binding Flagged}"           HorizontalAlignment="Center" />
+
+                        </c1:C1DataGrid.Columns>
+
+                    </c1:C1DataGrid>
+
+                    <GridSplitter Grid.Row="0" Grid.Column="1" ResizeDirection="Columns" ShowsPreview="True" Style="{StaticResource GridSplitterStyle}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" />
+
+                    <Grid Grid.Row="0" Grid.Column="2" >
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="31"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <Border Grid.Row="0" Grid.Column="0" Style="{StaticResource Content_InputForm_TitleBorderStyle}">
+                                <TextBlock x:Name="tbDetail" Text="Detail" Style="{StaticResource Content_ModuleTitleStyle}" VerticalAlignment="Center"/>
+                            </Border>
+
+                        </Grid>
+
+                        <Border Grid.Row="1" Grid.Column="0" Style="{StaticResource Content_InputForm_LabelBorderStyle}"/>
+
+                        <Grid x:Name="grdDetail" Grid.Row="1" VerticalAlignment="Top">
+                            
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="5"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="5"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="5"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="5"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="5"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="5"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="5"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="5"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock Grid.Row="1"  Grid.Column="1" Text="{Binding ConverterParameter='From', Converter={StaticResource GlobalObjectDicConverter}, RelativeSource={RelativeSource Self}}" HorizontalAlignment="Right" Style="{StaticResource SearchCondition_LabelStyle}" />
+                            <TextBox   Grid.Row="1"  Grid.Column="2" x:Name="txtFrom" Style="{StaticResource TextBoxBaseStyle}" IsReadOnly="True" Text="fdafsffafafafds"/>
+                                                     
+                            <TextBlock Grid.Row="3"  Grid.Column="1" Text="{Binding ConverterParameter=Subject, Converter={StaticResource GlobalObjectDicConverter}, RelativeSource={RelativeSource Self}}" HorizontalAlignment="Right" Style="{StaticResource SearchCondition_LabelStyle}" />
+                            <TextBox   Grid.Row="3"  Grid.Column="2" x:Name="txtSubject" IsEnabled="False"/>
+                                                     
+                            <TextBlock Grid.Row="5"  Grid.Column="1" Text="{Binding ConverterParameter=Received, Converter={StaticResource GlobalObjectDicConverter}, RelativeSource={RelativeSource Self}}" HorizontalAlignment="Right" Style="{StaticResource SearchCondition_LabelStyle}" />
+                            <TextBox   Grid.Row="5"  Grid.Column="2" x:Name="txtReceived" />
+                                                     
+                            <TextBlock Grid.Row="7"  Grid.Column="1" Text="{Binding ConverterParameter=Size, Converter={StaticResource GlobalObjectDicConverter}, RelativeSource={RelativeSource Self}}" HorizontalAlignment="Right" Style="{StaticResource SearchCondition_LabelStyle}" />
+                            <TextBox   Grid.Row="7"  Grid.Column="2" x:Name="txtSize" />
+                                                     
+                            <TextBlock Grid.Row="9"  Grid.Column="1" Text="{Binding ConverterParameter=Read, Converter={StaticResource GlobalObjectDicConverter}, RelativeSource={RelativeSource Self}}" HorizontalAlignment="Right" Style="{StaticResource SearchCondition_LabelStyle}" />
+                            <TextBox   Grid.Row="9"  Grid.Column="2" x:Name="txtRead" />
+
+                            <TextBlock Grid.Row="11" Grid.Column="1" Text="{Binding ConverterParameter=Flagged, Converter={StaticResource GlobalObjectDicConverter}, RelativeSource={RelativeSource Self}}" HorizontalAlignment="Right" Style="{StaticResource SearchCondition_LabelStyle}" />
+                            <TextBox   Grid.Row="11" Grid.Column="2" x:Name="txtFlagged" />
+
+                            <ctrlLib:LGCDatePicker     Grid.Row="14" Grid.Column="6" x:Name="ldpDatePicker" DatepickerType="Month" Margin="10,0,10,0" Visibility="Visible"></ctrlLib:LGCDatePicker>
+
+                        </Grid>
+
+                    </Grid>
+
+                </Grid>
+                
+            </ctrlLib:LGCNormalLayout.Content>
+            
+        </ctrlLib:LGCNormalLayout>
+        
+        <ctrlLib:LoadingIndicator x:Name="loadingIndicator" Grid.Row="999" Grid.Column="999" />
+        
+    </Grid>
+    
+</UserControl>

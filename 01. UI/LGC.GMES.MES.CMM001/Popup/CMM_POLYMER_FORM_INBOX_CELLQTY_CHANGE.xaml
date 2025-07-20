@@ -1,0 +1,107 @@
+﻿<c1:C1Window x:Class="LGC.GMES.MES.CMM001.Popup.CMM_POLYMER_FORM_INBOX_CELLQTY_CHANGE"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:c1="http://schemas.componentone.com/winfx/2006/xaml"
+		     xmlns:System="clr-namespace:System;assembly=mscorlib"
+             xmlns:ctrlLib="clr-namespace:LGC.GMES.MES.ControlsLibrary;assembly=LGC.GMES.MES.ControlsLibrary"        
+             ctrlLib:LGCPopupWindowExtension.ApplyStyle="True"
+             Header="{Binding Converter={StaticResource GlobalObjectDicConverter}, ConverterParameter='INBOX 수량변경'}" 
+             Tag="ProtoType01Windows01"  Height="300" Width="500"  IsResizable="True" Loaded="C1Window_Loaded"  >
+
+    <c1:C1Window.Resources>
+        <ResourceDictionary Source="/LGC.GMES.MES.ControlsLibrary;Component/ControlStyles.xaml"/>
+    </c1:C1Window.Resources>
+
+    <Grid>
+        <Grid.Resources>
+            <DataTemplate x:Key="ResultTemplate">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Text="{Binding}" HorizontalAlignment="Right"></TextBlock>
+                </Grid>
+            </DataTemplate>
+        </Grid.Resources>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="8" />
+            <RowDefinition Height="AUTO" />
+            <RowDefinition Height="8" />
+            <RowDefinition Height="8" />
+            <RowDefinition Height="AUTO" />
+            <RowDefinition Height="8" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="8" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="8" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="8" />
+        </Grid.ColumnDefinitions>
+
+
+        <Border Grid.Row="0" BorderThickness="1" Grid.RowSpan="99" Grid.ColumnSpan="99" BorderBrush="#ffbebebe" Style="{StaticResource BorderSubTitleStyle}"/>
+        <Border Grid.Row="2" BorderThickness="1,0,1,1" Grid.ColumnSpan="99" BorderBrush="#ffbebebe" Style="{StaticResource BorderSubTitleStyle}"/>
+
+        <Grid Grid.Row ="1" Grid.Column="1">
+            <c1:C1DataGrid Grid.Row="2" 
+                            Grid.Column="0" 
+                            Grid.ColumnSpan="99" 
+                            x:Name="dgCart" 
+                            IsReadOnly="False" 
+                            HeadersVisibility="Column" 
+                            SelectionMode="SingleCell" 
+                            FrozenColumnCount="1"
+                            FrozenBottomRowsCount="1">
+                <c1:C1DataGrid.Columns>
+                    <c1:DataGridTextColumn        Header = "InBox ID"            Binding = "{Binding LOTID}"                 HorizontalAlignment="Center" IsReadOnly="True" />
+                    <c1:DataGridTextColumn        Header = "InBox 유형"          Binding = "{Binding INBOX_TYPE_NAME}"       HorizontalAlignment="Center" IsReadOnly="True" />
+                    <c1:DataGridTextColumn        Header = "용량등급"            Binding = "{Binding CAPA_GRD_CODE}"         HorizontalAlignment="Center" IsReadOnly="True" />
+                    <c1:DataGridNumericColumn     Header = "Cell 수량"           Binding = "{Binding CELL_QTY}"            HorizontalAlignment="Right"  IsReadOnly="True" Format="#,###" EditOnSelection="True" Minimum="0" ShowButtons="False" />
+                    <c1:DataGridTextColumn        Header = "WIPQTY_YN"           Binding = "{Binding WIPQTY_YN}"           HorizontalAlignment="Center" IsReadOnly="True" Visibility="Collapsed"/>
+                </c1:C1DataGrid.Columns>
+             </c1:C1DataGrid>
+
+        </Grid>
+        <Grid Grid.Row ="4" Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="AUTO"/>
+                <RowDefinition Height="AUTO"/>
+
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="45" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+              
+            </Grid.ColumnDefinitions>
+
+
+            <TextBlock      Grid.Row="0"   Grid.Column="0" Text="{Binding ConverterParameter='변경사유', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}"/>
+            <c1:C1ComboBox  Grid.Row="0"   Grid.Column="1" x:Name="cboChangeReason"             Style="{StaticResource C1ComboBoxStyle}" AutoComplete="False"/>
+            <TextBlock      Grid.Row="0"   Grid.Column="3" Text="{Binding ConverterParameter='차감수량', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}"/>
+            <TextBox        Grid.Row="0"   Grid.Column="4" x:Name="txtAfterChangeQty"             Style="{StaticResource SearchCondition_TextBoxStyle}" MinWidth="145" Background="Yellow" TextAlignment="Right" KeyUp="txtAfterChangeQty_KeyUp"/>
+            <TextBlock      Grid.Row="1"   Grid.Column="3" Text="{Binding ConverterParameter='변경수량', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}"/>
+            <TextBox        Grid.Row="1"   Grid.Column="4" x:Name="txtMQtyChange"             Style="{StaticResource SearchCondition_TextBoxStyle}" MinWidth="145" Background="Yellow" TextAlignment="Right" KeyUp="txtMQtyChange_KeyUp"/>
+          
+        </Grid>
+     
+
+        <Grid Grid.Row ="6" Grid.Column="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="8"/>
+                <ColumnDefinition Width="100"/>
+            </Grid.ColumnDefinitions>
+            <Button x:Name="btnChange_qty"  Grid.Column="1" Content="{Binding ConverterParameter=수량변경, Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{DynamicResource Content_MainButtonStyle}" Click="btnChange_qty_Click" />
+            <Button x:Name="btnClose"  Grid.Column="3" Content="{Binding ConverterParameter=닫기, Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{DynamicResource Content_MainButtonStyle}" Click="btnClose_Click" />
+        </Grid>
+        <ctrlLib:LoadingIndicator x:Name="loadingIndicator" Grid.Row="0" Grid.RowSpan="999" Grid.Column="0" Grid.ColumnSpan="999" />
+
+    </Grid>
+
+</c1:C1Window>

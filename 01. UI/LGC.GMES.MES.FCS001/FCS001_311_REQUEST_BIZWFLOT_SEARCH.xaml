@@ -1,0 +1,184 @@
+﻿<c1:C1Window x:Class="LGC.GMES.MES.FCS001.FCS001_311_REQUEST_BIZWFLOT_SEARCH"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:c1="http://schemas.componentone.com/winfx/2006/xaml"
+		     xmlns:System="clr-namespace:System;assembly=mscorlib"
+             xmlns:ctrlLib="clr-namespace:LGC.GMES.MES.ControlsLibrary;assembly=LGC.GMES.MES.ControlsLibrary"
+             xmlns:uc="clr-namespace:LGC.GMES.MES.CMM001.Controls;assembly=LGC.GMES.MES.CMM001"
+             ctrlLib:LGCPopupWindowExtension.ApplyStyle="True"
+             Header="{Binding Converter={StaticResource GlobalObjectDicConverter}, ConverterParameter='BizWF 요청서 선택'}" 
+             Tag="ProtoType01Windows01" Height="650" Width="1200" IsResizable="True" Loaded="C1Window_Loaded">
+    <c1:C1Window.Resources>
+        <ResourceDictionary Source="/LGC.GMES.MES.ControlsLibrary;Component/ControlStyles.xaml"/>
+    </c1:C1Window.Resources>
+    <Grid>
+        <ctrlLib:LGCLayout x:Name="LayoutRoot" Tag="BizWF 요청서 선택">
+            <Grid>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="8" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="8" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="8" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="8" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="8" />
+                    </Grid.ColumnDefinitions>
+
+                    <!--조회영역-->
+                    <Grid Grid.Row="0" Grid.Column="1" x:Name="grdSearch">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="45" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="8" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="20" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="20" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="8" />
+                        </Grid.ColumnDefinitions>
+
+                        <!--백그라운드용-->
+                        <Border Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="99" Style="{StaticResource Content_InputForm_LabelBorderStyle}"/>
+
+                        <!--조회조건-->
+                        <uc:UcBaseTextBlock  Grid.Row="0" Grid.Column="1" Text="{Binding ConverterParameter='조회일자', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}"/>
+                        <uc:UcBaseDateTimePicker Grid.Row="0" Grid.Column="2" x:Name="dtpSearchDate" Text="" IsFromTo="True" IsFromToToggleView="False"/>
+
+                        <uc:UcBaseRadioButton Grid.Row="0" Grid.Column="4" x:Name="rdoNonComplete" GroupName="rdoCoordinate" Style="{StaticResource SearchCondition_RadioButtonStyle}" Content="{Binding ConverterParameter=COMPLETE_NO, Converter={StaticResource GlobalObjectDicConverter}}" IsChecked="True"  Margin="5,0,5,3" />
+                        <uc:UcBaseRadioButton Grid.Row="0" Grid.Column="5" x:Name="rdoComplete" GroupName="rdoCoordinate" Style="{StaticResource SearchCondition_RadioButtonStyle}" Content="{Binding ConverterParameter=COMPLETE_YES, Converter={StaticResource GlobalObjectDicConverter}}"    Margin="5,0,5,3" />
+
+                        <uc:UcBaseTextBlock  Grid.Row="0" Grid.Column="7" Text="{Binding ConverterParameter='BizWF 요청서 번호', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}"/>
+                        <uc:UcBaseTextBox    Grid.Row="0" Grid.Column="8" x:Name="txtBizWFHeader" Style="{StaticResource SearchCondition_TextBoxStyle}" KeyDown="txtBizWFHeader_KeyDown" MinWidth="120" CharacterCasing="Upper" />
+
+                        <uc:UcBaseButton     Grid.Row="0" Grid.Column="10" x:Name="btnSearch" Content="{Binding ConverterParameter=SEARCH, Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource SearchButtonStyle}" Cursor="Hand" Click="btnSearch_Click" />
+                    </Grid>
+
+                    <Grid Grid.Row="2" Grid.Column="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="30" />
+                            <RowDefinition Height="180" />
+                        </Grid.RowDefinitions>
+
+                        <Border Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Grid.RowSpan="2" Style="{StaticResource Content_InputForm_ContentBorderStyle}" />
+                        <Border Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" BorderThickness="1" BorderBrush="#ffbebebe" Style="{StaticResource BorderSubTitleStyle}"/>
+
+                        <uc:UcBaseTextBlock  Grid.Row="0" Style="{StaticResource Content_ModuleTitleStyle}" Margin="10,8,0,7">
+                            <Run Text="{Binding ConverterParameter='Header', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}"/>
+                        </uc:UcBaseTextBlock>
+
+                        <uc:UcBaseDataGrid x:Name="dgBizWFLotHeader" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" IsReadOnly="True" HeadersVisibility="Column" SelectionMode="MultiRange" Margin="8" >
+                            <c1:C1DataGrid.Columns>
+                                <c1:DataGridTemplateColumn Header ="선택"  EditOnSelection="True" Name="CHK" Width="60">
+                                    <c1:DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <RadioButton GroupName="rbBizWFChoiceGroup" IsChecked="{Binding CHK, Mode=OneWay}" Name="rbBizWFChoice" HorizontalAlignment="Center" Checked="rbBizWFChoice_Checked" />
+                                        </DataTemplate>
+                                    </c1:DataGridTemplateColumn.CellTemplate>
+                                </c1:DataGridTemplateColumn>
+                                <c1:DataGridTextColumn      Header = "유형코드"           Binding = "{Binding BIZ_WF_REQ_DOC_TYPE_CODE}"    HorizontalAlignment="Center" IsReadOnly="True" Visibility="Collapsed" />
+                                <c1:DataGridTextColumn      Header = "요청서유형"         Binding = "{Binding BIZ_WF_REQ_DOC_TYPE_NAME}"    HorizontalAlignment="Left"   IsReadOnly="True" />
+                                <c1:DataGridTextColumn      Header = "요청서번호"         Binding = "{Binding BIZ_WF_REQ_DOC_NO}"           HorizontalAlignment="Center" IsReadOnly="True" />
+                                <c1:DataGridTextColumn      Header = "회사코드"           Binding = "{Binding COMPANY_CODE}"                HorizontalAlignment="Center" IsReadOnly="True" />
+                                <c1:DataGridTextColumn      Header = "생성일"             Binding = "{Binding BIZ_WF_GNRT_DATE}"            HorizontalAlignment="Center" IsReadOnly="True" />
+                                <c1:DataGridTextColumn      Header = "생성시간"           Binding = "{Binding BIZ_WF_GNRT_HMS}"             HorizontalAlignment="Center" IsReadOnly="True" />
+                                <c1:DataGridTextColumn      Header = "생성자 이름"        Binding = "{Binding BIZ_WF_GNRT_USER_NAME}"       HorizontalAlignment="Center" IsReadOnly="True" />
+                                <c1:DataGridTextColumn      Header = "생성자 사번"        Binding = "{Binding BIZ_WF_GNRT_USER_EMPNO}"      HorizontalAlignment="Center" IsReadOnly="True" />
+                                <c1:DataGridTextColumn      Header = "요청수량"           Binding = "{Binding BIZ_WF_REQ_QTY}"              HorizontalAlignment="Right"  IsReadOnly="True" Format="###,###,##0.##" />
+                                <c1:DataGridTextColumn      Header = "제품ID"             Binding = "{Binding PRODID}"                      HorizontalAlignment="Center" IsReadOnly="True" />
+                                <c1:DataGridTextColumn      Header = "프로젝트"           Binding = "{Binding PRJT_NAME}"                   HorizontalAlignment="Center" IsReadOnly="True" />
+                                <c1:DataGridTextColumn      Header = "FACTORYID"       Binding = "{Binding SHOPID}"                      HorizontalAlignment="Center" IsReadOnly="True" />
+                                <c1:DataGridTextColumn      Header = "ERP 이동유형"       Binding = "{Binding ERP_MOVE_TYPE}"               HorizontalAlignment="Center" IsReadOnly="True" />
+                                <c1:DataGridTextColumn      Header = "ERP 문서전기일"     Binding = "{Binding POST_DATE}"                   HorizontalAlignment="Center" IsReadOnly="True" />
+                                <c1:DataGridTextColumn      Header = "ERP 문서증빙일"     Binding = "{Binding ERP_DOC_EVD_DATE}"            HorizontalAlignment="Center" IsReadOnly="True" />
+                                <c1:DataGridTextColumn      Header = "ERP 문서번호"       Binding = "{Binding ERP_DOC_NO}"                  HorizontalAlignment="Center" IsReadOnly="True" />
+                                <c1:DataGridTextColumn      Header = "결재상태코드"       Binding = "{Binding BIZ_WF_APPR_STAT_CODE}"       HorizontalAlignment="Center" IsReadOnly="True" Visibility="Collapsed" />
+                                <c1:DataGridTextColumn      Header = "결재상태"           Binding = "{Binding BIZ_WF_APPR_STAT_NAME}"       HorizontalAlignment="Center" IsReadOnly="True" />
+                                <c1:DataGridTextColumn      Header = "요청서상태코드"     Binding = "{Binding BIZ_WF_REQ_DOC_STAT_CODE}"    HorizontalAlignment="Center" IsReadOnly="True" Visibility="Collapsed" />
+                                <c1:DataGridTextColumn      Header = "요청서상태"         Binding = "{Binding BIZ_WF_REQ_DOC_STAT_NAME}"    HorizontalAlignment="Center" IsReadOnly="True" />
+                            </c1:C1DataGrid.Columns>
+                        </uc:UcBaseDataGrid>
+                    </Grid>
+
+                    <Grid Grid.Row="4" Grid.Column="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="30" />
+                            <RowDefinition Height="180" />
+                        </Grid.RowDefinitions>
+
+                        <Border Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Grid.RowSpan="2" Style="{StaticResource Content_InputForm_ContentBorderStyle}" />
+                        <Border Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" BorderThickness="1" BorderBrush="#ffbebebe" Style="{StaticResource BorderSubTitleStyle}"/>
+
+                        <uc:UcBaseTextBlock  Grid.Row="0" Style="{StaticResource Content_ModuleTitleStyle}" Margin="10,8,0,7">
+                            <Run Text="{Binding ConverterParameter='Detail', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}"/>
+                        </uc:UcBaseTextBlock>
+
+                        <uc:UcBaseDataGrid x:Name="dgBizWFLotDetail" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" IsReadOnly="True" HeadersVisibility="Column" SelectionMode="SingleCell" Margin="8">
+                            <c1:C1DataGrid.Columns>
+                                <c1:DataGridTextColumn      Header = "유형코드"               Binding = "{Binding BIZ_WF_REQ_DOC_TYPE_CODE}"    HorizontalAlignment="Center" IsReadOnly="True" Visibility="Collapsed" />
+                                <c1:DataGridTextColumn      Header = "요청서유형"             Binding = "{Binding BIZ_WF_REQ_DOC_TYPE_NAME}"    HorizontalAlignment="Left"   IsReadOnly="True" />
+                                <c1:DataGridTextColumn      Header = "요청서번호"             Binding = "{Binding BIZ_WF_REQ_DOC_NO}"           HorizontalAlignment="Center" IsReadOnly="True" />
+                                <c1:DataGridTextColumn      Header = "항목일련번호"           Binding = "{Binding BIZ_WF_ITEM_SEQNO}"           HorizontalAlignment="Center" IsReadOnly="True" />
+                                <c1:DataGridTextColumn      Header = "제품ID"                 Binding = "{Binding PRODID}"                      HorizontalAlignment="Center" IsReadOnly="True" />
+                                <c1:DataGridTextColumn      Header = "요청수량"               Binding = "{Binding BIZ_WF_REQ_QTY}"              HorizontalAlignment="Right"  IsReadOnly="True" Format="###,###,##0.##" />
+                                <c1:DataGridTextColumn      Header = "총수량"                 Binding = "{Binding TOTAL_WIPQTY}"                HorizontalAlignment="Right"  IsReadOnly="True" Format="###,###,##0.##" />
+                                <c1:DataGridTextColumn      Header = "요청완료수량"           Binding = "{Binding CONFIRM_REQUEST_WIPQTY}"      HorizontalAlignment="Right"  IsReadOnly="True" Format="###,###,##0.##" />
+                                <c1:DataGridTextColumn      Header = "요청중수량"             Binding = "{Binding REQUEST_WIPQTY}"              HorizontalAlignment="Right"  IsReadOnly="True" Format="###,###,##0.##" />
+                                <c1:DataGridTextColumn      Header = "취소중수량"             Binding = "{Binding REQUEST_CANCEL_WIPQTY}"       HorizontalAlignment="Right"  IsReadOnly="True" Format="###,###,##0.##" />
+                                <c1:DataGridTextColumn      Header = "취소완료수량"           Binding = "{Binding CONFIRM_REQUEST_CANCEL_WIPQTY}"              HorizontalAlignment="Right"  IsReadOnly="True" Format="###,###,##0.##" />
+                                <c1:DataGridTextColumn      Header = "단위"                   Binding = "{Binding UNIT_CODE}"                   HorizontalAlignment="Center" IsReadOnly="True" />
+                                <c1:DataGridTextColumn      Header = "저장위치"               Binding = "{Binding SLOC_ID}"                     HorizontalAlignment="Center" IsReadOnly="True" />
+                                <c1:DataGridTextColumn      Header = "구매생산유형 코드"      Binding = "{Binding PUR_PROD_TYPE}"               HorizontalAlignment="Center" IsReadOnly="True" Visibility="Collapsed" />
+                                <c1:DataGridTextColumn      Header = "구매생산유형"           Binding = "{Binding PUR_PROD_TYPE_NAME}"          HorizontalAlignment="Center" IsReadOnly="True" />
+                                <c1:DataGridTextColumn      Header = "ERP 배치번호"           Binding = "{Binding ERP_BTCH_NO}"                 HorizontalAlignment="Center" IsReadOnly="True" />
+                                <c1:DataGridTextColumn      Header = "ERP 역분개 문서번호"    Binding = "{Binding ERP_RVRSL_DOC_NO}"            HorizontalAlignment="Center" IsReadOnly="True" />
+                                <c1:DataGridTextColumn      Header = "ERP 역분개 문서전기일"  Binding = "{Binding ERP_RVRSL_DOC_POST_DATE}"     HorizontalAlignment="Center" IsReadOnly="True" />
+                                <c1:DataGridTextColumn      Header = "FACTORYID"           Binding = "{Binding SHOPID}"                      HorizontalAlignment="Center" IsReadOnly="True" />
+                            </c1:C1DataGrid.Columns>
+                        </uc:UcBaseDataGrid>
+                    </Grid>
+                    
+                    <Grid Grid.Row="6" Grid.Column="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="15"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+
+                        <uc:UcBaseButton Grid.Column="1" x:Name="btnSelect" Content="{Binding ConverterParameter=선택, Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{DynamicResource Content_MainButtonNoMinWidthSpecialStyle}" Height="35" Width="100" IsEnabled="False" Click="btnSelect_Click"/>
+                        <uc:UcBaseButton Grid.Column="3" x:Name="btnCancel" Content="{Binding ConverterParameter=취소, Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{DynamicResource Content_MainButtonNoMinWidthSpecialStyle}" Height="35" Width="100" Click="btnCancel_Click"/>
+                    </Grid>
+                </Grid>
+            </Grid>
+        </ctrlLib:LGCLayout>
+
+        <ctrlLib:LoadingIndicator x:Name="loadingIndicator" Grid.Row="999" Grid.Column="999" />
+    </Grid>
+</c1:C1Window>

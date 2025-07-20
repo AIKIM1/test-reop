@@ -1,0 +1,227 @@
+﻿<UserControl xmlns:ss="http://schemas.grapecity.com/windows/spreadsheet/2012"  x:Class="LGC.GMES.MES.COM001.COM001_339"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:c1="http://schemas.componentone.com/winfx/2006/xaml"
+             xmlns:ctrlLib="clr-namespace:LGC.GMES.MES.ControlsLibrary;assembly=LGC.GMES.MES.ControlsLibrary"
+             mc:Ignorable="d" 
+             d:DesignHeight="768" d:DesignWidth="1024" Loaded="UserControl_Loaded">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/LGC.GMES.MES.ControlsLibrary;component/ControlStyles.xaml" />
+                <ResourceDictionary Source="/LGC.GMES.MES.ControlsLibrary;component/ControlTemplates/LGCDatePicker.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <Grid x:Name="grdMain">
+        <Grid.Resources>
+            <DataTemplate x:Key="ItemTemplate">
+                <WrapPanel>
+                    <Image Width="138" Height="138" Stretch="Fill" Source="{Binding}" Margin="3,3,3,3" />
+                </WrapPanel>
+            </DataTemplate>
+            <DataTemplate x:Key="ResultTemplate">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Text="{Binding}" HorizontalAlignment="Right" Padding="0,0,5,0"  />
+                </Grid>
+            </DataTemplate>
+        </Grid.Resources>
+
+        <ctrlLib:LGCLayout x:Name="LayoutRoot" Tag="패키징(파우치 2D) LOT추적" Grid.ColumnSpan="2">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <c1:C1TabControl x:Name="tabCellTrace">
+                    <c1:C1TabItem x:Name="tabPGKCellTrace" Header="{Binding Converter={StaticResource GlobalObjectDicConverter}, ConverterParameter='패키징'}">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="8" />
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+
+                            <!--백그라운드용-->
+                            <Border Grid.Row="0" Style="{StaticResource Content_InputForm_LabelBorderStyle}"/>
+
+                            <!-- 조회영역 -->
+                            <Grid Grid.Row="0">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="4" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="4"/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="8" />
+                                    <ColumnDefinition Width="AUTO" />
+                                    <ColumnDefinition Width="5" />
+                                    <ColumnDefinition Width="AUTO" />
+                                    <ColumnDefinition Width="5" />
+                                    <ColumnDefinition Width="AUTO" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="AUTO" />
+                                    <ColumnDefinition Width="8" />
+                                </Grid.ColumnDefinitions>
+
+                                <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
+                                    <RadioButton Name="rdoProdLot" Margin="8,0" Content="{Binding Converter={StaticResource GlobalObjectDicConverter}, ConverterParameter=생산LOT}" GroupName="RadioButton_Group" Style="{StaticResource SearchCondition_RadioButtonStyle}" IsChecked="False" Click="rdoProdLot_Click" Visibility="Collapsed" />
+                                    <RadioButton Name="rdoOutLotId" Margin="8,2,8,-2" Content="{Binding Converter={StaticResource GlobalObjectDicConverter}, ConverterParameter=완성LOT}" GroupName="RadioButton_Group" Style="{StaticResource SearchCondition_RadioButtonStyle}" IsChecked="True" Click="rdoOutLotId_Click" />
+                                    <RadioButton Name="rdoCstId" Margin="8,2,8,-2" Content="{Binding Converter={StaticResource GlobalObjectDicConverter}, ConverterParameter=트레이ID}" GroupName="RadioButton_Group" Style="{StaticResource SearchCondition_RadioButtonStyle}" IsChecked="False" Click="rdoCstId_Click" />
+                                    <RadioButton Name="rdoCELLId" Margin="8,2,8,-2" Content="{Binding Converter={StaticResource GlobalObjectDicConverter}, ConverterParameter=셀ID}" GroupName="RadioButton_Group" Style="{StaticResource SearchCondition_RadioButtonStyle}" IsChecked="False" Click="rdoCELLId_Click" />
+                                </StackPanel>
+
+                                <TextBox Grid.Row="1" Grid.Column="3" x:Name="txtLotId" CharacterCasing="Upper"  Width="200" Style="{StaticResource SearchCondition_TextBoxStyle}" KeyDown="txtLotId_KeyDown" />
+
+                                <Grid Grid.Row="1" Grid.Column="5">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="4*"/>
+                                        <ColumnDefinition Width="6*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock  Grid.Column="0" Text="{Binding ConverterParameter='작업일', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}"/>
+                                    <StackPanel Grid.Column="1" x:Name="spDate" Orientation="Horizontal" IsEnabled="False">
+                                        <ctrlLib:LGCDatePicker x:Name="dtpDateFrom" DatepickerType="Date" />
+                                        <TextBlock Text="~" Style="{StaticResource Content_InputForm_LabelStyle}" HorizontalAlignment='Center' />
+                                        <ctrlLib:LGCDatePicker x:Name="dtpDateTo" DatepickerType="Date" />
+                                    </StackPanel>
+                                </Grid>
+
+                                <Button Grid.Row="1" Grid.Column="7" x:Name="btnSearch" Content="{Binding ConverterParameter=조회, Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource SearchButtonStyle}" Cursor="Hand" Click="btnSearch_Click" />
+                            </Grid>
+
+                            <!--LOT 리스트-->
+                            <Grid Grid.Row="2">
+                                <!--백그라운드용-->
+                                <Border Grid.Row="0" Grid.Column="0" Grid.RowSpan="99" Grid.ColumnSpan="99" Style="{StaticResource Content_InputForm_ContentBorderStyle}" />
+
+                                <c1:C1DataGrid x:Name="dgLotTrace" IsReadOnly="True" HeadersVisibility="None" FrozenTopRowsCount="2" Margin="8,8,8,8">
+                                    <c1:C1DataGrid.Columns>
+                                        <c1:DataGridTextColumn Width="Auto" Header = "[패키징,작업일]" Binding = "{Binding PKG_PROD_CALDATE}" HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn Width="Auto" Header = "[패키징,생산LOT]" Binding = "{Binding PKG_PROD_LOTID}" HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn Width="Auto" Header = "[패키징,완성LOT]" Binding = "{Binding PKG_OUT_LOTID}" HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn Width="Auto" Header = "[패키징,트레이ID]" Binding = "{Binding PKG_CSTID}" HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn Width="Auto" Header = "[패키징,완성셀ID]" Binding = "{Binding PKG_SUBLOTID}" HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn Width="Auto" Header = "[패키징,투입셀]" Binding = "{Binding PKG_INPUT_SUBLOTID}" HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn Width="Auto" Header = "[패키징,투입LOT]" Binding = "{Binding STP_OUT_LOTID}" HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn Width="Auto" Header = "[패키징,투입셀위치]" Binding = "{Binding STP_CSTSLOT}" HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn Width="Auto" Header = "[STP,완성LOT]" Binding = "{Binding STP_OUT_LOTID}" HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn Width="Auto" Header = "[STP,트레이ID]" Binding = "{Binding STP_CSTID}" HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn Width="Auto" Header = "[STP,완성셀위치]" Binding = "{Binding STP_CSTSLOT}" HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn Width="Auto" Header = "[STP,생산LOT]" Binding = "{Binding STP_PROD_LOTID}" HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn Width="Auto" Header = "[STP,투입LOT]" Binding = "{Binding SRC_OUT_LOTID}" HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn Width="Auto" Header = "[SRC,완성LOT]" Binding = "{Binding SRC_OUT_LOTID}" HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn Width="Auto" Header = "[SRC,생산LOT]" Binding = "{Binding SRC_PROD_LOTID}" HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn Width="Auto" Header = "[SRC,투입LOT]" Binding = "{Binding LM_OUT_LOTID}" HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn Width="Auto" Header = "[라미,완성LOT]" Binding = "{Binding LM_OUT_LOTID}" HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn Width="Auto" Header = "[라미,생산LOT]" Binding = "{Binding LM_PROD_LOTID}" HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn Width="Auto" Header = "[라미,투입LOT]" Binding = "{Binding NT_OUT_LOTID}" HorizontalAlignment="Center" />
+                                    </c1:C1DataGrid.Columns>
+                                    <c1:C1DataGrid.TopRows>
+                                        <c1:DataGridColumnHeaderRow />
+                                        <c1:DataGridColumnHeaderRow />
+                                    </c1:C1DataGrid.TopRows>
+                                </c1:C1DataGrid>
+                            </Grid>
+                        </Grid>
+                    </c1:C1TabItem>
+
+                    <c1:C1TabItem x:Name="tabSTPCellTrace" Header="{Binding Converter={StaticResource GlobalObjectDicConverter}, ConverterParameter='STP'}">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="8" />
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+
+                            <!--백그라운드용-->
+                            <Border Grid.Row="0" Style="{StaticResource Content_InputForm_LabelBorderStyle}"/>
+
+                            <!-- 조회영역 -->
+                            <Grid Grid.Row="0">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="4" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="4"/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="8" />
+                                    <ColumnDefinition Width="AUTO" />
+                                    <ColumnDefinition Width="5" />
+                                    <ColumnDefinition Width="AUTO" />
+                                    <ColumnDefinition Width="5" />
+                                    <ColumnDefinition Width="AUTO" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="AUTO" />
+                                    <ColumnDefinition Width="8" />
+                                </Grid.ColumnDefinitions>
+
+                                <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
+                                    <RadioButton Name="rdoSTPProdLot" Margin="8,0" Content="{Binding Converter={StaticResource GlobalObjectDicConverter}, ConverterParameter=생산LOT}" GroupName="RadioButton_STPGroup" Style="{StaticResource SearchCondition_RadioButtonStyle}" IsChecked="False" Click="rdoSTPProdLot_Click" Visibility="Collapsed" />
+                                    <RadioButton Name="rdoSTPOutLotId" Margin="8,2,8,-2" Content="{Binding Converter={StaticResource GlobalObjectDicConverter}, ConverterParameter=완성LOT}" GroupName="RadioButton_STPGroup" Style="{StaticResource SearchCondition_RadioButtonStyle}" IsChecked="True" Click="rdoSTPOutLotId_Click" />
+                                    <RadioButton Name="rdoSTPCstId" Margin="8,2,8,-2" Content="{Binding Converter={StaticResource GlobalObjectDicConverter}, ConverterParameter=트레이ID}" GroupName="RadioButton_STPGroup" Style="{StaticResource SearchCondition_RadioButtonStyle}" IsChecked="False" Click="rdoSTPCstId_Click" />
+                                    <RadioButton Name="rdoSTPCELLId" Margin="8,2,8,-2" Content="{Binding Converter={StaticResource GlobalObjectDicConverter}, ConverterParameter=셀}" GroupName="RadioButton_STPGroup" Style="{StaticResource SearchCondition_RadioButtonStyle}" IsChecked="False" Click="rdoSTPCELLId_Click" />
+                                </StackPanel>
+
+                                <TextBox Grid.Row="1" Grid.Column="3" x:Name="txtSTPLotId" Width="200" Style="{StaticResource SearchCondition_TextBoxStyle}" KeyDown="txtSTPLotId_KeyDown" />
+
+                                <Grid Grid.Row="1" Grid.Column="5">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="4*"/>
+                                        <ColumnDefinition Width="6*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock  Grid.Column="0" Text="{Binding ConverterParameter='작업일', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}"/>
+                                    <StackPanel Grid.Column="1" x:Name="spSTPDate" Orientation="Horizontal" IsEnabled="False">
+                                        <ctrlLib:LGCDatePicker x:Name="dtpSTPDateFrom" DatepickerType="Date" />
+                                        <TextBlock Text="~" Style="{StaticResource Content_InputForm_LabelStyle}" HorizontalAlignment='Center' />
+                                        <ctrlLib:LGCDatePicker x:Name="dtpSTPDateTo" DatepickerType="Date" />
+                                    </StackPanel>
+                                </Grid>
+
+                                <Button Grid.Row="1" Grid.Column="7" x:Name="btnSTPSearch" Content="{Binding ConverterParameter=조회, Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource SearchButtonStyle}" Cursor="Hand" Click="btnSTPSearch_Click" />
+                            </Grid>
+
+                            <!--LOT 리스트-->
+                            <Grid Grid.Row="2">
+                                <!--백그라운드용-->
+                                <Border Grid.Row="0" Grid.Column="0" Grid.RowSpan="99" Grid.ColumnSpan="99" Style="{StaticResource Content_InputForm_ContentBorderStyle}" />
+
+                                <c1:C1DataGrid x:Name="dgSTPLotTrace" IsReadOnly="True" HeadersVisibility="None" FrozenTopRowsCount="2" Margin="8,8,8,8">
+                                    <c1:C1DataGrid.Columns>
+                                        <c1:DataGridTextColumn Width="Auto" Header = "[STP,작업일]" Binding = "{Binding STP_PROD_CALDATE}" HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn Width="Auto" Header = "[STP,생산LOT]" Binding = "{Binding STP_PROD_LOTID}" HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn Width="Auto" Header = "[STP,완성LOT]" Binding = "{Binding STP_OUT_LOTID}" HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn Width="Auto" Header = "[STP,트레이ID]" Binding = "{Binding STP_CSTID}" HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn Width="Auto" Header = "[STP,완성셀위치]" Binding = "{Binding STP_CSTSLOT}" HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn Width="Auto" Header = "[STP,완성셀]" Binding = "{Binding STP_SUBLOTID}" HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn Width="Auto" Header = "[STP,투입LOT]" Binding = "{Binding STP_INPUT_SUBLOTID}" HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn Width="Auto" Header = "[패키징,생산LOT]" Binding = "{Binding PKG_PROD_LOTID}" HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn Width="Auto" Header = "[패키징,완성LOT]" Binding = "{Binding PKG_OUT_LOTID}" HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn Width="Auto" Header = "[패키징,트레이ID]" Binding = "{Binding PKG_CSTID}" HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn Width="Auto" Header = "[SRC,완성LOT]" Binding = "{Binding SRC_OUT_LOTID}" HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn Width="Auto" Header = "[SRC,생산LOT]" Binding = "{Binding SRC_PROD_LOTID}" HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn Width="Auto" Header = "[SRC,투입LOT]" Binding = "{Binding LM_OUT_LOTID}" HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn Width="Auto" Header = "[라미,완성LOT]" Binding = "{Binding LM_OUT_LOTID}" HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn Width="Auto" Header = "[라미,생산LOT]" Binding = "{Binding LM_PROD_LOTID}" HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn Width="Auto" Header = "[라미,투입LOT]" Binding = "{Binding NT_OUT_LOTID}" HorizontalAlignment="Center" />
+                                    </c1:C1DataGrid.Columns>
+                                    <c1:C1DataGrid.TopRows>
+                                        <c1:DataGridColumnHeaderRow />
+                                        <c1:DataGridColumnHeaderRow />
+                                    </c1:C1DataGrid.TopRows>
+                                </c1:C1DataGrid>
+                            </Grid>
+                        </Grid>
+                    </c1:C1TabItem>
+                </c1:C1TabControl>
+            </Grid>
+        </ctrlLib:LGCLayout>
+
+        <ctrlLib:LoadingIndicator x:Name="loadingIndicator" Grid.Row="999" Grid.Column="999" />
+
+    </Grid>
+</UserControl>

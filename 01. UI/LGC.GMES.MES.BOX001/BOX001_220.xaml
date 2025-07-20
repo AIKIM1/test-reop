@@ -1,0 +1,551 @@
+<UserControl xmlns:ss="http://schemas.grapecity.com/windows/spreadsheet/2012"  x:Class="LGC.GMES.MES.BOX001.BOX001_220"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:c1="http://schemas.componentone.com/winfx/2006/xaml"
+             xmlns:ctrlLib="clr-namespace:LGC.GMES.MES.ControlsLibrary;assembly=LGC.GMES.MES.ControlsLibrary"
+             xmlns:uc="clr-namespace:LGC.GMES.MES.CMM001.Controls;assembly=LGC.GMES.MES.CMM001"
+             mc:Ignorable="d" 
+             d:DesignHeight="768" d:DesignWidth="1024"
+             Loaded="UserControl_Loaded">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/LGC.GMES.MES.ControlsLibrary;component/ControlStyles.xaml" />
+                <ResourceDictionary Source="/LGC.GMES.MES.ControlsLibrary;component/ControlTemplates/LGCDatePicker.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid x:Name="grdMain">
+        <Grid.Resources>
+            <DataTemplate x:Key="ItemTemplate">
+                <WrapPanel>
+                    <Image Width="138" Height="138" Stretch="Fill" Source="{Binding}" Margin="3,3,3,3" />
+                </WrapPanel>
+            </DataTemplate>
+            <DataTemplate x:Key="ResultTemplate">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="1" Text="{Binding}" HorizontalAlignment="Right" Padding="0,0,5,0"  />
+                </Grid>
+            </DataTemplate>
+        </Grid.Resources>
+        <ctrlLib:LGCLayout x:Name="LayoutRoot" Tag="물류라벨발행(수동)">
+            <ctrlLib:LGCLayout.Content>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="4"/>
+                        <RowDefinition Height="35"/>
+                    </Grid.RowDefinitions>
+
+                    <Grid Grid.Row="0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="84"/>
+                            <RowDefinition Height="8"/>
+                            <RowDefinition Height="3*"/>
+                            <RowDefinition Height="8"/>
+                            <RowDefinition Height="6*"/>
+                        </Grid.RowDefinitions>
+                        <Border Grid.Row="0" Grid.Column="0" Background="#fff2f2f2" BorderThickness="1" BorderBrush="#ffd1d1d1"></Border>
+                        <Grid x:Name="SearchArea" Grid.Row="0">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="13"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="13"/>
+                            </Grid.ColumnDefinitions>
+
+                            <Grid Grid.Row="0" Grid.Column="1">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="4*"/>
+                                    <ColumnDefinition Width="6*"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock      Grid.Row="0"  Grid.Column="0" Text="{Binding ConverterParameter=포장일, Converter={StaticResource GlobalObjectDicConverter}, RelativeSource={RelativeSource Self}}" HorizontalAlignment="Right" Style="{StaticResource Content_InputForm_LabelStyle}" />
+
+                                <Grid  Grid.Row="0" Grid.Column="1" >
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <ctrlLib:LGCDatePicker Grid.Column="0"  x:Name="dtpDateFrom"  DatepickerType="Date"/>
+                                    <TextBlock  Grid.Column="1" Text="~" Style="{StaticResource Content_InputForm_LabelStyle}" Margin="0" />
+                                    <ctrlLib:LGCDatePicker Grid.Column="2"  x:Name="dtpDateTo"  DatepickerType="Date"/>
+                                </Grid>
+                            </Grid>
+
+                            <Grid Grid.Row="0" Grid.Column="2">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="4*"/>
+                                    <ColumnDefinition Width="6*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock  Grid.Row="0" Grid.Column="0" Text="{Binding ConverterParameter=동, Converter={StaticResource GlobalObjectDicConverter}, RelativeSource={RelativeSource Self}}" Style="{StaticResource Content_InputForm_LabelStyle}" />
+                                <uc:UcBaseComboBox  Grid.Row="0"  Grid.Column="1" x:Name="cboArea" Style="{StaticResource C1ComboBoxStyle}" AutoComplete="False" />
+                            </Grid>
+
+                            <Grid Grid.Row="0" Grid.Column="3" Visibility="Collapsed">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="4*"/>
+                                    <ColumnDefinition Width="6*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock  Grid.Row="0" Grid.Column="0" Text="{Binding ConverterParameter=라인, Converter={StaticResource GlobalObjectDicConverter}, RelativeSource={RelativeSource Self}}" Style="{StaticResource Content_InputForm_LabelStyle}" />
+                                <uc:UcBaseComboBox  Grid.Row="0"  Grid.Column="1" x:Name="cboLine" Style="{StaticResource C1ComboBoxStyle}" AutoComplete="False" />
+                            </Grid>
+
+                            <Grid Grid.Row="0" Grid.Column="4" Visibility="Collapsed">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="4*"/>
+                                    <ColumnDefinition Width="6*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock  Grid.Row="0" Grid.Column="0" Text="{Binding ConverterParameter=설비, Converter={StaticResource GlobalObjectDicConverter}, RelativeSource={RelativeSource Self}}" Style="{StaticResource Content_InputForm_LabelStyle}" />
+                                <uc:UcBaseComboBox  Grid.Row="0"  Grid.Column="1" x:Name="cboEqpt" Style="{StaticResource C1ComboBoxStyle}" AutoComplete="False" />
+                            </Grid>
+
+                            <Grid Grid.Row="0" Grid.Column="3">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="4*"/>
+                                    <ColumnDefinition Width="6*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock   Grid.Row="0" Grid.Column="0"    Text="{Binding ConverterParameter=PALLETID, Converter={StaticResource GlobalObjectDicConverter}, RelativeSource={RelativeSource Self}}" HorizontalAlignment="Right" 
+                                        Style="{StaticResource Content_InputForm_LabelStyle}" />
+                                <TextBox Grid.Row="0" Grid.Column="1"  x:Name="txtPalletID" Style="{StaticResource SearchCondition_TextBoxStyle}"  CharacterCasing="Upper" MinWidth="100" KeyDown="txtPalletID_KeyDown"/>
+                            </Grid>
+                            <Grid Grid.Row="0" Grid.Column="4">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="4*"/>
+                                    <ColumnDefinition Width="6*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock   Grid.Row="0" Grid.Column="0"    Text="{Binding ConverterParameter=조립LOTID, Converter={StaticResource GlobalObjectDicConverter}, RelativeSource={RelativeSource Self}}" HorizontalAlignment="Right" 
+                                        Style="{StaticResource Content_InputForm_LabelStyle}" />
+                                <TextBox Grid.Row="0" Grid.Column="1"  x:Name="txtLotID" Style="{StaticResource SearchCondition_TextBoxStyle}"  CharacterCasing="Upper" MinWidth="100" />
+                            </Grid>
+
+                            <Grid Grid.Row="0" Grid.Column="4">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="4*"/>
+                                    <ColumnDefinition Width="6*"/>
+                                </Grid.ColumnDefinitions>
+
+                            </Grid>
+
+                            <Grid Grid.Row="1" Grid.Column="4" >
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="4"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <uc:UcBaseButton Grid.Column="3" x:Name="btnSearch" Content="{Binding ConverterParameter=SEARCH,    Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource SearchButtonStyle}" Cursor="Hand" Click="btnSearch_Click" />
+
+                            </Grid>
+
+                        </Grid>
+
+                        <!--Search Area End-->
+                        <Grid x:Name="ContentTop" Grid.Row="2">
+                            <Grid Grid.Row="0" Grid.Column="0">
+                                <Border Grid.Column="0" Style="{StaticResource Content_InputForm_GroupBorderStyle}"/>
+                                <Grid Grid.Column="0">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="34"/>
+                                        <RowDefinition Height="*"/>
+                                    </Grid.RowDefinitions>
+                                    <Border Grid.Row="0" BorderThickness="1" BorderBrush="#ffbebebe" Style="{StaticResource BorderSubTitleStyle}"/>
+                                    <Grid   Grid.Row="0" >
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="15"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock      Grid.Row="0"  Grid.Column="1" Text="{Binding ConverterParameter='포장 실적', Converter={StaticResource GlobalObjectDicConverter}, RelativeSource={RelativeSource Self}}" HorizontalAlignment="Right" Style="{StaticResource Content_Search_LabelStyle}" />
+
+                                    </Grid>
+                                    <Grid Grid.Row="2">
+                                        <c1:C1DataGrid Grid.Row="1" Grid.Column="1" x:Name="dgPallet" IsReadOnly="True" HeadersVisibility="Column" SelectionMode="MultiRange"   FrozenBottomRowsCount="1" >
+                                            <c1:C1DataGrid.Resources>
+                                                <DataTemplate x:Key="ResultTemplate">
+                                                    <Grid>
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="*"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <TextBlock Grid.Column="1" Text="{Binding}" Style="{StaticResource Content_InputForm_TextBlockStyle}" HorizontalAlignment="Center"></TextBlock>
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </c1:C1DataGrid.Resources>
+                                            <c1:C1DataGrid.Columns>
+                                                <c1:DataGridTemplateColumn   EditOnSelection="True" Name="CHK" Width="Auto" HorizontalAlignment="Center" >
+                                                    <c1:DataGridTemplateColumn.CellTemplate>
+                                                        <DataTemplate>
+                                                            <RadioButton GroupName="dgPalletChoiceGroup" IsChecked="{Binding CHK, Mode=OneWay}" Name="dgPalletChoice" HorizontalAlignment="Center" Checked="dgPalletChoice_Checked"  />
+                                                        </DataTemplate>
+                                                    </c1:DataGridTemplateColumn.CellTemplate>
+                                                </c1:DataGridTemplateColumn>
+                                                <c1:DataGridTextColumn Header="AREAID"     Binding = "{Binding AREAID}" HorizontalAlignment="Center" Visibility="Collapsed"/>
+                                                <c1:DataGridTextColumn Header="AREANAME"     Binding = "{Binding AREANAME}" HorizontalAlignment="Center"/>
+                                                <c1:DataGridTextColumn Header="EQPTID"     Binding = "{Binding EQPTID}" HorizontalAlignment="Center" Visibility="Collapsed"/>
+                                                <c1:DataGridTextColumn Header="EQPTNAME"     Binding = "{Binding EQPTNAME}" HorizontalAlignment="Center"/>
+                                                <c1:DataGridTextColumn Header="BOXID"     Binding = "{Binding BOXID}" HorizontalAlignment="Center"/>
+                                                <c1:DataGridTextColumn Header="포장LOT유형"     Binding = "{Binding BOXTYPE}" HorizontalAlignment="Center" Visibility="Collapsed"/>
+                                                <c1:DataGridTextColumn Header="BOXTYPE_NAME"     Binding = "{Binding BOXTYPE_NAME}" HorizontalAlignment="Center" Visibility="Collapsed"/>
+                                                <c1:DataGridTextColumn Header="PRODID"     Binding = "{Binding PRODID}" HorizontalAlignment="Center"/>
+                                                <c1:DataGridTextColumn Header="PROJECT"     Binding = "{Binding PROJECT}" HorizontalAlignment="Center"/>
+                                                <c1:DataGridTextColumn Header="조립LOTID"     Binding = "{Binding PKG_LOTID}" HorizontalAlignment="Center"/>
+                                                <c1:DataGridTextColumn Header="포장수량"     Binding = "{Binding TOTAL_QTY}" HorizontalAlignment="Center" Format="###,###,##0.##"/>
+                                                <c1:DataGridTextColumn Header="RCV_ISS_STAT_CODE"     Binding = "{Binding RCV_ISS_STAT_CODE}" HorizontalAlignment="Center" Visibility="Collapsed"/>
+                                                <c1:DataGridTextColumn Header="RCV_ISS_STAT_NAME"     Binding = "{Binding RCV_ISS_STAT_NAME}" HorizontalAlignment="Center"/>
+                                                <c1:DataGridTextColumn Header="EXP_DOM_TYPE_CODE"     Binding = "{Binding EXP_DOM_TYPE_CODE}" HorizontalAlignment="Center" Visibility="Collapsed"/>
+                                                <c1:DataGridTextColumn Header="수출/내수"     Binding = "{Binding EXP_DOM_TYPE_NAME}" HorizontalAlignment="Center"/>
+                                                <c1:DataGridTextColumn Header="비고"     Binding = "{Binding PACK_NOTE}" HorizontalAlignment="Center" Width="*"/>
+                                            </c1:C1DataGrid.Columns>
+                                            <c1:C1GroupingWithSummariesBehavior.GroupingWithSummariesBehavior>
+                                                <c1:C1GroupingWithSummariesBehavior/>
+                                            </c1:C1GroupingWithSummariesBehavior.GroupingWithSummariesBehavior>
+
+                                            <c1:C1DataGrid.BottomRows>
+                                                <c1:DataGridSummaryRow x:Name="summary_Main" RowStyle="{StaticResource SummaryRowStyle}"/>
+                                            </c1:C1DataGrid.BottomRows>
+                                        </c1:C1DataGrid>
+                                    </Grid>
+                                </Grid>
+                            </Grid>
+                        </Grid>
+                        <GridSplitter Grid.Row="3" ResizeDirection="Rows" ShowsPreview="True" Style="{StaticResource GridSplitterVerticalStyle }" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" />
+                        <Grid x:Name="ContentBot" Grid.Row="4">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width ="3*"/>
+                                <ColumnDefinition Width ="8"/>
+                                <ColumnDefinition Width ="5*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <Grid Grid.Column="0">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="34"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+                                <Grid Grid.Row="0" Grid.Column="0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="4"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Border Grid.Row="0" Grid.ColumnSpan="99" BorderThickness="1" BorderBrush="#ffbebebe" Style="{StaticResource BorderSubTitleStyle}"/>
+                                    <TextBlock Margin="15,0,0,0" Grid.Column="0" Text="{Binding ConverterParameter='Assy Lot List', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_Search_LabelStyle}" HorizontalAlignment="Left"/>
+                                    <uc:UcBaseButton x:Name="btnLabelPrint" Grid.Column="1" Content="{Binding ConverterParameter='발행', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{DynamicResource  Content_MainButtonNoMinWidthSpecialStyle}" Click="btnPrint_Click" />
+                                </Grid>
+                                <c1:C1DataGrid Grid.Row="1" Grid.Column="0"  x:Name="dgOutboxList" IsReadOnly="False" HeadersVisibility="Column" SelectionMode="MultiRange" LoadedColumnHeaderPresenter="dgOutboxList_LoadedColumnHeaderPresenter" >
+                                    <c1:C1DataGrid.Columns>
+                                        <c1:DataGridCheckBoxColumn   Width="45"      Binding = "{Binding CHK}"        HorizontalAlignment="Center" CanUserSort="False" CanUserFilter="False"/>
+                                        <c1:DataGridTextColumn Header="Seq"          Binding = "{Binding SEQ}"        HorizontalAlignment="Center" IsReadOnly="True"/>
+                                        <c1:DataGridTextColumn Header="조립LOTID"    Binding = "{Binding PKG_LOTID}"  HorizontalAlignment="Center" IsReadOnly="True"/>
+                                        <c1:DataGridTextColumn Header="CellRank"     Binding = "{Binding CELL_RANK}"  HorizontalAlignment="Center" IsReadOnly="True"/>
+                                        <c1:DataGridTextColumn Header="포장수량"     Binding = "{Binding TOTAL_QTY}"  HorizontalAlignment="Center" Format="###,###,##0" IsReadOnly="True"/>
+                                        <c1:DataGridTextColumn Header="생산일자"     Binding = "{Binding PROD_VIEW}"  HorizontalAlignment="Center" IsReadOnly="True" />
+                                        <c1:DataGridTextColumn Header="생산일자"     Binding = "{Binding PROD_DATE}"  HorizontalAlignment="Center" IsReadOnly="True" Visibility="Collapsed"/>
+                                        <c1:DataGridTextColumn Header="생산일자"     Binding = "{Binding PRODUCTION_DATE}"  HorizontalAlignment="Center" IsReadOnly="True" Visibility="Collapsed"/>
+                                        <c1:DataGridTextColumn Header="유효기간"     Binding = "{Binding VALID_VIEW}" HorizontalAlignment="Center" IsReadOnly="True"/>
+                                        <c1:DataGridTextColumn Header="유효기간"     Binding = "{Binding VALID_DATE}" HorizontalAlignment="Center" IsReadOnly="True" Visibility="Collapsed"/>
+                                        <c1:DataGridTextColumn Header="OutBox수량"   Binding = "{Binding BOX_CNT}"    HorizontalAlignment="Center" Format="###,###,##0"/>
+                                        <c1:DataGridTextColumn Header="BOXID"        Binding = "{Binding BOXID}"      HorizontalAlignment="Center" IsReadOnly="True" Visibility="Collapsed"/>
+                                        <c1:DataGridTextColumn Header="AREAID"       Binding = "{Binding AREAID}"     HorizontalAlignment="Center" IsReadOnly="True" Visibility="Collapsed"/>
+                                        <c1:DataGridTemplateColumn Name="Preview" Width="Auto" Header="PREVIEW">
+                                            <c1:DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <Button  x:Name="btnPreview" Content="{Binding ConverterParameter=PREVIEW,   Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{DynamicResource Content_MainButtonNoMinWidthSpecialStyle}" Click="btnPreview_Click"/>
+                                                </DataTemplate>
+                                            </c1:DataGridTemplateColumn.CellTemplate>
+                                        </c1:DataGridTemplateColumn>
+                                    </c1:C1DataGrid.Columns>
+                                </c1:C1DataGrid>
+
+                            </Grid>
+                            <GridSplitter Grid.Column="1" ResizeDirection="Columns" ShowsPreview="True" Style="{StaticResource GridSplitterStyle}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" />
+                            <Grid Grid.Column="2">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="34"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+                                <Border Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="99" Grid.RowSpan="99" Style="{StaticResource Content_InputForm_GroupBorderStyle}"/>
+                                <Grid Grid.Row="0" Grid.Column="1">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="4"/>
+                                        <ColumnDefinition Width="Auto"/>
+
+                                    </Grid.ColumnDefinitions>
+                                    <Border Grid.Row="0" Grid.ColumnSpan="99" BorderThickness="1" BorderBrush="#ffbebebe" Style="{StaticResource BorderSubTitleStyle}"/>
+                                    <TextBlock Margin="15,0,0,0" Grid.Column="0" Text="{Binding ConverterParameter='Mat Label', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_Search_LabelStyle}" HorizontalAlignment="Left"/>
+                                    <uc:UcBaseButton x:Name="btnCopy2DBcr" Grid.Column="1" Content="{Binding ConverterParameter='Copy 2D BCR', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{DynamicResource  Content_MainButtonNoMinWidthSpecialStyle}" Click="btnCopy2DBcr_Click" />
+                                    <TextBlock Grid.Column="5" Text="{Binding ConverterParameter='발행 수량', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}" Visibility="Collapsed"/>
+                                </Grid>
+                                <Grid Grid.Row="1" Grid.Column="1" x:Name="grd_LabelPreview" Margin="08">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="40"/>
+                                    </Grid.RowDefinitions>
+
+                                    <Border Grid.Row="0" BorderThickness="1" Grid.ColumnSpan="99" Style="{StaticResource BorderSubTitleStyle}"/>
+
+                                    <Grid Margin="10">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="2*"/>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="2*"/>
+                                        </Grid.RowDefinitions>
+                                        <Grid x:Name="label1stRow" Grid.Row="0">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="1*"/>
+                                                <ColumnDefinition Width="2.5*"/>
+                                                <ColumnDefinition Width="3*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Grid Grid.Row="0" Grid.Column="3" VerticalAlignment="Top" Margin="0,-51,0,0" >
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="Auto"/>
+                                                    <ColumnDefinition Width="4"/>
+                                                    <ColumnDefinition Width="Auto"/>
+                                                    <ColumnDefinition Width="4"/>
+                                                    <ColumnDefinition Width="Auto"/>
+                                                    <ColumnDefinition Width="4"/>
+                                                    <ColumnDefinition Width="Auto"/>
+                                                </Grid.ColumnDefinitions>
+
+                                            </Grid>
+                                            <c1:C1BarCode Margin="0" x:Name="bcBoxID"  HorizontalAlignment="Center"  VerticalAlignment="Center" BorderBrush="Black" Foreground="Black" CodeType="DataMatrix" Text="" ToolTip="BCD_MATRIX" />
+                                            <Grid Grid.Column="1" Margin="10,0,0,0">
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="Auto"/>
+                                                    <RowDefinition Height="Auto"/>
+                                                    <RowDefinition Height="Auto"/>
+                                                    <RowDefinition Height="Auto"/>
+                                                    <RowDefinition Height="Auto"/>
+                                                </Grid.RowDefinitions>
+                                                <StackPanel Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Center" Orientation="Horizontal">
+                                                    <TextBlock x:Name="tbBP" Text="Part No:" VerticalAlignment="Center" FontWeight="Bold" FontSize="12"/>
+                                                    <Label Margin ="0,-2,0,0" x:Name="lbBoschPartNo" Content="" VerticalAlignment="Center" FontWeight="Bold" FontSize="12" ToolTip="CUST_MTRLID"/>
+                                                </StackPanel>
+                                                <StackPanel Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Center" Orientation="Horizontal">
+                                                    <TextBlock x:Name="tbQ" Text="Quantity:" VerticalAlignment="Center" FontWeight="Bold" FontSize="12"/>
+                                                    <Label Margin ="0,-2,0,0" x:Name="txtQuantity" Content="" VerticalAlignment="Center" FontWeight="Bold" FontSize="12" ToolTip="QUANTITY"/>
+
+                                                </StackPanel>
+                                                <StackPanel Grid.Row="2" HorizontalAlignment="Left" VerticalAlignment="Center" Orientation="Horizontal">
+                                                    <TextBlock x:Name="tb20P" Text="Add.Info:" VerticalAlignment="Center" FontWeight="Bold" FontSize="12" ToolTip="ADD_INFO"/>
+                                                    <Label Margin ="0,-2,0,0" x:Name="lbAddInfo" Content="" VerticalAlignment="Center" FontWeight="Bold" FontSize="12"/>
+                                                </StackPanel>
+                                                <StackPanel Grid.Row="3" HorizontalAlignment="Left" VerticalAlignment="Center" Orientation="Horizontal">
+                                                    <TextBlock Text="Part Name:" VerticalAlignment="Center" FontWeight="Bold" FontSize="12"/>
+                                                    <Label Margin ="0,-2,0,0" x:Name="lbPartName" Content="" VerticalAlignment="Center" FontWeight="Bold" FontSize="12" ToolTip="CUST_MTRLNAME"/>
+                                                </StackPanel>
+                                                <StackPanel Grid.Row="4" HorizontalAlignment="Left" VerticalAlignment="Center" Orientation="Horizontal">
+                                                    <TextBlock x:Name="tb31P" Text="Ordering Code:" VerticalAlignment="Center" FontWeight="Bold" FontSize="12"/>
+                                                    <Label Margin ="0,-2,0,0" x:Name="lbOrderingCode" Content="" VerticalAlignment="Center" FontWeight="Bold" FontSize="12" ToolTip="ORDER_CODE"/>
+                                                </StackPanel>
+                                            </Grid>
+                                            <Grid Grid.Column="2">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="*"/>
+                                                </Grid.ColumnDefinitions>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="Auto"/>
+                                                    <RowDefinition Height="Auto"/>
+                                                    <RowDefinition Height="Auto"/>
+                                                    <RowDefinition Height="Auto"/>
+                                                    <RowDefinition Height="Auto"/>
+                                                </Grid.RowDefinitions>
+                                                <StackPanel Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" Orientation="Horizontal">
+                                                    <TextBlock x:Name="tb6D" Text="Date Code:" VerticalAlignment="Center" FontWeight="Bold" FontSize="12"/>
+                                                    <Label Margin ="0,-2,0,0" x:Name="lbDateCode" Content="" VerticalAlignment="Center" FontWeight="Bold" FontSize="12" ToolTip="DATE_CODE"/>
+                                                </StackPanel>
+                                                <StackPanel Margin="20,0,0,0" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" Orientation="Horizontal">
+                                                    <TextBlock x:Name="tb2P" Text="Index:" VerticalAlignment="Center" FontWeight="Bold" FontSize="12"/>
+                                                    <Label Margin ="0,-2,0,0" x:Name="lbIndex" Content="" VerticalAlignment="Center" FontWeight="Bold" FontSize="12" ToolTip="INDEX"/>
+                                                </StackPanel>
+                                                <StackPanel Grid.Row="2" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" Orientation="Horizontal">
+                                                    <TextBlock x:Name="tb14D" Text="Exp.Code:" VerticalAlignment="Center" FontWeight="Bold" FontSize="12"/>
+                                                    <Label Margin ="0,-2,0,0" x:Name="lbExpDate" Content="" VerticalAlignment="Center" FontWeight="Bold" FontSize="12" ToolTip="EXP_DATE"/>
+                                                </StackPanel>
+                                                <StackPanel Grid.Row="3" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" Orientation="Horizontal">
+                                                    <TextBlock  Text="MS-Level:" VerticalAlignment="Center" FontWeight="Bold" FontSize="12"/>
+                                                    <Label Margin ="0,-2,0,0" x:Name="lbMsLevel" Content="" VerticalAlignment="Center" FontWeight="Bold" FontSize="12" ToolTip="MS_LEVEL"/>
+                                                </StackPanel>
+                                                <Grid x:Name="RoHS" Grid.Column="2" Grid.RowSpan="5">
+                                                    <Path Data="M50,0L100,50 50,100 0,50z" Fill="White" Stretch="Fill" Stroke="Black" StrokeThickness="2"  HorizontalAlignment="Left" Width="100" Height="50" VerticalAlignment="Top" Margin="79,96,0,-40"/>
+                                                    <TextBlock Text="RoHS" VerticalAlignment="Center" FontWeight="Bold" FontSize="12" Margin="113,106,-113,9"/>
+                                                    <TextBlock Text="2002/95/EC" VerticalAlignment="Center" FontWeight="Bold" FontSize="12" Margin="97,117,-97,-2"/>
+
+                                                </Grid>
+                                            </Grid>
+                                        </Grid>
+                                        <Grid Margin="0,10,0,0" x:Name="label2ndRow" Grid.Row="1">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto"/>
+                                            </Grid.RowDefinitions>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="1.5*"/>
+                                                <ColumnDefinition Width="1.5*"/>
+                                                <ColumnDefinition Width="2*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Border Grid.Row="0" Grid.ColumnSpan="99" BorderThickness="0,0,0,2" BorderBrush="Black"/>
+                                            <TextBlock Grid.Row="0" Grid.Column="0" x:Name="tbV" Text="Supplier-ID" VerticalAlignment="Bottom" FontWeight="Bold" FontSize="12" />
+                                            <TextBlock Grid.Row="0" Grid.Column="1" x:Name="tb3S" Text="Package-ID" VerticalAlignment="Bottom" FontWeight="Bold" FontSize="12" />
+                                            <TextBlock Grid.Row="0" Grid.Column="2" x:Name="tb1T" Text="1.Batch No." VerticalAlignment="Bottom" FontWeight="Bold" FontSize="12" />
+                                            <TextBlock Grid.Row="0" Grid.Column="3" x:Name="tb2T" Text="2.Batch No." VerticalAlignment="Bottom" FontWeight="Bold" FontSize="12" />
+                                            <Label     Grid.Row="1" Grid.Column="0" x:Name="lbSupplierID" Content="LG Chem" VerticalAlignment="Top" FontWeight="Bold" FontSize="12" ToolTip="SUPPLIER_ID"/>
+                                            <Label     Grid.Row="1" Grid.Column="1" x:Name="lbPackageID" VerticalAlignment="Top" FontWeight="Bold" FontSize="12" ToolTip="PACKAGE_ID"/>
+                                            <Label     Grid.Row="1" Grid.Column="2" x:Name="txtBatchNumber" VerticalAlignment="Top"  HorizontalAlignment="Left" FontWeight="Bold" FontSize="12"  ToolTip="BATCH_NO1" />
+                                            <Label     Grid.Row="1" Grid.Column="3" x:Name="txtCellRanking"  VerticalAlignment="Top" HorizontalAlignment="Left" FontWeight="Bold" FontSize="12"  ToolTip="BATCH_NO2" />
+                                            <StackPanel Grid.Row="2" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" Orientation="Horizontal">
+                                                <TextBlock Text="Purchase:" x:Name="tbK" VerticalAlignment="Center" FontWeight="Bold" FontSize="12"/>
+                                                <Label Margin ="0,-2,0,0" x:Name="lbPurchase" Content="" VerticalAlignment="Center" FontWeight="Bold" FontSize="12" ToolTip="PO_NO"/>
+                                            </StackPanel>
+                                            <StackPanel Grid.Row="2" Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Center" Orientation="Horizontal">
+                                                <TextBlock Text="Shipping Note:" x:Name="tb16K" VerticalAlignment="Center" FontWeight="Bold" FontSize="12" />
+                                                <Label Margin ="0,-2,0,0" x:Name="lbShippingNote" Content="" VerticalAlignment="Center" FontWeight="Bold" FontSize="12" ToolTip="SHIPMENT_NO"/>
+                                            </StackPanel>
+                                        </Grid>
+                                        <Grid x:Name="label3rdRow"  Grid.Row="2">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="3*"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <StackPanel Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" Orientation="Vertical">
+                                                <StackPanel Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" Orientation="Horizontal">
+                                                    <TextBlock x:Name="tb1P" Text="Manufacturer PartNumber:" VerticalAlignment="Center" FontWeight="Bold" FontSize="12"/>
+                                                    <Label Margin ="0,-2,0,0" x:Name="lbManuPartNum" Content="21017694" VerticalAlignment="Center" FontWeight="Bold" FontSize="12" ToolTip="PRODID"/>
+                                                </StackPanel>
+                                                <StackPanel Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" Orientation="Vertical">
+                                                    <c1:C1BarCode  x:Name="bcPartNoSupplier"  HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" BorderBrush="Black" Foreground="Black" CodeType="Code_128auto" ModuleSize="2" Text="P2607334134@VLG Chem" ToolTip="PART_NO_SUPP_NAME_BCR"/>
+                                                    <Label Margin ="0,-2,0,0" x:Name="lblPartNoVender" Content="P2607334134@VLG Chem" HorizontalAlignment="Center" FontWeight="Bold" FontSize="12" ToolTip="PART_NO_SUPP_NAME_TEXT"/>
+                                                </StackPanel>
+                                                <StackPanel Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" Orientation="Vertical">
+                                                    <c1:C1BarCode  x:Name="bcChargeQty"  HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" BorderBrush="Black" Foreground="Black" CodeType="Code_128auto" ModuleSize="2" Text="H00000000002101694@Q00200" ToolTip="CHARGE_QTY_BCR"/>
+                                                    <Label Margin ="0,-2,0,0" x:Name="lblChargeQty" Content="H00000000002101694@Q00200" HorizontalAlignment="Center" FontWeight="Bold" FontSize="12" ToolTip="CHARGE_QTY_TEXT"/>
+                                                </StackPanel>
+                                            </StackPanel>
+                                            <Grid Grid.Column="1">
+                                                <StackPanel Grid.Row="2" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" Orientation="Vertical">
+                                                    <TextBlock x:Name="tb10V" Text="Manufacturer Location" VerticalAlignment="Center" FontWeight="Bold" FontSize="12"/>
+                                                    <Label Margin ="-5,-2,0,0" x:Name="lbProductionPlant" Content="CHN-NANJING" VerticalAlignment="Center" FontWeight="Bold" FontSize="12" ToolTip="MANU_LOCATION"/>
+                                                    <TextBlock Text="Supplier-Name" VerticalAlignment="Center" FontWeight="Bold" FontSize="12"/>
+                                                    <Label Margin ="-5,-2,0,0" x:Name="lbSupplierName" Content="LG Chem" VerticalAlignment="Center" FontWeight="Bold" FontSize="12" ToolTip="SUPPLIER_NAME"/>
+                                                    <TextBlock x:Name="tb1Z" Text="Supplier Data" VerticalAlignment="Center" FontWeight="Bold" FontSize="12"/>
+                                                    <Label Margin ="-5,-2,0,0" x:Name="lbSupplierData" Content="" VerticalAlignment="Center" FontWeight="Bold" FontSize="12" ToolTip="SUPPLIER_DATA"/>
+                                                </StackPanel>
+                                            </Grid>
+                                        </Grid>
+                                    </Grid>
+                                    <!--// E20240312-000577 주석처리
+                                    <Grid x:Name="grd2DBCRContent" Grid.Row="1">
+                                        <StackPanel Orientation="Vertical">
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBox x:Name="txtBCR" TextChanged="txtBCR_TextChanged" Visibility="Collapsed"/>
+                                                <TextBlock FontSize="15" Text="2D BCR : "/>
+                                                <TextBlock FontSize="15" x:Name="txtHead"/>
+                                                <TextBlock FontSize="15" x:Name="txt12S"/>
+                                                <TextBlock FontSize="15" x:Name="txtP"/>
+                                                <TextBlock FontSize="15" x:Name="txt1P"/>
+                                                <TextBlock FontSize="15" x:Name="txt31P"/>
+                                                <TextBlock FontSize="15" x:Name="txt12V"/>
+                                                <TextBlock FontSize="15" x:Name="txt10V"/>
+                                                <TextBlock FontSize="15" x:Name="txt2P"/>
+                                                <TextBlock FontSize="15" x:Name="txt20P"/>
+                                                <TextBlock FontSize="15" x:Name="txt6D"/>
+                                                <TextBlock FontSize="15" x:Name="txt14D"/>
+                                            </StackPanel>
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock FontSize="15" x:Name="txt30P"/>
+                                                <TextBlock FontSize="15" x:Name="txtZ"/>
+                                                <TextBlock FontSize="15" x:Name="txtK"/>
+                                                <TextBlock FontSize="15" x:Name="txt16K"/>
+                                                <TextBlock FontSize="15" x:Name="txtV"/>
+                                                <TextBlock FontSize="15" x:Name="txt3S"/>
+                                                <TextBlock FontSize="15" x:Name="txtQ"/>
+                                                <TextBlock FontSize="15" x:Name="txt20T"/>
+                                                <TextBlock FontSize="15" x:Name="txt1T"/>
+                                                <TextBlock FontSize="15" x:Name="txt2T"/>
+                                                <TextBlock FontSize="15" x:Name="txt1Z"/>
+                                                <TextBlock FontSize="15" x:Name="txtTail"/>
+                                            </StackPanel>
+                                        </StackPanel>
+                                    </Grid> // E20240312-000577 주석처리 -->
+                                    <Grid x:Name="grd2DBCRContent" Grid.Row="1">
+                                        <StackPanel Orientation="Vertical">
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBox x:Name="txtBCR" TextChanged="txtBCR_TextChanged" Visibility="Collapsed"/>
+                                                <TextBlock FontSize="14" Text="2D BCR : "/>
+                                                <TextBlock FontSize="14" x:Name="txtMatrixCode1" Margin="0,0,3,0" Width="auto"/>
+                                            </StackPanel>
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock FontSize="15" x:Name="txt30P"/>
+                                                <TextBlock FontSize="14" x:Name="txtMatrixCode2" Margin="0,0,10,0" Width="auto"/>
+                                            </StackPanel>
+                                        </StackPanel>
+                                    </Grid>
+                                </Grid>
+                            </Grid>
+
+                        </Grid>
+
+
+                    </Grid>
+
+                    <Grid x:Name="Worker" Grid.Row="2">
+                        <Border Grid.Row="6" Background="#e8ebed" BorderThickness="1" BorderBrush="#8a8a8a" />
+                        <Grid Grid.Row="6" >
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="13"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="30"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="34" />
+                            </Grid.RowDefinitions>
+                            <Grid Grid.Row="0" Grid.Column="1">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="1*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="1*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="2*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="0"/>
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Right">
+                                    <TextBlock Style="{StaticResource SearchCondition_MandatoryMarkStyle}" />
+                                    <TextBlock Grid.Row="0" Grid.Column="0" Text="{Binding ConverterParameter='작업자', Converter={StaticResource GlobalObjectDicConverter}, RelativeSource={RelativeSource Self}}" HorizontalAlignment="Right" Style="{StaticResource Content_Search_LabelStyle}" />
+                                </StackPanel>
+                                <TextBox Grid.Row="0" Grid.Column="1" x:Name="txtWorker" IsReadOnly="True"  HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalAlignment="Center" Margin="3, 3, 3, 3" />
+                                <uc:UcBaseButton x:Name="btnShift" Grid.Column="3" Content="{Binding Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{DynamicResource Content_SearchButtonStyle}" HorizontalAlignment="Left" IsCancel="True" Click="btnShift_Click"/>
+                            </Grid>
+                        </Grid>
+                    </Grid>
+                </Grid>
+            </ctrlLib:LGCLayout.Content>
+        </ctrlLib:LGCLayout>
+
+        <ctrlLib:LoadingIndicator x:Name="loadingIndicator" Grid.Row="999" Grid.Column="999" />
+    </Grid>
+</UserControl>

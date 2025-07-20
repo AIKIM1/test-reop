@@ -1,0 +1,1003 @@
+﻿/*************************************************************************************
+ Created Date : 2017.01.25
+      Creator : INS 정문교C
+   Decription : 전지 5MEGA-GMES 구축 - SRC 공정진척 화면 - 착공 팝업
+--------------------------------------------------------------------------------------
+ [Change History]
+  2017.01.25  INS 정문교C : Initial Created.
+
+**************************************************************************************/
+
+using C1.WPF;
+using C1.WPF.DataGrid;
+using LGC.GMES.MES.CMM001.Class;
+using LGC.GMES.MES.Common;
+using LGC.GMES.MES.ControlsLibrary;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Threading;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Input;
+
+namespace LGC.GMES.MES.ASSY003
+{
+    /// <summary>
+    /// ASSY003_008_RUNSTART.xaml에 대한 상호 작용 논리
+    /// </summary>
+    public partial class ASSY003_008_RUNSTART : C1Window, IWorkArea
+    {   
+        #region Declaration & Constructor
+
+        private string _LineID = string.Empty;
+        private string _EqptID = string.Empty;
+        private bool bSave = false;
+        private bool isCellDetlNeed = false;
+        public string NEW_PROD_LOT = string.Empty;
+
+        Util _Util = new Util();
+        BizDataSet _Biz = new BizDataSet();
+        #endregion
+
+        #region Initialize
+
+        /// <summary>
+        ///  Frame과 상호작용하기 위한 객체
+        /// </summary>
+        public IFrameOperation FrameOperation
+        {
+            get;
+            set;
+        }
+        public ASSY003_008_RUNSTART()
+        {
+            InitializeComponent();
+        }
+
+        #endregion
+
+        #region Event
+
+        #region [Form Load]
+        private void C1Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            object[] tmps = C1WindowExtension.GetParameters(this);
+
+            if (tmps.Length >= 2)
+            {
+                _LineID = Util.NVC(tmps[0]);
+                _EqptID = Util.NVC(tmps[1]);
+            }
+            else
+            {
+                _LineID = "";
+                _EqptID = "";
+            }
+
+            grdMsg.Visibility = Visibility.Collapsed;
+            lblProd.Text = string.Empty;
+
+            ApplyPermissions();
+
+
+            ClearDataGrid();
+
+            GetInputMountInfo();
+
+            LoadCombo();
+
+            LoadCellDetlClss();
+
+            ////dgInput.CurrentCellChanged += dgInput_CurrentCellChanged;
+            dgInput.CommittedEdit += dgInput_CommittedEdit;
+            dgMGZ.CommittingEdit += dgMGZ_CommittingEdit;
+            dgMGZ.CommittedEdit += dgMGZ_CommittedEdit;
+
+        }
+
+        private void LoadCombo()
+        {
+            CommonCombo cbo = new CommonCombo();
+            string[] sFilter1 = { "CELL_DETL_CLSS_CODE" };
+            cbo.SetCombo(cboCellClass, CommonCombo.ComboStatus.SELECT, sFilter: sFilter1, sCase: "COMMCODE");
+        }
+
+        private void LoadCellDetlClss()
+        {
+            try
+            {
+                ShowLoadingIndicator();
+
+                DataTable dt = new DataTable();
+                dt.Columns.Add("PROCID", typeof(string));
+                dt.Columns.Add("EQSGID", typeof(string));
+
+                DataRow dr = dt.NewRow();
+                dr["PROCID"] = Process.LAMINATION;
+                dr["EQSGID"] = _LineID;
+                dt.Rows.Add(dr);
+
+                new ClientProxy().ExecuteService("DA_BAS_SEL_PROCESSEQUIPMENTSEGMENT", "INDATA", "OUTDATA", dt, (result, exception) =>
+                {
+                    try
+                    {
+                        if (result.Rows.Count > 0 && result.Rows[0]["CELL_DETL_CLSS_MNGT_FLAG"].Equals("Y"))
+                        {
+                            stpCellDetl.Visibility = Visibility.Visible;
+                            isCellDetlNeed = true;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Util.MessageException(ex);
+                    }
+                });
+            }
+            catch (Exception ex)
+            {
+                Util.MessageException(ex);
+            }
+            finally
+            {
+                HiddenLoadingIndicator();
+            }
+        }
+        #endregion
+
+        #region [작업시작, 닫기]
+        private void btnOK_Click(object sender, RoutedEventArgs e)
+        {
+            if (!CanRun())
+                return;
+
+            Util.MessageConfirm("SFU1240", (result) =>
+            {
+                if (result == MessageBoxResult.OK)
+                {
+                    RunStart();
+                }
+            });
+
+        }
+
+        private void btnClose_Click(object sender, RoutedEventArgs e)
+        {
+            if (bSave)
+                this.DialogResult = MessageBoxResult.OK;
+            else
+                this.DialogResult = MessageBoxResult.Cancel;
+        }
+        #endregion
+
+        #region [dgInput 그리드]
+        private void dgInput_CommittedEdit(object sender, DataGridCellEventArgs e)
+        {
+            if(e.Cell.Column.Name == "CHK")
+            {
+                DataTable dt = DataTableConverter.Convert(dgInput.ItemsSource);
+
+                string sMountPstnid = dt.Rows[e.Cell.Row.Index]["EQPT_MOUNT_PSTN_ID"].ToString();
+                string sWODetlID = dt.Rows[e.Cell.Row.Index]["WO_DETL_ID"].ToString();
+                string sWOID = dt.Rows[e.Cell.Row.Index]["WOID"].ToString();
+
+                foreach (DataRow row in dt.Rows)
+                {
+                    if (row["EQPT_MOUNT_PSTN_ID"].Equals(sMountPstnid))
+                        continue;
+                    else
+                        row["CHK"] = "0";
+                }
+
+                dt.AcceptChanges();
+                Util.GridSetData(dgInput, dt, null, false);
+
+                GetWoProd(sWODetlID);
+                GetWaitMazList(dgMGZ, sWODetlID, sWOID);
+            }
+            else if (e.Cell.Column.Name == "OUT_CSTID")
+            {
+                                
+            }
+        }
+
+        #endregion
+
+        #region [투입 LOT]
+        private void txtMTRL_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                try
+                {
+                    dgInput.CommittedEdit -= dgInput_CommittedEdit;
+
+                    if (txtMTRL.Text.Trim().Equals(""))
+                        return;
+
+                    int iChkRow = _Util.GetDataGridCheckFirstRowIndex(dgInput, "CHK");
+                    int iSelRow = -1;
+
+                    if (iChkRow < 0)
+                    {
+                        //Util.Alert("투입위치를 선택하세요.");
+                        Util.MessageValidation("SFU1981");
+                        return;
+                    }
+
+                    if (!Util.NVC(DataTableConverter.GetValue(dgInput.Rows[iChkRow].DataItem, "INPUT_LOTID")).Trim().Equals(""))
+                    {
+                        //Util.Alert("해당 위치는 이미 투입 정보가 존재하여 투입할 수 없습니다.");
+                        Util.MessageValidation("SFU2021");
+                        return;
+                    }
+
+                    if (_Util.GetDataGridRowIndex(dgInput, "INPUT_LOTID", txtMTRL.Text) >= 0)
+                    {
+                        //Util.Alert("투입LOT에 동일한 LOT이 있습니다.");
+                        Util.MessageValidation("SFU1967");
+                        return;
+                    }
+
+                    if (_Util.GetDataGridRowIndex(dgInput, "SEL_LOTID", txtMTRL.Text) >= 0)
+                    {
+                        //Util.Alert("선택한 LOT에 동일한 LOT이 있습니다.");
+                        Util.MessageValidation("SFU1657");
+                        return;
+                    }
+
+                    // 매거진 Row 
+                    iSelRow = _Util.GetDataGridRowIndex(dgMGZ, "LOTID", txtMTRL.Text);
+
+                    if (iSelRow < 0)
+                    {
+                        //Util.Alert("선택된 LOT 이 존재하지 않습니다.");
+                        Util.MessageValidation("SFU1137");
+                        return;
+                    }
+
+                    // 대기 매거진 추가
+                    AddInMaz((dgMGZ.Rows[iSelRow].DataItem as DataRowView).Row, iChkRow);
+                    txtMTRL.Text = string.Empty;
+
+                    DataTableConverter.SetValue(dgMGZ.Rows[iSelRow].DataItem, "CHK", true);
+                }
+                catch (Exception ex)
+                {
+                    Util.MessageException(ex);
+                }
+                finally
+                {
+                    dgInput.CommittedEdit += dgInput_CommittedEdit;
+                }
+            }
+        }
+        #endregion
+
+        #region [dgMGZ 그리드]
+        private void dgMGZ_CommittingEdit(object sender, DataGridEndingEditEventArgs e)
+        {
+            try
+            {
+                dgInput.CommittedEdit -= dgInput_CommittedEdit;
+
+                int idx = _Util.GetDataGridFirstRowIndexByCheck(dgInput, "CHK");
+
+                if (DataTableConverter.GetValue(e.Row.DataItem, "CHK").Equals(1))
+                {
+                    if (idx < 0)
+                    {
+                        //Util.Alert("투입 위치를 선택하세요.");
+                        Util.MessageValidation("SFU1957");
+                        DataTableConverter.SetValue(dgMGZ.Rows[dgMGZ.CurrentRow.Index].DataItem, "CHK", false);
+                        dgMGZ.SelectedIndex = -1;
+                        return;
+                    }
+
+                    if (CanAddMagin(dgMGZ, e.Row.Index))
+                    {
+                        AddInMaz((dgMGZ.Rows[e.Row.Index].DataItem as DataRowView).Row, idx);
+                    }
+                }
+                else
+                {
+                    RemoveInMaz((dgMGZ.Rows[e.Row.Index].DataItem as DataRowView).Row);
+                }
+            }
+            catch (Exception ex)
+            {
+                Util.MessageException(ex);
+            }
+            finally
+            {
+                dgInput.CommittedEdit += dgInput_CommittedEdit;
+            }
+
+        }
+        private void dgMGZ_CommittedEdit(object sender, DataGridCellEventArgs e)
+        {
+            SetSelectMGZ(false);
+        }
+
+        #endregion
+
+        #endregion
+
+        #region Mehod
+
+        #region [BizCall]
+
+        /// <summary>
+        /// 투입정보 조회 Biz
+        /// </summary>
+        private void GetInputMountInfo()
+        {
+            try
+            {
+                ShowLoadingIndicator();
+
+                DataTable inTable = _Biz.GetDA_PRD_SEL_EQPT_MOUNT_INFO_SRC();
+
+                DataRow newRow = inTable.NewRow();
+                newRow["LANGID"] = LoginInfo.LANGID;
+                newRow["EQSGID"] = _LineID;
+                newRow["EQPTID"] = _EqptID;
+
+                inTable.Rows.Add(newRow);
+
+                new ClientProxy().ExecuteService("DA_PRD_SEL_EQPT_MOUNT_INFO_SRC", "INDATA", "OUTDATA", inTable, (searchResult, searchException) =>
+                {
+                    try
+                    {
+                        if (searchException != null)
+                        {
+                            Util.MessageException(searchException);
+                            return;
+                        }
+
+                        Util.GridSetData(dgInput, searchResult, null, false);
+
+                        if (dgInput.CurrentCell != null)
+                            dgInput.CurrentCell = dgInput.GetCell(dgInput.CurrentCell.Row.Index, dgInput.Columns.Count - 1);
+                        else if (dgInput.Rows.Count > 0)
+                            dgInput.CurrentCell = dgInput.GetCell(dgInput.Rows.Count, dgInput.Columns.Count - 1);
+
+                        ////dgInput.CurrentCellChanged += dgInput_CurrentCellChanged;
+                    }
+                    catch (Exception ex)
+                    {
+                        Util.MessageException(ex);
+                    }
+                    finally
+                    {
+                        HiddenLoadingIndicator();
+                    }
+                });
+            }
+            catch (Exception ex)
+            {
+                Util.MessageException(ex);
+            }
+            finally
+            {
+                HiddenLoadingIndicator();
+            }
+        }
+
+        /// <summary>
+        /// 선택 W/O의 제품정보 조회 Biz
+        /// </summary>
+        private void GetWoProd(string sWODetlID)
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(sWODetlID))
+                {
+                    Util.gridClear(dgMGZ);
+                    return;
+                }
+
+                ShowLoadingIndicator();
+
+                lblProd.Text = string.Empty;
+
+                DataTable inTable = _Biz.GetDDA_PRD_SEL_EQUIPMENT_WO_SRC();
+
+                DataRow newRow = inTable.NewRow();
+                newRow["EQPTID"] = _EqptID;
+                newRow["WO_DETL_ID"] = sWODetlID;
+
+                inTable.Rows.Add(newRow);
+
+                new ClientProxy().ExecuteService("DA_PRD_SEL_EQUIPMENT_WO_SRC", "INDATA", "OUTDATA", inTable, (bizResult, ex) =>
+                {
+                    try
+                    {
+                        if (ex != null)
+                        {
+                            Util.MessageException(ex);
+                            return;
+                        }
+
+                        if (bizResult != null && bizResult.Rows.Count > 0)
+                            lblProd.Text = bizResult.Rows[0]["PRODID"].ToString() + " : " + bizResult.Rows[0]["PRODNAME"].ToString();
+                    }
+                    catch (Exception ex1)
+                    {
+                        Util.MessageException(ex);
+                    }
+                    finally
+                    {
+                        HiddenLoadingIndicator();
+                    }
+                });
+            }
+            catch (Exception ex)
+            {
+                Util.MessageException(ex);
+            }
+            finally
+            {
+                HiddenLoadingIndicator();
+            }
+        }
+
+        /// <summary>
+        /// 선택 W/O의 대기 매거진 정보 조회 Biz
+        /// </summary>
+        private void GetWaitMazList(C1.WPF.DataGrid.C1DataGrid datagrid, string sWODetlID, string sWOID)
+        {
+            try
+            {
+                // 같은 W/O 이고 대기 매거진이 있다면 
+                if (sWODetlID.Equals(txtWODetlID.Text) && dgMGZ.Rows.Count > 0)
+                    return;
+
+                txtWODetlID.Text = sWODetlID;
+
+                ShowLoadingIndicator();
+
+                DataTable inTable = _Biz.GetGetDA_PRD_SEL_WAIT_MAG_SRC();
+
+                DataRow newRow = inTable.NewRow();
+                newRow["LANGID"] = LoginInfo.LANGID;
+                newRow["PROCID"] = Process.SRC;
+                newRow["EQSGID"] = _LineID;
+                newRow["EQPTID"] = _EqptID;
+                newRow["WOID"] = sWOID;
+
+                inTable.Rows.Add(newRow);
+
+                new ClientProxy().ExecuteService("DA_PRD_SEL_WAIT_MAG_SRC", "INDATA", "OUTDATA", inTable, (bizResult, ex) =>
+                {
+                    try
+                    {
+                        if (ex != null)
+                        {
+                            Util.MessageException(ex);
+                            return;
+                        }
+
+                        Util.GridSetData(datagrid, bizResult, null, false);
+
+                        if (datagrid.CurrentCell != null)
+                            datagrid.CurrentCell = datagrid.GetCell(datagrid.CurrentCell.Row.Index, datagrid.Columns.Count - 1);
+                        else if (datagrid.Rows.Count > 0 && datagrid.GetCell(datagrid.Rows.Count, datagrid.Columns.Count - 1) != null)
+                            datagrid.CurrentCell = datagrid.GetCell(datagrid.Rows.Count, datagrid.Columns.Count - 1);
+
+                        SetSelectMGZ(true);
+                    }
+                    catch (Exception ex1)
+                    {
+                        Util.MessageException(ex1);
+                    }
+                    finally
+                    {
+                        HiddenLoadingIndicator();
+                    }
+                });
+            }
+            catch (Exception ex)
+            {
+                Util.MessageException(ex);
+            }
+            finally
+            {
+                HiddenLoadingIndicator();
+            }
+        }
+
+        /// <summary>
+        /// Lot ID 발번
+        /// </summary>
+        /// <returns></returns>
+        private string GetNewLotId(string sMountPstnGrCode)
+        {
+            try
+            {
+                ShowLoadingIndicator();
+
+                DataTable inTable = _Biz.GetBR_PRD_GET_NEW_PROD_LOTID_SRC();
+                DataRow newRow = inTable.NewRow();
+                newRow["SRCTYPE"] = SRCTYPE.SRCTYPE_UI;
+                newRow["IFMODE"] = IFMODE.IFMODE_OFF;
+                newRow["EQPTID"] = _EqptID;
+                newRow["USERID"] = LoginInfo.USERID;
+                newRow["MOUNT_PSTN_GR_CODE"] = sMountPstnGrCode;
+                if (isCellDetlNeed)
+                    newRow["CELL_DETL_CLSS_CODE"] = cboCellClass.SelectedValue.ToString();
+
+                inTable.Rows.Add(newRow);
+                newRow = null;
+
+                DataTable dtResult = new ClientProxy().ExecuteServiceSync("BR_PRD_GET_NEW_PROD_LOTID_SRC", "IN_EQP", "OUTDATA", inTable);
+
+                string sNewLot = string.Empty;
+                if (dtResult != null && dtResult != null && dtResult.Rows.Count > 0)
+                {
+                    sNewLot = Util.NVC(dtResult.Rows[0]["PROD_LOTID"]);
+                }
+
+                return sNewLot;
+            }
+            catch (Exception ex)
+            {
+                Util.MessageException(ex);
+                return "";
+            }
+            finally
+            {
+                HiddenLoadingIndicator();
+            }
+        }
+
+        private void RunStart()
+        {
+            try
+            {
+                ShowLoadingIndicator();
+
+                dgInput.EndEdit();
+
+                DataTable dt = DataTableConverter.Convert(dgInput.ItemsSource);
+                DataTable dts = dt.DefaultView.ToTable(true, "WO_DETL_ID");
+                DataTable dts2 = dt.DefaultView.ToTable(true, "MOUNT_PSTN_GR_CODE");
+
+                DataSet indataSet = _Biz.GetBR_PRD_REG_START_LOT_SRC();
+                DataRow newRow;
+
+                DataTable inTable = indataSet.Tables["IN_EQP"];
+
+                string sZone = string.Empty;
+                if (dts.Rows.Count == 1 && dts2.Rows.Count > 1)
+                {
+                    sZone = "ALL";
+
+                    newRow = inTable.NewRow();
+                    newRow["SRCTYPE"] = SRCTYPE.SRCTYPE_UI;
+                    newRow["IFMODE"] = IFMODE.IFMODE_OFF;
+                    newRow["EQPTID"] = _EqptID;
+                    newRow["USERID"] = LoginInfo.USERID;
+                    newRow["PROD_LOTID"] = null;
+                    newRow["MOUNT_PSTN_GR_CODE"] = sZone;
+                    if (isCellDetlNeed)
+                        newRow["CELL_DETL_CLSS_CODE"] = cboCellClass.SelectedValue.ToString();
+                    inTable.Rows.Add(newRow);
+
+                    newRow = null;
+
+                    DataTable input_LOT = indataSet.Tables["IN_INPUT"];
+                    for (int i = 0; i < dt.Rows.Count; i++)
+                    {
+                        if (!dt.Rows[i]["SEL_LOTID"].ToString().Equals(""))
+                        {
+                            newRow = input_LOT.NewRow();
+                            newRow["MOUNT_PSTN_GR_CODE"] = sZone;// dt.Rows[i]["MOUNT_PSTN_GR_CODE"].ToString();
+                            newRow["EQPT_MOUNT_PSTN_ID"] = dt.Rows[i]["EQPT_MOUNT_PSTN_ID"].ToString();
+                            newRow["EQPT_MOUNT_PSTN_STATE"] = "A";
+                            newRow["INPUT_LOTID"] = dt.Rows[i]["SEL_LOTID"].ToString();
+                            //newRow["ACTQTY"] = Util.NVC_Decimal(dt.Rows[i]["WIPQTY"].ToString());
+                            newRow["CSTID"] = dt.Rows[i]["CSTID"].ToString();
+                            newRow["OUT_CSTID"] = dt.Rows[i]["OUT_CSTID"].ToString();
+                            input_LOT.Rows.Add(newRow);
+                        }
+                        else
+                        {
+                            if (!dt.Rows[i]["INPUT_LOTID"].ToString().Equals(""))
+                            {
+                                newRow = input_LOT.NewRow();
+                                newRow["MOUNT_PSTN_GR_CODE"] = sZone;// dt.Rows[i]["MOUNT_PSTN_GR_CODE"].ToString();
+                                newRow["EQPT_MOUNT_PSTN_ID"] = dt.Rows[i]["EQPT_MOUNT_PSTN_ID"].ToString();
+                                newRow["EQPT_MOUNT_PSTN_STATE"] = "A";
+                                newRow["INPUT_LOTID"] = dt.Rows[i]["INPUT_LOTID"].ToString();
+                                //newRow["ACTQTY"] = Util.NVC_Decimal(dt.Rows[i]["INPUT_QTY"].ToString());
+                                newRow["CSTID"] = dt.Rows[i]["CSTID"].ToString();
+                                newRow["OUT_CSTID"] = dt.Rows[i]["OUT_CSTID"].ToString();
+                                input_LOT.Rows.Add(newRow);
+                            }
+                        }
+                    }
+                }
+                else if (dts.Rows.Count == dts2.Rows.Count)
+                {
+                    for (int nrow = 0; nrow < dts.Rows.Count; nrow++)
+                    {
+                        newRow = inTable.NewRow();
+                        newRow["SRCTYPE"] = SRCTYPE.SRCTYPE_UI;
+                        newRow["IFMODE"] = IFMODE.IFMODE_OFF;
+                        newRow["EQPTID"] = _EqptID;
+                        newRow["USERID"] = LoginInfo.USERID;
+                        newRow["PROD_LOTID"] = null;
+                        newRow["MOUNT_PSTN_GR_CODE"] = dts2.Rows[nrow]["MOUNT_PSTN_GR_CODE"].ToString();
+                        inTable.Rows.Add(newRow);
+                    }
+
+                    newRow = null;
+
+                    DataTable input_LOT = indataSet.Tables["IN_INPUT"];
+                    for (int i = 0; i < dt.Rows.Count; i++)
+                    {
+                        if (!dt.Rows[i]["SEL_LOTID"].ToString().Equals(""))
+                        {
+                            newRow = input_LOT.NewRow();
+                            newRow["MOUNT_PSTN_GR_CODE"] = dt.Rows[i]["MOUNT_PSTN_GR_CODE"].ToString();
+                            newRow["EQPT_MOUNT_PSTN_ID"] = dt.Rows[i]["EQPT_MOUNT_PSTN_ID"].ToString();
+                            newRow["EQPT_MOUNT_PSTN_STATE"] = "A";
+                            newRow["INPUT_LOTID"] = dt.Rows[i]["SEL_LOTID"].ToString();
+                            //newRow["ACTQTY"] = Util.NVC_Decimal(dt.Rows[i]["WIPQTY"].ToString());
+                            newRow["CSTID"] = dt.Rows[i]["CSTID"].ToString();
+                            newRow["OUT_CSTID"] = dt.Rows[i]["OUT_CSTID"].ToString();
+                            input_LOT.Rows.Add(newRow);
+                        }
+                        else
+                        {
+                            if (!dt.Rows[i]["INPUT_LOTID"].ToString().Equals(""))
+                            {
+                                newRow = input_LOT.NewRow();
+                                newRow["MOUNT_PSTN_GR_CODE"] = dt.Rows[i]["MOUNT_PSTN_GR_CODE"].ToString();
+                                newRow["EQPT_MOUNT_PSTN_ID"] = dt.Rows[i]["EQPT_MOUNT_PSTN_ID"].ToString();
+                                newRow["EQPT_MOUNT_PSTN_STATE"] = "A";
+                                newRow["INPUT_LOTID"] = dt.Rows[i]["INPUT_LOTID"].ToString();
+                                //newRow["ACTQTY"] = Util.NVC_Decimal(dt.Rows[i]["INPUT_QTY"].ToString());
+                                newRow["CSTID"] = dt.Rows[i]["CSTID"].ToString();
+                                newRow["OUT_CSTID"] = dt.Rows[i]["OUT_CSTID"].ToString();
+                                input_LOT.Rows.Add(newRow);
+                            }                                                          
+                        }
+                    }
+                }
+
+                new ClientProxy().ExecuteServiceSync_Multi("BR_PRD_REG_START_LOT_SRC", "IN_EQP,IN_INPUT", "OUT_LOT,OUT_INPUT", indataSet);
+
+                dgInput.IsReadOnly = true;
+                btnOK.IsEnabled = false;
+                bSave = true;
+
+                NEW_PROD_LOT = "NEW";
+
+                ////tbSplash.Text = MessageDic.Instance.GetMessage("SFU3044", sNewLot); // [%1] LOT이 생성 되었습니다.
+                ////grdMsg.Visibility = Visibility.Visible;
+
+                AsynchronousClose();
+
+            }
+            catch (Exception ex)
+            {
+                Util.MessageException(ex);
+            }
+            finally
+            {
+                HiddenLoadingIndicator();
+            }
+        }
+        #endregion
+
+        #region [Validation]
+
+        /// <summary>
+        /// 작업시작시 체크
+        /// </summary>
+        private bool CanRun()
+        {
+            bool bRet = false;
+
+
+            if (isCellDetlNeed)
+            {
+                if(cboCellClass.SelectedIndex == 0)
+                {
+                    //셀 상세 코드를 선택하세요.
+                    Util.MessageValidation("SFU4891");
+                    return bRet;
+                }
+            }
+            // 착공시 수량 관련 validation 모두 주석. (설비 실제 투입 위치랑 제품에 투입되어야 되는 갯수가 다를 수 있으므로..)
+            //if (int.Parse(txtWaitC.Text) != int.Parse(txtSelC.Text))
+            //{
+            //    Util.Alert("CType 매거진이 모두 선택되지 않았습니다.");
+            //    return bRet;
+            //}
+
+            //if (int.Parse(txtWaitA.Text) != int.Parse(txtSelA.Text))
+            //{
+            //    Util.Alert("AType 매거진이 모두 선택되지 않았습니다.");
+            //    return bRet;
+            //}
+
+            ////if (_Util.GetDataGridCheckFirstRowIndex(dgInput, "CHK") < 0)
+            ////{
+            ////    Util.Alert("기준이 될 CType 매거진을 하나 선택 하세요.");
+            ////    return bRet;
+            ////}
+            ////else
+            ////{
+            ////    if (!Util.NVC(DataTableConverter.GetValue(dgInput.Rows[_Util.GetDataGridCheckFirstRowIndex(dgInput, "CHK")].DataItem, "MAG_TYPE")).Equals("C"))
+            ////    {
+            ////        Util.Alert("기준이 될 CType 매거진을 하나 선택 하세요.");
+            ////        return bRet;
+            ////    }
+            ////}
+
+            ////for (int i = 0; i < dgInput.Rows.Count - dgInput.BottomRows.Count; i++)
+            ////{
+            ////    if (Util.NVC(DataTableConverter.GetValue(dgInput.Rows[i].DataItem, "EQPT_MOUNT_PSTN_ID")).Equals(""))
+            ////    {
+            ////        Util.Alert("투입 위치를 모두 입력 하세요.");
+            ////        return bRet;
+            ////    }
+            ////}
+
+            //for (int i = 0; i < dgInput.Rows.Count - dgInput.BottomRows.Count; i++)
+            //{
+            //    string inLot = Util.NVC(DataTableConverter.GetValue(dgInput.Rows[i].DataItem, "INPUT_LOTID"));
+            //    if (inLot.Equals(""))
+            //    {
+            //        if (Util.NVC(DataTableConverter.GetValue(dgInput.Rows[i].DataItem, "SEL_LOTID")).Equals(""))
+            //        {
+            //            Util.Alert("{0}이 입력되지 않았습니다.", Util.NVC(DataTableConverter.GetValue(dgInput.Rows[i].DataItem, "EQPT_MOUNT_PSTN_NAME")));
+            //            return bRet;
+            //        }
+            //    }
+            //}
+
+
+            ////if (!MagazineValidation())
+            ////    return bRet;
+
+            bRet = true;
+            return bRet;
+        }
+
+        /// <summary>
+        /// dgInput에 대기매거진 추가 체크
+        /// </summary>
+        private bool CanAddMagin(C1.WPF.DataGrid.C1DataGrid dgReady, int iRedSelRow)
+        {
+            bool bRet = false;
+
+            string sTmpLot = Util.NVC(DataTableConverter.GetValue(dgReady.Rows[iRedSelRow].DataItem, "LOTID"));
+
+            // 투입LOT 중복 체크
+            for (int i = 0; i < dgInput.Rows.Count - dgInput.BottomRows.Count; i++)
+            {
+                if (Util.NVC(DataTableConverter.GetValue(dgInput.Rows[i].DataItem, "INPUT_LOTID")).Equals(sTmpLot))
+                {
+                    //Util.Alert("투입LOT에 동일한 LOT이 있습니다.");
+                    Util.MessageValidation("SFU1967");
+                    return bRet;
+                }
+
+                if (Util.NVC(DataTableConverter.GetValue(dgInput.Rows[i].DataItem, "SEL_LOTID")).Equals(sTmpLot))
+                {
+                    //Util.Alert("선택한 LOT에 동일한 LOT이 있습니다.");
+                    Util.MessageValidation("SFU1657");
+                    return bRet;
+                }
+            }
+
+            bRet = true;
+            return bRet;
+        }
+
+        #endregion
+
+        #region [Func]
+
+        private void ShowLoadingIndicator()
+        {
+            if (loadingIndicator != null)
+                loadingIndicator.Visibility = Visibility.Visible;
+        }
+        private void HiddenLoadingIndicator()
+        {
+            if (loadingIndicator != null)
+                loadingIndicator.Visibility = Visibility.Collapsed;
+        }
+        private void ApplyPermissions()
+        {
+            List<Button> listAuth = new List<Button>();
+            listAuth.Add(btnOK);
+
+            Util.pageAuth(listAuth, FrameOperation.AUTHORITY);
+        }
+
+        /// <summary>
+        /// 그리드 Clear
+        /// </summary>
+        private void ClearDataGrid()
+        {
+            Util.gridClear(dgInput);
+            Util.gridClear(dgMGZ);
+        }
+
+        /// <summary>
+        /// dgInput 그리드에 대기 매거진 Setting
+        /// </summary>
+        private void AddInMaz(DataRow addRow, int iInputRow)
+        {
+            try
+            {
+                if (iInputRow < 0)
+                    return;
+
+                DataTable dtTmp = DataTableConverter.Convert(dgInput.ItemsSource);
+
+                if (!dtTmp.Columns.Contains("PRDT_CLSS_CODE"))
+                    dtTmp.Columns.Add("PRDT_CLSS_CODE", typeof(string));
+                if (!dtTmp.Columns.Contains("PR_LOTID"))
+                    dtTmp.Columns.Add("PR_LOTID", typeof(string));
+                if (!dtTmp.Columns.Contains("PRODID"))
+                    dtTmp.Columns.Add("PRODID", typeof(string));
+                if (!dtTmp.Columns.Contains("PRODNAME"))
+                    dtTmp.Columns.Add("PRODNAME", typeof(string));
+                if (!dtTmp.Columns.Contains("WIPQTY"))
+                    dtTmp.Columns.Add("WIPQTY", typeof(int));
+                if (!dtTmp.Columns.Contains("WIPQTY"))
+                    dtTmp.Columns.Add("WIPQTY", typeof(int));
+
+                for (int i = 0; i < dtTmp.Columns.Count; i++)
+                {
+                    for (int j = 0; j < addRow.Table.Columns.Count; j++)
+                    {
+                        if (dtTmp.Columns[i].ColumnName.Equals(addRow.Table.Columns[j].ColumnName))
+                        {
+                            if (dtTmp.Columns[i].ColumnName.Equals("WOID") || dtTmp.Columns[i].ColumnName.Equals("WO_DETL_ID"))
+                                continue;
+
+                            if (addRow[j].GetType() == typeof(string))
+                            {
+                                dtTmp.Rows[iInputRow][i] = Util.NVC(addRow[j]);
+                            }
+                            else if (addRow.Table.Columns[j].ColumnName.Equals("CHK"))
+                            {
+                                dtTmp.Rows[iInputRow][i] = false;
+                            }
+                            else
+                            {
+                                dtTmp.Rows[iInputRow][i] = addRow[j];
+                            }
+                        }
+                        else if (dtTmp.Columns[i].ColumnName.Equals("SEL_LOTID") && addRow.Table.Columns[j].ColumnName.Equals("LOTID"))
+                        {
+                            dtTmp.Rows[iInputRow][i] = Util.NVC(addRow[j]);
+                        }
+
+                    }
+                }
+
+                dtTmp.AcceptChanges();
+                dgInput.BeginEdit();
+                dgInput.ItemsSource = DataTableConverter.Convert(dtTmp);
+                dgInput.EndEdit();
+
+                if (dgInput.CurrentCell != null)
+                    dgInput.CurrentCell = dgInput.GetCell(dgInput.CurrentCell.Row.Index, dgInput.Columns.Count - 1);
+                else if (dgInput.Rows.Count > 0)
+                    dgInput.CurrentCell = dgInput.GetCell(dgInput.Rows.Count, dgInput.Columns.Count - 1);
+            }
+            catch (Exception ex)
+            {
+                Util.MessageException(ex);
+            }
+        }
+
+        /// <summary>
+        /// dgInput 그리드에 대기 매거진 Setting 취소
+        /// </summary>
+        private void RemoveInMaz(DataRow removeRow)
+        {
+            try
+            {
+                int idx = _Util.GetDataGridRowIndex(dgInput, "SEL_LOTID", Util.NVC(removeRow["LOTID"]));
+                if (idx < 0)
+                    return;
+
+                DataTableConverter.SetValue(dgInput.Rows[idx].DataItem, "SEL_LOTID", "");
+                DataTableConverter.SetValue(dgInput.Rows[idx].DataItem, "PRDT_CLSS_CODE", "");
+                DataTableConverter.SetValue(dgInput.Rows[idx].DataItem, "PR_LOTID", "");
+                DataTableConverter.SetValue(dgInput.Rows[idx].DataItem, "WIPQTY", 0);
+                DataTableConverter.SetValue(dgInput.Rows[idx].DataItem, "PRODID", "");
+                DataTableConverter.SetValue(dgInput.Rows[idx].DataItem, "PRODNAME", "");
+                DataTableConverter.SetValue(dgInput.Rows[idx].DataItem, "CSTID", "");
+                
+                DataTable dtTmp = DataTableConverter.Convert(dgInput.ItemsSource);
+
+                if (dtTmp == null || dtTmp.Rows.Count <= 0)
+                    return;
+
+                if (dgInput.CurrentCell != null)
+                    dgInput.CurrentCell = dgInput.GetCell(dgInput.CurrentCell.Row.Index, dgInput.Columns.Count - 1);
+                else if (dgInput.Rows.Count > 0)
+                    dgInput.CurrentCell = dgInput.GetCell(dgInput.Rows.Count, dgInput.Columns.Count - 1);
+            }
+            catch (Exception ex)
+            {
+                Util.MessageException(ex);
+            }
+        }
+
+        /// <summary>
+        /// dgInput 그리드 W/On변경시 대기 매거진 조회후 Setting된 대기 매거진 체크
+        /// </summary>
+        private void SetSelectMGZ(bool bSearch)
+        {
+            // 선택 되어진 대기 메거진 표시 
+            if (bSearch)
+            {
+                // 조회후 체크
+                for (int nrow = 0; nrow < dgInput.Rows.Count; nrow++)
+                {
+                    if (DataTableConverter.GetValue(dgInput.Rows[nrow].DataItem, "WO_DETL_ID").Equals(txtWODetlID.Text) &&
+                        !String.IsNullOrWhiteSpace(DataTableConverter.GetValue(dgInput.Rows[nrow].DataItem, "SEL_LOTID").ToString()))
+                    {
+                        int idx = _Util.GetDataGridRowIndex(dgMGZ, "LOTID", DataTableConverter.GetValue(dgInput.Rows[nrow].DataItem, "SEL_LOTID").ToString());
+
+                        if (idx > -1)
+                        {
+                            DataTableConverter.SetValue(dgMGZ.Rows[idx].DataItem, "CHK", 1);
+                        }
+                    }
+                }
+            }
+            else
+            {
+                // 그리드 Click시 
+                for (int nrow = 0; nrow < dgMGZ.Rows.Count; nrow++)
+                {
+                    if (DataTableConverter.GetValue(dgMGZ.Rows[nrow].DataItem, "CHK").Equals(1))
+                    {
+                        int idx = _Util.GetDataGridRowIndex(dgInput, "SEL_LOTID", DataTableConverter.GetValue(dgMGZ.Rows[nrow].DataItem, "LOTID").ToString());
+
+                        if (idx < 0)
+                        {
+                            DataTableConverter.SetValue(dgMGZ.Rows[nrow].DataItem, "CHK", 0);
+                        }
+                    }
+                }
+            }
+
+        }
+
+        private void AsynchronousClose()
+        {
+            BackgroundWorker worker = new BackgroundWorker();
+            worker.DoWork += new DoWorkEventHandler(worker_DoWork);
+            worker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(worker_RunWorkerCompleted);
+            worker.RunWorkerAsync();
+        }
+        private void worker_DoWork(object sender, DoWorkEventArgs e)
+        {
+            //Makes the thread wait for 5s before exiting.
+            Thread.Sleep(2000);
+        }
+        private void worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            this.DialogResult = MessageBoxResult.OK;
+        }
+
+        #endregion
+
+        #endregion
+    }
+}

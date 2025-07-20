@@ -1,0 +1,97 @@
+﻿<c1:C1Window x:Class="LGC.GMES.MES.MCS001.MCS001_018_SKID_Search"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:c1="http://schemas.componentone.com/winfx/2006/xaml"
+             xmlns:ctrlLib="clr-namespace:LGC.GMES.MES.ControlsLibrary;assembly=LGC.GMES.MES.ControlsLibrary"
+             ctrlLib:LGCPopupWindowExtension.ApplyStyle="True"
+             Header="{Binding Converter={StaticResource GlobalObjectDicConverter}, ConverterParameter='SKID 현황'}" 
+             Height="600" Width="800" IsResizable="True" Loaded="C1Window_Loaded">
+    <c1:C1Window.Resources>
+        <ResourceDictionary Source="/LGC.GMES.MES.ControlsLibrary;Component/ControlStyles.xaml"/>
+    </c1:C1Window.Resources>
+    <Grid>
+        <ctrlLib:LGCLayout x:Name="LayoutRoot" Tag="LOTLIST">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="34" />
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <Border Grid.Row="0" BorderThickness="1" BorderBrush="#ffbebebe" Grid.RowSpan="3" Style="{StaticResource BorderSubTitleStyle}"/>
+                <Grid Grid.Row="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="13"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="10"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="10"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="10"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="10"/>
+                        <ColumnDefinition Width="Auto"/>                        
+                        <ColumnDefinition Width=".1*"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="13"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Grid Grid.Row="0" Grid.Column="9">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="3*"/>
+                            <ColumnDefinition Width="7*"/>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Right">
+                            <TextBlock  Text="{Binding ConverterParameter='SKID Type', Converter={StaticResource GlobalObjectDicConverter}, RelativeSource={RelativeSource Self}}" Style="{StaticResource Content_Search_LabelStyle}" />
+                        </StackPanel>
+                        <c1:C1ComboBox  Grid.Row="0"  Grid.Column="1" x:Name="cboSKIDType"  DisplayMemberPath="NAME" SelectedValuePath="CODE"  Style="{StaticResource C1ComboBoxStyle}" AutoComplete="False" SelectedValueChanged="cboSKIDType_SelectedValueChanged"  />
+                    </Grid>
+
+                    <Grid Grid.Row="0" Grid.Column="11">
+                        <Button x:Name="btnSearch" Grid.Row="0" Grid.Column="0"   Content="{Binding ConverterParameter=SEARCH,    Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource SearchButtonStyle}" Cursor="Hand" Click="btnSearch_Click" />
+                    </Grid>                    
+                </Grid>
+
+                <Border Grid.Row="1" BorderThickness="1" BorderBrush="#ffbebebe" Style="{StaticResource BorderSubTitleStyle}"/>
+                <Grid Grid.Row="1" Grid.Column="0">
+                    <c1:C1DataGrid x:Name="dgSKIDCondition" 
+                                   IsReadOnly="True" 
+                                   HeadersVisibility="None" 
+                                   SelectionMode="SingleCell" 
+                                   Margin="8" 
+                                   MergingCells="dgSKIDCondition_MergingCells" 
+                                   LoadedCellPresenter="dgSKIDCondition_LoadedCellPresenter" 
+                                   UnloadedCellPresenter="dgSKIDCondition_UnloadedCellPresenter"
+                                   >
+                        <c1:C1DataGrid.Columns>
+                            <c1:DataGridTextColumn      Header = "[창고,창고,창고]"           Binding = "{Binding PCW_TYPE}"    HorizontalAlignment="Center" />
+                            <c1:DataGridTextColumn      Header = "[PJT,PJT,PJT]"              Binding = "{Binding PJT}"         HorizontalAlignment="Center" />
+                            <c1:DataGridNumericColumn      Header = "[SKID,양극,정상]"        Binding = "{Binding C_NORM}"      HorizontalAlignment="Right"  IsReadOnly="True" Format="#,##0" />
+                            <c1:DataGridNumericColumn      Header = "[SKID,양극,HOLD]"        Binding = "{Binding C_HOLD}"      HorizontalAlignment="Right"  IsReadOnly="True" Format="#,##0" />
+                            <c1:DataGridNumericColumn      Header = "[SKID,음극,정상]"        Binding = "{Binding A_NORM}"      HorizontalAlignment="Right"  IsReadOnly="True" Format="#,##0" />
+                            <c1:DataGridNumericColumn      Header = "[SKID,음극,HOLD]"        Binding = "{Binding A_HOLD}"      HorizontalAlignment="Right"  IsReadOnly="True" Format="#,##0" />
+                            <c1:DataGridNumericColumn      Header = "[가용 SKID,가용 SKID,가용 SKID]"                Binding = "{Binding REMAIN}"     HorizontalAlignment="Right"  IsReadOnly="True" Format="#,##0" /> <!--ctrlLib:DataGridMergeExtension.MergeMode="VERTICAL"-->
+                        </c1:C1DataGrid.Columns>
+ 
+                        <c1:C1DataGrid.TopRows>
+                            <c1:DataGridColumnHeaderRow />
+                            <c1:DataGridColumnHeaderRow />
+                            <c1:DataGridColumnHeaderRow />
+                        </c1:C1DataGrid.TopRows>
+
+                    </c1:C1DataGrid>
+                </Grid>
+
+                <Grid Grid.Row ="2">
+                    <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Right" >
+                        <Button x:Name="btnClose" Margin="4,0,0,0"  Content="{Binding ConverterParameter='닫기', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{DynamicResource Content_MainButtonStyle}" Click="btnClose_Click" />
+                    </StackPanel>
+                </Grid>
+
+            </Grid>
+       
+        </ctrlLib:LGCLayout>
+
+        <ctrlLib:LoadingIndicator x:Name="loadingIndicator" Grid.Row="999" Grid.Column="999" />
+    </Grid>
+</c1:C1Window>

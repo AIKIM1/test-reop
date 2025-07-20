@@ -1,0 +1,295 @@
+﻿<Window x:Class="LGC.GMES.MES.MNT001.MNT001_006"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:c1="http://schemas.componentone.com/winfx/2006/xaml"
+		     xmlns:System="clr-namespace:System;assembly=mscorlib"
+             xmlns:ctrlLib="clr-namespace:LGC.GMES.MES.ControlsLibrary;assembly=LGC.GMES.MES.ControlsLibrary" 
+             mc:Ignorable="d" 
+             Background="Blue" 
+             Style="{DynamicResource Window_MNT_Main}"
+             AllowsTransparency="False" 
+             WindowStyle="None" 
+             SizeToContent="Manual" 
+             ResizeMode="CanResize" 
+             WindowState="Normal" 
+             WindowStartupLocation="CenterScreen" 
+             Height="1024" 
+             Width="1280" 
+             SourceInitialized="Window_SourceInitialized" 
+             Unloaded="UserControl_Unloaded"
+             >
+
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/LGC.GMES.MES.ControlsLibrary;component/ControlStyles.xaml" />
+                <ResourceDictionary Source="/LGC.GMES.MES.MNT001;component/Style/MNT005_ControlStyles.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <Storyboard x:Key="ExpandLeftFrameStoryboard">
+                <DoubleAnimationUsingKeyFrames Storyboard.TargetName="grdleftFrame" Storyboard.TargetProperty="(FrameworkElement.Width)" >
+                    <SplineDoubleKeyFrame Value="350" KeyTime="00:00:00.5"
+                                                          KeySpline="0.73199999332428,0.138999998569489,0.101999998092651,0.999000012874603" />
+                </DoubleAnimationUsingKeyFrames>
+            </Storyboard>
+            <Storyboard x:Key="CollapseLeftFrameStoryboard">
+                <DoubleAnimationUsingKeyFrames Storyboard.TargetName="grdleftFrame" Storyboard.TargetProperty="(FrameworkElement.Width)">
+                    <SplineDoubleKeyFrame Value="0" KeyTime="00:00:00.5"
+                                                          KeySpline="0.73199999332428,0.138999998569489,0.101999998092651,0.999000012874603" />
+                </DoubleAnimationUsingKeyFrames>
+            </Storyboard>
+
+        </ResourceDictionary>
+    </Window.Resources>
+
+    <Grid>
+
+        <Grid x:Name="LayoutRoot" Background="White">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <!--최신버전-->
+            <Grid Grid.Row="0" Grid.Column="0" x:Name="grHeader" MouseLeftButtonDown="grHeader_MouseLeftButtonDown">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="50" />
+                    <RowDefinition Height="20" />
+                    <RowDefinition Height="10" />
+                </Grid.RowDefinitions>
+
+                <Border    Grid.Row="0" Grid.Column="0" Grid.RowSpan="4"                   Style="{DynamicResource Border_MNT005_Title}" ></Border>
+                <TextBlock Grid.Row="0" Grid.Column="0" Grid.RowSpan="3" x:Name="txtTitle" Style="{DynamicResource TextBlock_MNT005_Title}" />
+                <TextBlock Grid.Row="1" Grid.Column="0"                  x:Name="txtDate"  Style="{DynamicResource TextBlock_MNT005_DateTime}" />
+
+                <TextBlock Grid.Row="1" Grid.Column="0"                  x:Name="txtPage"  Text="1" Style="{DynamicResource TextBlock_MNT005_Page}" />
+
+                <Button    Grid.Row="0" Grid.Column="7" x:Name="btnClose"   VerticalAlignment="Center" HorizontalAlignment="Right"    Style="{StaticResource ButtonCloseStyle}" Width="32" Height="32" Click="btnClose_Click" Margin="0,0,13,0"/>
+            </Grid>
+
+            <Border Grid.Row="1" Grid.Column="0" Background="Gainsboro" Padding="0" BorderThickness="1" BorderBrush="Gainsboro" VerticalAlignment="Stretch">
+
+                <Grid x:Name="grMain" >
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="12*"></RowDefinition>
+                        <RowDefinition Height="10*"></RowDefinition>
+                        <RowDefinition Height="10*"></RowDefinition>
+                        <RowDefinition Height="10*"></RowDefinition>
+                        <RowDefinition Height="10*"></RowDefinition>
+                        <RowDefinition Height="10*"></RowDefinition>
+                        <RowDefinition Height="10*"></RowDefinition>
+                        <RowDefinition Height="10*"></RowDefinition>
+                        <RowDefinition Height="10*"></RowDefinition>
+                        <RowDefinition Height="10*"></RowDefinition>
+                        <RowDefinition Height="10*"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <!--라인-->
+                        <ColumnDefinition Width="auto"/>
+                        <!--제품ID-->
+                        <ColumnDefinition Width="250"/>
+                        <!--계획-->
+                        <ColumnDefinition Width="250"/>
+                        <!--실적-->
+                        <ColumnDefinition Width="250"/>
+                        <!--진척율-->
+                    </Grid.ColumnDefinitions>
+
+                    <!--Title-->
+                    <Label  Grid.Row="0" Grid.Column="0" x:Name="lblTitleCol01" Style="{StaticResource Label_MNT005_Header}" />
+                    <!-- 라인 -->
+                    <Label  Grid.Row="0" Grid.Column="1" x:Name="lblTitleCol02" Style="{StaticResource Label_MNT005_Header}" />
+                    <!-- 라인 -->
+                    <Label  Grid.Row="0" Grid.Column="2" x:Name="lblTitleCol03" Style="{StaticResource Label_MNT005_Header}" />
+                    <!-- 계획-->
+                    <Label  Grid.Row="0" Grid.Column="3" x:Name="lblTitleCol04" Style="{StaticResource Label_MNT005_Header}" />
+                    <!-- 실적-->
+                    <Label  Grid.Row="0" Grid.Column="4" x:Name="lblTitleCol05" Style="{StaticResource Label_MNT005_Header}" />
+                    <!-- 진척율-->
+                    <!--Merge 를 위하여 행을 거꾸로 생성-->
+
+                    <!--Row 10-->
+                    <Label  Grid.Row="10" Grid.Column="0" x:Name="lblRow10COL01" Content="Line" Style="{StaticResource Label_MNT005_Row01_Left}" />
+                    <Label  Grid.Row="10" Grid.Column="1" x:Name="lblRow10COL02" Content="PRODID" Style="{StaticResource Label_MNT005_Row01_Left}" />
+                    <Label  Grid.Row="10" Grid.Column="2" x:Name="lblRow10COL03" Content="Plan" Style="{StaticResource Label_MNT005_Row01_Right}" />
+                    <Label  Grid.Row="10" Grid.Column="3" x:Name="lblRow10COL04" Content="Result" Style="{StaticResource Label_MNT005_Row01_Right}" />
+                    <Label  Grid.Row="10" Grid.Column="4" x:Name="lblRow10COL05" Content="Meet" Style="{StaticResource Label_MNT005_Row01_Right}" />
+
+                    <!--Row 09-->
+                    <Label  Grid.Row="9" Grid.Column="0" x:Name="lblRow09COL01" Content="Line" Style="{StaticResource Label_MNT005_Row01_Left}" />
+                    <Label  Grid.Row="9" Grid.Column="1" x:Name="lblRow09COL02" Content="PRODID" Style="{StaticResource Label_MNT005_Row01_Left}" />
+                    <Label  Grid.Row="9" Grid.Column="2" x:Name="lblRow09COL03" Content="Plan" Style="{StaticResource Label_MNT005_Row01_Right}" />
+                    <Label  Grid.Row="9" Grid.Column="3" x:Name="lblRow09COL04" Content="Result" Style="{StaticResource Label_MNT005_Row01_Right}" />
+                    <Label  Grid.Row="9" Grid.Column="4" x:Name="lblRow09COL05" Content="Meet" Style="{StaticResource Label_MNT005_Row01_Right}" />
+
+                    <!--Row 08-->
+                    <Label  Grid.Row="8" Grid.Column="0" x:Name="lblRow08COL01" Content="Line" Style="{StaticResource Label_MNT005_Row01_Left}" />
+                    <Label  Grid.Row="8" Grid.Column="1" x:Name="lblRow08COL02" Content="PRODID" Style="{StaticResource Label_MNT005_Row01_Left}" />
+                    <Label  Grid.Row="8" Grid.Column="2" x:Name="lblRow08COL03" Content="Plan" Style="{StaticResource Label_MNT005_Row01_Right}" />
+                    <Label  Grid.Row="8" Grid.Column="3" x:Name="lblRow08COL04" Content="Result" Style="{StaticResource Label_MNT005_Row01_Right}" />
+                    <Label  Grid.Row="8" Grid.Column="5" x:Name="lblRow08COL05" Content="Meet" Style="{StaticResource Label_MNT005_Row01_Right}" />
+
+                    <!--Row 07-->
+                    <Label  Grid.Row="7" Grid.Column="0" x:Name="lblRow07COL01" Content="Line" Style="{StaticResource Label_MNT005_Row01_Left}" />
+                    <Label  Grid.Row="7" Grid.Column="1" x:Name="lblRow07COL02" Content="PRODID" Style="{StaticResource Label_MNT005_Row01_Left}" />
+                    <Label  Grid.Row="7" Grid.Column="2" x:Name="lblRow07COL03" Content="Plan" Style="{StaticResource Label_MNT005_Row01_Right}" />
+                    <Label  Grid.Row="7" Grid.Column="3" x:Name="lblRow07COL04" Content="Result" Style="{StaticResource Label_MNT005_Row01_Right}" />
+                    <Label  Grid.Row="7" Grid.Column="4" x:Name="lblRow07COL05" Content="Meet" Style="{StaticResource Label_MNT005_Row01_Right}" />
+
+                    <!--Row 06-->
+                    <Label  Grid.Row="6" Grid.Column="0" x:Name="lblRow06COL01" Content="Line" Style="{StaticResource Label_MNT005_Row01_Left}" />
+                    <Label  Grid.Row="6" Grid.Column="1" x:Name="lblRow06COL02" Content="PRODID" Style="{StaticResource Label_MNT005_Row01_Left}" />
+                    <Label  Grid.Row="6" Grid.Column="2" x:Name="lblRow06COL03" Content="Plan" Style="{StaticResource Label_MNT005_Row01_Right}" />
+                    <Label  Grid.Row="6" Grid.Column="3" x:Name="lblRow06COL04" Content="Result" Style="{StaticResource Label_MNT005_Row01_Right}" />
+                    <Label  Grid.Row="6" Grid.Column="4" x:Name="lblRow06COL05" Content="Meet" Style="{StaticResource Label_MNT005_Row01_Right}" />
+
+                    <!--Row 05-->
+                    <Label  Grid.Row="5" Grid.Column="0" x:Name="lblRow05COL01" Content="Line" Style="{StaticResource Label_MNT005_Row01_Left}" />
+                    <Label  Grid.Row="5" Grid.Column="1" x:Name="lblRow05COL02" Content="PRODID" Style="{StaticResource Label_MNT005_Row01_Left}" />
+                    <Label  Grid.Row="5" Grid.Column="2" x:Name="lblRow05COL03" Content="Plan" Style="{StaticResource Label_MNT005_Row01_Right}" />
+                    <Label  Grid.Row="5" Grid.Column="3" x:Name="lblRow05COL04" Content="Result" Style="{StaticResource Label_MNT005_Row01_Right}" />
+                    <Label  Grid.Row="5" Grid.Column="4" x:Name="lblRow05COL05" Content="Meet" Style="{StaticResource Label_MNT005_Row01_Right}" />
+
+                    <!--Row 04-->
+                    <Label  Grid.Row="4" Grid.Column="0" x:Name="lblRow04COL01" Content="Line" Style="{StaticResource Label_MNT005_Row01_Left}" />
+                    <Label  Grid.Row="4" Grid.Column="1" x:Name="lblRow04COL02" Content="PRODID" Style="{StaticResource Label_MNT005_Row01_Left}" />
+                    <Label  Grid.Row="4" Grid.Column="2" x:Name="lblRow04COL03" Content="Plan" Style="{StaticResource Label_MNT005_Row01_Right}" />
+                    <Label  Grid.Row="4" Grid.Column="3" x:Name="lblRow04COL04" Content="Result" Style="{StaticResource Label_MNT005_Row01_Right}" />
+                    <Label  Grid.Row="4" Grid.Column="4" x:Name="lblRow04COL05" Content="Meet" Style="{StaticResource Label_MNT005_Row01_Right}" />
+
+                    <!--Row 03-->
+                    <Label  Grid.Row="3" Grid.Column="0" x:Name="lblRow03COL01" Content="Line" Style="{StaticResource Label_MNT005_Row01_Left}" />
+                    <Label  Grid.Row="3" Grid.Column="1" x:Name="lblRow03COL02" Content="PRODID" Style="{StaticResource Label_MNT005_Row01_Left}" />
+                    <Label  Grid.Row="3" Grid.Column="2" x:Name="lblRow03COL03" Content="Plan" Style="{StaticResource Label_MNT005_Row01_Right}" />
+                    <Label  Grid.Row="3" Grid.Column="3" x:Name="lblRow03COL04" Content="Result" Style="{StaticResource Label_MNT005_Row01_Right}" />
+                    <Label  Grid.Row="3" Grid.Column="4" x:Name="lblRow03COL05" Content="Meet" Style="{StaticResource Label_MNT005_Row01_Right}" />
+
+                    <!--Row 02-->
+                    <Label  Grid.Row="2" Grid.Column="0" x:Name="lblRow02COL01" Content="Line" Style="{StaticResource Label_MNT005_Row01_Left}" />
+                    <Label  Grid.Row="2" Grid.Column="1" x:Name="lblRow02COL02" Content="PRODID" Style="{StaticResource Label_MNT005_Row01_Left}" />
+                    <Label  Grid.Row="2" Grid.Column="2" x:Name="lblRow02COL03" Content="Plan" Style="{StaticResource Label_MNT005_Row01_Right}" />
+                    <Label  Grid.Row="2" Grid.Column="3" x:Name="lblRow02COL04" Content="Result" Style="{StaticResource Label_MNT005_Row01_Right}" />
+                    <Label  Grid.Row="2" Grid.Column="4" x:Name="lblRow02COL05" Content="Meet" Style="{StaticResource Label_MNT005_Row01_Right}" />
+
+                    <!--Row 01-->
+                    <Label  Grid.Row="1" Grid.Column="0" x:Name="lblRow01COL01" Content="Line" Style="{StaticResource Label_MNT005_Row01_Left}" />
+                    <Label  Grid.Row="1" Grid.Column="1" x:Name="lblRow01COL02" Content="PRODID" Style="{StaticResource Label_MNT005_Row01_Left}" />
+                    <Label  Grid.Row="1" Grid.Column="2" x:Name="lblRow01COL03" Content="Plan" Style="{StaticResource Label_MNT005_Row01_Right}" />
+                    <Label  Grid.Row="1" Grid.Column="3" x:Name="lblRow01COL04" Content="Result" Style="{StaticResource Label_MNT005_Row01_Right}" />
+                    <Label  Grid.Row="1" Grid.Column="4" x:Name="lblRow01COL05" Content="Meet" Style="{StaticResource Label_MNT005_Row01_Right}" />
+
+                </Grid>
+
+            </Border>
+
+            <!--Left Fram Siliding Control-->
+            <Grid Grid.Row="0" Grid.Column="0" Grid.RowSpan="4" VerticalAlignment="Top" Height="Auto">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+
+                <ToggleButton x:Name="btnLeftFrame" Grid.Row="0" Grid.RowSpan="2" Grid.Column="1" Grid.ColumnSpan="2" 
+                              Checked="btnLeftFrame_Checked" Unchecked="btnLeftFrame_Unchecked" Margin="-2,0,0,0" Height="57" Width="30" 
+                              Style="{StaticResource btnLeftStyle}" VerticalAlignment="Top" HorizontalAlignment="Left" IsChecked="False">
+                </ToggleButton>
+
+                <Grid x:Name="grdleftFrame" Grid.Row="0" Grid.RowSpan="2" Grid.Column="0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="0" >
+
+                    <Grid.Resources>
+                        <LinearGradientBrush x:Key="leftbgBrush" StartPoint="1,1" EndPoint="0,1" >
+                            <GradientStop Color="#DEDEDE " Offset="0.5"/>
+                            <GradientStop Color="#C0C0C0" Offset="0"/>
+                        </LinearGradientBrush>
+                    </Grid.Resources>
+
+                    <Border VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Style="{StaticResource Content_InputForm_LabelBorderStyle}" BorderBrush="#FFDFDFDE" BorderThickness="1"  Padding="5">
+                        <Grid >
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="32"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                                <RowDefinition Height="8"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <!--Frame Content Area-->
+
+                            <TextBlock                  Grid.Row="0" Grid.Column="0" Text="{Binding Converter={StaticResource GlobalObjectDicConverter}, ConverterParameter='공장'}"                Style="{DynamicResource Content_InputForm_LabelStyle}" />
+                            <c1:C1ComboBox              Grid.Row="0" Grid.Column="1" x:Name="cboShop"               DisplayMemberPath="CBO_NAME" SelectedValuePath="CBO_CODE" Height="Auto"  />
+
+                            <TextBlock                  Grid.Row="1" Grid.Column="0" Text="{Binding Converter={StaticResource GlobalObjectDicConverter}, ConverterParameter='동'}"                Style="{DynamicResource Content_InputForm_LabelStyle}" />
+                            <c1:C1ComboBox              Grid.Row="1" Grid.Column="1" x:Name="cboArea"               DisplayMemberPath="CBO_NAME" SelectedValuePath="CBO_CODE" Height="Auto"  />
+
+                            <TextBlock                  Grid.Row="2" Grid.Column="0" Text="{Binding Converter={StaticResource GlobalObjectDicConverter}, ConverterParameter='Line'}"                Style="{DynamicResource Content_InputForm_LabelStyle}"/>
+                            <!--<c1:C1ComboBox              Grid.Row="2" Grid.Column="1" x:Name="cboEquipmentSegment"   DisplayMemberPath="CBO_NAME" SelectedValuePath="CBO_CODE" />-->
+                            <ctrlLib:MultiSelectionBox  Grid.Row="2" Grid.Column="1" x:Name="cboEquipmentSegment"          DisplayMemberPath="CBO_NAME" SelectedValuePath="CBO_CODE" isAllUsed="True" SelectionChanged="cboEquipmentSegment_SelectionChanged" />
+
+                            <TextBlock                  Grid.Row="4" Grid.Column="0" Text="{Binding Converter={StaticResource GlobalObjectDicConverter}, ConverterParameter='공정'}"                Style="{DynamicResource Content_InputForm_LabelStyle}"  />
+                            <!--<ctrlLib:MultiSelectionBox  Grid.Row="4" Grid.Column="1" x:Name="cboEquipment"          DisplayMemberPath="CBO_NAME" SelectedValuePath="CBO_CODE" isAllUsed="True"/>-->
+                            <ctrlLib:MultiSelectionBox              Grid.Row="4" Grid.Column="1" x:Name="cboProcess"    DisplayMemberPath="PROCNAME" SelectedValuePath="PROCID" isAllUsed="True" />
+                            <!--<c1:C1ComboBox              Grid.Row="4" Grid.Column="1" x:Name="cboProcess"    DisplayMemberPath="PROCNAME" SelectedValuePath="PROCID" Style="{StaticResource C1ComboBoxStyle}" AutoComplete="False"/>-->
+                            <TextBlock                  Grid.Row="5" Grid.Column="0" Text="{Binding Converter={StaticResource GlobalObjectDicConverter}, ConverterParameter='Display 화면명'}"      Style="{DynamicResource Content_InputForm_LabelStyle}" />
+                            <TextBox                    Grid.Row="5" Grid.Column="1" x:Name="txtScreenName"                                                                                         Style="{StaticResource Content_InputForm_TextBoxStyle}" />
+
+                            <TextBlock                  Grid.Row="6" Grid.Column="0" Text="{Binding Converter={StaticResource GlobalObjectDicConverter}, ConverterParameter='Display 주기(분)'}"    Style="{DynamicResource Content_InputForm_LabelStyle}"   />
+                            <c1:C1NumericBox            Grid.Row="6" Grid.Column="1" x:Name="numRefresh"                                                                                             Style="{StaticResource C1NumericBoxStyle}" Minimum="1" />
+
+                            <TextBlock                  Grid.Row="7" Grid.Column="0" Text="{Binding Converter={StaticResource GlobalObjectDicConverter}, ConverterParameter='화면전환속도(초)'}"    Style="{DynamicResource Content_InputForm_LabelStyle}" />
+                            <c1:C1NumericBox            Grid.Row="7" Grid.Column="1" x:Name="numRefreshSub"                                                                                             Style="{StaticResource C1NumericBoxStyle}" Minimum="1"  />
+                            <TextBlock                  Grid.Row="8" Grid.Column="0" Text="{Binding Converter={StaticResource GlobalObjectDicConverter}, ConverterParameter='극성'}"                Style="{DynamicResource Content_InputForm_LabelStyle}"   />
+                            <!--<ctrlLib:MultiSelectionBox  Grid.Row="4" Grid.Column="1" x:Name="cboEquipment"          DisplayMemberPath="CBO_NAME" SelectedValuePath="CBO_CODE" isAllUsed="True"/>-->
+                            <ctrlLib:MultiSelectionBox              Grid.Row="8" Grid.Column="1" x:Name="cboElec"    DisplayMemberPath="ELECNAME" SelectedValuePath="ELECCODE" isAllUsed="True" />
+                            <Grid Grid.Row="11" Grid.Column="0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="4"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <Button Grid.Row="5" Grid.Column="1" x:Name="btnSetSave"    Content="{Binding ConverterParameter='저장', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{DynamicResource Content_MainButtonNoMinWidthSpecialStyle}" Click="btnSetSave_Click" />
+                                <Button Grid.Row="5" Grid.Column="3" x:Name="btnSetClose"   Content="{Binding ConverterParameter='닫기', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{DynamicResource Content_MainButtonNoMinWidthStyle}"        Click="btnSetClose_Click"/>
+                            </Grid>
+
+                            <!--Frame Content Area-->
+
+                        </Grid>
+                    </Border>
+
+                </Grid>
+
+                <Grid x:Name="grdleftSplitter" Grid.Row="0" Grid.RowSpan="2" Grid.Column="1" Width="0" Background="#DEDEDE">
+                    <Rectangle Stroke="#F9F9F9" Width="1" HorizontalAlignment="Right">
+                        <Rectangle.Effect>
+                            <DropShadowEffect BlurRadius="2" Color="Black" ShadowDepth="1"  Opacity="1" Direction="0" />
+                        </Rectangle.Effect>
+                    </Rectangle>
+                </Grid>
+            </Grid>
+            <!--Left Fram Siliding Control-->
+        </Grid>
+
+        <ctrlLib:LoadingIndicator x:Name="loadingIndicator" Grid.Row="999" Grid.Column="999" />
+    </Grid>
+
+</Window>

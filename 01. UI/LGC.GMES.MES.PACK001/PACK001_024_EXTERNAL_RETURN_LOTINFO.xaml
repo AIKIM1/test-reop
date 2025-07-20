@@ -1,0 +1,78 @@
+﻿<c1:C1Window x:Class="LGC.GMES.MES.PACK001.PACK001_024_EXTERNAL_RETURN_LOTINFO"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:c1="http://schemas.componentone.com/winfx/2006/xaml"
+    xmlns:System="clr-namespace:System;assembly=mscorlib"
+    xmlns:ctrlLib="clr-namespace:LGC.GMES.MES.ControlsLibrary;assembly=LGC.GMES.MES.ControlsLibrary"        
+    ctrlLib:LGCPopupWindowExtension.ApplyStyle="True"
+    Header="{Binding Converter={StaticResource GlobalObjectDicConverter}, ConverterParameter='결합정보'}" 
+    Height="500" Width="1500" IsResizable="True" Loaded="C1Window_Loaded" >
+
+    <c1:C1Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/LGC.GMES.MES.ControlsLibrary;Component/ControlStyles.xaml"/>
+                <ResourceDictionary Source="/LGC.GMES.MES.ControlsLibrary;component/ControlTemplates/C1DataGridStyle.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </c1:C1Window.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="34" />
+            <RowDefinition Height="8" />
+            <RowDefinition Height="34" />
+            <RowDefinition Height="8" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="8" />
+        </Grid.RowDefinitions>
+
+        <Border     Grid.Row="0" Grid.Column="0" BorderThickness="1" BorderBrush="#ffbebebe" Style="{StaticResource BorderSubTitleStyle}"/>
+        <TextBlock  Grid.Row="0" Grid.Column="0" Style="{StaticResource Content_ModuleTitleStyle}">
+                      <Run Text="{Binding ConverterParameter='사외반품 BMA 결합정보', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}"/>
+        </TextBlock>
+
+        <Border     Grid.Row="2" Grid.RowSpan="3" Style="{StaticResource Content_InputForm_GroupBorderStyle}"/>
+        <Grid Grid.Row="2" >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="15*"/>
+                <!--<ColumnDefinition Width="*"/>-->
+                <ColumnDefinition Width="75*"/>
+            </Grid.ColumnDefinitions>
+
+            <TextBlock  Grid.Row="0" Grid.Column="0" Text="{Binding ConverterParameter='BMALOTID', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}"  HorizontalAlignment="Right" VerticalAlignment="Center" Margin="15,0,8,0" />
+            <Border     Grid.Row="1" Grid.Column="1" Style="{StaticResource Content_InputForm_GroupBorderStyle}"  BorderThickness="0,1,0,0">
+                <TextBox x:Name="txtTargetBMALot" Style="{StaticResource Content_InputForm_ReadOnlyTextBoxStyle}"/>
+            </Border>
+        </Grid>
+        
+        <Border Grid.Row="3" Style="{StaticResource Condition_Header_BorderStyle}"/>
+
+        <c1:C1DataGrid Grid.Row="4" x:Name="dgCMALotList" IsReadOnly="True" HeadersVisibility="Column" SelectionMode="MultiRange" >
+            <c1:C1DataGrid.Columns>
+                <c1:DataGridTextColumn  Header = "CMALOTID"             Binding = "{Binding CMALOTID}"                    HorizontalAlignment="Center" Width="Auto" />
+                <c1:DataGridTextColumn  Header = "NEW_BMALOTID"         Binding = "{Binding NEW_BMALOTID}"                HorizontalAlignment="Center" Width="Auto" />
+                <c1:DataGridTextColumn  Header = "RTN_SALES_ORD_NO"     Binding = "{Binding RTN_SALES_ORD_NO}"            HorizontalAlignment="Center" Width="Auto" /> <!--반품매출지시번호-->
+                <c1:DataGridTextColumn  Header = "RTN_DLRV_OD_NO"       Binding = "{Binding RTN_DLRV_OD_NO}"              HorizontalAlignment="Center" Width="Auto" /> <!--반품운송지시번호-->
+                <c1:DataGridTextColumn  Header = "INSP_TYPE_CODE"       Binding = "{Binding INSP_TYPE_CODE}"              HorizontalAlignment="Center" Width="Auto" /> <!--처리유형코드-->
+                <c1:DataGridTextColumn  Header = "INSP_TYPE_NAME"       Binding = "{Binding INSP_TYPE_NAME}"              HorizontalAlignment="Center" Width="Auto" /> <!--처리유형코드명-->
+                <c1:DataGridTextColumn  Header = "현재공정"             Binding = "{Binding PROCID}"                      HorizontalAlignment="Center" Width="Auto" Visibility="Collapsed" />
+                <c1:DataGridTextColumn  Header = "현재공정명"           Binding = "{Binding PROCNAME}"                    HorizontalAlignment="Center" Width="Auto" />
+                <c1:DataGridTextColumn  Header = "LOTSTAT"              Binding = "{Binding LOTSTAT}"                     HorizontalAlignment="Center" Width="Auto" />
+                <c1:DataGridTextColumn  Header = "WIPSTAT"              Binding = "{Binding WIPSTAT}"                     HorizontalAlignment="Center" Width="Auto" />
+                <c1:DataGridTextColumn  Header = "MES_CNFM_FLAG"        Binding = "{Binding MES_CNFM_FLAG}"               HorizontalAlignment="Center" Width="Auto" />
+                <c1:DataGridTextColumn  Header = "MES 반품 확정 일시"   Binding = "{Binding MES_CNFM_DTTM}"               HorizontalAlignment="Center" Width="Auto" />
+                <c1:DataGridTextColumn  Header = "MES 반품 확정자"      Binding = "{Binding MES_CNFM_USER_ID}"            HorizontalAlignment="Center" Width="Auto" Visibility="Collapsed" />
+                <c1:DataGridTextColumn  Header = "MES 반품 확정자명"    Binding = "{Binding MES_CNFM_USER_NAME}"          HorizontalAlignment="Center" Width="Auto" />
+                <c1:DataGridTextColumn  Header = "QMS_TRNF_FLAG"        Binding = "{Binding QMS_TRNF_FLAG}"               HorizontalAlignment="Center" Width="Auto" />
+                <c1:DataGridTextColumn  Header = "처리유형 확정자"      Binding = "{Binding QA_PRCS_TYPE_CNFM_USER_ID}"   HorizontalAlignment="Center" Width="Auto" Visibility="Collapsed" />
+                <c1:DataGridTextColumn  Header = "처리유형 확정자명"    Binding = "{Binding QA_PRCS_TYPE_CNFM_USER_NAME}" HorizontalAlignment="Center" Width="Auto" />
+                <c1:DataGridTextColumn  Header = "처리유형 확정 일시"   Binding = "{Binding QA_PRCS_TYPE_CNFM_DTTM}"      HorizontalAlignment="Center" Width="Auto" />
+                <c1:DataGridTextColumn  Header = "처리유형 변경 여부"   Binding = "{Binding QA_PRCS_TYPE_REPRCS_FLAG}"    HorizontalAlignment="Center" Width="Auto" />
+                <c1:DataGridTextColumn  Header = "처리유형 변경 비고"   Binding = "{Binding QA_PRCS_TYPE_DESC}"           HorizontalAlignment="Center" Width="Auto" />
+            </c1:C1DataGrid.Columns>
+        </c1:C1DataGrid>
+    </Grid>
+
+</c1:C1Window>

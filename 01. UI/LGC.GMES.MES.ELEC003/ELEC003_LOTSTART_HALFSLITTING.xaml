@@ -1,0 +1,113 @@
+﻿<c1:C1Window x:Class="LGC.GMES.MES.ELEC003.ELEC003_LOTSTART_HALFSLITTING"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:c1="http://schemas.componentone.com/winfx/2006/xaml"
+		     xmlns:System="clr-namespace:System;assembly=mscorlib"
+             xmlns:ctrlLib="clr-namespace:LGC.GMES.MES.ControlsLibrary;assembly=LGC.GMES.MES.ControlsLibrary"        
+             ctrlLib:LGCPopupWindowExtension.ApplyStyle="True"
+             Header="{Binding Converter={StaticResource GlobalObjectDicConverter}, ConverterParameter='Lot Start'}" 
+             Tag="ProtoType01Windows01" Height="400" Width="800" IsResizable="False" Loaded="C1Window_Loaded" >
+
+    <c1:C1Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/LGC.GMES.MES.ControlsLibrary;component/ControlStyles.xaml" />
+                <ResourceDictionary Source="/LGC.GMES.MES.ControlsLibrary;component/ControlTemplates/LGCDatePicker.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </c1:C1Window.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="4" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="4" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <Border     Grid.Row="0" Grid.ColumnSpan="99" Style="{StaticResource Content_InputForm_LabelBorderStyle}"/>
+        <Border     Grid.Row="4" Grid.ColumnSpan="99" Style="{StaticResource Content_InputForm_LabelBorderStyle}"/>
+
+        <!--content area-->
+        <Grid Grid.Row ="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="4" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="4" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="4" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="4" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="8"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="20"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="8"/>
+            </Grid.ColumnDefinitions>
+
+            <TextBlock                          Grid.Row="1" Grid.Column="1" Text="{Binding ConverterParameter='작업지시', Converter={StaticResource GlobalObjectDicConverter}, RelativeSource={RelativeSource Self}}" HorizontalAlignment="Right" Style="{StaticResource SearchCondition_LabelStyle}" />
+            <TextBox    x:Name="txtWorkorder"   Grid.Row="1" Grid.Column="2" Style="{StaticResource Content_InputForm_ReadOnlyTextBoxStyle}" CharacterCasing="Upper" IsReadOnly="True"/>
+            <TextBlock                          Grid.Row="1" Grid.Column="4" Text="{Binding ConverterParameter='설비', Converter={StaticResource GlobalObjectDicConverter}, RelativeSource={RelativeSource Self}}" HorizontalAlignment="Right" Style="{StaticResource SearchCondition_LabelStyle}" />
+            <TextBox    x:Name="txtEquipment"   Grid.Row="1" Grid.Column="5" Style="{StaticResource Content_InputForm_ReadOnlyTextBoxStyle}" CharacterCasing="Upper" IsReadOnly="True"/>
+
+            <TextBlock                          Grid.Row="3" Grid.Column="1" Text="{Binding ConverterParameter='LOTID', Converter={StaticResource GlobalObjectDicConverter}, RelativeSource={RelativeSource Self}}" HorizontalAlignment="Right" Style="{StaticResource SearchCondition_LabelStyle}" />
+            <TextBox    x:Name="txtLotID"       Grid.Row="3" Grid.Column="2" Style="{StaticResource Content_InputForm_TextBoxStyle}" CharacterCasing="Upper" TextChanged="txtLotID_TextChanged" KeyDown="txtLotID_KeyDown"/>
+
+            <TextBlock  x:Name="lblCarrierID_L" Grid.Row="5" Grid.Column="1" Text="{Binding ConverterParameter='OUT_CARRIERID_L', Converter={StaticResource GlobalObjectDicConverter}, RelativeSource={RelativeSource Self}}" HorizontalAlignment="Right" Style="{StaticResource SearchCondition_LabelStyle}" />
+            <TextBox    x:Name="txtCarrierID_L" Grid.Row="5" Grid.Column="2" Style="{StaticResource Content_InputForm_TextBoxStyle}" CharacterCasing="Upper" />
+            <TextBlock  x:Name="lblCarrierID_R" Grid.Row="5" Grid.Column="4" Text="{Binding ConverterParameter='OUT_CARRIERID_R', Converter={StaticResource GlobalObjectDicConverter}, RelativeSource={RelativeSource Self}}" HorizontalAlignment="Right" Style="{StaticResource SearchCondition_LabelStyle}" />
+            <TextBox    x:Name="txtCarrierID_R" Grid.Row="5" Grid.Column="5" Style="{StaticResource Content_InputForm_TextBoxStyle}" CharacterCasing="Upper" />
+        </Grid>
+
+        <Grid Grid.Row="2">
+            <Grid x:Name="LotList">
+                <c1:C1DataGrid x:Name="dgLotInfo" 
+                               IsReadOnly="True" 
+                               HeadersVisibility="Column" 
+                               SelectionMode="SingleRow" 
+                               MouseLeftButtonUp="dgLotInfo_MouseLeftButtonUp" >
+                    <c1:C1DataGrid.Columns>
+                        <c1:DataGridTemplateColumn  EditOnSelection="True" Name="CHK" Width="Auto" >
+                            <c1:DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <RadioButton GroupName="dgLotInfoChoiceGroup" IsChecked="{Binding CHK, Mode=OneWay}" Name="dgLotInfoChoice" HorizontalAlignment="Center" Checked="dgLotInfoChoice_Checked" />
+                                </DataTemplate>
+                            </c1:DataGridTemplateColumn.CellTemplate>
+                        </c1:DataGridTemplateColumn>
+                        <c1:DataGridTextColumn        Header="LOT ID"    Binding="{Binding LOTID}"     HorizontalAlignment="Center" />
+                        <c1:DataGridTextColumn        Header="CST ID"    Binding="{Binding CSTID}"     HorizontalAlignment="Center" />
+                        <c1:DataGridTextColumn        Header="수량"      Binding="{Binding WIPQTY_IN}" HorizontalAlignment="Center" />
+                        <c1:DataGridTextColumn        Header="제품ID"    Binding="{Binding PRODID}"    HorizontalAlignment="Center" />
+                        <c1:DataGridTextColumn        Header="제품명"    Binding="{Binding PRODNAME}"  HorizontalAlignment="Center" />
+                        <c1:DataGridTextColumn        Header="Lane 수"   Binding="{Binding LANE_QTY}"  HorizontalAlignment="Center" Visibility="Collapsed"/>
+                    </c1:C1DataGrid.Columns>
+                </c1:C1DataGrid>
+            </Grid>
+
+        </Grid>
+        
+        <Grid Grid.Row ="4">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="4" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="4" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="4"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <Button x:Name="btnLotStart" Grid.Row="1" Grid.Column="1" Content="{Binding ConverterParameter='시작', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{DynamicResource Content_MainButtonSpecialStyle}" Click="btnLotStart_Click" />
+            <Button x:Name="btnClose"    Grid.Row="1" Grid.Column="3" Content="{Binding ConverterParameter='닫기', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{DynamicResource Content_MainButtonStyle}" Click="btnClose_Click" />
+        </Grid>
+
+        <ctrlLib:LoadingIndicator x:Name="loadingIndicator" Grid.Row="999" Grid.Column="999" />
+    </Grid>
+</c1:C1Window>

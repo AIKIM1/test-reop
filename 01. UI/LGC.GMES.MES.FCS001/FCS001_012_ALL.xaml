@@ -1,0 +1,111 @@
+﻿<UserControl x:Class="LGC.GMES.MES.FCS001.FCS001_012_ALL"
+             xmlns:ss="http://schemas.grapecity.com/windows/spreadsheet/2012"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:c1="http://schemas.componentone.com/winfx/2006/xaml"
+             xmlns:ctrlLib="clr-namespace:LGC.GMES.MES.ControlsLibrary;assembly=LGC.GMES.MES.ControlsLibrary"
+             xmlns:uc="clr-namespace:LGC.GMES.MES.CMM001.Controls;assembly=LGC.GMES.MES.CMM001"
+             mc:Ignorable="d" 
+             d:DesignHeight="768" d:DesignWidth="1024"  Loaded="UserControl_Loaded" >
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/LGC.GMES.MES.ControlsLibrary;component/ControlStyles.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid x:Name="grdMain">
+        <ctrlLib:LGCLayout x:Name="LayoutRoot" Tag="전체 Aging Rack 현황" Grid.ColumnSpan="2">
+            <ctrlLib:LGCLayout.Content>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="8"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <Border Grid.Row="0" Grid.Column="0" Background="#fff2f2f2" BorderThickness="1" BorderBrush="#ffd1d1d1" />
+                    <Grid   Grid.Row="0" Grid.Column="0" >
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="11" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="11" />
+                        </Grid.RowDefinitions>
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="13"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="10"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="13"/>
+                        </Grid.ColumnDefinitions>
+
+                        <!--조회조건 ROW1-->
+                        <TextBlock                            Grid.Row="1" Grid.Column="1" Text="{Binding ConverterParameter='BLDG_CD', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}" VerticalAlignment="Center" />
+                        <uc:UcBaseComboBox  x:Name="cboBldgCd"    Grid.Row="1" Grid.Column="2" Style="{StaticResource C1ComboBoxStyle}" AutoComplete="False" />
+
+                        <TextBlock                            Grid.Row="1" Grid.Column="3" Text="{Binding ConverterParameter='AGING_FLAG', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}"/>
+                        <uc:UcBaseComboBox  x:Name="cboAgingType" Grid.Row="1" Grid.Column="4" Style="{StaticResource C1ComboBoxStyle}" AutoComplete="False" />
+
+                        <uc:UcBaseCheckBox  x:Name="chkOnlyAll"   Grid.Row="1" Grid.Column="6" Content="{Binding ConverterParameter='SUMMARY', Converter={StaticResource GlobalObjectDicConverter}}" Style="{StaticResource SearchCondition_CheckBoxStyle}" IsChecked="False" Checked="chkOnlyAll_Checked" Unchecked="chkOnlyAll_Unchecked" />
+
+                        <!--조회 버튼-->
+                        <uc:UcBaseButton    x:Name="btnSearch"    Grid.Row="1" Grid.Column="8" Content="{Binding ConverterParameter=SEARCH, Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource SearchButtonStyle}" Cursor="Hand" Click="btnSearch_Click" />
+                    </Grid>
+                    
+                    <!--조회 영역-->
+                    <!--ROW 03-->
+                    <Border Grid.Row="2" Background="#fff2f2f2" BorderThickness="1" BorderBrush="#ffbebebe"></Border>
+                    <Grid   Grid.Row="2" Grid.Column="0" >
+                        <uc:UcBaseDataGrid x:Name="dgAgingStatus" Grid.Row="0" Grid.Column="0" Margin="8" IsReadOnly="True" HeadersVisibility="None"  FrozenTopRowsCount="2" SelectionMode="MultiRange"
+                                           IsSummaryRowApply="True"
+                                           LoadedCellPresenter="dgAgingStatus_LoadedCellPresenter"
+                                           ExecuteDataModify="dgAgingStatus_ExecuteDataModify"
+                                           ExecuteDataCompleted="dgAgingStatus_ExecuteDataCompleted">
+                            <c1:C1DataGrid.Columns>
+                                <c1:DataGridTextColumn      Header = "[FLOOR_INFO,FLOOR_INFO]"              Binding = "{Binding FLOOR_CODE}"       HorizontalAlignment="Center" Visibility="Collapsed" />
+                                <c1:DataGridTextColumn      Header = "[FLOOR_INFO,FLOOR_INFO]"              Binding = "{Binding FLOOR_NAME}"       HorizontalAlignment="Center" />
+                                <c1:DataGridTextColumn      Header = "[AGING_FLAG,AGING_FLAG]"              Binding = "{Binding AGING_TYPE}"       HorizontalAlignment="Center" Visibility="Collapsed" />
+                                <c1:DataGridTextColumn      Header = "[AGING_FLAG,AGING_FLAG]"              Binding = "{Binding AGING_TYPE_NAME}"  HorizontalAlignment="Center" />
+                                <c1:DataGridTextColumn      Header = "[EQSGID,EQSGID]"                      Binding = "{Binding EQSGID}"           HorizontalAlignment="Center" Visibility="Collapsed" />
+                                <c1:DataGridTextColumn      Header = "[EQSGNAME,EQSGNAME]"                  Binding = "{Binding EQSG_NAME}"        HorizontalAlignment="Center" Visibility="Collapsed"/>
+                                <c1:DataGridTextColumn      Header = "[SC_LINE,SC_LINE]"                    Binding = "{Binding EQPT_NAME}"        HorizontalAlignment="Center" />
+                                <c1:DataGridTextColumn      Header = "[열,열]"                              Binding = "{Binding ROW}"              HorizontalAlignment="Center" />
+                                <c1:DataGridNumericColumn   Header = "[적재율(%),적재율(%)]"                Binding = "{Binding USE_RATE}"         HorizontalAlignment="Right" Format="###,###,##0.##" uc:AggregateExtension.AggregateColumnType="RATIO"/>
+                                <c1:DataGridNumericColumn   Header = "[RACK_CNT,RACK_CNT]"                  Binding = "{Binding RACK_CNT}"         HorizontalAlignment="Right" Format="###,###,##0"    uc:AggregateExtension.AggregateColumnType="RATIO_TOTAL"/>
+                                <c1:DataGridNumericColumn   Header = "[RUN_RACK,RUN_RACK]"                  Binding = "{Binding RUN_RACK}"         HorizontalAlignment="Right" Format="###,###,##0"    uc:AggregateExtension.AggregateColumnType="RATIO_PART" Visibility="Collapsed"/>
+                                <c1:DataGridNumericColumn   Header = "[RCV_POS_RACK_CNT,RCV_POS_RACK_CNT]"  Binding = "{Binding RACKIBGO}"         HorizontalAlignment="Right" Format="###,###,##0" />
+                                <c1:DataGridNumericColumn   Header = "[RCV_BAN_RACK_CNT,RCV_BAN_RACK_CNT]"  Binding = "{Binding RACKGEUMGI}"       HorizontalAlignment="Right" Format="###,###,##0" />
+                                <c1:DataGridNumericColumn   Header = "[금지단,금지단]"                      Binding = "{Binding PROHIBITION}"      HorizontalAlignment="Right" Format="###,###,##0" />
+                                <c1:DataGridNumericColumn   Header = "[MES_HOLD,MES_HOLD]"                  Binding = "{Binding MES_HOLD_CNT}"     HorizontalAlignment="Right" Format="###,###,##0" />
+                                <c1:DataGridNumericColumn   Header = "[QMS_HOLD,QMS_HOLD]"                  Binding = "{Binding QMS_HOLD_CNT}"     HorizontalAlignment="Right" Format="###,###,##0" />
+                                <c1:DataGridNumericColumn   Header = "[1_RACK_CNT,TOTAL]"                   Binding = "{Binding RACK_ONE}"         HorizontalAlignment="Right" Format="###,###,##0" />
+                                <c1:DataGridNumericColumn   Header = "[1_RACK_CNT,FULL_TRAY]"               Binding = "{Binding RACK_ONE_F}"       HorizontalAlignment="Right" Format="###,###,##0" />
+                                <c1:DataGridNumericColumn   Header = "[1_RACK_CNT,EMPTY_TRAY]"              Binding = "{Binding RACK_ONE_E}"       HorizontalAlignment="Right" Format="###,###,##0" />
+                                <c1:DataGridNumericColumn   Header = "[2_RACK_CNT,TOTAL]"                   Binding = "{Binding RACK_TWO}"         HorizontalAlignment="Right" Format="###,###,##0" />
+                                <c1:DataGridNumericColumn   Header = "[2_RACK_CNT,FULL_TRAY]"               Binding = "{Binding RACK_TWO_F}"       HorizontalAlignment="Right" Format="###,###,##0" />
+                                <c1:DataGridNumericColumn   Header = "[2_RACK_CNT,EMPTY_TRAY]"              Binding = "{Binding RACK_TWO_E}"       HorizontalAlignment="Right" Format="###,###,##0" />
+                                <c1:DataGridNumericColumn   Header = "[QTY,FULL_TRAY]"                      Binding = "{Binding FULL_TRAY}"        HorizontalAlignment="Right" Format="###,###,##0" />
+                                <c1:DataGridNumericColumn   Header = "[QTY,EMPTY_TRAY]"                     Binding = "{Binding EMPTY_TRAY}"       HorizontalAlignment="Right" Format="###,###,##0" />                                
+                            </c1:C1DataGrid.Columns>
+
+                            <c1:C1DataGrid.TopRows>
+                                <c1:DataGridColumnHeaderRow />
+                                <c1:DataGridColumnHeaderRow />
+                            </c1:C1DataGrid.TopRows>
+                        </uc:UcBaseDataGrid>
+                    </Grid>
+                </Grid>
+            </ctrlLib:LGCLayout.Content>
+        </ctrlLib:LGCLayout>
+
+        <ctrlLib:LoadingIndicator x:Name="loadingIndicator" Grid.Row="999" Grid.Column="999" />
+    </Grid>
+</UserControl>

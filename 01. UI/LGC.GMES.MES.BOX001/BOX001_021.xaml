@@ -1,0 +1,240 @@
+<UserControl xmlns:ss="http://schemas.grapecity.com/windows/spreadsheet/2012"  x:Class="LGC.GMES.MES.BOX001.BOX001_021"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:c1="http://schemas.componentone.com/winfx/2006/xaml"
+             xmlns:ctrlLib="clr-namespace:LGC.GMES.MES.ControlsLibrary;assembly=LGC.GMES.MES.ControlsLibrary"
+             mc:Ignorable="d" 
+             d:DesignHeight="768" d:DesignWidth="1024">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/LGC.GMES.MES.ControlsLibrary;component/ControlStyles.xaml" />
+                <ResourceDictionary Source="/LGC.GMES.MES.ControlsLibrary;component/ControlTemplates/LGCDatePicker.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid>
+        <ctrlLib:LGCLayout x:Name="LayoutRoot" Tag="포장공정 Cell 현황조회">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="51"/>
+                    <RowDefinition Height="8" />
+                    <RowDefinition Height="1*" />
+                </Grid.RowDefinitions>
+
+                
+
+
+                <!--조회영역-->
+                <Border Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Background="#fff2f2f2" BorderThickness="1" BorderBrush="#ffd1d1d1"></Border>
+                <Grid   Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="13"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="30"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="13"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Grid Grid.Row="0" Grid.Column="1">
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="1*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <!--조회조건-->
+                        <TextBlock  Grid.Row="1" Grid.Column="0" Text="{Binding ConverterParameter='CELLID', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}"/>
+                        <TextBox    Grid.Row="1" Grid.Column="1"  x:Name="txtCellid"   CharacterCasing="Upper"     Style="{StaticResource SearchCondition_TextBoxStyle}" KeyDown="txtCellid_KeyDown" PreviewKeyDown="txtCellid_PreviewKeyDown" />
+
+
+                    </Grid>
+                    <!--조회 버튼-->
+                    <Button     Grid.Row="0" Grid.Column="3"  x:Name="btnSearch" Content="{Binding ConverterParameter='SEARCH', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource SearchButtonStyle}" Cursor="Hand" Click="btnSearch_Click"/>
+
+                </Grid>
+
+
+                <Grid Grid.Row="2" Grid.Column="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="1*" />
+                        <RowDefinition Height="8" />
+                        <RowDefinition Height="1*" />
+                        <RowDefinition Height="8" />
+                        <RowDefinition Height="1*" />
+                    </Grid.RowDefinitions>
+
+                    <!--start 작업대상-->
+                    <!--Sub 영역 01-->
+                    <Border Grid.Row="0"  Background="#ffffffff" BorderThickness="1" BorderBrush="#ffbebebe"></Border>
+                    <Grid   Grid.Row="0" >
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="34"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                        </Grid.RowDefinitions>
+
+                        <!--Sub 영역 01 Title-->
+                        <Border Grid.Row="0" BorderThickness="1" BorderBrush="#ffbebebe" Style="{StaticResource BorderSubTitleStyle}"/>
+                        <Grid   Grid.Row="0" >
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="15"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock      Grid.Row="0"  Grid.Column="1" Text="{Binding ConverterParameter='조회결과', Converter={StaticResource GlobalObjectDicConverter}, RelativeSource={RelativeSource Self}}" HorizontalAlignment="Right" Style="{StaticResource Content_Search_LabelStyle}" />
+                        </Grid>
+                        <!--Sub 영역 01 Title-->
+
+
+                        <!--Sub 영역 01 Content-->
+                        <Grid   Grid.Row="1" >
+
+                            <c1:C1DataGrid x:Name="dgCellResult" Margin="8" IsReadOnly="True" CanUserFilter="False" CanUserSort="False" HeadersVisibility="None" FrozenColumnCount="4" SelectionMode="MultiRange" >
+                                <c1:C1DataGrid.Columns>
+                                    <c1:DataGridTextColumn      Header = "CELLID"               Binding = "{Binding CELLID}"           HorizontalAlignment="Center" />
+                                    <c1:DataGridTextColumn      Header = "[HOLD,MES]"           Binding = "{Binding MES_HOLD_YN}"           HorizontalAlignment="Center" />
+                                    <c1:DataGridTextColumn      Header = "[HOLD,QMS]"           Binding = "{Binding QMS_HOLD_YN}"           HorizontalAlignment="Center" />
+                                    <c1:DataGridTextColumn      Header = "[HOLD,CELL]"          Binding = "{Binding SUBLOT_HOLD_YN}"        HorizontalAlignment="Center" />
+                                    <c1:DataGridTextColumn      Header = "PALLETID"             Binding = "{Binding PALLETID}"         HorizontalAlignment="Center" />
+                                    <c1:DataGridTextColumn      Header = "TRAYID"               Binding = "{Binding TRAYID}"           HorizontalAlignment="Center" />
+                                    <c1:DataGridTextColumn      Header = "트레이단수"           Binding = "{Binding BOXSEQ}"      HorizontalAlignment="Center" />
+                                    <c1:DataGridTextColumn      Header = "TRAY내CELL위치"       Binding = "{Binding BOX_PSTN_NO}"      HorizontalAlignment="Center" />
+                                    <c1:DataGridTextColumn      Header = "TAG ID"               Binding = "{Binding TAG_ID}"           HorizontalAlignment="Center" />
+                                    <c1:DataGridTextColumn      Header = "출고ID"               Binding = "{Binding RELSID}"           HorizontalAlignment="Center" />
+                                    <!--<c1:DataGridTextColumn      Header = "SHIPID"               Binding = "{Binding SHIPID}" HorizontalAlignment="Center" />-->
+                                    <c1:DataGridTextColumn      Header = "셀 등급"              Binding = "{Binding GRADE_CD}"         HorizontalAlignment="Center" />
+                                    <c1:DataGridTextColumn      Header = "방전#1 CAPA 측정치"   Binding = "{Binding DCHG_1_CAPA_VAL}"  HorizontalAlignment="Right" />
+                                    <c1:DataGridTextColumn      Header = "IMP#1 측정치"         Binding = "{Binding PDCHG_1_IMP_VAL}"  HorizontalAlignment="Right" />
+                                    <c1:DataGridTextColumn      Header = "OCV#1 측정치"         Binding = "{Binding DCHG_CAPA_VAL}"    HorizontalAlignment="Right" />
+                                    <c1:DataGridTextColumn      Header = "OCV#2 측정치"         Binding = "{Binding OCV_VAL}"          HorizontalAlignment="Right" />
+                                    <c1:DataGridTextColumn      Header = "OCV#2 측정일"         Binding = "{Binding OCV_ENDTIME}"      HorizontalAlignment="Right" />
+                                    <c1:DataGridTextColumn      Header = "mV/Day 상대전압"      Binding = "{Binding VOLT_REL_VAL}"     HorizontalAlignment="Right" />
+                                    <c1:DataGridTextColumn      Header = "두께"                 Binding = "{Binding THIC_VAL}"         HorizontalAlignment="Right" />
+                                    <c1:DataGridTextColumn      Header = "AC 저항"              Binding = "{Binding ACIR_VAL}"         HorizontalAlignment="Right" />
+                                    <c1:DataGridTextColumn      Header = "특성 전압"            Binding = "{Binding VOLT_VAL}"         HorizontalAlignment="Right" />
+                                    <c1:DataGridTextColumn      Header = "절연"                 Binding = "{Binding DCIR_VAL}"         HorizontalAlignment="Right" />
+                                    <c1:DataGridTextColumn      Header = "비고"                 Binding = "{Binding REMARK}"           HorizontalAlignment="Left" />
+                                    <c1:DataGridTextColumn      Header = "AREAID"               Binding = "{Binding AREAID}"         Visibility="Collapsed" />
+                                </c1:C1DataGrid.Columns>
+                                <c1:C1DataGrid.TopRows>
+                                    <c1:DataGridColumnHeaderRow />
+                                    <c1:DataGridColumnHeaderRow />
+                                </c1:C1DataGrid.TopRows>
+                                <c1:C1RowIndexHeaderBehavior.RowIndexHeaderBehavior>
+                                    <c1:C1RowIndexHeaderBehavior InitialIndex="1" ></c1:C1RowIndexHeaderBehavior>
+                                </c1:C1RowIndexHeaderBehavior.RowIndexHeaderBehavior>
+                            </c1:C1DataGrid>
+                        </Grid>
+                    </Grid>
+
+                    <!--Sub 영역 02-->
+                    <Border Grid.Row="2"  Background="#ffffffff" BorderThickness="1" BorderBrush="#ffbebebe"></Border>
+                    <Grid   Grid.Row="2" >
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="34"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                        </Grid.RowDefinitions>
+
+                        <!--Sub 영역 02 Title-->
+                        <Border Grid.Row="0" BorderThickness="1" BorderBrush="#ffbebebe" Style="{StaticResource BorderSubTitleStyle}"/>
+                        <Grid   Grid.Row="0" >
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="15"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock      Grid.Row="0"  Grid.Column="1" Text="{Binding ConverterParameter='검사조건', Converter={StaticResource GlobalObjectDicConverter}, RelativeSource={RelativeSource Self}}" HorizontalAlignment="Right" Style="{StaticResource Content_Search_LabelStyle}" />
+                        </Grid>
+                        <!--Sub 영역 02 Title-->
+
+
+                        <!--Sub 영역 02 Content-->
+                        <Grid   Grid.Row="1" >
+
+                            <c1:C1DataGrid x:Name="dgCondition" Margin="8" IsReadOnly="True" CanUserFilter="False" CanUserSort="False" HeadersVisibility="All" FrozenColumnCount="2" SelectionMode="MultiRange">
+                                <c1:C1DataGrid.Columns>
+                                    <c1:DataGridTextColumn      Header = "MODEL"            Binding = "{Binding MODEL_ID}"       HorizontalAlignment="Center" />
+                                    <c1:DataGridTextColumn      Header = "GRADE"            Binding = "{Binding GRADE_CD}"       HorizontalAlignment="Center" />
+                                    <c1:DataGridTextColumn      Header = "CAPAFrom"        Binding = "{Binding CAPA_VAL_LOW}"   HorizontalAlignment="Center" />
+                                    <c1:DataGridTextColumn      Header = "CAPATO"          Binding = "{Binding CAPA_VAL_HIGH}"  HorizontalAlignment="Center" />
+                                    <c1:DataGridTextColumn      Header = "IMPFROM"         Binding = "{Binding IMP_VAL_LOW}"    HorizontalAlignment="Center" />
+                                    <c1:DataGridTextColumn      Header = "IMPTO"           Binding = "{Binding IMP_VAL_HIGH}"   HorizontalAlignment="Center" />
+                                    <c1:DataGridTextColumn      Header = "DELTAOCVFROM"   Binding = "{Binding OCV2_VAL_LOW}"   HorizontalAlignment="Center" />
+                                    <c1:DataGridTextColumn      Header = "DELTAOCVTO"     Binding = "{Binding OCV2_VAL_HIGH}"  HorizontalAlignment="Center" />
+                                    <c1:DataGridTextColumn      Header = "LASTOCVFROM"    Binding = "{Binding OCV1_VAL_LOW}"   HorizontalAlignment="Center" />
+                                    <c1:DataGridTextColumn      Header = "LASTOCVTO"      Binding = "{Binding OCV1_VAL_HIGH}"  HorizontalAlignment="Center" />
+                                </c1:C1DataGrid.Columns>
+                                <c1:C1RowIndexHeaderBehavior.RowIndexHeaderBehavior>
+                                    <c1:C1RowIndexHeaderBehavior InitialIndex="1" ></c1:C1RowIndexHeaderBehavior>
+                                </c1:C1RowIndexHeaderBehavior.RowIndexHeaderBehavior>
+                            </c1:C1DataGrid>
+                        </Grid>
+                    </Grid>
+
+                    <!--Sub 영역 03-->
+                    <Border Grid.Row="4"  Background="#ffffffff" BorderThickness="1" BorderBrush="#ffbebebe"></Border>
+                    <Grid   Grid.Row="4" >
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="34"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                        </Grid.RowDefinitions>
+
+                        <!--Sub 영역 03 Title-->
+                        <Border Grid.Row="0" BorderThickness="1" BorderBrush="#ffbebebe" Style="{StaticResource BorderSubTitleStyle}"/>
+                        <Grid   Grid.Row="0" >
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="15"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock      Grid.Row="0"  Grid.Column="1" Text="{Binding ConverterParameter='활성화DATA', Converter={StaticResource GlobalObjectDicConverter}, RelativeSource={RelativeSource Self}}" HorizontalAlignment="Right" Style="{StaticResource Content_Search_LabelStyle}" />
+                        </Grid>
+                        <!--Sub 영역 03 Title-->
+
+
+                        <!--Sub 영역 03 Content-->
+                        <Grid   Grid.Row="1" >
+
+                            <c1:C1DataGrid x:Name="dgCheckResult" Margin="8" IsReadOnly="True" CanUserFilter="False" CanUserSort="False" HeadersVisibility="All" FrozenColumnCount="2" SelectionMode="MultiRange">
+                                <c1:C1DataGrid.Columns>
+                                    <c1:DataGridTextColumn      Header = "CELLID"               Binding = "{Binding CELL_ID}"           HorizontalAlignment="Center" />
+                                    <c1:DataGridTextColumn      Header = "SHIPABLE"             Binding = "{Binding SHIPABLE}"      HorizontalAlignment="Center" />
+                                    <c1:DataGridTextColumn      Header = "GRADE"                Binding = "{Binding GRADE}"         HorizontalAlignment="Center" />
+                                    <c1:DataGridTextColumn      Header = "CAPA"                 Binding = "{Binding CAPA}"        HorizontalAlignment="Center" />
+                                    <c1:DataGridTextColumn      Header = "IMP"                  Binding = "{Binding IMP}"       HorizontalAlignment="Center" />
+                                    <c1:DataGridTextColumn      Header = "LASTOCV"             Binding = "{Binding LAST_OCV}"        HorizontalAlignment="Center" />
+                                    <c1:DataGridTextColumn      Header = "DELTAOCV"            Binding = "{Binding DELTA_OCV}"           HorizontalAlignment="Center" />
+                                    <c1:DataGridTextColumn      Header = "OCV#2 측정일"         Binding = "{Binding OCV_DATE}" HorizontalAlignment="Center" />
+                                    <c1:DataGridTextColumn      Header = "charge #2 종료 온도"  Binding = "{Binding CH2_END_TEMP_VAL}"     HorizontalAlignment="Center" />
+                                    <c1:DataGridTextColumn      Header = "mV/Day"               Binding = "{Binding VOLT_REL_VAL}"           HorizontalAlignment="Center" />
+                                    <c1:DataGridTextColumn      Header = "두께"                 Binding = "{Binding THIC_VAL}"      HorizontalAlignment="Center" />
+                                    <c1:DataGridTextColumn      Header = "AC 저항"              Binding = "{Binding ACIR_VAL}"         HorizontalAlignment="Center" />
+                                    <c1:DataGridTextColumn      Header = "절연"                 Binding = "{Binding DCIR_VAL}"        HorizontalAlignment="Center" />
+                                    <c1:DataGridTextColumn      Header = "특성 전압"            Binding = "{Binding VOLT_VAL}"       HorizontalAlignment="Center" />
+                                    <c1:DataGridTextColumn      Header = "2D 등급"              Binding = "{Binding VERIFY_GRADE}"        HorizontalAlignment="Center" />
+                                    <c1:DataGridTextColumn      Header = "절연전압(CA)"         Binding = "{Binding IV_CA_PASS_YN}"           HorizontalAlignment="Center" />
+                                    <c1:DataGridTextColumn      Header = "절연전압(AN)"         Binding = "{Binding IV_PASS_YN}" HorizontalAlignment="Center" />
+                                    <c1:DataGridTextColumn      Header = "에러 사유"            Binding = "{Binding ERROR_REASON}"     HorizontalAlignment="Center" />
+                                </c1:C1DataGrid.Columns>
+                                <c1:C1RowIndexHeaderBehavior.RowIndexHeaderBehavior>
+                                    <c1:C1RowIndexHeaderBehavior InitialIndex="1" ></c1:C1RowIndexHeaderBehavior>
+                                </c1:C1RowIndexHeaderBehavior.RowIndexHeaderBehavior>
+                            </c1:C1DataGrid>
+                        </Grid>
+                    </Grid>
+
+                </Grid>
+                
+
+
+            </Grid>
+        </ctrlLib:LGCLayout>
+
+        <ctrlLib:LoadingIndicator x:Name="loadingIndicator" Grid.Row="999" Grid.Column="999" />
+    </Grid>
+</UserControl>

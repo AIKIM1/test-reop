@@ -1,0 +1,128 @@
+﻿<c1:C1Window x:Class="LGC.GMES.MES.CMM001.CMM_COM_ELEC_MIXCONFIRM"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:c1="http://schemas.componentone.com/winfx/2006/xaml"
+		     xmlns:System="clr-namespace:System;assembly=mscorlib"
+             xmlns:ctrlLib="clr-namespace:LGC.GMES.MES.ControlsLibrary;assembly=LGC.GMES.MES.ControlsLibrary"        
+             ctrlLib:LGCPopupWindowExtension.ApplyStyle="True"
+             Header="{Binding Converter={StaticResource GlobalObjectDicConverter}, ConverterParameter='자주검사등록'}" 
+             Tag="ProtoType01Windows01" Height="600" Width="1000" IsResizable="False" Loaded="C1Window_Loaded" >
+
+    <c1:C1Window.Resources>
+        <ResourceDictionary Source="/LGC.GMES.MES.ControlsLibrary;Component/ControlStyles.xaml"/>
+    </c1:C1Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="34" />
+            <RowDefinition Height="7*" />
+            <RowDefinition Height="34" />
+        </Grid.RowDefinitions>
+
+        <Border Grid.Row ="0" Grid.RowSpan="2" Background="#ffffffff" BorderThickness="1" BorderBrush="#ffbebebe" />
+
+        <!--content area-->
+        <Border Grid.Row="0" BorderThickness="1" BorderBrush="#ffbebebe" Style="{StaticResource BorderSubTitleStyle}"/>
+
+        <Grid Grid.Row="0" >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="10"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="70"/>
+                <ColumnDefinition Width="10"/>
+                <ColumnDefinition Width="120"/>
+                <ColumnDefinition Width="10"/>
+                <ColumnDefinition Width="70"/>
+                <ColumnDefinition Width="10"/>
+                <ColumnDefinition Width="120"/>
+                <ColumnDefinition Width="180"/>
+                <ColumnDefinition Width="80"/>
+                <ColumnDefinition Width="8"/>
+            </Grid.ColumnDefinitions>
+
+            <StackPanel Orientation="Horizontal"  Grid.Row="0" Grid.Column="1" >
+                <ctrlLib:LGCDatePicker x:Name="ldpDateFrom"  DatepickerType="Date" SelectedDataTimeChanged="ldpDateFrom_SelectedDataTimeChanged" />
+                <TextBlock  Text="~" Style="{StaticResource Content_InputForm_LabelStyle}" Margin="3,0,3,0"/>
+                <ctrlLib:LGCDatePicker x:Name="ldpDateTo"  DatepickerType="Date" SelectedDataTimeChanged="ldpDateTo_SelectedDataTimeChanged" />
+            </StackPanel>
+
+            <TextBlock x:Name="txbLotid" Grid.Row="0" Grid.Column="2"  Text="{Binding ConverterParameter='Lot ID',   Converter={StaticResource GlobalObjectDicConverter}, RelativeSource={RelativeSource Self}}" Style="{StaticResource Content_Search_LabelStyle}" Margin="0,0,0,8" VerticalAlignment="Bottom" Visibility="Hidden" />
+            <TextBox Grid.Row="0" Grid.Column="4" Style="{StaticResource SearchCondition_TextBoxStyle}" x:Name="txtLotID" CharacterCasing="Upper"  TextAlignment="Left" Padding="5, 0, 5, 0" Visibility="Hidden" />
+            <TextBlock Grid.Row="0" Grid.Column="6"  Text="{Binding ConverterParameter='설비',   Converter={StaticResource GlobalObjectDicConverter}, RelativeSource={RelativeSource Self}}" Style="{StaticResource Content_Search_LabelStyle}" Margin="0,0,0,8" VerticalAlignment="Bottom" />
+            <TextBox Grid.Row="0" Grid.Column="8" Style="{StaticResource Content_InputForm_ReadOnlyTextBoxStyle}" x:Name="txtEqptId" CharacterCasing="Upper" TextAlignment="Left" Padding="5, 0, 5, 0"/>
+            <c1:C1ComboBox Grid.Row="0" Grid.Column="8" x:Name="cboEquipment" Style="{StaticResource C1ComboBoxStyle}" AutoComplete="False" DisplayMemberPath="" SelectedValuePath=""  Visibility="Hidden"/>
+            <TextBox Grid.Row="0" Grid.Column="9" Style="{StaticResource Content_InputForm_ReadOnlyTextBoxStyle}" x:Name="txtEqptName" CharacterCasing="Upper"  TextAlignment="Left" Padding="5, 0, 5, 0" />
+            <Button x:Name="btnSearch" Grid.Column="10" Content="{Binding ConverterParameter=SEARCH, Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource SearchButtonStyle}" Cursor="Hand" Width="80" Height="23" Click="btnSearch_Click"  />
+
+        </Grid>
+
+        <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="8" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="4" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="8" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="8" />
+                <ColumnDefinition Width="300" />
+                <ColumnDefinition Width="8" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="8" />
+            </Grid.ColumnDefinitions>
+
+            <Grid Grid.Row="1" Grid.Column="1">
+                <c1:C1DataGrid x:Name="dgProduct" 
+                               HeadersVisibility="Column" 
+                               SelectionMode="SingleRow" 
+                               CanUserRemoveRows="True" 
+                               CanUserAddRows="True" 
+                               RowHeight="Auto" MouseLeftButtonUp="dgProduct_MouseLeftButtonUp" 
+                               >
+                    <c1:C1DataGrid.Columns>
+                        <c1:DataGridCheckBoxColumn Header = "선택" Width="Auto" Name = "CHK" Binding = "{Binding CHK, Mode=TwoWay}" HorizontalAlignment="Center" CanUserFilter="False" CanUserSort="False" CanUserResize="False" />
+                        <c1:DataGridDateTimeColumn Header = "작업일자" Binding = "{Binding WIPDTTM_ED}" HorizontalAlignment="Center" Format="yyyy-MM-dd" IsReadOnly="True" Width="85" />
+                        <c1:DataGridTextColumn Header = "LOTID" Binding = "{Binding LOTID}" HorizontalAlignment="Left" Width="120" IsReadOnly="True"/>
+                        <c1:DataGridTextColumn Header = "차수" Binding = "{Binding WIPSEQ}" HorizontalAlignment="Left" Visibility="Hidden"  IsReadOnly="True" />
+                        <c1:DataGridTextColumn Header = "설비" Binding = "{Binding EQPTID}" HorizontalAlignment="Left" Visibility="Hidden"  IsReadOnly="True" />
+                    </c1:C1DataGrid.Columns>
+                </c1:C1DataGrid>
+            </Grid>
+
+            <Grid Grid.Row="1" Grid.Column="3">
+                <Grid Name="grdQualityGrid">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <c1:C1DataGrid x:Name="dgQuality" Grid.Column="0" IsReadOnly="False" HeadersVisibility="Column" SelectionMode="SingleRow" CanUserSort="False" CanUserFilter="False" Margin="0,0,0,0" CommittedEdit="dgQuality_CommittedEdit" BeginningEdit="dgQuality_BeginningEdit" >
+                        <c1:C1DataGrid.Columns>
+                            <c1:DataGridTextColumn Header="항목" Binding="{Binding CLCTITEM}" HorizontalAlignment="Left" IsReadOnly="True"/>
+                            <c1:DataGridTextColumn Header="측정명" Binding="{Binding CLCTNAME}" HorizontalAlignment="Left" IsReadOnly="True" />
+                            <c1:DataGridTextColumn Header="USL" Binding="{Binding USL}" HorizontalAlignment="Center" IsReadOnly="True" />
+                            <c1:DataGridTextColumn Header="LSL" Binding="{Binding LSL}" HorizontalAlignment="Center" IsReadOnly="True" />
+                            <c1:DataGridTextColumn Header="CLCTSEQ" Binding="{Binding CLCTSEQ}" HorizontalAlignment="Center" Visibility="Collapsed" />
+                            <c1:DataGridTextColumn Header="INSP_VALUE_TYPE_CODE" Binding="{Binding INSP_VALUE_TYPE_CODE}" HorizontalAlignment="Center" Visibility="Collapsed" />
+                            <c1:DataGridNumericColumn Header="측정값" Binding="{Binding CLCTVAL01}" HorizontalAlignment="Right" Format="F2" />
+                            <c1:DataGridTextColumn Header="단위" Binding="{Binding CLCTUNIT}" HorizontalAlignment="Left" IsReadOnly="True"/>
+                            <c1:DataGridTextColumn Header = "차수" Binding = "{Binding WIPSEQ}" HorizontalAlignment="Left" Visibility="Hidden"  IsReadOnly="True"/>
+                        </c1:C1DataGrid.Columns>
+                    </c1:C1DataGrid>
+                </Grid>
+            </Grid>
+
+        </Grid>
+
+        <ctrlLib:LoadingIndicator x:Name="loadingIndicator" Grid.Row="0" Panel.ZIndex="999" />
+
+
+        <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="3" HorizontalAlignment="Right"  VerticalAlignment="Center">
+            <Button x:Name="btnSave" Content="{Binding ConverterParameter='저장', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{DynamicResource Content_MainButtonNoMinWidthSpecialStyle}" Click="OnClickSaveQuality" />
+            <Button x:Name="btnClose" Margin="4,0,0,0" Content="{Binding ConverterParameter='닫기', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{DynamicResource Content_MainButtonNoMinWidthStyle}" Click="btnClose_Click" />
+        </StackPanel>
+
+
+    </Grid>
+
+
+</c1:C1Window>

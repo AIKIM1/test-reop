@@ -1,0 +1,1315 @@
+﻿<UserControl xmlns:ss="http://schemas.grapecity.com/windows/spreadsheet/2012"  x:Class="LGC.GMES.MES.COM001.COM001_326"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:c1="http://schemas.componentone.com/winfx/2006/xaml"
+             xmlns:ctrlLib="clr-namespace:LGC.GMES.MES.ControlsLibrary;assembly=LGC.GMES.MES.ControlsLibrary"
+             mc:Ignorable="d" 
+             d:DesignHeight="768" d:DesignWidth="1024" Loaded="UserControl_Loaded">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/LGC.GMES.MES.ControlsLibrary;component/ControlStyles.xaml"  />
+                <ResourceDictionary Source="/LGC.GMES.MES.ControlsLibrary;component/ControlTemplates/LGCDatePicker.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <DataTemplate x:Key="ButtonTemplate">
+                <Grid Name="g1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <Grid Grid.Column="0" Visibility="{Binding Path=P_01, ConverterParameter='3', Converter={StaticResource GlobalButtonToVisibilityConverter}}">
+                        <StackPanel Orientation="Vertical" HorizontalAlignment="Center" >
+                            <Button HorizontalAlignment="Center" Style="{DynamicResource Content_SearchButtonStyle}" Click="ButtonBase_OnClick" />
+                            <Button HorizontalAlignment="Center" Style="{DynamicResource Content_SearchButtonStyle}" Click="ButtonBase_OnClick" />
+                            <Button HorizontalAlignment="Center" Style="{DynamicResource Content_SearchButtonStyle}" Click="ButtonBase_OnClick" />
+                        </StackPanel>
+                    </Grid>
+                </Grid>
+            </DataTemplate>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid>
+        <ctrlLib:LGCLayout x:Name="LayoutRoot" Tag="생산설비 품질승인 관리">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="5" />
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="5" />
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Border Grid.Row="0" Grid.RowSpan="4" Style="{StaticResource Content_InputForm_ContentBorderStyle}"/>
+                <Grid Grid.Row="1" Grid.Column="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="8"/>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="8"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="5"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="5" />
+                    </Grid.ColumnDefinitions>
+
+                    <Border Grid.Row="0" Grid.Column="0" Grid.RowSpan="7" Grid.ColumnSpan="99" Style="{StaticResource Content_InputForm_LabelBorderStyle}"> </Border>
+                    <Grid Grid.Row="1" Grid.Column="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="4*"/>
+                            <ColumnDefinition Width="6*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Right">
+                            <TextBlock  Grid.Row="1" Grid.Column="2" Text="{Binding ConverterParameter='계획월', Converter={StaticResource GlobalObjectDicConverter}, RelativeSource={RelativeSource Self}}" HorizontalAlignment="Right" Style="{StaticResource Content_InputForm_LabelStyle}" />
+                        </StackPanel>
+                        <ctrlLib:LGCDatePicker Grid.Row="1" Grid.Column="3" x:Name="dtpDateMonth" DatepickerType="Month" />
+                    </Grid>                    
+                    <Grid Grid.Row="1" Grid.Column="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="4*"/>
+                            <ColumnDefinition Width="6*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock      Grid.Column="0" Text="{Binding ConverterParameter='동', Converter={StaticResource GlobalObjectDicConverter}, RelativeSource={RelativeSource Self}}" Style="{StaticResource Content_InputForm_LabelStyle}" />
+                        <c1:C1ComboBox  Grid.Column="1" x:Name="cboArea" Style="{StaticResource C1ComboBoxStyle}" AutoComplete="False"  DisplayMemberPath="CBO_NAME" SelectedValuePath="SHOPID" SelectedValueChanged="cboArea_SelectedValueChanged" />
+                    </Grid>
+                    <Grid Grid.Row="1" Grid.Column="3">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="4*"/>
+                            <ColumnDefinition Width="6*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock      Grid.Column="0" Text="{Binding ConverterParameter='라인', Converter={StaticResource GlobalObjectDicConverter}, RelativeSource={RelativeSource Self}}" Style="{StaticResource Content_InputForm_LabelStyle}" />
+                        <!--<c1:C1ComboBox  Grid.Column="1" x:Name="cboEquipmentSegment" Style="{StaticResource C1ComboBoxStyle}" AutoComplete="False"  DisplayMemberPath="CBO_NAME" SelectedValuePath="SHOPID" />-->
+                        <ctrlLib:MultiSelectionBox  Grid.Row="0" Grid.Column="1" x:Name="cboEquipmentSegment" DisplayMemberPath="CBO_NAME" SelectedValuePath="CBO_CODE" SelectionChanged="cboEquipmentSegment_SelectionChanged"/>
+                    </Grid>
+                    <Grid Grid.Row="1" Grid.Column="4">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="4*"/>
+                            <ColumnDefinition Width="6*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Grid.Column="0" Text="{Binding ConverterParameter='공정', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}" HorizontalAlignment="Right"/>
+                        <!--<c1:C1ComboBox Grid.Column="1" x:Name="cboProcess" Style="{StaticResource C1ComboBoxStyle}" AutoComplete="False" DisplayMemberPath="CBO_NAME" SelectedValuePath="CBO_CODE" SelectedItemChanged="cboProcess_SelectedItemChanged" SelectedIndexChanged="cboProcess_SelectedIndexChanged"/>-->
+                        <ctrlLib:MultiSelectionBox  Grid.Row="0" Grid.Column="1" x:Name="cboProcess" DisplayMemberPath="CBO_NAME" SelectedValuePath="CBO_CODE" SelectionChanged="cboProcess_SelectionChanged"/>
+                    </Grid>
+                    <Grid Grid.Row="1" Grid.Column="5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="4*"/>
+                            <ColumnDefinition Width="6*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Grid.Column="0" Text="{Binding ConverterParameter='설비', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}" HorizontalAlignment="Right"/>
+                        <!--<c1:C1ComboBox Grid.Column="1" x:Name="cboEquipment" Style="{StaticResource C1ComboBoxStyle}" AutoComplete="False" DisplayMemberPath="CBO_NAME" SelectedValuePath="CBO_CODE" />-->
+                        <ctrlLib:MultiSelectionBox  Grid.Row="0" Grid.Column="1" x:Name="cboEquipment" DisplayMemberPath="CBO_NAME" SelectedValuePath="CBO_CODE" />
+                    </Grid>
+
+                    <Grid Grid.Row="1" Grid.Column="6" HorizontalAlignment="Right">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <Button x:Name="btnSearch"  Grid.Column="1"   Content="{Binding ConverterParameter=조회,    Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource SearchButtonStyle}" Cursor="Hand" Click="btnSearch_Click" />
+                    </Grid>
+                </Grid>
+
+                <Grid Grid.Row="3" Grid.Column="1">
+
+                    <c1:C1TabControl x:Name="tbcList" Grid.Column="0"  SelectionChanged="tbcList_SelectionChanged">
+                        <c1:C1TabItem x:Name="tCalendar" Header="{Binding Converter={StaticResource GlobalObjectDicConverter}, ConverterParameter='Calendar'}" >
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="30"/>
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+                                <Border Grid.Row="0" Grid.Column="0" Grid.RowSpan="2" Style="{StaticResource Content_InputForm_ContentBorderStyle}"/>
+                                <Grid Grid.Row="0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="1"/>
+                                        <ColumnDefinition Width="8"/>
+                                        <ColumnDefinition Width="1*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid Grid.Column="2">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="30" />
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="8" />
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="8" />
+                                        </Grid.ColumnDefinitions>
+                                        <Button x:Name="btnCreate"  Grid.Column="3"   Content="{Binding ConverterParameter=추가, Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{DynamicResource Content_MainButtonNoMinWidthSpecialStyle}" Cursor="Hand"  Click="btnCreate_Click" />
+                                        <Button x:Name="btnUpdate"  Grid.Column="5"   Content="{Binding ConverterParameter=수정, Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{DynamicResource Content_MainButtonNoMinWidthSpecialStyle}" Cursor="Hand"  Click="btnUpdate_Click" Visibility="Collapsed"/>
+
+                                        <Grid Grid.Column="1" >
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="1*" />
+                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition Height="1*" />
+                                            </Grid.RowDefinitions>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="20" />
+                                                <ColumnDefinition Width="4" />
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="8" />
+                                                <ColumnDefinition Width="20" />
+                                                <ColumnDefinition Width="4" />
+                                                <ColumnDefinition Width="Auto" />
+                                            </Grid.ColumnDefinitions>
+                                        </Grid>
+                                    </Grid>
+                                </Grid>
+
+                                <c1:C1DataGrid x:Name="dgList" Grid.Row="1" IsReadOnly="True" Margin="5" HeadersVisibility="None"  FrozenColumnCount="9" FrozenTopRowsCount="3" CanUserRemoveRows="True" CanUserAddRows="True"  
+                                   AlternatingRowBackground="White" 
+                                   SelectionMode="SingleCell" Loaded="dgList_Loaded" MouseDoubleClick="dgList_MouseDoubleClick"  LoadedCellPresenter="dgList_LoadedCellPresenter" PreviewMouseDown="dgList_PreviewMouseDown" >
+                                    <c1:C1DataGrid.Columns>
+                                        <c1:DataGridTextColumn         Header = "[라인ID,라인ID,라인ID]"                    Binding = "{Binding EQSGID}"    HorizontalAlignment="Center"  Visibility="Collapsed"/>
+                                        <c1:DataGridTextColumn         Header = "[라인,라인,라인]"                          Binding = "{Binding EQSGNAME}"  HorizontalAlignment="Center"  Width="Auto"/>
+                                        <c1:DataGridTextColumn         Header = "[공정ID,공정ID,공정ID]"                    Binding = "{Binding PROCID}"    HorizontalAlignment="Center"  Visibility="Collapsed"/>
+                                        <c1:DataGridTextColumn         Header = "[공정,공정,공정]"                          Binding = "{Binding PROCNAME}"  HorizontalAlignment="Left"    Width="Auto" />
+                                        <c1:DataGridTextColumn         Header = "[설비ID,설비ID,설비ID]"                    Binding = "{Binding EQPTID}"    HorizontalAlignment="Center"  Visibility="Collapsed"/>
+                                        <c1:DataGridTextColumn         Header = "[설비,설비,설비]"                          Binding = "{Binding EQPTNAME}"  HorizontalAlignment="Left"    Width="Auto" />
+                                        <c1:DataGridTextColumn         Header = "[PJT,PJT,PJT]"                             Binding = "{Binding PRJT_NAME}" HorizontalAlignment="Center"  Width="Auto" />
+                                        <c1:DataGridTextColumn         Header = "[반제품,반제품,반제품]"                    Binding = "{Binding PRODID}"    HorizontalAlignment="Center"  Width="Auto" />
+                                        <c1:DataGridTextColumn         Header = "[설비부동시간,설비부동시간,설비부동시간]"  Binding = "{Binding DOWNTIME}"  HorizontalAlignment="Center"  Width="Auto" Visibility="Collapsed"/>
+                                        <c1:DataGridTemplateColumn     Header="P_01" Name="P_01" Width="65" HorizontalAlignment="Center" >
+                                            <c1:DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <Grid Name="g1">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="Auto" />
+                                                            <ColumnDefinition Width="Auto" />
+                                                            <ColumnDefinition Width="Auto"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <Grid Grid.Column="2" >
+                                                            <StackPanel Orientation="Vertical" HorizontalAlignment="Center" >
+                                                                <Button HorizontalAlignment="Center" Width="55" Visibility="{Binding Path=P_01, ConverterParameter='1', Converter={StaticResource GlobalButtonToVisibilityConverter}}" Click="ButtonBase_OnClick" Tag="01"
+                                                                         Content="{Binding ConverterParameter='PR',   Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Margin="1" FontSize="12"
+                                                                         Foreground="{Binding  Path=PR_01, ConverterParameter='1', Converter={StaticResource GlobalButtonToForeColorConverter}}"
+                                                                         Background="{Binding  Path=PR_01, ConverterParameter='1', Converter={StaticResource GlobalButtonToBackColorConverter}}">
+                                                                </Button>
+                                                                <Button HorizontalAlignment="Center" Width="55" Visibility="{Binding Path=P_01, ConverterParameter='2', Converter={StaticResource GlobalButtonToVisibilityConverter}}" Click="ButtonBase_OnClick" Tag="02"
+                                                                         Content="{Binding ConverterParameter='FPI',   Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Margin="1" FontSize="12"
+                                                                         Foreground="{Binding  Path=PR_01, ConverterParameter='2',Converter={StaticResource GlobalButtonToForeColorConverter}}"
+                                                                         Background="{Binding  Path=PR_01, ConverterParameter='2',Converter={StaticResource GlobalButtonToBackColorConverter}}">
+                                                                </Button>
+                                                                <Button HorizontalAlignment="Center" Width="55" Visibility="{Binding Path=P_01, ConverterParameter='3', Converter={StaticResource GlobalButtonToVisibilityConverter}}" Click="ButtonBase_OnClick" Tag="03"
+                                                                         Content="{Binding ConverterParameter='MSA',   Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Margin="1" FontSize="12"
+                                                                         Foreground="{Binding  Path=PR_01, ConverterParameter='3',Converter={StaticResource GlobalButtonToForeColorConverter}}"
+                                                                         Background="{Binding  Path=PR_01, ConverterParameter='3',Converter={StaticResource GlobalButtonToBackColorConverter}}">
+                                                                </Button>
+                                                                <Button HorizontalAlignment="Center" Width="55" Visibility="{Binding Path=P_01, ConverterParameter='4', Converter={StaticResource GlobalButtonToVisibilityConverter}}"
+                                                                         Content="{Binding P_01}" Margin="1" FontSize="12" Background="{Binding  ConverterParameter='4',Converter={StaticResource GlobalButtonToBackColorConverter}}" MouseDoubleClick="Button_MouseDoubleClick">
+                                                                </Button>
+                                                            </StackPanel>
+                                                        </Grid>
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </c1:DataGridTemplateColumn.CellTemplate>
+                                        </c1:DataGridTemplateColumn>
+                                        <c1:DataGridTemplateColumn     Header="P_02" Name="P_02" Width="65" HorizontalAlignment="Center" >
+                                            <c1:DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate >
+                                                    <Grid Name="g1">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="Auto" />
+                                                            <ColumnDefinition Width="Auto" />
+                                                            <ColumnDefinition Width="Auto"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <Grid Grid.Column="2" >
+                                                            <StackPanel Orientation="Vertical" HorizontalAlignment="Center"  >
+                                                                <Button HorizontalAlignment="Center" Width="55" Visibility="{Binding Path=P_02, ConverterParameter='1', Converter={StaticResource GlobalButtonToVisibilityConverter}}" Click="ButtonBase_OnClick" Tag="01"
+                                                                         Content="{Binding ConverterParameter='PR',   Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Margin="1" FontSize="12"
+                                                                         Foreground="{Binding  Path=PR_02, ConverterParameter='1', Converter={StaticResource GlobalButtonToForeColorConverter}}"
+                                                                         Background="{Binding  Path=PR_02, ConverterParameter='1', Converter={StaticResource GlobalButtonToBackColorConverter}}">
+                                                                </Button>
+                                                                <Button HorizontalAlignment="Center" Width="55" Visibility="{Binding Path=P_02, ConverterParameter='2', Converter={StaticResource GlobalButtonToVisibilityConverter}}" Click="ButtonBase_OnClick" Tag="02"
+                                                                         Content="{Binding ConverterParameter='FPI',   Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Margin="1" FontSize="12"
+                                                                         Foreground="{Binding  Path=PR_02, ConverterParameter='2', Converter={StaticResource GlobalButtonToForeColorConverter}}"
+                                                                         Background="{Binding  Path=PR_02, ConverterParameter='2', Converter={StaticResource GlobalButtonToBackColorConverter}}">
+                                                                </Button>
+                                                                <Button HorizontalAlignment="Center" Width="55" Visibility="{Binding Path=P_02, ConverterParameter='3', Converter={StaticResource GlobalButtonToVisibilityConverter}}" Click="ButtonBase_OnClick" Tag="03"
+                                                                         Content="{Binding ConverterParameter='MSA',   Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Margin="1" FontSize="12"
+                                                                         Foreground="{Binding  Path=PR_02, ConverterParameter='3', Converter={StaticResource GlobalButtonToForeColorConverter}}"
+                                                                         Background="{Binding  Path=PR_02, ConverterParameter='3', Converter={StaticResource GlobalButtonToBackColorConverter}}">
+                                                                </Button>
+                                                                <Button HorizontalAlignment="Center" Width="55" Visibility="{Binding Path=P_02, ConverterParameter='4', Converter={StaticResource GlobalButtonToVisibilityConverter}}"
+                                                                        Content="{Binding P_02}" Margin="1" FontSize="12" Background="{Binding  ConverterParameter='4',Converter={StaticResource GlobalButtonToBackColorConverter}}" MouseDoubleClick="Button_MouseDoubleClick">
+                                                                </Button>                                                                
+                                                            </StackPanel>
+                                                        </Grid>
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </c1:DataGridTemplateColumn.CellTemplate>
+                                        </c1:DataGridTemplateColumn>
+                                        <c1:DataGridTemplateColumn     Header="P_03" Name="P_03" Width="65" HorizontalAlignment="Center"  >
+                                            <c1:DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <Grid Name="g1">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="Auto" />
+                                                            <ColumnDefinition Width="Auto" />
+                                                            <ColumnDefinition Width="Auto"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <Grid Grid.Column="2">
+                                                            <StackPanel Orientation="Vertical" HorizontalAlignment="Center" >
+                                                                <Button HorizontalAlignment="Center" Width="55" Visibility="{Binding Path=P_03, ConverterParameter='1', Converter={StaticResource GlobalButtonToVisibilityConverter}}" Click="ButtonBase_OnClick" Tag="01"
+                                                                         Content="{Binding ConverterParameter='PR',   Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Margin="1" FontSize="12"
+                                                                         Foreground="{Binding  Path=PR_03, ConverterParameter='1', Converter={StaticResource GlobalButtonToForeColorConverter}}"
+                                                                         Background="{Binding  Path=PR_03, ConverterParameter='1', Converter={StaticResource GlobalButtonToBackColorConverter}}">
+                                                                </Button>
+                                                                <Button HorizontalAlignment="Center" Width="55" Visibility="{Binding Path=P_03, ConverterParameter='2', Converter={StaticResource GlobalButtonToVisibilityConverter}}" Click="ButtonBase_OnClick" Tag="02"
+                                                                         Content="{Binding ConverterParameter='FPI',   Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Margin="1" FontSize="12"
+                                                                         Foreground="{Binding  Path=PR_03, ConverterParameter='2', Converter={StaticResource GlobalButtonToForeColorConverter}}"
+                                                                         Background="{Binding  Path=PR_03, ConverterParameter='2',  Converter={StaticResource GlobalButtonToBackColorConverter}}">
+                                                                </Button>
+                                                                <Button HorizontalAlignment="Center" Width="55" Visibility="{Binding Path=P_03, ConverterParameter='3', Converter={StaticResource GlobalButtonToVisibilityConverter}}" Click="ButtonBase_OnClick" Tag="03"
+                                                                         Content="{Binding ConverterParameter='MSA',   Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Margin="1" FontSize="12"
+                                                                         Foreground="{Binding  Path=PR_03, ConverterParameter='3', Converter={StaticResource GlobalButtonToForeColorConverter}}"
+                                                                         Background="{Binding  Path=PR_03, ConverterParameter='3', Converter={StaticResource GlobalButtonToBackColorConverter}}">
+                                                                </Button>
+                                                                <Button HorizontalAlignment="Center" Width="55" Visibility="{Binding Path=P_03, ConverterParameter='4', Converter={StaticResource GlobalButtonToVisibilityConverter}}"
+                                                                        Content="{Binding P_03}" Margin="1" FontSize="12" Background="{Binding  ConverterParameter='4',Converter={StaticResource GlobalButtonToBackColorConverter}}" MouseDoubleClick="Button_MouseDoubleClick">
+                                                                </Button>                                                                
+                                                            </StackPanel>
+                                                        </Grid>
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </c1:DataGridTemplateColumn.CellTemplate>
+                                        </c1:DataGridTemplateColumn>
+                                        <c1:DataGridTemplateColumn     Header="P_04" Width="65" HorizontalAlignment="Center"  Name="P_04" >
+                                            <c1:DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <Grid Name="g1">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="Auto" />
+                                                            <ColumnDefinition Width="Auto" />
+                                                            <ColumnDefinition Width="Auto"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <Grid Grid.Column="2" >
+                                                            <StackPanel Orientation="Vertical" HorizontalAlignment="Center" >
+                                                                <Button HorizontalAlignment="Center" Width="55" Visibility="{Binding Path=P_04, ConverterParameter='1', Converter={StaticResource GlobalButtonToVisibilityConverter}}" Click="ButtonBase_OnClick" Tag="01"
+                                                                         Content="{Binding ConverterParameter='PR',   Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Margin="1" FontSize="12"
+                                                                         Foreground="{Binding  Path=PR_04, ConverterParameter='1', Converter={StaticResource GlobalButtonToForeColorConverter}}"
+                                                                         Background="{Binding  Path=PR_04, ConverterParameter='1', Converter={StaticResource GlobalButtonToBackColorConverter}}">
+                                                                </Button>
+                                                                <Button HorizontalAlignment="Center" Width="55" Visibility="{Binding Path=P_04, ConverterParameter='2', Converter={StaticResource GlobalButtonToVisibilityConverter}}" Click="ButtonBase_OnClick" Tag="02"
+                                                                         Content="{Binding ConverterParameter='FPI',   Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Margin="1" FontSize="12"
+                                                                         Foreground="{Binding  Path=PR_04, ConverterParameter='2',Converter={StaticResource GlobalButtonToForeColorConverter}}"
+                                                                         Background="{Binding  Path=PR_04, ConverterParameter='2',Converter={StaticResource GlobalButtonToBackColorConverter}}">
+                                                                </Button>
+                                                                <Button HorizontalAlignment="Center" Width="55" Visibility="{Binding Path=P_04, ConverterParameter='3', Converter={StaticResource GlobalButtonToVisibilityConverter}}" Click="ButtonBase_OnClick" Tag="03"
+                                                                         Content="{Binding ConverterParameter='MSA',   Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Margin="1" FontSize="12"
+                                                                         Foreground="{Binding  Path=PR_04, ConverterParameter='3',Converter={StaticResource GlobalButtonToForeColorConverter}}"
+                                                                         Background="{Binding  Path=PR_04, ConverterParameter='3',Converter={StaticResource GlobalButtonToBackColorConverter}}">
+                                                                </Button>
+                                                                <Button HorizontalAlignment="Center" Width="55" Visibility="{Binding Path=P_04, ConverterParameter='4', Converter={StaticResource GlobalButtonToVisibilityConverter}}"
+                                                                        Content="{Binding P_04}" Margin="1" FontSize="12" Background="{Binding  ConverterParameter='4',Converter={StaticResource GlobalButtonToBackColorConverter}}" MouseDoubleClick="Button_MouseDoubleClick">
+                                                                </Button>                                                                
+                                                            </StackPanel>
+                                                        </Grid>
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </c1:DataGridTemplateColumn.CellTemplate>
+                                        </c1:DataGridTemplateColumn>
+                                        <c1:DataGridTemplateColumn     Header="P_05" Width="65" HorizontalAlignment="Center"  Name="P_05">
+                                            <c1:DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <Grid Name="g1">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="Auto" />
+                                                            <ColumnDefinition Width="Auto" />
+                                                            <ColumnDefinition Width="Auto"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <Grid Grid.Column="2" >
+                                                            <StackPanel Orientation="Vertical" HorizontalAlignment="Center" >
+                                                                <Button HorizontalAlignment="Center" Width="55" Visibility="{Binding Path=P_05, ConverterParameter='1', Converter={StaticResource GlobalButtonToVisibilityConverter}}" Click="ButtonBase_OnClick" Tag="01"
+                                                                         Content="{Binding ConverterParameter='PR',   Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Margin="1" FontSize="12"
+                                                                         Foreground="{Binding  Path=PR_05, ConverterParameter='1',Converter={StaticResource GlobalButtonToForeColorConverter}}"
+                                                                         Background="{Binding  Path=PR_05, ConverterParameter='1',Converter={StaticResource GlobalButtonToBackColorConverter}}">
+                                                                </Button>
+                                                                <Button HorizontalAlignment="Center" Width="55" Visibility="{Binding Path=P_05, ConverterParameter='2', Converter={StaticResource GlobalButtonToVisibilityConverter}}" Click="ButtonBase_OnClick" Tag="02"
+                                                                         Content="{Binding ConverterParameter='FPI',   Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Margin="1" FontSize="12"
+                                                                         Foreground="{Binding  Path=PR_05, ConverterParameter='2',Converter={StaticResource GlobalButtonToForeColorConverter}}"
+                                                                         Background="{Binding  Path=PR_05, ConverterParameter='2',Converter={StaticResource GlobalButtonToBackColorConverter}}">
+                                                                </Button>
+                                                                <Button HorizontalAlignment="Center" Width="55" Visibility="{Binding Path=P_05, ConverterParameter='3', Converter={StaticResource GlobalButtonToVisibilityConverter}}" Click="ButtonBase_OnClick" Tag="03"
+                                                                         Content="{Binding ConverterParameter='MSA',   Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Margin="1" FontSize="12"
+                                                                         Foreground="{Binding  Path=PR_05, ConverterParameter='3',Converter={StaticResource GlobalButtonToForeColorConverter}}"
+                                                                         Background="{Binding  Path=PR_05, ConverterParameter='3',Converter={StaticResource GlobalButtonToBackColorConverter}}">
+                                                                </Button>
+                                                                <Button HorizontalAlignment="Center" Width="55" Visibility="{Binding Path=P_05, ConverterParameter='4', Converter={StaticResource GlobalButtonToVisibilityConverter}}"
+                                                                        Content="{Binding P_05}" Margin="1" FontSize="12" Background="{Binding  ConverterParameter='4',Converter={StaticResource GlobalButtonToBackColorConverter}}" MouseDoubleClick="Button_MouseDoubleClick">
+                                                                </Button>                                                                
+                                                            </StackPanel>
+                                                        </Grid>
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </c1:DataGridTemplateColumn.CellTemplate>
+                                        </c1:DataGridTemplateColumn>
+                                        <c1:DataGridTemplateColumn     Header="P_06" Width="65" HorizontalAlignment="Center"  Name="P_06" >
+                                            <c1:DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <Grid Name="g1">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="Auto" />
+                                                            <ColumnDefinition Width="Auto" />
+                                                            <ColumnDefinition Width="Auto"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <Grid Grid.Column="2" >
+                                                            <StackPanel Orientation="Vertical" HorizontalAlignment="Center" >
+                                                                <Button HorizontalAlignment="Center" Width="55" Visibility="{Binding Path=P_06, ConverterParameter='1', Converter={StaticResource GlobalButtonToVisibilityConverter}}" Click="ButtonBase_OnClick" Tag="01"
+                                                                         Content="{Binding ConverterParameter='PR',   Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Margin="1" FontSize="12"
+                                                                         Foreground="{Binding  Path=PR_06, ConverterParameter='1',Converter={StaticResource GlobalButtonToForeColorConverter}}"
+                                                                         Background="{Binding  Path=PR_06, ConverterParameter='1',Converter={StaticResource GlobalButtonToBackColorConverter}}">
+                                                                </Button>
+                                                                <Button HorizontalAlignment="Center" Width="55" Visibility="{Binding Path=P_06, ConverterParameter='2', Converter={StaticResource GlobalButtonToVisibilityConverter}}" Click="ButtonBase_OnClick" Tag="02"
+                                                                         Content="{Binding ConverterParameter='FPI',   Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Margin="1" FontSize="12"
+                                                                         Foreground="{Binding  Path=PR_06, ConverterParameter='2',Converter={StaticResource GlobalButtonToForeColorConverter}}"
+                                                                         Background="{Binding  Path=PR_06, ConverterParameter='2',Converter={StaticResource GlobalButtonToBackColorConverter}}">
+                                                                </Button>
+                                                                <Button HorizontalAlignment="Center" Width="55" Visibility="{Binding Path=P_06, ConverterParameter='3', Converter={StaticResource GlobalButtonToVisibilityConverter}}" Click="ButtonBase_OnClick" Tag="03"
+                                                                         Content="{Binding ConverterParameter='MSA',   Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Margin="1" FontSize="12"
+                                                                         Foreground="{Binding  Path=PR_06, ConverterParameter='3',Converter={StaticResource GlobalButtonToForeColorConverter}}"
+                                                                         Background="{Binding  Path=PR_06, ConverterParameter='3',Converter={StaticResource GlobalButtonToBackColorConverter}}">
+                                                                </Button>
+                                                                <Button HorizontalAlignment="Center" Width="55" Visibility="{Binding Path=P_06, ConverterParameter='4', Converter={StaticResource GlobalButtonToVisibilityConverter}}"
+                                                                         Content="{Binding P_06}" Margin="1" FontSize="12" Background="{Binding  ConverterParameter='4',Converter={StaticResource GlobalButtonToBackColorConverter}}" MouseDoubleClick="Button_MouseDoubleClick">
+                                                                </Button>
+                                                            </StackPanel>
+                                                        </Grid>
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </c1:DataGridTemplateColumn.CellTemplate>
+                                        </c1:DataGridTemplateColumn>
+                                        <c1:DataGridTemplateColumn     Header="P_07" Width="65" HorizontalAlignment="Center"  Name="P_07">
+                                            <c1:DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <Grid Name="g1">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="Auto" />
+                                                            <ColumnDefinition Width="Auto" />
+                                                            <ColumnDefinition Width="Auto"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <Grid Grid.Column="2" >
+                                                            <StackPanel Orientation="Vertical" HorizontalAlignment="Center" >
+                                                                <Button HorizontalAlignment="Center" Width="55" Visibility="{Binding Path=P_07, ConverterParameter='1', Converter={StaticResource GlobalButtonToVisibilityConverter}}" Click="ButtonBase_OnClick" Tag="01"
+                                                                         Content="{Binding ConverterParameter='PR',   Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Margin="1" FontSize="12"
+                                                                         Foreground="{Binding  Path=PR_07, ConverterParameter='1',Converter={StaticResource GlobalButtonToForeColorConverter}}"
+                                                                         Background="{Binding  Path=PR_07, ConverterParameter='1',Converter={StaticResource GlobalButtonToBackColorConverter}}">
+                                                                </Button>
+                                                                <Button HorizontalAlignment="Center" Width="55" Visibility="{Binding Path=P_07, ConverterParameter='2', Converter={StaticResource GlobalButtonToVisibilityConverter}}" Click="ButtonBase_OnClick" Tag="02"
+                                                                         Content="{Binding ConverterParameter='FPI',   Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Margin="1" FontSize="12"
+                                                                         Foreground="{Binding  Path=PR_07, ConverterParameter='2',Converter={StaticResource GlobalButtonToForeColorConverter}}"
+                                                                         Background="{Binding  Path=PR_07, ConverterParameter='2',Converter={StaticResource GlobalButtonToBackColorConverter}}">
+                                                                </Button>
+                                                                <Button HorizontalAlignment="Center" Width="55" Visibility="{Binding Path=P_07, ConverterParameter='3', Converter={StaticResource GlobalButtonToVisibilityConverter}}" Click="ButtonBase_OnClick" Tag="03"
+                                                                         Content="{Binding ConverterParameter='MSA',   Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Margin="1" FontSize="12"
+                                                                         Foreground="{Binding  Path=PR_07, ConverterParameter='3',Converter={StaticResource GlobalButtonToForeColorConverter}}"
+                                                                         Background="{Binding  Path=PR_07, ConverterParameter='3', Converter={StaticResource GlobalButtonToBackColorConverter}}">
+                                                                </Button>
+                                                                <Button HorizontalAlignment="Center" Width="55" Visibility="{Binding Path=P_07, ConverterParameter='4', Converter={StaticResource GlobalButtonToVisibilityConverter}}"
+                                                                         Content="{Binding P_07}" Margin="1" FontSize="12" Background="{Binding  ConverterParameter='4',Converter={StaticResource GlobalButtonToBackColorConverter}}" MouseDoubleClick="Button_MouseDoubleClick">
+                                                                </Button>
+                                                            </StackPanel>
+                                                        </Grid>
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </c1:DataGridTemplateColumn.CellTemplate>
+                                        </c1:DataGridTemplateColumn>
+                                        <c1:DataGridTemplateColumn     Header="P_08" Width="65" HorizontalAlignment="Center"  Name="P_08">
+                                            <c1:DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <Grid Name="g1">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="Auto" />
+                                                            <ColumnDefinition Width="Auto" />
+                                                            <ColumnDefinition Width="Auto"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <Grid Grid.Column="2">
+                                                            <StackPanel Orientation="Vertical" HorizontalAlignment="Center" >
+                                                                <Button HorizontalAlignment="Center" Width="55" Visibility="{Binding Path=P_08, ConverterParameter='1', Converter={StaticResource GlobalButtonToVisibilityConverter}}" Click="ButtonBase_OnClick" Tag="01"
+                                                                         Content="{Binding ConverterParameter='PR',   Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Margin="1" FontSize="12"
+                                                                         Foreground="{Binding  Path=PR_08, ConverterParameter='1',Converter={StaticResource GlobalButtonToForeColorConverter}}"
+                                                                         Background="{Binding  Path=PR_02, ConverterParameter='1',Converter={StaticResource GlobalButtonToBackColorConverter}}">
+                                                                </Button>
+                                                                <Button HorizontalAlignment="Center" Width="55" Visibility="{Binding Path=P_08, ConverterParameter='2', Converter={StaticResource GlobalButtonToVisibilityConverter}}" Click="ButtonBase_OnClick" Tag="02"
+                                                                         Content="{Binding ConverterParameter='FPI',   Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Margin="1" FontSize="12"
+                                                                         Foreground="{Binding  Path=PR_08, ConverterParameter='2',Converter={StaticResource GlobalButtonToForeColorConverter}}"
+                                                                         Background="{Binding  Path=PR_08, ConverterParameter='2',Converter={StaticResource GlobalButtonToBackColorConverter}}">
+                                                                </Button>
+                                                                <Button HorizontalAlignment="Center" Width="55" Visibility="{Binding Path=P_08, ConverterParameter='3', Converter={StaticResource GlobalButtonToVisibilityConverter}}" Click="ButtonBase_OnClick" Tag="03"
+                                                                         Content="{Binding ConverterParameter='MSA',   Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Margin="1" FontSize="12"
+                                                                         Foreground="{Binding  Path=PR_08, ConverterParameter='3',Converter={StaticResource GlobalButtonToForeColorConverter}}"
+                                                                         Background="{Binding  Path=PR_08, ConverterParameter='3',Converter={StaticResource GlobalButtonToBackColorConverter}}">
+                                                                </Button>
+                                                                <Button HorizontalAlignment="Center" Width="55" Visibility="{Binding Path=P_08, ConverterParameter ='4', Converter={StaticResource GlobalButtonToVisibilityConverter}}"
+                                                                         Content="{Binding P_08}" Margin="1" FontSize="12" Background="{Binding ConverterParameter='4',Converter={StaticResource GlobalButtonToBackColorConverter}}" MouseDoubleClick="Button_MouseDoubleClick">
+                                                                </Button>
+                                                            </StackPanel>
+                                                        </Grid>
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </c1:DataGridTemplateColumn.CellTemplate>
+                                        </c1:DataGridTemplateColumn>
+                                        <c1:DataGridTemplateColumn     Header="P_09" Width="65" HorizontalAlignment="Center"  Name="P_09">
+                                            <c1:DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <Grid Name="g1">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="Auto" />
+                                                            <ColumnDefinition Width="Auto" />
+                                                            <ColumnDefinition Width="Auto"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <Grid Grid.Column="2" >
+                                                            <StackPanel Orientation="Vertical" HorizontalAlignment="Center" >
+                                                                <Button HorizontalAlignment="Center" Width="55" Visibility="{Binding Path=P_09, ConverterParameter='1', Converter={StaticResource GlobalButtonToVisibilityConverter}}" Click="ButtonBase_OnClick" Tag="01"
+                                                                         Content="{Binding ConverterParameter='PR',   Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Margin="1" FontSize="12"
+                                                                         Foreground="{Binding  Path=PR_09, ConverterParameter='1',Converter={StaticResource GlobalButtonToForeColorConverter}}"
+                                                                         Background="{Binding  Path=PR_09, ConverterParameter='1',Converter={StaticResource GlobalButtonToBackColorConverter}}">
+                                                                </Button>
+                                                                <Button HorizontalAlignment="Center" Width="55" Visibility="{Binding Path=P_09, ConverterParameter='2', Converter={StaticResource GlobalButtonToVisibilityConverter}}" Click="ButtonBase_OnClick" Tag="02"
+                                                                         Content="{Binding ConverterParameter='FPI',   Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Margin="1" FontSize="12"
+                                                                         Foreground="{Binding  Path=PR_09, ConverterParameter='2',Converter={StaticResource GlobalButtonToForeColorConverter}}"
+                                                                         Background="{Binding  Path=PR_09, ConverterParameter='2',Converter={StaticResource GlobalButtonToBackColorConverter}}">
+                                                                </Button>
+                                                                <Button HorizontalAlignment="Center" Width="55" Visibility="{Binding Path=P_09, ConverterParameter='3', Converter={StaticResource GlobalButtonToVisibilityConverter}}" Click="ButtonBase_OnClick" Tag="03"
+                                                                         Content="{Binding ConverterParameter='MSA',   Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Margin="1" FontSize="12"
+                                                                         Foreground="{Binding  Path=PR_09, ConverterParameter='3',Converter={StaticResource GlobalButtonToForeColorConverter}}"
+                                                                         Background="{Binding  Path=PR_09, ConverterParameter='3',Converter={StaticResource GlobalButtonToBackColorConverter}}">
+                                                                </Button>
+                                                                <Button HorizontalAlignment="Center" Width="55" Visibility="{Binding Path=P_09, ConverterParameter='4', Converter={StaticResource GlobalButtonToVisibilityConverter}}"
+                                                                         Content="{Binding P_09}" Margin="1" FontSize="12" Background="{Binding  ConverterParameter='4',Converter={StaticResource GlobalButtonToBackColorConverter}}" MouseDoubleClick="Button_MouseDoubleClick">
+                                                                </Button>
+                                                            </StackPanel>
+                                                        </Grid>
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </c1:DataGridTemplateColumn.CellTemplate>
+                                        </c1:DataGridTemplateColumn>
+                                        <c1:DataGridTemplateColumn     Header="P_10" Width="65" HorizontalAlignment="Center"  Name="P_10">
+                                            <c1:DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <Grid Name="g1">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="Auto" />
+                                                            <ColumnDefinition Width="Auto" />
+                                                            <ColumnDefinition Width="Auto"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <Grid Grid.Column="2" >
+                                                            <StackPanel Orientation="Vertical" HorizontalAlignment="Center" >
+                                                                <Button HorizontalAlignment="Center" Width="55" Visibility="{Binding Path=P_10, ConverterParameter='1', Converter={StaticResource GlobalButtonToVisibilityConverter}}" Click="ButtonBase_OnClick" Tag="01"
+                                                                         Content="{Binding ConverterParameter='PR',   Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Margin="1" FontSize="12"
+                                                                         Foreground="{Binding  Path=PR_10, ConverterParameter='1',Converter={StaticResource GlobalButtonToForeColorConverter}}"
+                                                                         Background="{Binding  Path=PR_10, ConverterParameter='1',Converter={StaticResource GlobalButtonToBackColorConverter}}">
+                                                                </Button>
+                                                                <Button HorizontalAlignment="Center" Width="55" Visibility="{Binding Path=P_10, ConverterParameter='2', Converter={StaticResource GlobalButtonToVisibilityConverter}}" Click="ButtonBase_OnClick" Tag="02"
+                                                                         Content="{Binding ConverterParameter='FPI',   Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Margin="1" FontSize="12"
+                                                                         Foreground="{Binding  Path=PR_10, ConverterParameter='2',Converter={StaticResource GlobalButtonToForeColorConverter}}"
+                                                                         Background="{Binding  Path=PR_10, ConverterParameter='2',Converter={StaticResource GlobalButtonToBackColorConverter}}">
+                                                                </Button>
+                                                                <Button HorizontalAlignment="Center" Width="55" Visibility="{Binding Path=P_10, ConverterParameter='3', Converter={StaticResource GlobalButtonToVisibilityConverter}}" Click="ButtonBase_OnClick" Tag="03"
+                                                                         Content="{Binding ConverterParameter='MSA',   Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Margin="1" FontSize="12"
+                                                                         Foreground="{Binding  Path=PR_10, ConverterParameter='3',Converter={StaticResource GlobalButtonToForeColorConverter}}"
+                                                                         Background="{Binding  Path=PR_10, ConverterParameter='3',Converter={StaticResource GlobalButtonToBackColorConverter}}">
+                                                                </Button>
+                                                                <Button HorizontalAlignment="Center" Width="55" Visibility="{Binding Path=P_10, ConverterParameter='4', Converter={StaticResource GlobalButtonToVisibilityConverter}}"
+                                                                         Content="{Binding P_10}" Margin="1" FontSize="12" Background="{Binding  ConverterParameter='4',Converter={StaticResource GlobalButtonToBackColorConverter}}" MouseDoubleClick="Button_MouseDoubleClick">
+                                                                </Button>
+                                                            </StackPanel>
+                                                        </Grid>
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </c1:DataGridTemplateColumn.CellTemplate>
+                                        </c1:DataGridTemplateColumn>
+                                        <c1:DataGridTemplateColumn     Header="P_11" Width="65" HorizontalAlignment="Center"  Name="P_11" >
+                                            <c1:DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <Grid Name="g1">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="Auto" />
+                                                            <ColumnDefinition Width="Auto" />
+                                                            <ColumnDefinition Width="Auto"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <Grid Grid.Column="2" >
+                                                            <StackPanel Orientation="Vertical" HorizontalAlignment="Center" >
+                                                                <Button HorizontalAlignment="Center" Width="55" Visibility="{Binding Path=P_11, ConverterParameter='1', Converter={StaticResource GlobalButtonToVisibilityConverter}}" Click="ButtonBase_OnClick" Tag="01"
+                                                                         Content="{Binding ConverterParameter='PR',   Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Margin="1" FontSize="12"
+                                                                         Foreground="{Binding  Path=PR_11, ConverterParameter='1',Converter={StaticResource GlobalButtonToForeColorConverter}}"
+                                                                         Background="{Binding  Path=PR_11, ConverterParameter='1',Converter={StaticResource GlobalButtonToBackColorConverter}}">
+                                                                </Button>
+                                                                <Button HorizontalAlignment="Center" Width="55" Visibility="{Binding Path=P_11, ConverterParameter='2', Converter={StaticResource GlobalButtonToVisibilityConverter}}" Click="ButtonBase_OnClick" Tag="02"
+                                                                         Content="{Binding ConverterParameter='FPI',   Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Margin="1" FontSize="12"
+                                                                         Foreground="{Binding  Path=PR_11, ConverterParameter='2',Converter={StaticResource GlobalButtonToForeColorConverter}}"
+                                                                         Background="{Binding  Path=PR_11, ConverterParameter='3',Converter={StaticResource GlobalButtonToBackColorConverter}}">
+                                                                </Button>
+                                                                <Button HorizontalAlignment="Center" Width="55" Visibility="{Binding Path=P_11, ConverterParameter='3', Converter={StaticResource GlobalButtonToVisibilityConverter}}" Click="ButtonBase_OnClick" Tag="03"
+                                                                         Content="{Binding ConverterParameter='MSA',   Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Margin="1" FontSize="12"
+                                                                         Foreground="{Binding  Path=PR_11, ConverterParameter='3',Converter={StaticResource GlobalButtonToForeColorConverter}}"
+                                                                         Background="{Binding  Path=PR_11, ConverterParameter='3',Converter={StaticResource GlobalButtonToBackColorConverter}}">
+                                                                </Button>
+                                                                <Button HorizontalAlignment="Center" Width="55" Visibility="{Binding Path=P_11, ConverterParameter='4', Converter={StaticResource GlobalButtonToVisibilityConverter}}"
+                                                                         Content="{Binding P_11}" Margin="1" FontSize="12" Background="{Binding  ConverterParameter='4',Converter={StaticResource GlobalButtonToBackColorConverter}}" MouseDoubleClick="Button_MouseDoubleClick">
+                                                                </Button>
+                                                            </StackPanel>
+                                                        </Grid>
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </c1:DataGridTemplateColumn.CellTemplate>
+                                        </c1:DataGridTemplateColumn>
+                                        <c1:DataGridTemplateColumn     Header="P_12" Width="65" HorizontalAlignment="Center"  Name="P_12">
+                                            <c1:DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <Grid Name="g1">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="Auto" />
+                                                            <ColumnDefinition Width="Auto" />
+                                                            <ColumnDefinition Width="Auto"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <Grid Grid.Column="2" >
+                                                            <StackPanel Orientation="Vertical" HorizontalAlignment="Center" >
+                                                                <Button HorizontalAlignment="Center" Width="55" Visibility="{Binding Path=P_12, ConverterParameter='1', Converter={StaticResource GlobalButtonToVisibilityConverter}}" Click="ButtonBase_OnClick" Tag="01"
+                                                                         Content="{Binding ConverterParameter='PR',   Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Margin="1" FontSize="12"
+                                                                         Foreground="{Binding  Path=PR_12, ConverterParameter='1',Converter={StaticResource GlobalButtonToForeColorConverter}}"
+                                                                         Background="{Binding  Path=PR_12, ConverterParameter='1',Converter={StaticResource GlobalButtonToBackColorConverter}}">
+                                                                </Button>
+                                                                <Button HorizontalAlignment="Center" Width="55" Visibility="{Binding Path=P_12, ConverterParameter='2', Converter={StaticResource GlobalButtonToVisibilityConverter}}" Click="ButtonBase_OnClick" Tag="02"
+                                                                         Content="{Binding ConverterParameter='FPI',   Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Margin="1" FontSize="12"
+                                                                         Foreground="{Binding  Path=PR_12, ConverterParameter='2',Converter={StaticResource GlobalButtonToForeColorConverter}}"
+                                                                         Background="{Binding  Path=PR_12, ConverterParameter='2',Converter={StaticResource GlobalButtonToBackColorConverter}}">
+                                                                </Button>
+                                                                <Button HorizontalAlignment="Center" Width="55" Visibility="{Binding Path=P_12, ConverterParameter='3', Converter={StaticResource GlobalButtonToVisibilityConverter}}" Click="ButtonBase_OnClick" Tag="03"
+                                                                         Content="{Binding ConverterParameter='MSA',   Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Margin="1" FontSize="12"
+                                                                         Foreground="{Binding  Path=PR_12, ConverterParameter='3',Converter={StaticResource GlobalButtonToForeColorConverter}}"
+                                                                         Background="{Binding  Path=PR_12, ConverterParameter='3',Converter={StaticResource GlobalButtonToBackColorConverter}}">
+                                                                </Button>
+                                                                <Button HorizontalAlignment="Center" Width="55" Visibility="{Binding Path=P_12, ConverterParameter='4', Converter={StaticResource GlobalButtonToVisibilityConverter}}"
+                                                                        Content="{Binding P_12}" Margin="1" FontSize="12" Background="{Binding  ConverterParameter='4',Converter={StaticResource GlobalButtonToBackColorConverter}}" MouseDoubleClick="Button_MouseDoubleClick">
+                                                                </Button>
+                                                            </StackPanel>
+                                                        </Grid>
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </c1:DataGridTemplateColumn.CellTemplate>
+                                        </c1:DataGridTemplateColumn>
+                                        <c1:DataGridTemplateColumn     Header="P_13" Width="65" HorizontalAlignment="Center"  Name="P_13">
+                                            <c1:DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <Grid Name="g1">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="Auto" />
+                                                            <ColumnDefinition Width="Auto" />
+                                                            <ColumnDefinition Width="Auto"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <Grid Grid.Column="2" >
+                                                            <StackPanel Orientation="Vertical" HorizontalAlignment="Center" >
+                                                                <Button HorizontalAlignment="Center" Width="55" Visibility="{Binding Path=P_13, ConverterParameter='1', Converter={StaticResource GlobalButtonToVisibilityConverter}}" Click="ButtonBase_OnClick" Tag="01"
+                                                                         Content="{Binding ConverterParameter='PR',   Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Margin="1" FontSize="12"
+                                                                         Foreground="{Binding  Path=PR_13, ConverterParameter='1',Converter={StaticResource GlobalButtonToForeColorConverter}}"
+                                                                         Background="{Binding  Path=PR_13, ConverterParameter='1',Converter={StaticResource GlobalButtonToBackColorConverter}}">
+                                                                </Button>
+                                                                <Button HorizontalAlignment="Center" Width="55" Visibility="{Binding Path=P_13, ConverterParameter='2', Converter={StaticResource GlobalButtonToVisibilityConverter}}" Click="ButtonBase_OnClick" Tag="02"
+                                                                         Content="{Binding ConverterParameter='FPI',   Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Margin="1" FontSize="12"
+                                                                         Foreground="{Binding  Path=PR_13, ConverterParameter='2',Converter={StaticResource GlobalButtonToForeColorConverter}}"
+                                                                         Background="{Binding  Path=PR_13, ConverterParameter='2',Converter={StaticResource GlobalButtonToBackColorConverter}}">
+                                                                </Button>
+                                                                <Button HorizontalAlignment="Center" Width="55" Visibility="{Binding Path=P_13, ConverterParameter='3', Converter={StaticResource GlobalButtonToVisibilityConverter}}" Click="ButtonBase_OnClick" Tag="03"
+                                                                         Content="{Binding ConverterParameter='MSA',   Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Margin="1" FontSize="12"
+                                                                         Foreground="{Binding  Path=PR_13, ConverterParameter='3',Converter={StaticResource GlobalButtonToForeColorConverter}}"
+                                                                         Background="{Binding  Path=PR_13, ConverterParameter='3',Converter={StaticResource GlobalButtonToBackColorConverter}}">
+                                                                </Button>
+                                                                <Button HorizontalAlignment="Center" Width="55" Visibility="{Binding Path=P_13, ConverterParameter='4', Converter={StaticResource GlobalButtonToVisibilityConverter}}"
+                                                                        Content="{Binding P_13}" Margin="1" FontSize="12" Background="{Binding  ConverterParameter='4',Converter={StaticResource GlobalButtonToBackColorConverter}}" MouseDoubleClick="Button_MouseDoubleClick">
+                                                                </Button>
+                                                            </StackPanel>
+                                                        </Grid>
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </c1:DataGridTemplateColumn.CellTemplate>
+                                        </c1:DataGridTemplateColumn>
+                                        <c1:DataGridTemplateColumn     Header="P_14" Width="65" HorizontalAlignment="Center"  Name="P_14">
+                                            <c1:DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <Grid Name="g1">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="Auto" />
+                                                            <ColumnDefinition Width="Auto" />
+                                                            <ColumnDefinition Width="Auto"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <Grid Grid.Column="2">
+                                                            <StackPanel Orientation="Vertical" HorizontalAlignment="Center" >
+                                                                <Button HorizontalAlignment="Center" Width="55" Visibility="{Binding Path=P_14, ConverterParameter='1', Converter={StaticResource GlobalButtonToVisibilityConverter}}" Click="ButtonBase_OnClick" Tag="01"
+                                                                         Content="{Binding ConverterParameter='PR',   Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Margin="1" FontSize="12"
+                                                                         Foreground="{Binding  Path=PR_14,ConverterParameter='1', Converter={StaticResource GlobalButtonToForeColorConverter}}"
+                                                                         Background="{Binding  Path=PR_14,ConverterParameter='1', Converter={StaticResource GlobalButtonToBackColorConverter}}">
+                                                                </Button>
+                                                                <Button HorizontalAlignment="Center" Width="55" Visibility="{Binding Path=P_14, ConverterParameter='2', Converter={StaticResource GlobalButtonToVisibilityConverter}}" Click="ButtonBase_OnClick" Tag="02"
+                                                                         Content="{Binding ConverterParameter='FPI',   Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Margin="1" FontSize="12"
+                                                                         Foreground="{Binding  Path=PR_14,ConverterParameter='2', Converter={StaticResource GlobalButtonToForeColorConverter}}"
+                                                                         Background="{Binding  Path=PR_14,ConverterParameter='2', Converter={StaticResource GlobalButtonToBackColorConverter}}">
+                                                                </Button>
+                                                                <Button HorizontalAlignment="Center" Width="55" Visibility="{Binding Path=P_14, ConverterParameter='3', Converter={StaticResource GlobalButtonToVisibilityConverter}}" Click="ButtonBase_OnClick" Tag="03"
+                                                                         Content="{Binding ConverterParameter='MSA',   Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Margin="1" FontSize="12"
+                                                                         Foreground="{Binding  Path=PR_14,ConverterParameter='3', Converter={StaticResource GlobalButtonToForeColorConverter}}"
+                                                                         Background="{Binding  Path=PR_14,ConverterParameter='3', Converter={StaticResource GlobalButtonToBackColorConverter}}">
+                                                                </Button>
+                                                                <Button HorizontalAlignment="Center" Width="55" Visibility="{Binding Path=P_14, ConverterParameter='4', Converter={StaticResource GlobalButtonToVisibilityConverter}}"
+                                                                        Content="{Binding P_14}" Margin="1" FontSize="12" Background="{Binding  ConverterParameter='4',Converter={StaticResource GlobalButtonToBackColorConverter}}" MouseDoubleClick="Button_MouseDoubleClick">
+                                                                </Button>
+                                                            </StackPanel>
+                                                        </Grid>
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </c1:DataGridTemplateColumn.CellTemplate>
+                                        </c1:DataGridTemplateColumn>
+                                        <c1:DataGridTemplateColumn     Header="P_15" Width="65" HorizontalAlignment="Center"  Name="P_15">
+                                            <c1:DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <Grid Name="g1">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="Auto" />
+                                                            <ColumnDefinition Width="Auto" />
+                                                            <ColumnDefinition Width="Auto"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <Grid Grid.Column="2">
+                                                            <StackPanel Orientation="Vertical" HorizontalAlignment="Center" >
+                                                                <Button HorizontalAlignment="Center" Width="55" Visibility="{Binding Path=P_15, ConverterParameter='1', Converter={StaticResource GlobalButtonToVisibilityConverter}}" Click="ButtonBase_OnClick" Tag="01"
+                                                                         Content="{Binding ConverterParameter='PR',   Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Margin="1" FontSize="12"
+                                                                         Foreground="{Binding  Path=PR_15, ConverterParameter='1',Converter={StaticResource GlobalButtonToForeColorConverter}}"
+                                                                         Background="{Binding  Path=PR_15, ConverterParameter='1',Converter={StaticResource GlobalButtonToBackColorConverter}}">
+                                                                </Button>
+                                                                <Button HorizontalAlignment="Center" Width="55" Visibility="{Binding Path=P_15, ConverterParameter='2', Converter={StaticResource GlobalButtonToVisibilityConverter}}" Click="ButtonBase_OnClick" Tag="02"
+                                                                         Content="{Binding ConverterParameter='FPI',   Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Margin="1" FontSize="12"
+                                                                         Foreground="{Binding  Path=PR_15, ConverterParameter='2',Converter={StaticResource GlobalButtonToForeColorConverter}}"
+                                                                         Background="{Binding  Path=PR_15, ConverterParameter='2',Converter={StaticResource GlobalButtonToBackColorConverter}}">
+                                                                </Button>
+                                                                <Button HorizontalAlignment="Center" Width="55" Visibility="{Binding Path=P_15, ConverterParameter='3', Converter={StaticResource GlobalButtonToVisibilityConverter}}" Click="ButtonBase_OnClick" Tag="03"
+                                                                         Content="{Binding ConverterParameter='MSA',   Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Margin="1" FontSize="12"
+                                                                         Foreground="{Binding  Path=PR_15,ConverterParameter='3', Converter={StaticResource GlobalButtonToForeColorConverter}}"
+                                                                         Background="{Binding  Path=PR_15,ConverterParameter='3', Converter={StaticResource GlobalButtonToBackColorConverter}}">
+                                                                </Button>
+                                                                <Button HorizontalAlignment="Center" Width="55" Visibility="{Binding Path=P_15, ConverterParameter='4', Converter={StaticResource GlobalButtonToVisibilityConverter}}"
+                                                                        Content="{Binding P_15}" Margin="1" FontSize="12" Background="{Binding  ConverterParameter='4',Converter={StaticResource GlobalButtonToBackColorConverter}}" MouseDoubleClick="Button_MouseDoubleClick">
+                                                                </Button>
+                                                            </StackPanel>
+                                                        </Grid>
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </c1:DataGridTemplateColumn.CellTemplate>
+                                        </c1:DataGridTemplateColumn>
+                                        <c1:DataGridTemplateColumn     Header="P_16" Width="65" HorizontalAlignment="Center"  Name="P_16">
+                                            <c1:DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <Grid Name="g1">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="Auto" />
+                                                            <ColumnDefinition Width="Auto" />
+                                                            <ColumnDefinition Width="Auto"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <Grid Grid.Column="2" >
+                                                            <StackPanel Orientation="Vertical" HorizontalAlignment="Center" >
+                                                                <Button HorizontalAlignment="Center" Width="55" Visibility="{Binding Path=P_16, ConverterParameter='1', Converter={StaticResource GlobalButtonToVisibilityConverter}}" Click="ButtonBase_OnClick" Tag="01"
+                                                                         Content="{Binding ConverterParameter='PR',   Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Margin="1" FontSize="12"
+                                                                         Foreground="{Binding  Path=PR_16, ConverterParameter='1',Converter={StaticResource GlobalButtonToForeColorConverter}}"
+                                                                         Background="{Binding  Path=PR_16, ConverterParameter='1',Converter={StaticResource GlobalButtonToBackColorConverter}}">
+                                                                </Button>
+                                                                <Button HorizontalAlignment="Center" Width="55" Visibility="{Binding Path=P_16, ConverterParameter='2', Converter={StaticResource GlobalButtonToVisibilityConverter}}" Click="ButtonBase_OnClick" Tag="02"
+                                                                         Content="{Binding ConverterParameter='FPI',   Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Margin="1" FontSize="12"
+                                                                         Foreground="{Binding  Path=PR_16, ConverterParameter='2',Converter={StaticResource GlobalButtonToForeColorConverter}}"
+                                                                         Background="{Binding  Path=PR_16, ConverterParameter='2',Converter={StaticResource GlobalButtonToBackColorConverter}}">
+                                                                </Button>
+                                                                <Button HorizontalAlignment="Center" Width="55" Visibility="{Binding Path=P_16, ConverterParameter='3', Converter={StaticResource GlobalButtonToVisibilityConverter}}" Click="ButtonBase_OnClick" Tag="03"
+                                                                         Content="{Binding ConverterParameter='MSA',   Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Margin="1" FontSize="12"
+                                                                         Foreground="{Binding  Path=PR_16, ConverterParameter='3',Converter={StaticResource GlobalButtonToForeColorConverter}}"
+                                                                         Background="{Binding  Path=PR_16, ConverterParameter='3',Converter={StaticResource GlobalButtonToBackColorConverter}}">
+                                                                </Button>
+                                                                <Button HorizontalAlignment="Center" Width="55" Visibility="{Binding Path=P_16, ConverterParameter='4', Converter={StaticResource GlobalButtonToVisibilityConverter}}"
+                                                                        Content="{Binding P_16}" Margin="1" FontSize="12" Background="{Binding  ConverterParameter='4',Converter={StaticResource GlobalButtonToBackColorConverter}}" MouseDoubleClick="Button_MouseDoubleClick">
+                                                                </Button>                                                                
+                                                            </StackPanel>
+                                                        </Grid>
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </c1:DataGridTemplateColumn.CellTemplate>
+                                        </c1:DataGridTemplateColumn>
+                                        <c1:DataGridTemplateColumn     Header="P_17" Width="65" HorizontalAlignment="Center"  Name="P_17">
+                                            <c1:DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <Grid Name="g1">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="Auto" />
+                                                            <ColumnDefinition Width="Auto" />
+                                                            <ColumnDefinition Width="Auto"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <Grid Grid.Column="2" >
+                                                            <StackPanel Orientation="Vertical" HorizontalAlignment="Center" >
+                                                                <Button HorizontalAlignment="Center" Width="55" Visibility="{Binding Path=P_17, ConverterParameter='1', Converter={StaticResource GlobalButtonToVisibilityConverter}}" Click="ButtonBase_OnClick" Tag="01"
+                                                                         Content="{Binding ConverterParameter='PR',   Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Margin="1" FontSize="12"
+                                                                         Foreground="{Binding  Path=PR_17, ConverterParameter='1',Converter={StaticResource GlobalButtonToForeColorConverter}}"
+                                                                         Background="{Binding  Path=PR_17, ConverterParameter='1',Converter={StaticResource GlobalButtonToBackColorConverter}}">
+                                                                </Button>
+                                                                <Button HorizontalAlignment="Center" Width="55" Visibility="{Binding Path=P_17, ConverterParameter='2', Converter={StaticResource GlobalButtonToVisibilityConverter}}" Click="ButtonBase_OnClick" Tag="02"
+                                                                         Content="{Binding ConverterParameter='FPI',   Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Margin="1" FontSize="12"
+                                                                         Foreground="{Binding  Path=PR_17, ConverterParameter='2',Converter={StaticResource GlobalButtonToForeColorConverter}}"
+                                                                         Background="{Binding  Path=PR_17, ConverterParameter='2',Converter={StaticResource GlobalButtonToBackColorConverter}}">
+                                                                </Button>
+                                                                <Button HorizontalAlignment="Center" Width="55" Visibility="{Binding Path=P_17, ConverterParameter='3', Converter={StaticResource GlobalButtonToVisibilityConverter}}" Click="ButtonBase_OnClick" Tag="03"
+                                                                         Content="{Binding ConverterParameter='MSA',   Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Margin="1" FontSize="12"
+                                                                         Foreground="{Binding  Path=PR_17, ConverterParameter='3',Converter={StaticResource GlobalButtonToForeColorConverter}}"
+                                                                         Background="{Binding  Path=PR_17, ConverterParameter='3',Converter={StaticResource GlobalButtonToBackColorConverter}}">
+                                                                </Button>
+                                                                <Button HorizontalAlignment="Center" Width="55" Visibility="{Binding Path=P_17, ConverterParameter='4', Converter={StaticResource GlobalButtonToVisibilityConverter}}"
+                                                                        Content="{Binding P_17}" Margin="1" FontSize="12" Background="{Binding  ConverterParameter='4',Converter={StaticResource GlobalButtonToBackColorConverter}}" MouseDoubleClick="Button_MouseDoubleClick">
+                                                                </Button>
+                                                            </StackPanel>
+                                                        </Grid>
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </c1:DataGridTemplateColumn.CellTemplate>
+                                        </c1:DataGridTemplateColumn>
+                                        <c1:DataGridTemplateColumn     Header="P_18" Width="65" HorizontalAlignment="Center"  Name="P_18">
+                                            <c1:DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <Grid Name="g1">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="Auto" />
+                                                            <ColumnDefinition Width="Auto" />
+                                                            <ColumnDefinition Width="Auto"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <Grid Grid.Column="2">
+                                                            <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Width="Auto">
+                                                                <Button HorizontalAlignment="Center" Width="55" Visibility="{Binding Path=P_18, ConverterParameter='1', Converter={StaticResource GlobalButtonToVisibilityConverter}}" Click="ButtonBase_OnClick" Tag="01"
+                                                                         Content="{Binding ConverterParameter='PR',   Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Margin="1" FontSize="12"
+                                                                         Foreground="{Binding  Path=PR_18, ConverterParameter='1',Converter={StaticResource GlobalButtonToForeColorConverter}}"
+                                                                         Background="{Binding  Path=PR_18, ConverterParameter='1',Converter={StaticResource GlobalButtonToBackColorConverter}}">
+                                                                </Button>
+                                                                <Button HorizontalAlignment="Center" Width="55" Visibility="{Binding Path=P_18, ConverterParameter='2', Converter={StaticResource GlobalButtonToVisibilityConverter}}" Click="ButtonBase_OnClick" Tag="02"
+                                                                         Content="{Binding ConverterParameter='FPI',   Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Margin="1" FontSize="12"
+                                                                         Foreground="{Binding  Path=PR_18, ConverterParameter='2',Converter={StaticResource GlobalButtonToForeColorConverter}}"
+                                                                         Background="{Binding  Path=PR_18, ConverterParameter='2',Converter={StaticResource GlobalButtonToBackColorConverter}}">
+                                                                </Button>
+                                                                <Button HorizontalAlignment="Center" Width="55" Visibility="{Binding Path=P_18, ConverterParameter='3', Converter={StaticResource GlobalButtonToVisibilityConverter}}" Click="ButtonBase_OnClick" Tag="03"
+                                                                         Content="{Binding ConverterParameter='MSA',   Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Margin="1" FontSize="12"
+                                                                         Foreground="{Binding  Path=PR_18, ConverterParameter='3',Converter={StaticResource GlobalButtonToForeColorConverter}}"
+                                                                         Background="{Binding  Path=PR_18, ConverterParameter='3',Converter={StaticResource GlobalButtonToBackColorConverter}}">
+                                                                </Button>
+                                                                <Button HorizontalAlignment="Center" Width="55" Visibility="{Binding Path=P_18, ConverterParameter='4', Converter={StaticResource GlobalButtonToVisibilityConverter}}"
+                                                                        Content="{Binding P_18}" Margin="1" FontSize="12" Background="{Binding  ConverterParameter='4',Converter={StaticResource GlobalButtonToBackColorConverter}}" MouseDoubleClick="Button_MouseDoubleClick">
+                                                                </Button>
+                                                            </StackPanel>
+                                                        </Grid>
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </c1:DataGridTemplateColumn.CellTemplate>
+                                        </c1:DataGridTemplateColumn>
+                                        <c1:DataGridTemplateColumn     Header="P_19" Width="65" HorizontalAlignment="Center"  Name="P_19">
+                                            <c1:DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <Grid Name="g1">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="Auto" />
+                                                            <ColumnDefinition Width="Auto" />
+                                                            <ColumnDefinition Width="Auto"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <Grid Grid.Column="2">
+                                                            <StackPanel Orientation="Vertical" HorizontalAlignment="Center" >
+                                                                <Button HorizontalAlignment="Center" Width="55" Visibility="{Binding Path=P_19, ConverterParameter='1', Converter={StaticResource GlobalButtonToVisibilityConverter}}" Click="ButtonBase_OnClick" Tag="01"
+                                                                         Content="{Binding ConverterParameter='PR',   Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Margin="1" FontSize="12"
+                                                                         Foreground="{Binding  Path=PR_19, ConverterParameter='1',Converter={StaticResource GlobalButtonToForeColorConverter}}"
+                                                                         Background="{Binding  Path=PR_19, ConverterParameter='1',Converter={StaticResource GlobalButtonToBackColorConverter}}">
+                                                                </Button>
+                                                                <Button HorizontalAlignment="Center" Width="55" Visibility="{Binding Path=P_19, ConverterParameter='2', Converter={StaticResource GlobalButtonToVisibilityConverter}}" Click="ButtonBase_OnClick" Tag="02"
+                                                                         Content="{Binding ConverterParameter='FPI',   Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Margin="1" FontSize="12"
+                                                                         Foreground="{Binding  Path=PR_19, ConverterParameter='2',Converter={StaticResource GlobalButtonToForeColorConverter}}"
+                                                                         Background="{Binding  Path=PR_19, ConverterParameter='2',Converter={StaticResource GlobalButtonToBackColorConverter}}">
+                                                                </Button>
+                                                                <Button HorizontalAlignment="Center" Width="55" Visibility="{Binding Path=P_19, ConverterParameter='3', Converter={StaticResource GlobalButtonToVisibilityConverter}}" Click="ButtonBase_OnClick" Tag="03"
+                                                                         Content="{Binding ConverterParameter='MSA',   Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Margin="1" FontSize="12"
+                                                                         Foreground="{Binding  Path=PR_19, ConverterParameter='3',Converter={StaticResource GlobalButtonToForeColorConverter}}"
+                                                                         Background="{Binding  Path=PR_19, ConverterParameter='3',Converter={StaticResource GlobalButtonToBackColorConverter}}">
+                                                                </Button>
+                                                                <Button HorizontalAlignment="Center" Width="55" Visibility="{Binding Path=P_19, ConverterParameter='4', Converter={StaticResource GlobalButtonToVisibilityConverter}}"
+                                                                        Content="{Binding P_19}" Margin="1" FontSize="12" Background="{Binding  ConverterParameter='4',Converter={StaticResource GlobalButtonToBackColorConverter}}" MouseDoubleClick="Button_MouseDoubleClick">
+                                                                </Button>
+                                                            </StackPanel>
+                                                        </Grid>
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </c1:DataGridTemplateColumn.CellTemplate>
+                                        </c1:DataGridTemplateColumn>
+                                        <c1:DataGridTemplateColumn     Header="P_20" Width="65" HorizontalAlignment="Center"  Name="P_20">
+                                            <c1:DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <Grid Name="g1">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="Auto" />
+                                                            <ColumnDefinition Width="Auto" />
+                                                            <ColumnDefinition Width="Auto"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <Grid Grid.Column="2" >
+                                                            <StackPanel Orientation="Vertical" HorizontalAlignment="Center" >
+                                                                <Button HorizontalAlignment="Center" Width="55" Visibility="{Binding Path=P_20, ConverterParameter='1', Converter={StaticResource GlobalButtonToVisibilityConverter}}" Click="ButtonBase_OnClick" Tag="01"
+                                                                         Content="{Binding ConverterParameter='PR',   Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Margin="1" FontSize="12"
+                                                                         Foreground="{Binding  Path=PR_20, ConverterParameter='1',Converter={StaticResource GlobalButtonToForeColorConverter}}"
+                                                                         Background="{Binding  Path=PR_20, ConverterParameter='1',Converter={StaticResource GlobalButtonToBackColorConverter}}">
+                                                                </Button>
+                                                                <Button HorizontalAlignment="Center" Width="55" Visibility="{Binding Path=P_20, ConverterParameter='2', Converter={StaticResource GlobalButtonToVisibilityConverter}}" Click="ButtonBase_OnClick" Tag="02"
+                                                                         Content="{Binding ConverterParameter='FPI',   Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Margin="1" FontSize="12"
+                                                                         Foreground="{Binding  Path=PR_20, ConverterParameter='2',Converter={StaticResource GlobalButtonToForeColorConverter}}"
+                                                                         Background="{Binding  Path=PR_20, ConverterParameter='2',Converter={StaticResource GlobalButtonToBackColorConverter}}">
+                                                                </Button>
+                                                                <Button HorizontalAlignment="Center" Width="55" Visibility="{Binding Path=P_20, ConverterParameter='3', Converter={StaticResource GlobalButtonToVisibilityConverter}}" Click="ButtonBase_OnClick" Tag="03"
+                                                                         Content="{Binding ConverterParameter='MSA',   Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Margin="1" FontSize="12"
+                                                                         Foreground="{Binding  Path=PR_20, ConverterParameter='3',Converter={StaticResource GlobalButtonToForeColorConverter}}"
+                                                                         Background="{Binding  Path=PR_20, ConverterParameter='3',Converter={StaticResource GlobalButtonToBackColorConverter}}">
+                                                                </Button>
+                                                                <Button HorizontalAlignment="Center" Width="55" Visibility="{Binding Path=P_20, ConverterParameter='4', Converter={StaticResource GlobalButtonToVisibilityConverter}}"
+                                                                        Content="{Binding P_20}" Margin="1" FontSize="12" Background="{Binding  ConverterParameter='4',Converter={StaticResource GlobalButtonToBackColorConverter}}" MouseDoubleClick="Button_MouseDoubleClick">
+                                                                </Button>
+                                                            </StackPanel>
+                                                        </Grid>
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </c1:DataGridTemplateColumn.CellTemplate>
+                                        </c1:DataGridTemplateColumn>
+                                        <c1:DataGridTemplateColumn     Header="P_21" Width="65" HorizontalAlignment="Center"  Name="P_21">
+                                            <c1:DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <Grid Name="g1">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="Auto" />
+                                                            <ColumnDefinition Width="Auto" />
+                                                            <ColumnDefinition Width="Auto"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <Grid Grid.Column="2" >
+                                                            <StackPanel Orientation="Vertical" HorizontalAlignment="Center" >
+                                                                <Button HorizontalAlignment="Center" Width="55" Visibility="{Binding Path=P_21, ConverterParameter='1', Converter={StaticResource GlobalButtonToVisibilityConverter}}" Click="ButtonBase_OnClick" Tag="01"
+                                                                         Content="{Binding ConverterParameter='PR',   Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Margin="1" FontSize="12"
+                                                                         Foreground="{Binding  Path=PR_21, ConverterParameter='1',Converter={StaticResource GlobalButtonToForeColorConverter}}"
+                                                                         Background="{Binding  Path=PR_21, ConverterParameter='1',Converter={StaticResource GlobalButtonToBackColorConverter}}">
+                                                                </Button>
+                                                                <Button HorizontalAlignment="Center" Width="55" Visibility="{Binding Path=P_21, ConverterParameter='2', Converter={StaticResource GlobalButtonToVisibilityConverter}}" Click="ButtonBase_OnClick" Tag="02"
+                                                                         Content="{Binding ConverterParameter='FPI',   Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Margin="1" FontSize="12"
+                                                                         Foreground="{Binding  Path=PR_21, ConverterParameter='2',Converter={StaticResource GlobalButtonToForeColorConverter}}"
+                                                                         Background="{Binding  Path=PR_21, ConverterParameter='2',Converter={StaticResource GlobalButtonToBackColorConverter}}">
+                                                                </Button>
+                                                                <Button HorizontalAlignment="Center" Width="55" Visibility="{Binding Path=P_21, ConverterParameter='3', Converter={StaticResource GlobalButtonToVisibilityConverter}}" Click="ButtonBase_OnClick" Tag="03"
+                                                                         Content="{Binding ConverterParameter='MSA',   Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Margin="1" FontSize="12"
+                                                                         Foreground="{Binding  Path=PR_21, ConverterParameter='3',Converter={StaticResource GlobalButtonToForeColorConverter}}"
+                                                                         Background="{Binding  Path=PR_21, ConverterParameter='3',Converter={StaticResource GlobalButtonToBackColorConverter}}">
+                                                                </Button>
+                                                                <Button HorizontalAlignment="Center" Width="55" Visibility="{Binding Path=P_21, ConverterParameter='4', Converter={StaticResource GlobalButtonToVisibilityConverter}}"
+                                                                        Content="{Binding P_21}" Margin="1" FontSize="12" Background="{Binding  ConverterParameter='4',Converter={StaticResource GlobalButtonToBackColorConverter}}" MouseDoubleClick="Button_MouseDoubleClick">
+                                                                </Button>
+                                                            </StackPanel>
+                                                        </Grid>
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </c1:DataGridTemplateColumn.CellTemplate>
+                                        </c1:DataGridTemplateColumn>
+                                        <c1:DataGridTemplateColumn     Header="P_22" Width="65" HorizontalAlignment="Center"  Name="P_22">
+                                            <c1:DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <Grid Name="g1">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="Auto" />
+                                                            <ColumnDefinition Width="Auto" />
+                                                            <ColumnDefinition Width="Auto"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <Grid Grid.Column="2" >
+                                                            <StackPanel Orientation="Vertical" HorizontalAlignment="Center" >
+                                                                <Button HorizontalAlignment="Center" Width="55" Visibility="{Binding Path=P_22, ConverterParameter='1', Converter={StaticResource GlobalButtonToVisibilityConverter}}" Click="ButtonBase_OnClick" Tag="01"
+                                                                         Content="{Binding ConverterParameter='PR',   Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Margin="1" FontSize="12"
+                                                                         Foreground="{Binding  Path=PR_22, ConverterParameter='1',Converter={StaticResource GlobalButtonToForeColorConverter}}"
+                                                                         Background="{Binding  Path=PR_22, ConverterParameter='1',Converter={StaticResource GlobalButtonToBackColorConverter}}">
+                                                                </Button>
+                                                                <Button HorizontalAlignment="Center" Width="55" Visibility="{Binding Path=P_22, ConverterParameter='2', Converter={StaticResource GlobalButtonToVisibilityConverter}}" Click="ButtonBase_OnClick" Tag="02"
+                                                                         Content="{Binding ConverterParameter='FPI',   Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Margin="1" FontSize="12"
+                                                                         Foreground="{Binding  Path=PR_22, ConverterParameter='2',Converter={StaticResource GlobalButtonToForeColorConverter}}"
+                                                                         Background="{Binding  Path=PR_22, ConverterParameter='2',Converter={StaticResource GlobalButtonToBackColorConverter}}">
+                                                                </Button>
+                                                                <Button HorizontalAlignment="Center" Width="55" Visibility="{Binding Path=P_22, ConverterParameter='3', Converter={StaticResource GlobalButtonToVisibilityConverter}}" Click="ButtonBase_OnClick" Tag="03"
+                                                                         Content="{Binding ConverterParameter='MSA',   Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Margin="1" FontSize="12"
+                                                                         Foreground="{Binding  Path=PR_22, ConverterParameter='3',Converter={StaticResource GlobalButtonToForeColorConverter}}"
+                                                                         Background="{Binding  Path=PR_22, ConverterParameter='3',Converter={StaticResource GlobalButtonToBackColorConverter}}">
+                                                                </Button>
+                                                                <Button HorizontalAlignment="Center" Width="55" Visibility="{Binding Path=P_22, ConverterParameter='4', Converter={StaticResource GlobalButtonToVisibilityConverter}}"
+                                                                        Content="{Binding P_22}" Margin="1" FontSize="12" Background="{Binding  ConverterParameter='4',Converter={StaticResource GlobalButtonToBackColorConverter}}" MouseDoubleClick="Button_MouseDoubleClick">
+                                                                </Button>
+                                                            </StackPanel>
+                                                        </Grid>
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </c1:DataGridTemplateColumn.CellTemplate>
+                                        </c1:DataGridTemplateColumn>
+                                        <c1:DataGridTemplateColumn     Header="P_23" Width="65" HorizontalAlignment="Center"  Name="P_23">
+                                            <c1:DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <Grid Name="g1">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="Auto" />
+                                                            <ColumnDefinition Width="Auto" />
+                                                            <ColumnDefinition Width="Auto"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <Grid Grid.Column="2" >
+                                                            <StackPanel Orientation="Vertical" HorizontalAlignment="Center" >
+                                                                <Button HorizontalAlignment="Center" Width="55" Visibility="{Binding Path=P_23, ConverterParameter='1', Converter={StaticResource GlobalButtonToVisibilityConverter}}" Click="ButtonBase_OnClick" Tag="01"
+                                                                         Content="{Binding ConverterParameter='PR',   Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Margin="1" FontSize="12"
+                                                                         Foreground="{Binding  Path=PR_23, ConverterParameter='1',Converter={StaticResource GlobalButtonToForeColorConverter}}"
+                                                                         Background="{Binding  Path=PR_23, ConverterParameter='1',Converter={StaticResource GlobalButtonToBackColorConverter}}">
+                                                                </Button>
+                                                                <Button HorizontalAlignment="Center" Width="55" Visibility="{Binding Path=P_23, ConverterParameter='2', Converter={StaticResource GlobalButtonToVisibilityConverter}}" Click="ButtonBase_OnClick" Tag="02"
+                                                                         Content="{Binding ConverterParameter='FPI',   Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Margin="1" FontSize="12"
+                                                                         Foreground="{Binding  Path=PR_23, ConverterParameter='2',Converter={StaticResource GlobalButtonToForeColorConverter}}"
+                                                                         Background="{Binding  Path=PR_23, ConverterParameter='2',Converter={StaticResource GlobalButtonToBackColorConverter}}">
+                                                                </Button>
+                                                                <Button HorizontalAlignment="Center" Width="55" Visibility="{Binding Path=P_23, ConverterParameter='3', Converter={StaticResource GlobalButtonToVisibilityConverter}}" Click="ButtonBase_OnClick" Tag="03"
+                                                                         Content="{Binding ConverterParameter='MSA',   Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Margin="1" FontSize="12"
+                                                                         Foreground="{Binding  Path=PR_23, ConverterParameter='3',Converter={StaticResource GlobalButtonToForeColorConverter}}"
+                                                                         Background="{Binding  Path=PR_23, ConverterParameter='3',Converter={StaticResource GlobalButtonToBackColorConverter}}">
+                                                                </Button>
+                                                                <Button HorizontalAlignment="Center" Width="55" Visibility="{Binding Path=P_23, ConverterParameter='4', Converter={StaticResource GlobalButtonToVisibilityConverter}}"
+                                                                        Content="{Binding P_23}" Margin="1" FontSize="12" Background="{Binding  ConverterParameter='4',Converter={StaticResource GlobalButtonToBackColorConverter}}" MouseDoubleClick="Button_MouseDoubleClick">
+                                                                </Button>
+                                                            </StackPanel>
+                                                        </Grid>
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </c1:DataGridTemplateColumn.CellTemplate>
+                                        </c1:DataGridTemplateColumn>
+                                        <c1:DataGridTemplateColumn     Header="P_24" Width="65" HorizontalAlignment="Center"  Name="P_24">
+                                            <c1:DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <Grid Name="g1">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="Auto" />
+                                                            <ColumnDefinition Width="Auto" />
+                                                            <ColumnDefinition Width="Auto"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <Grid Grid.Column="2" >
+                                                            <StackPanel Orientation="Vertical" HorizontalAlignment="Center" >
+                                                                <Button HorizontalAlignment="Center" Width="55" Visibility="{Binding Path=P_24, ConverterParameter='1', Converter={StaticResource GlobalButtonToVisibilityConverter}}" Click="ButtonBase_OnClick" Tag="01"
+                                                                         Content="{Binding ConverterParameter='PR',   Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Margin="1" FontSize="12"
+                                                                         Foreground="{Binding  Path=PR_24, ConverterParameter='1',Converter={StaticResource GlobalButtonToForeColorConverter}}"
+                                                                         Background="{Binding  Path=PR_24, ConverterParameter='1',Converter={StaticResource GlobalButtonToBackColorConverter}}">
+                                                                </Button>
+                                                                <Button HorizontalAlignment="Center" Width="55" Visibility="{Binding Path=P_24, ConverterParameter='2', Converter={StaticResource GlobalButtonToVisibilityConverter}}" Click="ButtonBase_OnClick" Tag="02"
+                                                                         Content="{Binding ConverterParameter='FPI',   Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Margin="1" FontSize="12"
+                                                                         Foreground="{Binding  Path=PR_24, ConverterParameter='2',Converter={StaticResource GlobalButtonToForeColorConverter}}"
+                                                                         Background="{Binding  Path=PR_24, ConverterParameter='2',Converter={StaticResource GlobalButtonToBackColorConverter}}">
+                                                                </Button>
+                                                                <Button HorizontalAlignment="Center" Width="55" Visibility="{Binding Path=P_24, ConverterParameter='3', Converter={StaticResource GlobalButtonToVisibilityConverter}}" Click="ButtonBase_OnClick" Tag="03"
+                                                                         Content="{Binding ConverterParameter='MSA',   Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Margin="1" FontSize="12"
+                                                                         Foreground="{Binding  Path=PR_24, ConverterParameter='3',Converter={StaticResource GlobalButtonToForeColorConverter}}"
+                                                                         Background="{Binding  Path=PR_24, ConverterParameter='3',Converter={StaticResource GlobalButtonToBackColorConverter}}">
+                                                                </Button>
+                                                                <Button HorizontalAlignment="Center" Width="55" Visibility="{Binding Path=P_24, ConverterParameter='4', Converter={StaticResource GlobalButtonToVisibilityConverter}}"
+                                                                        Content="{Binding P_24}" Margin="1" FontSize="12" Background="{Binding  ConverterParameter='4',Converter={StaticResource GlobalButtonToBackColorConverter}}" MouseDoubleClick="Button_MouseDoubleClick">
+                                                                </Button>
+                                                            </StackPanel>
+                                                        </Grid>
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </c1:DataGridTemplateColumn.CellTemplate>
+                                        </c1:DataGridTemplateColumn>
+                                        <c1:DataGridTemplateColumn     Header="P_25" Width="65" HorizontalAlignment="Center"  Name="P_25">
+                                            <c1:DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <Grid Name="g1">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="Auto" />
+                                                            <ColumnDefinition Width="Auto" />
+                                                            <ColumnDefinition Width="Auto"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <Grid Grid.Column="2" >
+                                                            <StackPanel Orientation="Vertical" HorizontalAlignment="Center" >
+                                                                <Button HorizontalAlignment="Center" Width="55" Visibility="{Binding Path=P_25, ConverterParameter='1', Converter={StaticResource GlobalButtonToVisibilityConverter}}" Click="ButtonBase_OnClick" Tag="01"
+                                                                         Content="{Binding ConverterParameter='PR',   Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Margin="1" FontSize="12"
+                                                                         Foreground="{Binding  Path=PR_25, ConverterParameter='1',Converter={StaticResource GlobalButtonToForeColorConverter}}"
+                                                                         Background="{Binding  Path=PR_25, ConverterParameter='1',Converter={StaticResource GlobalButtonToBackColorConverter}}">
+                                                                </Button>
+                                                                <Button HorizontalAlignment="Center" Width="55" Visibility="{Binding Path=P_25, ConverterParameter='2', Converter={StaticResource GlobalButtonToVisibilityConverter}}" Click="ButtonBase_OnClick" Tag="02"
+                                                                         Content="{Binding ConverterParameter='FPI',   Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Margin="1" FontSize="12"
+                                                                         Foreground="{Binding  Path=PR_25, ConverterParameter='2',Converter={StaticResource GlobalButtonToForeColorConverter}}"
+                                                                         Background="{Binding  Path=PR_25, ConverterParameter='2',Converter={StaticResource GlobalButtonToBackColorConverter}}">
+                                                                </Button>
+                                                                <Button HorizontalAlignment="Center" Width="55" Visibility="{Binding Path=P_25, ConverterParameter='3', Converter={StaticResource GlobalButtonToVisibilityConverter}}" Click="ButtonBase_OnClick" Tag="03"
+                                                                         Content="{Binding ConverterParameter='MSA',   Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Margin="1" FontSize="12"
+                                                                         Foreground="{Binding  Path=PR_25,ConverterParameter='3', Converter={StaticResource GlobalButtonToForeColorConverter}}"
+                                                                         Background="{Binding  Path=PR_25,ConverterParameter='3', Converter={StaticResource GlobalButtonToBackColorConverter}}">
+                                                                </Button>
+                                                                <Button HorizontalAlignment="Center" Width="55" Visibility="{Binding Path=P_25, ConverterParameter='4', Converter={StaticResource GlobalButtonToVisibilityConverter}}"
+                                                                        Content="{Binding P_25}" Margin="1" FontSize="12" Background="{Binding  ConverterParameter='4',Converter={StaticResource GlobalButtonToBackColorConverter}}" MouseDoubleClick="Button_MouseDoubleClick">
+                                                                </Button>
+                                                            </StackPanel>
+                                                        </Grid>
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </c1:DataGridTemplateColumn.CellTemplate>
+                                        </c1:DataGridTemplateColumn>
+                                        <c1:DataGridTemplateColumn     Header="P_26" Width="65" HorizontalAlignment="Center"  Name="P_26">
+                                            <c1:DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <Grid Name="g1">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="Auto" />
+                                                            <ColumnDefinition Width="Auto" />
+                                                            <ColumnDefinition Width="Auto"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <Grid Grid.Column="2">
+                                                            <StackPanel Orientation="Vertical" HorizontalAlignment="Center" >
+                                                                <Button HorizontalAlignment="Center" Width="55" Visibility="{Binding Path=P_26, ConverterParameter='1', Converter={StaticResource GlobalButtonToVisibilityConverter}}" Click="ButtonBase_OnClick" Tag="01"
+                                                                         Content="{Binding ConverterParameter='PR',   Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Margin="1" FontSize="12"
+                                                                         Foreground="{Binding  Path=PR_26, ConverterParameter='1',Converter={StaticResource GlobalButtonToForeColorConverter}}"
+                                                                         Background="{Binding  Path=PR_26, ConverterParameter='1',Converter={StaticResource GlobalButtonToBackColorConverter}}">
+                                                                </Button>
+                                                                <Button HorizontalAlignment="Center" Width="55" Visibility="{Binding Path=P_26, ConverterParameter='2', Converter={StaticResource GlobalButtonToVisibilityConverter}}" Click="ButtonBase_OnClick" Tag="02"
+                                                                         Content="{Binding ConverterParameter='FPI',   Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Margin="1" FontSize="12"
+                                                                         Foreground="{Binding  Path=PR_26, ConverterParameter='2',Converter={StaticResource GlobalButtonToForeColorConverter}}"
+                                                                         Background="{Binding  Path=PR_26, ConverterParameter='2',Converter={StaticResource GlobalButtonToBackColorConverter}}">
+                                                                </Button>
+                                                                <Button HorizontalAlignment="Center" Width="55" Visibility="{Binding Path=P_26, ConverterParameter='3', Converter={StaticResource GlobalButtonToVisibilityConverter}}" Click="ButtonBase_OnClick" Tag="03"
+                                                                         Content="{Binding ConverterParameter='MSA',   Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Margin="1" FontSize="12"
+                                                                         Foreground="{Binding  Path=PR_26, ConverterParameter='3',Converter={StaticResource GlobalButtonToForeColorConverter}}"
+                                                                         Background="{Binding  Path=PR_26, ConverterParameter='3',Converter={StaticResource GlobalButtonToBackColorConverter}}">
+                                                                </Button>
+                                                                <Button HorizontalAlignment="Center" Width="55" Visibility="{Binding Path=P_26, ConverterParameter='4', Converter={StaticResource GlobalButtonToVisibilityConverter}}"
+                                                                        Content="{Binding P_26}" Margin="1" FontSize="12" Background="{Binding  ConverterParameter='4',Converter={StaticResource GlobalButtonToBackColorConverter}}" MouseDoubleClick="Button_MouseDoubleClick">
+                                                                </Button>
+                                                            </StackPanel>
+                                                        </Grid>
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </c1:DataGridTemplateColumn.CellTemplate>
+                                        </c1:DataGridTemplateColumn>
+                                        <c1:DataGridTemplateColumn     Header="P_27" Width="65" HorizontalAlignment="Center"  Name="P_27" >
+                                            <c1:DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <Grid Name="g1">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="Auto" />
+                                                            <ColumnDefinition Width="Auto" />
+                                                            <ColumnDefinition Width="Auto"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <Grid Grid.Column="2">
+                                                            <StackPanel Orientation="Vertical" HorizontalAlignment="Center" >
+                                                                <Button HorizontalAlignment="Center" Width="55" Visibility="{Binding Path=P_27, ConverterParameter='1', Converter={StaticResource GlobalButtonToVisibilityConverter}}" Click="ButtonBase_OnClick" Tag="01"
+                                                                         Content="{Binding ConverterParameter='PR',   Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Margin="1" FontSize="12"
+                                                                         Foreground="{Binding  Path=PR_27, ConverterParameter='1',Converter={StaticResource GlobalButtonToForeColorConverter}}"
+                                                                         Background="{Binding  Path=PR_27, ConverterParameter='1',Converter={StaticResource GlobalButtonToBackColorConverter}}">
+                                                                </Button>
+                                                                <Button HorizontalAlignment="Center" Width="55" Visibility="{Binding Path=P_27, ConverterParameter='2', Converter={StaticResource GlobalButtonToVisibilityConverter}}" Click="ButtonBase_OnClick" Tag="02"
+                                                                         Content="{Binding ConverterParameter='FPI',   Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Margin="1" FontSize="12"
+                                                                         Foreground="{Binding  Path=PR_27, ConverterParameter='2',Converter={StaticResource GlobalButtonToForeColorConverter}}"
+                                                                         Background="{Binding  Path=PR_27, ConverterParameter='2',Converter={StaticResource GlobalButtonToBackColorConverter}}">
+                                                                </Button>
+                                                                <Button HorizontalAlignment="Center" Width="55" Visibility="{Binding Path=P_27, ConverterParameter='3', Converter={StaticResource GlobalButtonToVisibilityConverter}}" Click="ButtonBase_OnClick" Tag="03"
+                                                                         Content="{Binding ConverterParameter='MSA',   Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Margin="1" FontSize="12"
+                                                                         Foreground="{Binding  Path=PR_27, ConverterParameter='3',Converter={StaticResource GlobalButtonToForeColorConverter}}"
+                                                                         Background="{Binding  Path=PR_27, ConverterParameter='3',Converter={StaticResource GlobalButtonToBackColorConverter}}">
+                                                                </Button>
+                                                                <Button HorizontalAlignment="Center" Width="55" Visibility="{Binding Path=P_27, ConverterParameter='4', Converter={StaticResource GlobalButtonToVisibilityConverter}}"
+                                                                        Content="{Binding P_27}" Margin="1" FontSize="12" Background="{Binding  ConverterParameter='4',Converter={StaticResource GlobalButtonToBackColorConverter}}" MouseDoubleClick="Button_MouseDoubleClick">
+                                                                </Button>
+                                                            </StackPanel>
+                                                        </Grid>
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </c1:DataGridTemplateColumn.CellTemplate>
+                                        </c1:DataGridTemplateColumn>
+                                        <c1:DataGridTemplateColumn     Header="P_28" Width="65" HorizontalAlignment="Center"  Name="P_28" >
+                                            <c1:DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <Grid Name="g1">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="Auto" />
+                                                            <ColumnDefinition Width="Auto" />
+                                                            <ColumnDefinition Width="Auto"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <Grid Grid.Column="2">
+                                                            <StackPanel Orientation="Vertical" HorizontalAlignment="Center" >
+                                                                <Button HorizontalAlignment="Center" Width="55" Visibility="{Binding Path=P_28, ConverterParameter='1', Converter={StaticResource GlobalButtonToVisibilityConverter}}" Click="ButtonBase_OnClick" Tag="01"
+                                                                         Content="{Binding ConverterParameter='PR',   Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Margin="1" FontSize="12"
+                                                                         Foreground="{Binding  Path=PR_28, ConverterParameter='1',Converter={StaticResource GlobalButtonToForeColorConverter}}"
+                                                                         Background="{Binding  Path=PR_28, ConverterParameter='1',Converter={StaticResource GlobalButtonToBackColorConverter}}">
+                                                                </Button>
+                                                                <Button HorizontalAlignment="Center" Width="55" Visibility="{Binding Path=P_28, ConverterParameter='2', Converter={StaticResource GlobalButtonToVisibilityConverter}}" Click="ButtonBase_OnClick" Tag="02"
+                                                                         Content="{Binding ConverterParameter='FPI',   Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Margin="1" FontSize="12"
+                                                                         Foreground="{Binding  Path=PR_28, ConverterParameter='2',Converter={StaticResource GlobalButtonToForeColorConverter}}"
+                                                                         Background="{Binding  Path=PR_28, ConverterParameter='2',Converter={StaticResource GlobalButtonToBackColorConverter}}">
+                                                                </Button>
+                                                                <Button HorizontalAlignment="Center" Width="55" Visibility="{Binding Path=P_28, ConverterParameter='3', Converter={StaticResource GlobalButtonToVisibilityConverter}}" Click="ButtonBase_OnClick" Tag="03"
+                                                                         Content="{Binding ConverterParameter='MSA',   Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Margin="1" FontSize="12"
+                                                                         Foreground="{Binding  Path=PR_28, ConverterParameter='3',Converter={StaticResource GlobalButtonToForeColorConverter}}"
+                                                                         Background="{Binding  Path=PR_28, ConverterParameter='3',Converter={StaticResource GlobalButtonToBackColorConverter}}">
+                                                                </Button>
+                                                                <Button HorizontalAlignment="Center" Width="55" Visibility="{Binding Path=P_28, ConverterParameter='4', Converter={StaticResource GlobalButtonToVisibilityConverter}}"
+                                                                        Content="{Binding P_28}" Margin="1" FontSize="12" Background="{Binding  ConverterParameter='4',Converter={StaticResource GlobalButtonToBackColorConverter}}" MouseDoubleClick="Button_MouseDoubleClick">
+                                                                </Button>
+                                                            </StackPanel>
+                                                        </Grid>
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </c1:DataGridTemplateColumn.CellTemplate>
+                                        </c1:DataGridTemplateColumn>
+                                        <c1:DataGridTemplateColumn     Header="P_29" Width="65" HorizontalAlignment="Center"  Name="P_29" >
+                                            <c1:DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <Grid Name="g1">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="Auto" />
+                                                            <ColumnDefinition Width="Auto" />
+                                                            <ColumnDefinition Width="Auto"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <Grid Grid.Column="2">
+                                                            <StackPanel Orientation="Vertical" HorizontalAlignment="Center" >
+                                                                <Button HorizontalAlignment="Center" Width="55" Visibility="{Binding Path=P_29, ConverterParameter='1', Converter={StaticResource GlobalButtonToVisibilityConverter}}" Click="ButtonBase_OnClick" Tag="01"
+                                                                         Content="{Binding ConverterParameter='PR',   Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Margin="1" FontSize="12"
+                                                                         Foreground="{Binding  Path=PR_29, ConverterParameter='1',Converter={StaticResource GlobalButtonToForeColorConverter}}"
+                                                                         Background="{Binding  Path=PR_29, ConverterParameter='1',Converter={StaticResource GlobalButtonToBackColorConverter}}">
+                                                                </Button>
+                                                                <Button HorizontalAlignment="Center" Width="55" Visibility="{Binding Path=P_29, ConverterParameter='2', Converter={StaticResource GlobalButtonToVisibilityConverter}}" Click="ButtonBase_OnClick" Tag="02"
+                                                                         Content="{Binding ConverterParameter='FPI',   Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Margin="1" FontSize="12"
+                                                                         Foreground="{Binding  Path=PR_29, ConverterParameter='2',Converter={StaticResource GlobalButtonToForeColorConverter}}"
+                                                                         Background="{Binding  Path=PR_29, ConverterParameter='2',Converter={StaticResource GlobalButtonToBackColorConverter}}">
+                                                                </Button>
+                                                                <Button HorizontalAlignment="Center" Width="55" Visibility="{Binding Path=P_29, ConverterParameter='3', Converter={StaticResource GlobalButtonToVisibilityConverter}}" Click="ButtonBase_OnClick" Tag="03"
+                                                                         Content="{Binding ConverterParameter='MSA',   Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Margin="1" FontSize="12"
+                                                                         Foreground="{Binding  Path=PR_29, ConverterParameter='3',Converter={StaticResource GlobalButtonToForeColorConverter}}"
+                                                                         Background="{Binding  Path=PR_29, ConverterParameter='3',Converter={StaticResource GlobalButtonToBackColorConverter}}">
+                                                                </Button>
+                                                                <Button HorizontalAlignment="Center" Width="55" Visibility="{Binding Path=P_29, ConverterParameter='4', Converter={StaticResource GlobalButtonToVisibilityConverter}}"
+                                                                        Content="{Binding P_29}" Margin="1" FontSize="12" Background="{Binding  ConverterParameter='4',Converter={StaticResource GlobalButtonToBackColorConverter}}" MouseDoubleClick="Button_MouseDoubleClick">
+                                                                </Button>                                                                
+                                                            </StackPanel>
+                                                        </Grid>
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </c1:DataGridTemplateColumn.CellTemplate>
+                                        </c1:DataGridTemplateColumn>
+                                        <c1:DataGridTemplateColumn     Header="P_30" Width="65" HorizontalAlignment="Center"  Name='P_30' >
+                                            <c1:DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <Grid Name="g1">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="Auto" />
+                                                            <ColumnDefinition Width="Auto" />
+                                                            <ColumnDefinition Width="Auto"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <Grid Grid.Column="2" >
+                                                            <StackPanel Orientation="Vertical" HorizontalAlignment="Center" >
+                                                                <Button HorizontalAlignment="Center" Width="55" Visibility="{Binding Path=P_30, ConverterParameter='1', Converter={StaticResource GlobalButtonToVisibilityConverter}}" Click="ButtonBase_OnClick" Tag="01"
+                                                                         Content="{Binding ConverterParameter='PR',   Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Margin="1" FontSize="12"
+                                                                         Foreground="{Binding  Path=PR_30, ConverterParameter='1',Converter={StaticResource GlobalButtonToForeColorConverter}}"
+                                                                         Background="{Binding  Path=PR_30, ConverterParameter='1',Converter={StaticResource GlobalButtonToBackColorConverter}}">
+                                                                </Button>
+                                                                <Button HorizontalAlignment="Center" Width="55" Visibility="{Binding Path=P_30, ConverterParameter='2', Converter={StaticResource GlobalButtonToVisibilityConverter}}" Click="ButtonBase_OnClick" Tag="02"
+                                                                         Content="{Binding ConverterParameter='FPI',   Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Margin="1" FontSize="12"
+                                                                         Foreground="{Binding  Path=PR_30, ConverterParameter='2',Converter={StaticResource GlobalButtonToForeColorConverter}}"
+                                                                         Background="{Binding  Path=PR_30, ConverterParameter='2',Converter={StaticResource GlobalButtonToBackColorConverter}}">
+                                                                </Button>
+                                                                <Button HorizontalAlignment="Center" Width="55" Visibility="{Binding Path=P_30, ConverterParameter='3', Converter={StaticResource GlobalButtonToVisibilityConverter}}" Click="ButtonBase_OnClick" Tag="03"
+                                                                         Content="{Binding ConverterParameter='MSA',   Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Margin="1" FontSize="12"
+                                                                         Foreground="{Binding  Path=PR_30, ConverterParameter='3',Converter={StaticResource GlobalButtonToForeColorConverter}}"
+                                                                         Background="{Binding  Path=PR_30, ConverterParameter='3',Converter={StaticResource GlobalButtonToBackColorConverter}}">
+                                                                </Button>
+                                                                <Button HorizontalAlignment="Center" Width="55" Visibility="{Binding Path=P_30, ConverterParameter='4', Converter={StaticResource GlobalButtonToVisibilityConverter}}"
+                                                                        Content="{Binding P_30}" Margin="1" FontSize="12" Background="{Binding  ConverterParameter='4',Converter={StaticResource GlobalButtonToBackColorConverter}}" MouseDoubleClick="Button_MouseDoubleClick">
+                                                                </Button>
+                                                            </StackPanel>
+                                                        </Grid>
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </c1:DataGridTemplateColumn.CellTemplate>
+                                        </c1:DataGridTemplateColumn>
+                                        <c1:DataGridTemplateColumn     Header="P_31" Width="65" HorizontalAlignment="Center"  Name="P_31" >
+                                            <c1:DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <Grid Name="g1">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="Auto" />
+                                                            <ColumnDefinition Width="Auto" />
+                                                            <ColumnDefinition Width="Auto"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <Grid Grid.Column="2" Visibility="{Binding Path=P_31, ConverterParameter='3', Converter={StaticResource GlobalButtonToVisibilityConverter}}">
+                                                            <StackPanel Orientation="Vertical" HorizontalAlignment="Center" >
+                                                                <Button HorizontalAlignment="Center" Width="55" Visibility="{Binding Path=P_31, ConverterParameter='1', Converter={StaticResource GlobalButtonToVisibilityConverter}}" Click="ButtonBase_OnClick" Tag="01"
+                                                                         Content="{Binding ConverterParameter='PR',   Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Margin="1" FontSize="12"
+                                                                         Foreground="{Binding  Path=PR_31, ConverterParameter='1',Converter={StaticResource GlobalButtonToForeColorConverter}}"
+                                                                         Background="{Binding  Path=PR_31, ConverterParameter='1',Converter={StaticResource GlobalButtonToBackColorConverter}}">
+                                                                </Button>
+                                                                <Button HorizontalAlignment="Center" Width="55" Visibility="{Binding Path=P_31, ConverterParameter='2', Converter={StaticResource GlobalButtonToVisibilityConverter}}" Click="ButtonBase_OnClick" Tag="02"
+                                                                         Content="{Binding ConverterParameter='FPI',   Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Margin="1" FontSize="12"
+                                                                         Foreground="{Binding  Path=PR_31, ConverterParameter='2',Converter={StaticResource GlobalButtonToForeColorConverter}}"
+                                                                         Background="{Binding  Path=PR_31, ConverterParameter='2',Converter={StaticResource GlobalButtonToBackColorConverter}}">
+                                                                </Button>
+                                                                <Button HorizontalAlignment="Center" Width="55" Visibility="{Binding Path=P_31, ConverterParameter='3', Converter={StaticResource GlobalButtonToVisibilityConverter}}" Click="ButtonBase_OnClick" Tag="03"
+                                                                         Content="{Binding ConverterParameter='MSA',   Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Margin="1" FontSize="12"
+                                                                         Foreground="{Binding  Path=PR_31, ConverterParameter='3',Converter={StaticResource GlobalButtonToForeColorConverter}}"
+                                                                         Background="{Binding  Path=PR_31, ConverterParameter='3',Converter={StaticResource GlobalButtonToBackColorConverter}}">
+                                                                </Button>
+                                                                <Button HorizontalAlignment="Center" Width="55" Visibility="{Binding Path=P_31, ConverterParameter='4', Converter={StaticResource GlobalButtonToVisibilityConverter}}"
+                                                                        Content="{Binding P_31}" Margin="1" FontSize="12" Background="{Binding  ConverterParameter='4',Converter={StaticResource GlobalButtonToBackColorConverter}}" MouseDoubleClick="Button_MouseDoubleClick">
+                                                                </Button>
+                                                            </StackPanel>
+                                                        </Grid>
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </c1:DataGridTemplateColumn.CellTemplate>
+                                        </c1:DataGridTemplateColumn>
+                                    </c1:C1DataGrid.Columns>
+
+                                    <c1:C1DataGrid.TopRows>
+                                        <c1:DataGridColumnHeaderRow/>
+                                        <c1:DataGridColumnHeaderRow/>
+                                        <c1:DataGridColumnHeaderRow/>
+                                    </c1:C1DataGrid.TopRows>
+                                </c1:C1DataGrid>
+                            </Grid>
+                        </c1:C1TabItem>
+
+                        <c1:C1TabItem x:Name="tHistory" Header="{Binding Converter={StaticResource GlobalObjectDicConverter}, ConverterParameter='등록이력'}" >
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="30"/>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="8"/>
+                                </Grid.RowDefinitions>
+                                
+                                <Border Grid.Row="2" Style="{StaticResource Content_InputForm_ContentBorderStyle}"/>
+                                <Border     Grid.Row="0" Grid.RowSpan="2" Style="{StaticResource Content_InputForm_ContentBorderStyle}"/>
+                                <TextBlock  Grid.Row="0" Text="{Binding ConverterParameter='List', Converter={StaticResource GlobalObjectDicConverter}, RelativeSource={RelativeSource Self}}" HorizontalAlignment="Left" Style="{StaticResource Content_Search_LabelStyle}" Margin="7,0,0,0" />
+
+                                <c1:C1DataGrid Grid.Row="1" Grid.Column="1" x:Name="dgHistory"  HeadersVisibility="Column" SelectionMode="MultiRange" IsReadOnly="True" Margin="5">
+                                    <c1:C1DataGrid.Columns>
+                                        <c1:DataGridTextColumn     Header = "라인"          Binding = "{Binding EQSGNAME}"              HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn     Header = "공정"          Binding = "{Binding PROCNAME}"              HorizontalAlignment="Left"   />
+                                        <c1:DataGridTextColumn     Header = "설비"          Binding = "{Binding EQPTNAME}"              HorizontalAlignment="Left"   />
+                                        <c1:DataGridTextColumn     Header = "PJT"           Binding = "{Binding PRJT_NAME}"             HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn     Header = "반제품"        Binding = "{Binding APPR_PRODID}"           HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn     Header = "품질승인단계"  Binding = "{Binding EQPT_QLTY_APPR_STEP}"   HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn     Header = "승인여부"      Binding = "{Binding APPR_RSLT_NAME}"        HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn     Header = "승인완료일시"  Binding = "{Binding APPR_DTTM}"             HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn     Header = "비고"          Binding = "{Binding APPR_NOTE}"             HorizontalAlignment="Center" />
+                                        <c1:DataGridTextColumn     Header = "등록상태"      Binding = "{Binding DEL_FLAG}"              HorizontalAlignment="Center"   />
+                                        <c1:DataGridTextColumn     Header = "등록담당자"    Binding = "{Binding APPR_USERNAME}"         HorizontalAlignment="Center"   />
+                                        <c1:DataGridTextColumn     Header = "등록일시"      Binding = "{Binding INSDTTM}"               HorizontalAlignment="Center"   />
+                                    </c1:C1DataGrid.Columns>
+                                </c1:C1DataGrid>
+                            </Grid>
+                        </c1:C1TabItem>
+                    </c1:C1TabControl>
+
+                </Grid>
+            </Grid>
+        </ctrlLib:LGCLayout>
+
+        <ctrlLib:LoadingIndicator x:Name="loadingIndicator" Grid.Row="999" Grid.Column="999" />
+    </Grid>
+</UserControl>

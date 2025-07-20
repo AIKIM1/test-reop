@@ -1,0 +1,106 @@
+﻿<c1:C1Window x:Class="LGC.GMES.MES.ASSY004.ASSY004_008_LAMI_MOVE"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:c1="http://schemas.componentone.com/winfx/2006/xaml"
+		     xmlns:System="clr-namespace:System;assembly=mscorlib"
+             xmlns:ctrlLib="clr-namespace:LGC.GMES.MES.ControlsLibrary;assembly=LGC.GMES.MES.ControlsLibrary"        
+             ctrlLib:LGCPopupWindowExtension.ApplyStyle="True"
+             Header="{Binding Converter={StaticResource GlobalObjectDicConverter}, ConverterParameter='Lami대기이동'}" 
+             Tag="ProtoType01Windows01" Height="320" Width="950" IsResizable="True" Loaded="C1Window_Loaded" Initialized="C1Window_Initialized" >
+
+    <c1:C1Window.Resources>
+        <ResourceDictionary Source="/LGC.GMES.MES.ControlsLibrary;Component/ControlStyles.xaml"/>
+    </c1:C1Window.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="15" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <!--content area-->
+        <Border Grid.Row ="0" Background="#ffffffff" BorderThickness="1" BorderBrush="#ffbebebe"></Border>
+        <Grid Grid.Row="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="8" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="8" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="8" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="8" />
+            </Grid.ColumnDefinitions>
+            <Grid Grid.Row ="1" Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="4"/>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="4"/>
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="30"/>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="6"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="8" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="8"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="4"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="4"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock   Grid.Row="1" Grid.Column="1" Text="{Binding ConverterParameter='LOTID', Converter={StaticResource GlobalObjectDicConverter}, RelativeSource={RelativeSource Self}}" HorizontalAlignment="Right" Style="{StaticResource SearchCondition_LabelStyle}" />
+                <TextBox     Grid.Row="1" Grid.Column="3" Margin="4,3,0,3" Style="{StaticResource Content_InputForm_TextBoxStyle}" x:Name="txtWaitPancakeLot" CharacterCasing="Upper" Width="150" KeyDown="txtWaitPancakeLot_KeyDown"/>
+                <Button x:Name="btnSearch"  Grid.Row="1" Grid.Column="5"   Content="{Binding ConverterParameter=SEARCH,    Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource SearchButtonStyle}" Cursor="Hand" Click="btnSearch_Click" />
+
+                <StackPanel x:Name="cboLine_All" Grid.Row="1" Grid.Column="7" Grid.ColumnSpan="2" Orientation="Horizontal" Visibility="Collapsed">
+                    <TextBlock Grid.Row="1" Grid.Column="0" Text="{Binding ConverterParameter='라인', Converter={StaticResource GlobalObjectDicConverter} }" VerticalAlignment="Center"/>
+                    <c1:C1ComboBox x:Name="cboLine" Grid.Row="1" Grid.Column="2" VerticalAlignment="Center"  AutoComplete="False" DisplayMemberPath="CBO_NAME" SelectedValuePath="CBO_CODE" >
+                    </c1:C1ComboBox>
+                </StackPanel>
+
+                <CheckBox      x:Name="chkPilot"       Grid.Row="1" Grid.Column="9" Content="{Binding ConverterParameter='시생산', Converter={StaticResource GlobalObjectDicConverter}}" Style="{StaticResource SearchCondition_CheckBoxStyle}" Checked="chkPilot_Checked" Unchecked="chkPilot_Unchecked" />
+                <TextBlock                                Grid.Row="1" Grid.Column="10" Text="{Binding ConverterParameter='시생산', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}"/>
+
+                <c1:C1DataGrid Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="11" x:Name="dgWaitLot" IsReadOnly="True"  HeadersVisibility="Column" FrozenColumnCount="1"  >
+                        <c1:C1DataGrid.Columns>
+                        <c1:DataGridTextColumn        Header = "LOT ID"            Binding = "{Binding LOTID}"       HorizontalAlignment="Center" />
+                        <c1:DataGridTextColumn        Header = "Carrier ID"        Binding = "{Binding CSTID}"       HorizontalAlignment="Center" />
+                        <c1:DataGridTextColumn        Header = "PJT"               Binding = "{Binding PRJT_NAME}"   HorizontalAlignment="Center" />
+                        <c1:DataGridTextColumn        Header = "WIP Hold"          Binding = "{Binding WIPHOLD}"     HorizontalAlignment="Center" />
+                        <c1:DataGridTextColumn        Header = "QA Hold"           Binding = "{Binding QAHOLD}"      HorizontalAlignment="Center" />
+                        <c1:DataGridTextColumn        Header = "유효기간"          Binding = "{Binding VLD_DATE}"    HorizontalAlignment="Center" />
+                        <c1:DataGridTextColumn        Header = "현재라인"          Binding = "{Binding EQSGNAME}"    HorizontalAlignment="Center"  />
+                        <c1:DataGridTextColumn        Header = "LAMI 라인"         Binding = "{Binding EQSGNAME_LM}" HorizontalAlignment="Center"  />
+                        <c1:DataGridTextColumn        Header = "현재라인ID"        Binding = "{Binding EQSGID}"      HorizontalAlignment="Center"  Visibility="Collapsed"/>
+                      
+                    </c1:C1DataGrid.Columns>
+                </c1:C1DataGrid>
+            </Grid>
+        </Grid>
+
+
+        <!--button area-->
+        <Grid Grid.Row ="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="20"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="4"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <CheckBox  x:Name="chkForcingMove"     Grid.Column="1" Content="{Binding ConverterParameter='강제이동', Converter={StaticResource GlobalObjectDicConverter}}" Style="{StaticResource SearchCondition_CheckBoxStyle}" Checked="chkForcingMove_Checked" Unchecked="chkForcingMove_Unchecked" Visibility="Collapsed"/>
+            <Button x:Name="btnRework"  Grid.Column="3" Content="{Binding ConverterParameter=이동,   Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{DynamicResource Content_MainButtonNoMinWidthSpecialStyle}" Height="29" Click="btnRework_Click"/>
+            <Button x:Name="btnClose"   Grid.Column="5" Content="{Binding ConverterParameter='닫기', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{DynamicResource Content_MainButtonStyle}" Click="btnClose_Click" />
+        </Grid>
+
+        <ctrlLib:LoadingIndicator x:Name="loadingIndicator"  />
+
+      
+    </Grid>
+</c1:C1Window>

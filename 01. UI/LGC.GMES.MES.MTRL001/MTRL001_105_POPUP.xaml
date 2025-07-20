@@ -1,0 +1,116 @@
+﻿<c1:C1Window x:Class="LGC.GMES.MES.MTRL001.MTRL001_105_POPUP"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:c1="http://schemas.componentone.com/winfx/2006/xaml"
+		     xmlns:System="clr-namespace:System;assembly=mscorlib"
+             xmlns:ctrlLib="clr-namespace:LGC.GMES.MES.ControlsLibrary;assembly=LGC.GMES.MES.ControlsLibrary"        
+             ctrlLib:LGCPopupWindowExtension.ApplyStyle="True"
+             Header="{Binding Converter={StaticResource GlobalObjectDicConverter}, ConverterParameter='원자재투입이력조회'}" 
+             Tag="ProtoType01Windows01" Height="600" Width="850" IsResizable="True" Loaded="C1Window_Loaded" >
+
+    <c1:C1Window.Resources>
+        <ResourceDictionary Source="/LGC.GMES.MES.ControlsLibrary;Component/ControlStyles.xaml"/>
+    </c1:C1Window.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="15" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <!--content area-->
+        <Border Grid.Row ="0" Background="#ffffffff" BorderThickness="1" BorderBrush="#ffbebebe"></Border>
+        <Grid Grid.Row="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="8" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="8" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="8" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="8" />
+            </Grid.ColumnDefinitions>
+            <Grid Grid.Row ="1" Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="4"/>
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="8" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="8" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="4"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- 팔레트 -->
+                <Grid Grid.Row="0" Grid.Column="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="250"/>
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Right">
+                        <TextBlock  Grid.Row="0"  Grid.Column="0" Text="{Binding ConverterParameter='PLLT_ID', Converter={StaticResource GlobalObjectDicConverter}, RelativeSource={RelativeSource Self}}" HorizontalAlignment="Right" Style="{StaticResource Content_Search_LabelStyle}" />
+                    </StackPanel>
+                    <TextBox        x:Name="txtPlltID"            Grid.Row="0" Grid.Column="1" Style="{StaticResource SearchCondition_TextBoxStyle}" IsReadOnly="True" />
+                </Grid>
+                <!-- 업체 LOTID -->
+                <Grid Grid.Row="0" Grid.Column="4">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="150"/>
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Right">
+                        <TextBlock  Grid.Row="0"  Grid.Column="0" Text="{Binding ConverterParameter='SUPPLIER_LOTID', Converter={StaticResource GlobalObjectDicConverter}, RelativeSource={RelativeSource Self}}" HorizontalAlignment="Right" Style="{StaticResource Content_Search_LabelStyle}" />
+                    </StackPanel>
+                    <TextBox        x:Name="txtMTRL_LOTID"        Grid.Row="0" Grid.Column="1" Style="{StaticResource SearchCondition_TextBoxStyle}" IsReadOnly="True" />
+                </Grid>
+
+                <c1:C1DataGrid Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="10" x:Name="dgRMTRLList" IsReadOnly="True" HeadersVisibility="Column" SelectionMode="MultiRange" >
+                    <c1:C1DataGrid.Resources>
+                        <Style TargetType="{x:Type Button}" x:Key="grButtonStyle" BasedOn="{StaticResource ButtonIconBaseStyle}">
+                            <Setter Property="Background">
+                                <Setter.Value>
+                                    <ImageBrush ImageSource="/LGC.GMES.MES.CMM001;component/Images/btn_i_print.png" Stretch="Uniform"/>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </c1:C1DataGrid.Resources>
+                    <c1:C1DataGrid.Columns>
+                        <c1:DataGridTextColumn      Header="EQPTNAME"       Binding="{Binding EQPTNAME}"        HorizontalAlignment="Center" Width="Auto" IsReadOnly="True"/>
+                        <c1:DataGridTextColumn      Header="MTRLID"         Binding="{Binding MTRLID}"          HorizontalAlignment="Center" Width="Auto" IsReadOnly="True"/>
+                        <c1:DataGridTextColumn      Header="MTRLNAME"       Binding="{Binding MTRLNAME}"        HorizontalAlignment="Center" Width="Auto" IsReadOnly="True"/>
+                        <c1:DataGridTextColumn      Header="INPUT_DTTM"     Binding="{Binding INPUT_DTTM}"      HorizontalAlignment="Center" Width="Auto" IsReadOnly="True"/>
+                        <c1:DataGridTextColumn      Header="LOTID"          Binding="{Binding LOTID}"           HorizontalAlignment="Center" Width="Auto" IsReadOnly="True"/>
+                        <c1:DataGridNumericColumn   Header="INPUT_QTY"      Binding="{Binding INPUT_QTY}"       Format="D" HorizontalAlignment="Center" Width="Auto"  Minimum="0" Maximum="15" IsReadOnly="False" />
+                    </c1:C1DataGrid.Columns>
+
+                </c1:C1DataGrid>
+            </Grid>
+        </Grid>
+
+        <!--button area-->
+        <Grid Grid.Row ="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <Button x:Name="btnClose"   Grid.Column="1" Content="{Binding ConverterParameter='닫기', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{DynamicResource Content_MainButtonStyle}"  Click="btnClose_Click" />
+        </Grid>
+
+
+        <ctrlLib:LoadingIndicator x:Name="loadingIndicator" />
+        
+    </Grid>
+</c1:C1Window>

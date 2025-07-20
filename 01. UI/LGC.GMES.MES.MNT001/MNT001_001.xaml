@@ -1,0 +1,194 @@
+﻿<Window x:Class="LGC.GMES.MES.MNT001.MNT001_001"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:c1="http://schemas.componentone.com/winfx/2006/xaml"
+		     xmlns:System="clr-namespace:System;assembly=mscorlib"
+             xmlns:ctrlLib="clr-namespace:LGC.GMES.MES.ControlsLibrary;assembly=LGC.GMES.MES.ControlsLibrary" 
+             mc:Ignorable="d" 
+             Background="Blue" 
+             Style="{DynamicResource Window_MNT_Main}"
+             AllowsTransparency="False" 
+             WindowStyle="None" 
+             SizeToContent="Manual" 
+             ResizeMode="CanResize" 
+             WindowState="Normal" 
+             WindowStartupLocation="CenterScreen" 
+             Height="1024" 
+             Width="1280" 
+             Tag="{Binding ConverterParameter='자동차 PACK 생산현황', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}"
+             SourceInitialized="Window_SourceInitialized" 
+             Unloaded="UserControl_Unloaded"
+             >
+
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/LGC.GMES.MES.ControlsLibrary;component/ControlStyles.xaml" />
+                <ResourceDictionary Source="/LGC.GMES.MES.MNT001;component/Style/MNT001_ControlStyles_PACK.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <Storyboard x:Key="ExpandLeftFrameStoryboard">
+                <DoubleAnimationUsingKeyFrames Storyboard.TargetName="grdleftFrame" Storyboard.TargetProperty="(FrameworkElement.Width)" >
+                    <SplineDoubleKeyFrame Value="350" KeyTime="00:00:00.5"
+                                                          KeySpline="0.73199999332428,0.138999998569489,0.101999998092651,0.999000012874603" />
+                </DoubleAnimationUsingKeyFrames>
+            </Storyboard>
+            <Storyboard x:Key="CollapseLeftFrameStoryboard">
+                <DoubleAnimationUsingKeyFrames Storyboard.TargetName="grdleftFrame" Storyboard.TargetProperty="(FrameworkElement.Width)">
+                    <SplineDoubleKeyFrame Value="0" KeyTime="00:00:00.5"
+                                                          KeySpline="0.73199999332428,0.138999998569489,0.101999998092651,0.999000012874603" />
+                </DoubleAnimationUsingKeyFrames>
+            </Storyboard>
+
+        </ResourceDictionary>
+    </Window.Resources>
+
+    <Grid>
+
+        <Grid x:Name="LayoutRoot" Background="White">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            
+            <!--HEADER-->
+            <Grid Grid.Row="0" x:Name="grHeader" MouseLeftButtonDown="grHeader_MouseLeftButtonDown">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="10" />
+                </Grid.RowDefinitions>
+
+                <Border    Grid.Row="0" Grid.Column="0" Grid.RowSpan="4"                   Style="{DynamicResource Border_MNT001_Title}" ></Border>
+                <!--<TextBlock Grid.Row="0" Grid.Column="0" Grid.RowSpan="3" x:Name="txtTitle" Style="{DynamicResource TextBlock_MNT001_Title}" />-->
+                
+                <!--TITLE-->
+                <Grid Grid.Row="0" Grid.Column="0" Grid.RowSpan="3">
+                    <TextBlock  x:Name="tbTitle" Text="{Binding ConverterParameter='자동차 PACK 생산현황', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}"   Style="{DynamicResource TextBlock_MNT001_Title}"
+                                 />
+                </Grid>
+                
+                <!--<TextBlock Grid.Row="1" Grid.Column="0"                  x:Name="txtDate"  Style="{DynamicResource TextBlock_MNT001_DateTime}" />-->
+
+                <!--날짜정보-->
+                <Grid Grid.Row="1" Grid.Column="0" >
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="8" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="8" />
+
+                    </Grid.ColumnDefinitions>
+                    
+                    <TextBlock              x:Name="tbdate" Grid.Column="3"  HorizontalAlignment="Right" FontSize="20" Style="{DynamicResource TextBlock_MNT001_DateTime}"/>
+                </Grid>
+
+                <!--<TextBlock Grid.Row="1" Grid.Column="0"                  x:Name="txtPage"  Text="1" Style="{DynamicResource TextBlock_MNT001_Page}" />-->
+
+                <Button    Grid.Row="0" Grid.Column="7" x:Name="btnClose"   VerticalAlignment="Center" HorizontalAlignment="Right"    Style="{StaticResource ButtonCloseStyle}" Width="32" Height="32" Click="btnClose_Click" Margin="0,0,13,0"/>
+            </Grid>
+
+            <!--       Style="{StaticResource Grid_RowS}"      ColumnHeaderStyle="{StaticResource Grid_Header}"  -->
+            <!--GRID-->
+            <Border Grid.Row="1" Background="Black" Padding="0" BorderThickness="1" BorderBrush="White" VerticalAlignment="Stretch" Width="Auto" Height="Auto">
+                <Grid x:Name="gdLineMonitoring" Grid.Row="1"></Grid>
+            </Border>
+            
+            <!--Left Fram Siliding Control-->
+            <Grid Grid.Row="0" Grid.RowSpan="4" VerticalAlignment="Top" Height="Auto">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+
+                <ToggleButton x:Name="btnLeftFrame" Grid.Row="0" Grid.RowSpan="2" Grid.Column="1" Grid.ColumnSpan="2" 
+                              Checked="btnLeftFrame_Checked" Unchecked="btnLeftFrame_Unchecked" Margin="-2,0,0,0" Height="57" Width="30" 
+                              Style="{StaticResource btnLeftStyle}" VerticalAlignment="Top" HorizontalAlignment="Left" IsChecked="False">
+                </ToggleButton>
+
+                <Grid x:Name="grdleftFrame" Grid.Row="0" Grid.RowSpan="2" Grid.Column="0" VerticalAlignment="Stretch" HorizontalAlignment="Left" Width="0" >
+
+                    <Grid.Resources>
+                        <LinearGradientBrush x:Key="leftbgBrush" StartPoint="1,1" EndPoint="0,1" >
+                            <GradientStop Color="#DEDEDE " Offset="0.5"/>
+                            <GradientStop Color="#C0C0C0" Offset="0"/>
+                        </LinearGradientBrush>
+                    </Grid.Resources>
+
+                    <Border VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Style="{StaticResource Content_InputForm_LabelBorderStyle}" BorderBrush="#FFDFDFDE" BorderThickness="1"  Padding="5">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="32"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                                <RowDefinition Height="8"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <!--Frame Content Area-->
+
+                            <TextBlock                  Grid.Row="0" Grid.Column="0" Text="{Binding Converter={StaticResource GlobalObjectDicConverter}, ConverterParameter='공장'}"                Style="{DynamicResource Content_InputForm_LabelStyle}"/>
+                            <c1:C1ComboBox              Grid.Row="0" Grid.Column="1" x:Name="cboShop"               DisplayMemberPath="CBO_NAME" SelectedValuePath="CBO_CODE" />
+
+                            <TextBlock                  Grid.Row="1" Grid.Column="0" Text="{Binding Converter={StaticResource GlobalObjectDicConverter}, ConverterParameter='동'}"                Style="{DynamicResource Content_InputForm_LabelStyle}"/>
+                            <c1:C1ComboBox              Grid.Row="1" Grid.Column="1" x:Name="cboArea"               DisplayMemberPath="CBO_NAME" SelectedValuePath="CBO_CODE" />
+
+                            <TextBlock                  Grid.Row="2" Grid.Column="0" Text="{Binding Converter={StaticResource GlobalObjectDicConverter}, ConverterParameter='Line'}"                Style="{DynamicResource Content_InputForm_LabelStyle}"/>
+                            <c1:C1ComboBox              Grid.Row="2" Grid.Column="1" x:Name="cboEquipmentSegment"   DisplayMemberPath="CBO_NAME" SelectedValuePath="CBO_CODE" />
+
+                            <TextBlock                  Grid.Row="4" Grid.Column="0" Text="{Binding Converter={StaticResource GlobalObjectDicConverter}, ConverterParameter='Display Title'}"      Style="{DynamicResource Content_InputForm_LabelStyle}"/>
+                            <TextBox                    Grid.Row="4" Grid.Column="1" x:Name="txtScreenName"                                                                                         Style="{StaticResource Content_InputForm_TextBoxStyle}"/>
+
+                            <TextBlock                  Grid.Row="5" Grid.Column="0" Text="{Binding Converter={StaticResource GlobalObjectDicConverter}, ConverterParameter='REFRESH RATE(sec)'}"    Style="{DynamicResource Content_InputForm_LabelStyle}"/>
+                            <c1:C1NumericBox            Grid.Row="5" Grid.Column="1" x:Name="numRefresh"                                                                                             Style="{StaticResource C1NumericBoxStyle}" Minimum="3"/>
+
+
+                            <Grid Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="2">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="4"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <Button Grid.Row="5" Grid.Column="1" x:Name="btnSetSave"    Content="{Binding ConverterParameter='저장', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{DynamicResource Content_MainButtonNoMinWidthSpecialStyle}" Click="btnSetSave_Click" />
+                                <Button Grid.Row="5" Grid.Column="3" x:Name="btnSetClose"   Content="{Binding ConverterParameter='닫기', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{DynamicResource Content_MainButtonNoMinWidthStyle}"        Click="btnSetClose_Click"/>
+                            </Grid>
+
+                            <!--Frame Content Area-->
+
+                        </Grid>
+                    </Border>
+
+                </Grid>
+
+                <Grid x:Name="grdleftSplitter" Grid.Row="0" Grid.RowSpan="2" Grid.Column="1" Width="0" Background="#DEDEDE">
+                    <Rectangle Stroke="#F9F9F9" Width="1" HorizontalAlignment="Right">
+                        <Rectangle.Effect>
+                            <DropShadowEffect BlurRadius="2" Color="Black" ShadowDepth="1"  Opacity="1" Direction="0" />
+                        </Rectangle.Effect>
+                    </Rectangle>
+                </Grid>
+            </Grid>
+           
+        </Grid>
+        
+        <ctrlLib:LoadingIndicator x:Name="loadingIndicator" Grid.Row="999" Grid.Column="999" />
+    </Grid>
+    
+</Window>

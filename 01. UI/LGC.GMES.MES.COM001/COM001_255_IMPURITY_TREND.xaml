@@ -1,0 +1,85 @@
+﻿<c1:C1Window x:Class="LGC.GMES.MES.COM001.COM001_255_IMPURITY_TREND" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+		xmlns:c1="http://schemas.componentone.com/winfx/2006/xaml" xmlns:System="clr-namespace:System;assembly=mscorlib" xmlns:c1c="clr-namespace:C1.WPF.C1Chart;assembly=C1.WPF.C1Chart.4"
+		xmlns:ctrlLib="clr-namespace:LGC.GMES.MES.ControlsLibrary;assembly=LGC.GMES.MES.ControlsLibrary" ctrlLib:LGCPopupWindowExtension.ApplyStyle="True"
+		Header="{Binding Converter={StaticResource GlobalObjectDicConverter}, ConverterParameter='믹서이물관리 TREND'}" Tag="ProtoType01Windows01" Height="1000" Width="1200" IsResizable="True"
+		Loaded="C1Window_Loaded">
+
+	<c1:C1Window.Resources>
+		<ResourceDictionary>
+			<ResourceDictionary.MergedDictionaries>
+				<ResourceDictionary Source="/LGC.GMES.MES.ControlsLibrary;Component/ControlStyles.xaml" />
+			</ResourceDictionary.MergedDictionaries>
+		</ResourceDictionary>
+	</c1:C1Window.Resources>
+
+	<Grid x:Name="grdMain">
+		<ctrlLib:LGCLayout x:Name="LayoutRoot" Tag="믹서이물관리 TREND">
+			<Grid>
+				<Grid.Resources>
+					<DataTemplate x:Key="lbl">
+						<Grid>
+							<Path Data="M0.5,0.5 L23,0.5 23,23 11.61165,29.286408 0.5,23 z" Stretch="Fill" Fill="#FFF1F1F1" Stroke="DarkGray" StrokeThickness="1" />
+							<Grid>
+								<Grid.RowDefinitions>
+									<RowDefinition Height="Auto" />
+									<RowDefinition Height="Auto" />
+								</Grid.RowDefinitions>
+								<Grid.ColumnDefinitions>
+									<ColumnDefinition Width="Auto" />
+									<ColumnDefinition Width="Auto" />
+								</Grid.ColumnDefinitions>
+								<TextBlock FontSize="10" Grid.Row="0" Grid.Column="0" Foreground="DarkRed" Text="{Binding ConverterParameter='PPM : ', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" />
+								<TextBlock FontSize="10" Grid.Row="0" Grid.Column="1" Foreground="DarkRed" HorizontalAlignment="Center" Text="{Binding  RelativeSource={RelativeSource Self} , Path=DataContext.Y, StringFormat={}{0:0.0000000}}" />
+								<TextBlock FontSize="10" Grid.Row="1" Grid.Column="0" Foreground="DarkRed" Text="{Binding ConverterParameter='날짜 : ', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" />
+								<TextBlock FontSize="10" Grid.Row="1" Grid.Column="1" Foreground="DarkRed" HorizontalAlignment="Center" Text="{Binding  RelativeSource={RelativeSource Self} , Path=DataContext.X, StringFormat={}{0:yy/MM/dd}}" />
+							</Grid>
+						</Grid>
+					</DataTemplate>
+				</Grid.Resources>
+				<Grid.RowDefinitions>
+					<RowDefinition Height="*" />
+					<RowDefinition Height="20" />
+					<RowDefinition Height="*" />
+				</Grid.RowDefinitions>
+				<Grid Grid.Row="0" Margin="20 0">
+					<Grid.RowDefinitions>
+						<RowDefinition Height="20" />
+						<RowDefinition Height="*" />
+					</Grid.RowDefinitions>
+                    <TextBlock  Grid.Row="0"  Text="{Binding ConverterParameter='투입호퍼 Fe수거량(ppm)', Converter={StaticResource GlobalObjectDicConverter}, RelativeSource={RelativeSource Self}}" FontSize="15" FontWeight="Bold" HorizontalAlignment="Center"/>
+                    <Border Grid.Row="1">
+						<c1c:C1Chart x:Name="chrHopper" ChartType="XYPlot" Margin="10,0,0,0" Style="{StaticResource C1ChartNormalStyle}">
+							<c1c:C1Chart.Data>
+								<c1c:ChartData>
+									<c1c:XYDataSeries ValueBinding="{Binding TOTAL_PPM_QTY}" XValueBinding="{Binding CLCT_DTTM}" PointLabelTemplate="{StaticResource lbl}"
+											Label="{Binding ConverterParameter='이물등록', Converter={StaticResource GlobalObjectDicConverter}}" />
+								</c1c:ChartData>
+							</c1c:C1Chart.Data>
+							<c1c:C1ChartLegend DockPanel.Dock="Right" BorderBrush="Black" Foreground="Black" Margin="0 0 0 100" />
+						</c1c:C1Chart>
+					</Border>
+				</Grid>
+				<Grid Grid.Row="2" Margin="20 0">
+					<Grid.RowDefinitions>
+						<RowDefinition Height="20" />
+						<RowDefinition Height="*" />
+					</Grid.RowDefinitions>
+					<!--<TextBlock Grid.Row="0" Text="Slurry Fe수거량(ppm)" FontSize="15" FontWeight="Bold" HorizontalAlignment="Center" />-->
+                    <TextBlock  Grid.Row="0"  Text="{Binding ConverterParameter='Slurry Fe수거량(ppm)', Converter={StaticResource GlobalObjectDicConverter}, RelativeSource={RelativeSource Self}}" FontSize="15" FontWeight="Bold" HorizontalAlignment="Center"/>
+					<Border Grid.Row="1">
+						<c1c:C1Chart x:Name="chrSlurry" ChartType="XYPlot" Margin="10,0,0,0" Style="{StaticResource C1ChartNormalStyle}">
+							<c1c:C1Chart.Data>
+								<c1c:ChartData>
+									<c1c:XYDataSeries ValueBinding="{Binding TOTAL_PPM_QTY}" XValueBinding="{Binding CLCT_DTTM}" PointLabelTemplate="{StaticResource lbl}"
+											Label="{Binding ConverterParameter='이물등록', Converter={StaticResource GlobalObjectDicConverter}}" />
+								</c1c:ChartData>
+							</c1c:C1Chart.Data>
+							<c1c:C1ChartLegend  BorderBrush="Black" Foreground="Black" Margin="0 0 0 -300" />
+						</c1c:C1Chart>
+					</Border>
+				</Grid>
+			</Grid>
+		</ctrlLib:LGCLayout>
+		<ctrlLib:LoadingIndicator x:Name="loadingIndicator" Grid.Row="999" Grid.Column="999" />
+	</Grid>
+</c1:C1Window>

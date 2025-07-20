@@ -1,0 +1,113 @@
+﻿<UserControl xmlns:ss="hhemas.grapecity.com/windows/spreadsheet/2012"  x:Class="LGC.GMES.MES.FCS001.FCS001_111"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:c1="http://schemas.componentone.com/winfx/2006/xaml"
+             xmlns:ctrlLib="clr-namespace:LGC.GMES.MES.ControlsLibrary;assembly=LGC.GMES.MES.ControlsLibrary"
+             xmlns:uc="clr-namespace:LGC.GMES.MES.CMM001.Controls;assembly=LGC.GMES.MES.CMM001"
+             mc:Ignorable="d" 
+             d:DesignHeight="768" d:DesignWidth="1580" Loaded="UserControl_Loaded">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/LGC.GMES.MES.ControlsLibrary;component/ControlStyles.xaml" />
+                <ResourceDictionary Source="/LGC.GMES.MES.ControlsLibrary;component/ControlTemplates/LGCDatePicker.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    
+    <Grid x:Name="grdMain">
+        <ctrlLib:LGCLayout x:Name="LayoutRoot" Tag="충방전기 Gripper 관리" Grid.ColumnSpan="2">
+            <Grid>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="250"/>
+                        <ColumnDefinition Width="8"/>
+                        <ColumnDefinition Width="5*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <!-- 조회조건 -->
+                    <Grid Name="SearchArea" Grid.Column="0" >
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="8"/>
+                            <RowDefinition Height="11"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="8"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="8"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="8"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="8"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="13"/>
+                            <ColumnDefinition Width="20"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="13"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Border     Grid.Row="1" Grid.RowSpan="99" Grid.Column="0" Grid.ColumnSpan="99" Style="{StaticResource Content_InputForm_ContentBorderStyle}"/>
+                        <TextBlock Grid.Row="2" Grid.Column="2" Margin="0,0,5,0" Text="{Binding ConverterParameter='라인', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}" HorizontalAlignment="Left"/>
+                        <uc:UcBaseComboBox  Grid.Row="3" Grid.Column="2"  x:Name="cboLine"  DisplayMemberPath="" SelectedValuePath=""  Style="{StaticResource C1ComboBoxStyle}" AutoComplete="False"  />
+
+                        <TextBlock Grid.Row="5" Grid.Column="2" Margin="0,0,5,0" Text="{Binding ConverterParameter='이상재고 구분', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}" HorizontalAlignment="Left"/>
+                        <uc:UcBaseComboBox  Grid.Row="6" Grid.Column="2" x:Name="cboInvKind"  DisplayMemberPath="" SelectedValuePath=""  Style="{StaticResource C1ComboBoxStyle}" AutoComplete="False"  />
+
+                        <TextBlock Grid.Row="8" Grid.Column="2" Margin="0,0,5,0" Text="{Binding ConverterParameter='LOT 상세 유형', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}" HorizontalAlignment="Left"/>
+                        <uc:UcBaseComboBox  Grid.Row="9" Grid.Column="2" x:Name="cboLotDetlTypeCode"  DisplayMemberPath="" SelectedValuePath=""  Style="{StaticResource C1ComboBoxStyle}" AutoComplete="False"  />
+
+                        <TextBlock Grid.Row="11" Grid.Column="2" Margin="0,0,5,0" Text="{Binding ConverterParameter='PCTYNAME', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}" HorizontalAlignment="Left"/>
+                        <ListBox       Grid.Row="12" Grid.Column="2"  Name="lbProcGr"/>
+
+                        <uc:UcBaseButton   Grid.Row="14" Grid.Column="2" x:Name="btnSearch" Width="80" Margin="10" Content="{Binding ConverterParameter=조회 , Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource SearchButtonStyle}" Click="btnSearchClick" />
+                    </Grid>
+
+                    <!-- 조회결과 -->
+                    <Grid Grid.Column="2">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="8"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <uc:UcBaseDataGrid Grid.Row="1" x:Name="dgList" IsReadOnly="False" HeadersVisibility="Column" FrozenColumnCount="3" SelectionMode="SingleRow" LoadedCellPresenter="dgList_LoadedCellPresenter" MouseDoubleClick="dgList_MouseDoubleClick" >
+                            <c1:C1DataGrid.Columns>
+                                <c1:DataGridTextColumn       Header = "구분"   Binding = "{Binding LONG_TERM_INV_KIND_NAME}"  IsReadOnly="True" HorizontalAlignment="Center" />
+                                <c1:DataGridTextColumn       Header = "EQSGNAME"   Binding = "{Binding EQSGNAME}"  IsReadOnly="True" HorizontalAlignment="Center"/>
+                                <c1:DataGridTextColumn       Header = "LINE"   Binding = "{Binding EQSGID}"  IsReadOnly="True" HorizontalAlignment="Center" Visibility="Collapsed"/>
+                                <c1:DataGridTextColumn       Header = "TRAY_LOT_ID"   Binding = "{Binding LOTID}"  IsReadOnly="True" HorizontalAlignment="Center" />
+                                <c1:DataGridTextColumn       Header = "LOT 상세 유형"   Binding = "{Binding LOT_DETL_TYPE_NAME}"  IsReadOnly="True" HorizontalAlignment="Center" />
+                                <c1:DataGridTextColumn       Header = "PKG_LOT_ID"   Binding = "{Binding PROD_LOTID}"  IsReadOnly="True" HorizontalAlignment="Center" />
+                                <c1:DataGridTextColumn       Header = "Tray ID"   Binding = "{Binding CSTID}"  IsReadOnly="True" HorizontalAlignment="Center" />
+                                <c1:DataGridTextColumn       Header = "경로 ID"   Binding = "{Binding ROUTID}"  IsReadOnly="True" HorizontalAlignment="Center" />
+                                <c1:DataGridTextColumn       Header = "경로명"   Binding = "{Binding ROUT_NAME}"  IsReadOnly="True" HorizontalAlignment="Center" />
+                                <c1:DataGridTextColumn       Header = "PROCID"   Binding = "{Binding PROCID}"  IsReadOnly="True" HorizontalAlignment="Center" Visibility="Collapsed"/>
+                                <c1:DataGridTextColumn       Header = "공정명"   Binding = "{Binding PROCNAME}"  IsReadOnly="True" HorizontalAlignment="Center" />
+                                <c1:DataGridTextColumn       Header = "NEXT_OP"   Binding = "{Binding NEXT_PROCID}"  IsReadOnly="True" HorizontalAlignment="Center" Visibility="Collapsed"/>
+                                <c1:DataGridTextColumn       Header = "NEXT_OP"   Binding = "{Binding NEXT_PROCNAME}"  IsReadOnly="True" HorizontalAlignment="Center" />
+                                <c1:DataGridTextColumn       Header = "EQPT_CUR"   Binding = "{Binding EQPT_CUR}"  IsReadOnly="True" HorizontalAlignment="Center" Visibility="Collapsed"/>
+                                <c1:DataGridTextColumn       Header = "설비명"   Binding = "{Binding EQPTNAME}"  IsReadOnly="True" HorizontalAlignment="Center" />
+                                <c1:DataGridTextColumn       Header = "DUMMY"   Binding = "{Binding DUMMY_FLAG}"  IsReadOnly="True" HorizontalAlignment="Center" />
+                                <c1:DataGridTextColumn       Header = "공정대기(작업시작)시간"   Binding = "{Binding DATE}"  IsReadOnly="True" HorizontalAlignment="Center" />
+                                <c1:DataGridTextColumn       Header = "STDTIME"   Binding = "{Binding STDTIME}"  IsReadOnly="True" HorizontalAlignment="Center" Visibility="Collapsed"/>
+                                <c1:DataGridTextColumn       Header = "MAX_DATE"   Binding = "{Binding MAX_DATE}"  IsReadOnly="True" HorizontalAlignment="Center" />
+                                <c1:DataGridTextColumn       Header = "OVERTIME_YN"   Binding = "{Binding OVERTIME_YN}"  IsReadOnly="True" HorizontalAlignment="Center" Visibility="Collapsed"/>
+                                <c1:DataGridTextColumn       Header = "OVER_TIME"   Binding = "{Binding OVER_TIME}"  IsReadOnly="True" HorizontalAlignment="Center" />
+                                <c1:DataGridTextColumn       Header = "LONG_TERM_INV_KIND"   Binding = "{Binding LONG_TERM_INV_KIND}"  IsReadOnly="True" HorizontalAlignment="Center" Visibility="Collapsed"/>
+                                <c1:DataGridTextColumn       Header = "PROC_GR_CODE"   Binding = "{Binding PROC_GR_CODE}"  IsReadOnly="True" HorizontalAlignment="Center" Visibility="Collapsed"/>
+                            </c1:C1DataGrid.Columns>
+                        </uc:UcBaseDataGrid>
+                    </Grid>
+                </Grid>
+            </Grid>
+        </ctrlLib:LGCLayout>
+        <ctrlLib:LoadingIndicator x:Name="loadingIndicator" Grid.Row="999" Grid.Column="999"/>
+    </Grid>
+</UserControl>

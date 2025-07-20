@@ -1,0 +1,597 @@
+﻿<UserControl x:Class="LGC.GMES.MES.ProtoType01.ProtoType0104"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:c1="http://schemas.componentone.com/winfx/2006/xaml"
+             xmlns:ctrlLib="clr-namespace:LGC.GMES.MES.ControlsLibrary;assembly=LGC.GMES.MES.ControlsLibrary"
+             mc:Ignorable="d" 
+             d:DesignHeight="768" d:DesignWidth="1024"
+             Loaded="UserControl_Loaded">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/LGC.GMES.MES.ControlsLibrary;component/ControlStyles.xaml" />
+                <ResourceDictionary Source="/LGC.GMES.MES.ControlsLibrary;component/ControlTemplates/LGCDatePicker.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <Storyboard x:Key="ExpandLeftFrameStoryboard">
+                <DoubleAnimationUsingKeyFrames Storyboard.TargetName="grdleftFrame" Storyboard.TargetProperty="(FrameworkElement.Width)" >
+                    <SplineDoubleKeyFrame Value="300" KeyTime="00:00:00.5"
+                                                          KeySpline="0.73199999332428,0.138999998569489,0.101999998092651,0.999000012874603" />
+                </DoubleAnimationUsingKeyFrames>
+            </Storyboard>
+            <Storyboard x:Key="CollapseLeftFrameStoryboard">
+                <DoubleAnimationUsingKeyFrames Storyboard.TargetName="grdleftFrame" Storyboard.TargetProperty="(FrameworkElement.Width)">
+                    <SplineDoubleKeyFrame Value="0" KeyTime="00:00:00.5"
+                                                          KeySpline="0.73199999332428,0.138999998569489,0.101999998092651,0.999000012874603" />
+                </DoubleAnimationUsingKeyFrames>
+            </Storyboard>
+
+            <Storyboard x:Key="ExpandRightFrameStoryboard">
+                <DoubleAnimationUsingKeyFrames Storyboard.TargetName="grdrightFrame" Storyboard.TargetProperty="(FrameworkElement.Width)" >
+                    <SplineDoubleKeyFrame Value="300" KeyTime="00:00:00.5"
+                                                          KeySpline="0.73199999332428,0.138999998569489,0.101999998092651,0.999000012874603" />
+                </DoubleAnimationUsingKeyFrames>
+            </Storyboard>
+            <Storyboard x:Key="CollapseRightFrameStoryboard">
+                <DoubleAnimationUsingKeyFrames Storyboard.TargetName="grdrightFrame" Storyboard.TargetProperty="(FrameworkElement.Width)">
+                    <SplineDoubleKeyFrame Value="0" KeyTime="00:00:00.5"
+                                                          KeySpline="0.73199999332428,0.138999998569489,0.101999998092651,0.999000012874603" />
+                </DoubleAnimationUsingKeyFrames>
+            </Storyboard>
+            
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <ctrlLib:LGCLayout x:Name="LayoutRoot">
+
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <Grid x:Name="ButtonArea" Grid.Row="0" Grid.Column="0"  Grid.ColumnSpan="3"  Margin="0,-47,0,0">
+                <Grid VerticalAlignment="Top">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="34" />
+                    </Grid.ColumnDefinitions>
+                    <c1:C1DropDownButton Grid.Row="0" Grid.Column="1" x:Name="btnExtra" Style="{StaticResource C1DropDownButtonStyle}" Height="32" MouseLeave="btnExtra_MouseLeave">
+                        <c1:C1DropDownButton.Header>
+                            <TextBlock x:Name="selection" Text="{Binding ConverterParameter='추가기능', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}"  TextAlignment="Center" VerticalAlignment="Center" Padding="8,0"/>
+                        </c1:C1DropDownButton.Header>
+
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="9" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="5" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="5" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="9" />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="9"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="9"/>
+                            </Grid.ColumnDefinitions>
+
+                            <Border Grid.Row="0" Grid.Column="0" Grid.RowSpan="99" Grid.ColumnSpan="99" Style="{StaticResource Content_InputForm_ContentBorderStyle}"/>
+
+                            <!--추가기능버튼-->
+                            <Button  Grid.Row="1" Grid.Column="1" x:Name="btnMenuMove"      Content="{Binding ConverterParameter='메뉴 이동',     Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_MainButtonStyle}" />
+                            <Button  Grid.Row="3" Grid.Column="1" x:Name="btnControlSerach" Content="{Binding ConverterParameter='컨트롤검색',    Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_MainButtonStyle}" />
+                            <Button  Grid.Row="5" Grid.Column="1" x:Name="btnExcelReport"   Content="{Binding ConverterParameter='Excel Report',  Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_MainButtonStyle}" />
+                        </Grid>
+                    </c1:C1DropDownButton>
+                    <Button   Grid.Row="0" Grid.Column="2" x:Name="btnButton11"   Content="{Binding ConverterParameter='Button 01',   Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_MainControl01Style}" Margin="5,0,0,0"/>
+                    <Button   Grid.Row="0" Grid.Column="3" x:Name="btnButton12"   Content="{Binding ConverterParameter='Button 02',   Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_MainControl02Style}" Margin="5,0,0,0"/>
+                    <Button   Grid.Row="0" Grid.Column="4" x:Name="btnButton13"   Content="{Binding ConverterParameter='Button 03',   Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_MainControl03Style}" Margin="5,0,0,0"/>
+                    <Button   Grid.Row="0" Grid.Column="5" x:Name="btnButton14"   Content="{Binding ConverterParameter='Button 04',   Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_MainControl04Style}" Margin="5,0,0,0"/>
+                </Grid>
+            </Grid>
+            
+            <Grid Grid.Row="0" Grid.Column="0" Grid.RowSpan="3" Grid.ColumnSpan="3">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="51"></RowDefinition>
+                    <RowDefinition Height="8"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="8"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="8"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <!--조회 영역-->
+                <Border Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Background="#fff2f2f2" BorderThickness="1" BorderBrush="#ffd1d1d1"></Border>
+                <Grid   Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="13"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="30"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="13"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Grid Grid.Row="0" Grid.Column="1">
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="2*"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="2*"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="2*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock      Grid.Row="0"  Grid.Column="0" Text="{Binding ConverterParameter='조회조건 01', Converter={StaticResource GlobalObjectDicConverter}, RelativeSource={RelativeSource Self}}" HorizontalAlignment="Right" Style="{StaticResource Content_Search_LabelStyle}" />
+                        <c1:C1ComboBox  Grid.Row="0"  Grid.Column="1" x:Name="cboSearch01"      DisplayMemberPath="PRODNAME" SelectedValuePath="PRODID"  Style="{StaticResource C1ComboBoxStyle}" AutoComplete="False" />
+
+                        <TextBlock      Grid.Row="0"  Grid.Column="2" Text="{Binding ConverterParameter='조회조건 02', Converter={StaticResource GlobalObjectDicConverter}, RelativeSource={RelativeSource Self}}" HorizontalAlignment="Right" Style="{StaticResource Content_Search_LabelStyle}" />
+                        <c1:C1ComboBox  Grid.Row="0"  Grid.Column="3" x:Name="cboSearch02"      DisplayMemberPath="PRODNAME" SelectedValuePath="PRODID"  Style="{StaticResource C1ComboBoxStyle}" AutoComplete="False" />
+
+                        <TextBlock      Grid.Row="0"  Grid.Column="4" Text="{Binding ConverterParameter='조회조건 03', Converter={StaticResource GlobalObjectDicConverter}, RelativeSource={RelativeSource Self}}" HorizontalAlignment="Right" Style="{StaticResource Content_Search_LabelStyle}" />
+                        <c1:C1ComboBox  Grid.Row="0"  Grid.Column="5" x:Name="cboSearch03"      DisplayMemberPath="PRODNAME" SelectedValuePath="PRODID"  Style="{StaticResource C1ComboBoxStyle}" AutoComplete="False" />
+                    </Grid>
+
+                    <Grid Grid.Row="0" Grid.Column="3">
+                        <Button x:Name="btnSearch"      Grid.Row="0" Grid.Column="0"   Content="{Binding ConverterParameter=Search,    Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource SearchButtonStyle}" Cursor="Hand" />
+                    </Grid>
+                </Grid>
+                <!--조회 영역-->
+
+                <!--Sub 영역 01 Sub 영역 03-->
+
+                <Grid Grid.Row="2" Grid.Column="0" Grid.RowSpan="3" >
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"></RowDefinition>
+                        <RowDefinition Height="8"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
+                    </Grid.RowDefinitions>
+
+                    <!--Sub 영역 013-->
+                    <Border Grid.Row="0" Grid.Column="0" Background="#ffffffff" BorderThickness="1" BorderBrush="#ffbebebe"></Border>
+                    <Grid   Grid.Row="0" Grid.Column="0" >
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="34"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                        </Grid.RowDefinitions>
+
+                        <!--Sub 영역 01 Title-->
+                        <Border Grid.Row="0" Grid.Column="1" BorderThickness="1" BorderBrush="#ffbebebe" Style="{StaticResource BorderSubTitleStyle}"/>
+                        <Grid   Grid.Row="0" Grid.Column="1" >
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="15"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock      Grid.Row="0"  Grid.Column="1" Text="{Binding ConverterParameter='Sub 영역 01', Converter={StaticResource GlobalObjectDicConverter}, RelativeSource={RelativeSource Self}}" HorizontalAlignment="Right" Style="{StaticResource Content_Search_LabelStyle}" />
+
+                            <Grid Grid.Column="3">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="5"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="20"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="5"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="20"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="5"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="15"/>
+                                </Grid.ColumnDefinitions>
+
+                                <Button         Grid.Row="0"  Grid.Column="1" Content="{Binding ConverterParameter='계획',   Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}"                    Style="{StaticResource Sub_Title_ButtonStyle}"/>
+                                <TextBlock      Grid.Row="0"  Grid.Column="3" Text="{Binding ConverterParameter='100', Converter={StaticResource GlobalObjectDicConverter}, RelativeSource={RelativeSource Self}}"    Style="{StaticResource Sub_Title_LabelStyle}" />
+
+                                <Button         Grid.Row="0"  Grid.Column="5" Content="{Binding ConverterParameter='할당',   Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}"                    Style="{StaticResource Sub_Title_ButtonStyle}"/>
+                                <TextBlock      Grid.Row="0"  Grid.Column="7" Text="{Binding ConverterParameter='200', Converter={StaticResource GlobalObjectDicConverter}, RelativeSource={RelativeSource Self}}"    Style="{StaticResource Sub_Title_LabelStyle}"   />
+
+                                <Button         Grid.Row="0"  Grid.Column="9" Content="{Binding ConverterParameter='생산',   Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}"                    Style="{StaticResource Sub_Title_ButtonStyle}"/>
+                                <TextBlock      Grid.Row="0"  Grid.Column="11" Text="{Binding ConverterParameter='300', Converter={StaticResource GlobalObjectDicConverter}, RelativeSource={RelativeSource Self}}"   Style="{StaticResource Sub_Title_LabelStyle}" />
+
+                            </Grid>
+                        </Grid>
+                        <!--Sub 영역 01 Title-->
+
+                        <!--Sub 영역 01 Content-->
+                        <Grid   Grid.Row="1" Grid.Column="0" >
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="8"></RowDefinition>
+                                <RowDefinition Height="*"></RowDefinition>
+                                <RowDefinition Height="8"></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="8"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="8"/>
+                            </Grid.ColumnDefinitions>
+
+                            <Grid   Grid.Row="1" Grid.Column="1" >
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"></RowDefinition>
+                                    <RowDefinition Height="3"></RowDefinition>
+                                    <RowDefinition Height="*"></RowDefinition>
+                                </Grid.RowDefinitions>
+
+                                <Grid   Grid.Row="0" Grid.Column="0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Right">
+                                        <TextBlock     Text="{Binding ConverterParameter='총 200 건', Converter={StaticResource GlobalObjectDicConverter}, RelativeSource={RelativeSource Self}}" HorizontalAlignment="Right" Style="{StaticResource Content_Search_LabelStyle}" />
+                                        <c1:C1ComboBox x:Name="cboCombo01"      DisplayMemberPath="PRODNAME" SelectedValuePath="PRODID"  Style="{StaticResource C1ComboBoxStyle}" AutoComplete="False" MinWidth="80"/>
+                                    </StackPanel>
+                                    <StackPanel Grid.Row="0" Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Right">
+                                        <Button x:Name="btnButton01"    Content="{Binding ConverterParameter='버튼 01',   Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{DynamicResource Content_MainButtonNoMinWidthSpecialStyle}" />
+                                        <Button x:Name="btnButton02"    Content="{Binding ConverterParameter='버튼 02',   Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{DynamicResource Content_MainButtonNoMinWidthStyle}"        Margin="4,0,0,0"/>
+                                        <Button x:Name="btnButton03"    Content="{Binding ConverterParameter='버튼 03',   Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{DynamicResource Content_MainButtonNoMinWidthStyle}"        Margin="4,0,0,0"/>
+                                    </StackPanel>
+                                </Grid>
+
+                                <Grid   Grid.Row="2" Grid.Column="0">
+                                    <c1:C1DataGrid x:Name="dgData01" Grid.Row="0" Grid.Column="0" IsReadOnly="False" HeadersVisibility="Column" RowHeight="Auto" SelectionMode="SingleCell" >
+                                        <c1:C1DataGrid.Columns>
+                                            <c1:DataGridCheckBoxColumn       Header="CheckBoxColumn01"   Binding="{Binding CHECKBOXCOLUMN01}"        />
+                                            <c1:DataGridTextColumn           Header="TextColumn01"       Binding="{Binding TEXTCOLUMN01}"            HorizontalAlignment="Left"    />
+                                            <c1:DataGridTextColumn           Header="TextColumn02"       Binding="{Binding TEXTCOLUMN02}"            HorizontalAlignment="Right"   />
+                                            <c1:DataGridTextColumn           Header="TextColumn03"       Binding="{Binding TEXTCOLUMN03}"            HorizontalAlignment="Center"  />
+                                            <c1:DataGridTextColumn           Header="TextColumn04"       Binding="{Binding TEXTCOLUMN03}"            HorizontalAlignment="Stretch" />
+                                        </c1:C1DataGrid.Columns>
+                                    </c1:C1DataGrid>
+
+                                </Grid>
+                            </Grid>
+                        </Grid>
+                        <!--Sub 영역 01 Content-->
+
+                    </Grid>
+                    <!--Sub 영역 01-->
+
+                    <GridSplitter Grid.Row="1" Grid.Column="0" ResizeDirection="Rows" ShowsPreview="True" Style="{StaticResource GridSplitterVerticalStyle}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" />
+
+                    <!--Sub 영역 03-->
+                    <Border Grid.Row="2" Grid.Column="0" Background="#ffffffff" BorderThickness="1" BorderBrush="#ffbebebe"></Border>
+                    <Grid   Grid.Row="2" Grid.Column="0" >
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="34"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                        </Grid.RowDefinitions>
+
+                        <!--Sub 영역 03 Title-->
+                        <Border Grid.Row="0" Grid.Column="1" BorderThickness="1" BorderBrush="#ffbebebe" Style="{StaticResource BorderSubTitleStyle}"/>
+                        <Grid   Grid.Row="0" Grid.Column="1" >
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="15"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock      Grid.Row="0"  Grid.Column="1" Text="{Binding ConverterParameter='Sub 영역 03', Converter={StaticResource GlobalObjectDicConverter}, RelativeSource={RelativeSource Self}}" HorizontalAlignment="Right" Style="{StaticResource Content_Search_LabelStyle}" />
+                        </Grid>
+                        <!--Sub 영역 03 Title-->
+
+                        <!--Sub 영역 03 Content-->
+                        <Grid   Grid.Row="1" Grid.Column="0" >
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="8"></RowDefinition>
+                                <RowDefinition Height="*"></RowDefinition>
+                                <RowDefinition Height="8"></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="8"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="8"/>
+                            </Grid.ColumnDefinitions>
+
+                            <Grid   Grid.Row="1" Grid.Column="1" >
+                                <Grid   Grid.Row="0" Grid.Column="0">
+                                    <c1:C1DataGrid x:Name="dgData03" Grid.Row="0" Grid.Column="0" IsReadOnly="False" HeadersVisibility="Column" RowHeight="Auto" SelectionMode="SingleCell" >
+                                        <c1:C1DataGrid.Columns>
+                                            <c1:DataGridCheckBoxColumn       Header="CheckBoxColumn01"   Binding="{Binding CHECKBOXCOLUMN01}"        />
+                                            <c1:DataGridTextColumn           Header="TextColumn01"       Binding="{Binding TEXTCOLUMN01}"            HorizontalAlignment="Left"    />
+                                            <c1:DataGridTextColumn           Header="TextColumn02"       Binding="{Binding TEXTCOLUMN02}"            HorizontalAlignment="Right"   />
+                                            <c1:DataGridTextColumn           Header="TextColumn03"       Binding="{Binding TEXTCOLUMN03}"            HorizontalAlignment="Center"  />
+                                            <c1:DataGridTextColumn           Header="TextColumn04"       Binding="{Binding TEXTCOLUMN03}"            HorizontalAlignment="Stretch" />
+                                        </c1:C1DataGrid.Columns>
+                                    </c1:C1DataGrid>
+                                </Grid>
+                            </Grid>
+                        </Grid>
+                        <!--Sub 영역 03 Content-->
+
+                    </Grid>
+                    <!--Sub 영역 03-->
+
+                </Grid>
+
+                <!--Sub 영역 02 Sub 영역 04 -->
+                <Grid Grid.Row="2" Grid.Column="2" Grid.RowSpan="3" x:Name="grAnimation">
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"></RowDefinition>
+                        <RowDefinition Height="8"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
+                    </Grid.RowDefinitions>
+
+                    <!--Sub 영역 02-->
+                    <Border Grid.Row="0" Grid.Column="3" Background="#ffffffff" BorderThickness="1" BorderBrush="#ffbebebe"></Border>
+                    <Grid   Grid.Row="0" Grid.Column="3" >
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="34"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                        </Grid.RowDefinitions>
+
+                        <!--Sub 영역 02 Title-->
+                        <Border Grid.Row="0" Grid.Column="1" BorderThickness="1" BorderBrush="#ffbebebe" Style="{StaticResource BorderSubTitleStyle}"/>
+                        <Grid   Grid.Row="0" Grid.Column="1" >
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="15"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock      Grid.Row="0"  Grid.Column="1" Text="{Binding ConverterParameter='Sub 영역 02', Converter={StaticResource GlobalObjectDicConverter}, RelativeSource={RelativeSource Self}}" HorizontalAlignment="Right" Style="{StaticResource Content_Search_LabelStyle}" />
+                        </Grid>
+                        <!--Sub 영역 02 Title-->
+
+                        <!--Sub 영역 02 Content-->
+                        <Grid   Grid.Row="1" Grid.Column="0" >
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="8"></RowDefinition>
+                                <RowDefinition Height="*"></RowDefinition>
+                                <RowDefinition Height="8"></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="8"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="8"/>
+                            </Grid.ColumnDefinitions>
+
+                            <Grid   Grid.Row="1" Grid.Column="1" >
+                                <Grid   Grid.Row="0" Grid.Column="0">
+                                    <c1:C1DataGrid x:Name="dgData02" Grid.Row="0" Grid.Column="0" IsReadOnly="False" HeadersVisibility="Column" RowHeight="Auto" SelectionMode="SingleCell" >
+                                        <c1:C1DataGrid.Columns>
+                                            <c1:DataGridCheckBoxColumn       Header="CheckBoxColumn01"   Binding="{Binding CHECKBOXCOLUMN01}"        />
+                                            <c1:DataGridTextColumn           Header="TextColumn01"       Binding="{Binding TEXTCOLUMN01}"            HorizontalAlignment="Left"    />
+                                            <c1:DataGridTextColumn           Header="TextColumn02"       Binding="{Binding TEXTCOLUMN02}"            HorizontalAlignment="Right"   />
+                                            <c1:DataGridTextColumn           Header="TextColumn03"       Binding="{Binding TEXTCOLUMN03}"            HorizontalAlignment="Center"  />
+                                            <c1:DataGridTextColumn           Header="TextColumn04"       Binding="{Binding TEXTCOLUMN03}"            HorizontalAlignment="Stretch" />
+                                        </c1:C1DataGrid.Columns>
+                                    </c1:C1DataGrid>
+                                </Grid>
+                            </Grid>
+                        </Grid>
+                        <!--Sub 영역 02 Content-->
+
+                    </Grid>
+                    <!--Sub 영역 02-->
+
+                    <!--Sub 영역 04-->
+                    <Border Grid.Row="2" Grid.Column="3" Background="#ffffffff" BorderThickness="1" BorderBrush="#ffbebebe"></Border>
+                    <Grid   Grid.Row="2" Grid.Column="3" >
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="34"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                        </Grid.RowDefinitions>
+
+                        <!--Sub 영역 04 Title-->
+                        <Border Grid.Row="0" Grid.Column="1" BorderThickness="1" BorderBrush="#ffbebebe" Style="{StaticResource BorderSubTitleStyle}"/>
+                        <Grid   Grid.Row="0" Grid.Column="1" >
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="15"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="34"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock      Grid.Row="0"  Grid.Column="1" Text="{Binding ConverterParameter='Sub 영역 04', Converter={StaticResource GlobalObjectDicConverter}, RelativeSource={RelativeSource Self}}" HorizontalAlignment="Right" Style="{StaticResource Content_Search_LabelStyle}" />
+
+                            <ToggleButton   Grid.Row="0"  Grid.Column="3"  x:Name="btnExpandFrame" Style="{StaticResource btnLeftTopConerStyleVertical}" IsChecked="False" Checked="btnExpandFrame_Checked" Unchecked="btnExpandFrame_Unchecked"/>
+
+                        </Grid>
+                        <!--Sub 영역 04 Title-->
+
+                        <!--Sub 영역 04 Content-->
+                        <Grid   Grid.Row="1" Grid.Column="0" >
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="8"></RowDefinition>
+                                <RowDefinition Height="*"></RowDefinition>
+                                <RowDefinition Height="8"></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="8"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="8"/>
+                            </Grid.ColumnDefinitions>
+
+                            <Grid   Grid.Row="1" Grid.Column="1" >
+                                <Grid   Grid.Row="0" Grid.Column="0">
+                                    <c1:C1DataGrid x:Name="dgData04" Grid.Row="0" Grid.Column="0" IsReadOnly="False" HeadersVisibility="Column" RowHeight="Auto" SelectionMode="SingleCell" >
+                                        <c1:C1DataGrid.Columns>
+                                            <c1:DataGridCheckBoxColumn       Header="CheckBoxColumn01"   Binding="{Binding CHECKBOXCOLUMN01}"        />
+                                            <c1:DataGridTextColumn           Header="TextColumn01"       Binding="{Binding TEXTCOLUMN01}"            HorizontalAlignment="Left"    />
+                                            <c1:DataGridTextColumn           Header="TextColumn02"       Binding="{Binding TEXTCOLUMN02}"            HorizontalAlignment="Right"   />
+                                            <c1:DataGridTextColumn           Header="TextColumn03"       Binding="{Binding TEXTCOLUMN03}"            HorizontalAlignment="Center"  />
+                                            <c1:DataGridTextColumn           Header="TextColumn04"       Binding="{Binding TEXTCOLUMN03}"            HorizontalAlignment="Stretch" />
+                                        </c1:C1DataGrid.Columns>
+                                    </c1:C1DataGrid>
+                                </Grid>
+                            </Grid>
+                        </Grid>
+                        <!--Sub 영역 04 Content-->
+
+                    </Grid>
+                    <!--Sub 영역 04-->
+
+                </Grid>
+                <!--Sub 영역 02 Sub 영역 04 -->
+
+
+            </Grid>
+
+            <!--Left Fram Siliding Control-->
+            <Grid Grid.Row="1" Grid.Column="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+
+                <ToggleButton x:Name="btnLeftFrame" Grid.Row="0" Grid.RowSpan="2" Grid.Column="1" Grid.ColumnSpan="2" 
+                              Checked="btnLeftFrame_Checked" Unchecked="btnLeftFrame_Unchecked" Margin="6,0,0,0" Height="57" Width="30" 
+                              Style="{StaticResource btnLeftStyle}" VerticalAlignment="Top" HorizontalAlignment="Left" IsChecked="False">
+                </ToggleButton>
+
+                <Grid x:Name="grdleftFrame" Grid.Row="0" Grid.RowSpan="2" Grid.Column="0" HorizontalAlignment="Left" Width="0" >
+
+                    <Grid.Resources>
+                        <LinearGradientBrush x:Key="leftbgBrush" StartPoint="1,1" EndPoint="0,1" >
+                            <GradientStop Color="#DEDEDE " Offset="0.5"/>
+                            <GradientStop Color="#C0C0C0" Offset="0"/>
+                        </LinearGradientBrush>
+                    </Grid.Resources>
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+
+                    <Border VerticalAlignment="Stretch" HorizontalAlignment="Stretch" BorderThickness="0" Background="{StaticResource leftbgBrush}">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="50"></RowDefinition>
+                                <RowDefinition Height="*"></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <!--Frame Content Area-->
+                            <Button Content="Button" Width="80" VerticalAlignment="Center" HorizontalAlignment="Stretch"></Button>
+
+
+
+
+
+
+
+
+                            <!--Frame Content Area-->
+
+                        </Grid>
+                    </Border>
+
+                </Grid>
+
+                <Grid x:Name="grdleftSplitter" Grid.Row="0" Grid.RowSpan="2" Grid.Column="1" Width="8" Background="#DEDEDE">
+                    <Rectangle Stroke="#F9F9F9" Width="1" HorizontalAlignment="Right">
+                        <Rectangle.Effect>
+                            <DropShadowEffect BlurRadius="2" Color="Black" ShadowDepth="1"  Opacity="1" Direction="0" />
+                        </Rectangle.Effect>
+                    </Rectangle>
+                </Grid>
+            </Grid>
+            <!--Left Fram Siliding Control-->
+
+            <!--Right Fram Siliding Control-->
+            <Grid Grid.Row="1" Grid.Column="2">
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+
+                <ToggleButton x:Name="btnrightFrame" Grid.Row="0" Grid.RowSpan="2" Grid.Column="0" Grid.ColumnSpan="2"  
+                              Checked="btnrightFrame_Checked" Unchecked="btnrightFrame_Unchecked" Margin="0,0,6,0" Height="57" Width="28" 
+                              Style="{StaticResource btnRightStyle}" VerticalAlignment="Top" HorizontalAlignment="Right" IsChecked="False">
+                </ToggleButton>
+
+                <Grid x:Name="grdrightFrame" Grid.Row="2" Grid.RowSpan="2" Grid.Column="2" HorizontalAlignment="Right" Width="0" >
+
+                    <Grid.Resources>
+                        <LinearGradientBrush x:Key="rightbgBrush" StartPoint="0,0" EndPoint="1,0" >
+                            <GradientStop Color="#C0C0C0" Offset="0"/>
+                            <GradientStop Color="#DEDEDE " Offset="0.5"/>
+                        </LinearGradientBrush>
+                    </Grid.Resources>
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+
+                    <Border VerticalAlignment="Stretch" HorizontalAlignment="Stretch" BorderThickness="0" Background="{StaticResource rightbgBrush}">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="50"></RowDefinition>
+                                <RowDefinition Height="*"></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <!--Frame Content Area-->
+                            <Button Content="Button" Width="80" VerticalAlignment="Center" HorizontalAlignment="Stretch"></Button>
+
+
+
+
+
+
+
+
+                            <!--Frame Content Area-->
+
+                        </Grid>
+                    </Border>
+
+                </Grid>
+
+                <Grid x:Name="grdrightSplitter" Grid.Row="0" Grid.RowSpan="2" Grid.Column="1" Width="8" Background="#DEDEDE">
+                    <Rectangle Stroke="#F9F9F9" Width="1" HorizontalAlignment="Left">
+                        <Rectangle.Effect>
+                            <DropShadowEffect BlurRadius="2" Color="Black" ShadowDepth="1"  Opacity="1" Direction="0" />
+                        </Rectangle.Effect>
+                    </Rectangle>
+                </Grid>
+
+            </Grid>
+            <!--Right Fram Siliding Control-->
+
+            <ctrlLib:LoadingIndicator x:Name="loadingIndicator" Grid.Row="999" Grid.Column="999" />
+
+        </Grid>
+
+    </ctrlLib:LGCLayout>
+
+</UserControl>

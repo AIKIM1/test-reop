@@ -1,0 +1,88 @@
+﻿<c1:C1Window x:Class="LGC.GMES.MES.BOX001.BOX001_206_PLT_LABEL"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:c1="http://schemas.componentone.com/winfx/2006/xaml"
+		     xmlns:System="clr-namespace:System;assembly=mscorlib"
+             xmlns:ctrlLib="clr-namespace:LGC.GMES.MES.ControlsLibrary;assembly=LGC.GMES.MES.ControlsLibrary"
+             xmlns:uc="clr-namespace:LGC.GMES.MES.CMM001.Controls;assembly=LGC.GMES.MES.CMM001"        
+             ctrlLib:LGCPopupWindowExtension.ApplyStyle="True"
+             Header="{Binding Converter={StaticResource GlobalObjectDicConverter}, ConverterParameter='팔레트 라벨 발행'}" 
+             Tag="팔레트 라벨 발행" Height="450" Width="350" IsResizable="True" Loaded="C1Window_Loaded"   >
+
+    <c1:C1Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/LGC.GMES.MES.ControlsLibrary;Component/ControlStyles.xaml"/>
+                <ResourceDictionary Source="/LGC.GMES.MES.ControlsLibrary;component/ControlTemplates/LGCDatePicker.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </c1:C1Window.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="15" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <Border Grid.Row="0" BorderThickness="1" BorderBrush="#ffbebebe" Style="{StaticResource BorderSubTitleStyle}"/>
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="8"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="4"/>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="8"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="0" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="4" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="4" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="8" />
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0" Grid.ColumnSpan="99">
+                <c1:C1DataGrid  x:Name="dgPalletList" IsReadOnly="True" HeadersVisibility="None" SelectionMode="None">
+                    <c1:C1DataGrid.Columns>
+                        <c1:DataGridTextColumn           Header="PalletID"       Binding="{Binding BOXID}"            HorizontalAlignment="Center"   IsReadOnly="True" />
+                    </c1:C1DataGrid.Columns>
+                </c1:C1DataGrid>
+            </Grid>
+            <TextBlock   Grid.Row="3"   Grid.Column="1" Text="{Binding ConverterParameter='PO 주문번호', Converter={StaticResource GlobalObjectDicConverter}, RelativeSource={RelativeSource Self}}" HorizontalAlignment="Right" Style="{StaticResource SearchCondition_LabelStyle}" />
+            <TextBox Grid.Row="3" Grid.Column="3" x:Name="txtPONo" IsReadOnly="False"  HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalAlignment="Center"  />
+
+            <TextBlock   Grid.Row="5"   Grid.Column="1" Text="{Binding ConverterParameter='출하일자', Converter={StaticResource GlobalObjectDicConverter}, RelativeSource={RelativeSource Self}}" HorizontalAlignment="Right" Style="{StaticResource SearchCondition_LabelStyle}" />
+            <ctrlLib:LGCDatePicker Grid.Row="5" Grid.Column="3"  x:Name="dtpDate"  DatepickerType="Date"/>
+
+            <Grid Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="3" HorizontalAlignment="Right" >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <uc:UcBaseRadioButton Grid.Row="0" x:Name="rdoPallet" Grid.Column="0" Content="{Binding Converter={StaticResource GlobalObjectDicConverter}, ConverterParameter=PALLET}" GroupName="rdoType" Style="{StaticResource SearchCondition_RadioButtonStyle}" IsChecked="True"  Margin="4,0,0,0"/>
+                <uc:UcBaseRadioButton Grid.Row="0" x:Name="rdoWeek" Grid.Column="1" Content="{Binding Converter={StaticResource GlobalObjectDicConverter}, ConverterParameter=WEEK}" GroupName="rdoType" Style="{StaticResource SearchCondition_RadioButtonStyle}" IsChecked="False" Margin="8,0,0,0"/>
+            </Grid>
+            
+        </Grid>
+
+
+        <!--button area-->
+        <Grid Grid.Row ="3">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="5"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <uc:UcBaseButton x:Name="btnPrint"    Grid.Column="1" Content="{Binding ConverterParameter='라벨발행', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{DynamicResource Content_MainButtonSpecialStyle}" Click="btnPrint_Click" />
+            <uc:UcBaseButton x:Name="btnClose" Grid.Column="3" Content="{Binding ConverterParameter='닫기', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{DynamicResource Content_MainButtonStyle}" Click="btnClose_Click" />
+        </Grid>
+
+        <ctrlLib:LoadingIndicator x:Name="loadingIndicator" />
+    </Grid>
+</c1:C1Window>

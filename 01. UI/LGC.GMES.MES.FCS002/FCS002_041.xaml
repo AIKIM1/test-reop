@@ -1,0 +1,267 @@
+﻿<UserControl xmlns:ss="hhemas.grapecity.com/windows/spreadsheet/2012"  x:Class="LGC.GMES.MES.FCS002.FCS002_041"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:c1="http://schemas.componentone.com/winfx/2006/xaml"
+             xmlns:ctrlLib="clr-namespace:LGC.GMES.MES.ControlsLibrary;assembly=LGC.GMES.MES.ControlsLibrary"
+             mc:Ignorable="d" 
+             d:DesignHeight="768" d:DesignWidth="1920" Loaded="UserControl_Loaded">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/LGC.GMES.MES.ControlsLibrary;component/ControlStyles.xaml" />
+                <ResourceDictionary Source="/LGC.GMES.MES.ControlsLibrary;component/ControlTemplates/LGCDatePicker.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid x:Name="grdMain">
+        <Grid.Resources>
+            <DataTemplate x:Key="ResultTemplate">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <!--<ColumnDefinition Width="*"/>-->
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Text="{Binding}" HorizontalAlignment="Right" Padding="0,0,5,0"  />
+                </Grid>
+            </DataTemplate>
+            <DataTemplate x:Key="ResultTemplateSum">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0"  Text="{Binding ConverterParameter='합계', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" HorizontalAlignment="Right" Padding="0,0,5,0"  />
+                </Grid>
+            </DataTemplate>
+        </Grid.Resources>
+        <ctrlLib:LGCLayout x:Name="LayoutRoot" Tag="출하 예정일 조회" >
+            <Grid>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="8"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <!--조회영역-->
+                    <Grid x:Name="SearchArea" Grid.Row="0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="11" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="11"/>
+                        </Grid.RowDefinitions>
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="13"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="13"/>
+
+                        </Grid.ColumnDefinitions>
+
+                        <Border                 Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="99" Grid.RowSpan="4" Background="#fff2f2f2" BorderThickness="1" BorderBrush="#ffd1d1d1"></Border>
+
+                        <!--조회조건 ROW1-->
+                        <TextBlock              Grid.Row="1" Grid.Column="1" Text="{Binding ConverterParameter='LINE_ID', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}" />
+                        <c1:C1ComboBox          Grid.Row="1" Grid.Column="2" x:Name="cboLine" Style="{StaticResource C1ComboBoxStyle}" AutoComplete="False" />
+                        <TextBlock              Grid.Row="1" Grid.Column="3" Text="{Binding ConverterParameter='MODEL', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}" />
+                        <c1:C1ComboBox          Grid.Row="1" Grid.Column="4" x:Name="cboModel" Style="{StaticResource C1ComboBoxStyle}" AutoComplete="False" />
+                        <TextBlock              Grid.Row="1" Grid.Column="5" Text="{Binding ConverterParameter='ROUTE_ID', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}"/>
+                        <c1:C1ComboBox          Grid.Row="1" Grid.Column="6" x:Name="cboRoute" Style="{StaticResource C1ComboBoxStyle}" AutoComplete="False" />
+                        <TextBlock              Grid.Row="1" Grid.Column="7" Text="{Binding ConverterParameter='ASSEMBLY_LOT_ID', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}"/>
+                        <TextBox                Grid.Row="1" Grid.Column="8" x:Name="txtLotId"  MinHeight="23" Style="{StaticResource Content_InputForm_TextBoxStyle}" MinWidth="120" VerticalScrollBarVisibility="Auto" AcceptsReturn="True" />
+                        <!--조회 버튼-->
+                        <Button                 Grid.Row="1" Grid.Column="10" x:Name="btnSearch" Content="{Binding ConverterParameter='조회', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource SearchButtonStyle}" Cursor="Hand" Click="btnSearch_Click" />
+                    </Grid>
+                    <!--조회리스트-->
+                    <Grid Grid.Row="3" Grid.Column="0">
+                        <Border Style="{StaticResource Content_InputForm_ContentBorderStyle}"/>
+                        <Border Grid.Row="0" Grid.Column="0" BorderThickness="1"/>
+                        <!-- 2024.01.05 코드로 구현
+                        <c1:C1DataGrid x:Name="dgShipPlanDate" IsReadOnly="False" HeadersVisibility="All" RowHeaderWidth="33" FrozenColumnCount="3" SelectionMode="SingleRow" MouseDoubleClick="dgShipPlanDate_MouseDoubleClick" LoadedCellPresenter="dgShipPlanDate_LoadedCellPresenter" LoadedRowHeaderPresenter="dgShipPlanDate_LoadedRowHeaderPresenter">
+                            <c1:C1DataGrid.Columns>
+                                <c1:DataGridTextColumn     Header = "SHIP_PLAN_DATE"    Binding = "{Binding SHIPING_DATE}"                   IsReadOnly="True" HorizontalAlignment="Center" >
+                                    <c1:DataGridAggregate.AggregateFunctions>
+                                        <c1:DataGridAggregatesCollection>
+                                            <c1:DataGridAggregateSum ResultTemplate="{StaticResource ResultTemplateSum}" ></c1:DataGridAggregateSum>
+                                        </c1:DataGridAggregatesCollection>
+                                    </c1:DataGridAggregate.AggregateFunctions>
+                                </c1:DataGridTextColumn>
+                                <c1:DataGridNumericColumn     Header = "A311"  Tag="FF3101"     Binding = "{Binding A311}"                 IsReadOnly="True" HorizontalAlignment="Center" >
+                                    <c1:DataGridAggregate.AggregateFunctions>
+                                        <c1:DataGridAggregatesCollection>
+                                            <c1:DataGridAggregateSum ResultTemplate="{StaticResource ResultTemplate}" ></c1:DataGridAggregateSum>
+                                        </c1:DataGridAggregatesCollection>
+                                    </c1:DataGridAggregate.AggregateFunctions>
+                                </c1:DataGridNumericColumn>
+                                <c1:DataGridNumericColumn     Header = "A312"   Tag="FF3102"    Binding = "{Binding A312}"               IsReadOnly="True" HorizontalAlignment="Center">
+                                    <c1:DataGridAggregate.AggregateFunctions>
+                                        <c1:DataGridAggregatesCollection>
+                                            <c1:DataGridAggregateSum ResultTemplate="{StaticResource ResultTemplate}" ></c1:DataGridAggregateSum>
+                                        </c1:DataGridAggregatesCollection>
+                                    </c1:DataGridAggregate.AggregateFunctions>
+                                </c1:DataGridNumericColumn>
+                                <c1:DataGridNumericColumn     Header = "A313"   Tag="FF3103"    Binding = "{Binding A313}"              IsReadOnly="True" HorizontalAlignment="Center" >
+                                    <c1:DataGridAggregate.AggregateFunctions>
+                                        <c1:DataGridAggregatesCollection>
+                                            <c1:DataGridAggregateSum ResultTemplate="{StaticResource ResultTemplate}" ></c1:DataGridAggregateSum>
+                                        </c1:DataGridAggregatesCollection>
+                                    </c1:DataGridAggregate.AggregateFunctions>
+                                </c1:DataGridNumericColumn>
+                                <c1:DataGridNumericColumn     Header = "A314"   Tag="FF3104"    Binding = "{Binding A314}"           IsReadOnly="True" HorizontalAlignment="Center" >
+                                    <c1:DataGridAggregate.AggregateFunctions>
+                                        <c1:DataGridAggregatesCollection>
+                                            <c1:DataGridAggregateSum ResultTemplate="{StaticResource ResultTemplate}" ></c1:DataGridAggregateSum>
+                                        </c1:DataGridAggregatesCollection>
+                                    </c1:DataGridAggregate.AggregateFunctions>
+                                </c1:DataGridNumericColumn>
+                                <c1:DataGridNumericColumn     Header = "A315"    Tag="FF3105"   Binding = "{Binding A315}"                 IsReadOnly="True" HorizontalAlignment="Center" >
+                                    <c1:DataGridAggregate.AggregateFunctions>
+                                        <c1:DataGridAggregatesCollection>
+                                            <c1:DataGridAggregateSum ResultTemplate="{StaticResource ResultTemplate}" ></c1:DataGridAggregateSum>
+                                        </c1:DataGridAggregatesCollection>
+                                    </c1:DataGridAggregate.AggregateFunctions>
+                                </c1:DataGridNumericColumn>
+                                <c1:DataGridNumericColumn     Header = "A316"    Tag="FF3106"   Binding = "{Binding A316}"        IsReadOnly="True" HorizontalAlignment="Center" >
+                                    <c1:DataGridAggregate.AggregateFunctions>
+                                        <c1:DataGridAggregatesCollection>
+                                            <c1:DataGridAggregateSum ResultTemplate="{StaticResource ResultTemplate}" ></c1:DataGridAggregateSum>
+                                        </c1:DataGridAggregatesCollection>
+                                    </c1:DataGridAggregate.AggregateFunctions>
+                                </c1:DataGridNumericColumn>
+                                <c1:DataGridNumericColumn  Header = "A317"       Tag="FF3107"    Binding = "{Binding A317}"             IsReadOnly="True" HorizontalAlignment="Center" >
+                                    <c1:DataGridAggregate.AggregateFunctions>
+                                        <c1:DataGridAggregatesCollection>
+                                            <c1:DataGridAggregateSum ResultTemplate="{StaticResource ResultTemplate}" ></c1:DataGridAggregateSum>
+                                        </c1:DataGridAggregatesCollection>
+                                    </c1:DataGridAggregate.AggregateFunctions>
+                                </c1:DataGridNumericColumn>
+                                <c1:DataGridNumericColumn  Header = "A318"       Tag="FF3108"    Binding = "{Binding A318}"             IsReadOnly="True" HorizontalAlignment="Center" >
+                                    <c1:DataGridAggregate.AggregateFunctions>
+                                        <c1:DataGridAggregatesCollection>
+                                            <c1:DataGridAggregateSum ResultTemplate="{StaticResource ResultTemplate}" ></c1:DataGridAggregateSum>
+                                        </c1:DataGridAggregatesCollection>
+                                    </c1:DataGridAggregate.AggregateFunctions>
+                                </c1:DataGridNumericColumn>
+                                <c1:DataGridNumericColumn     Header = "A319"      Tag="FF3109"    Binding = "{Binding A319}"       IsReadOnly="True" HorizontalAlignment="Center" >
+                                    <c1:DataGridAggregate.AggregateFunctions>
+                                        <c1:DataGridAggregatesCollection>
+                                            <c1:DataGridAggregateSum ResultTemplate="{StaticResource ResultTemplate}" ></c1:DataGridAggregateSum>
+                                        </c1:DataGridAggregatesCollection>
+                                    </c1:DataGridAggregate.AggregateFunctions>
+                                </c1:DataGridNumericColumn>
+                                <c1:DataGridNumericColumn     Header = "A411"      Tag="FF4101"    Binding = "{Binding A411}"          IsReadOnly="True" HorizontalAlignment="Center" >
+                                    <c1:DataGridAggregate.AggregateFunctions>
+                                        <c1:DataGridAggregatesCollection>
+                                            <c1:DataGridAggregateSum ResultTemplate="{StaticResource ResultTemplate}" ></c1:DataGridAggregateSum>
+                                        </c1:DataGridAggregatesCollection>
+                                    </c1:DataGridAggregate.AggregateFunctions>
+                                </c1:DataGridNumericColumn>
+                                <c1:DataGridNumericColumn     Header = "A412"      Tag="FF4102"    Binding = "{Binding A412}"            IsReadOnly="True" HorizontalAlignment="Center" >
+                                    <c1:DataGridAggregate.AggregateFunctions>
+                                        <c1:DataGridAggregatesCollection>
+                                            <c1:DataGridAggregateSum ResultTemplate="{StaticResource ResultTemplate}" ></c1:DataGridAggregateSum>
+                                        </c1:DataGridAggregatesCollection>
+                                    </c1:DataGridAggregate.AggregateFunctions>
+                                </c1:DataGridNumericColumn>
+                                <c1:DataGridNumericColumn     Header = "A413"       Tag="FF4103"     Binding = "{Binding A413}"         IsReadOnly="True" HorizontalAlignment="Center" >
+                                    <c1:DataGridAggregate.AggregateFunctions>
+                                        <c1:DataGridAggregatesCollection>
+                                            <c1:DataGridAggregateSum ResultTemplate="{StaticResource ResultTemplate}" ></c1:DataGridAggregateSum>
+                                        </c1:DataGridAggregatesCollection>
+                                    </c1:DataGridAggregate.AggregateFunctions>
+                                </c1:DataGridNumericColumn>
+                                <c1:DataGridNumericColumn  Header = "A711"          Tag="FF7101"   Binding = "{Binding A711}"  IsReadOnly="True" HorizontalAlignment="Center" >
+                                    <c1:DataGridAggregate.AggregateFunctions>
+                                        <c1:DataGridAggregatesCollection>
+                                            <c1:DataGridAggregateSum ResultTemplate="{StaticResource ResultTemplate}" ></c1:DataGridAggregateSum>
+                                        </c1:DataGridAggregatesCollection>
+                                    </c1:DataGridAggregate.AggregateFunctions>
+                                </c1:DataGridNumericColumn>
+                                <c1:DataGridNumericColumn  Header = "A712"          Tag="FF7102"    Binding = "{Binding A712}"           IsReadOnly="True" HorizontalAlignment="Center" >
+                                    <c1:DataGridAggregate.AggregateFunctions>
+                                        <c1:DataGridAggregatesCollection>
+                                            <c1:DataGridAggregateSum ResultTemplate="{StaticResource ResultTemplate}" ></c1:DataGridAggregateSum>
+                                        </c1:DataGridAggregatesCollection>
+                                    </c1:DataGridAggregate.AggregateFunctions>
+                                </c1:DataGridNumericColumn>
+                                <c1:DataGridNumericColumn  Header = "A713"           Tag="FF7103"   Binding = "{Binding A713}"        IsReadOnly="True" HorizontalAlignment="Center" >
+                                    <c1:DataGridAggregate.AggregateFunctions>
+                                        <c1:DataGridAggregatesCollection>
+                                            <c1:DataGridAggregateSum ResultTemplate="{StaticResource ResultTemplate}" ></c1:DataGridAggregateSum>
+                                        </c1:DataGridAggregatesCollection>
+                                    </c1:DataGridAggregate.AggregateFunctions>
+                                </c1:DataGridNumericColumn>
+                                <c1:DataGridNumericColumn  Header = "A714"           Tag="FF7104"   Binding = "{Binding A714}"    IsReadOnly="True" HorizontalAlignment="Center">
+                                    <c1:DataGridAggregate.AggregateFunctions>
+                                        <c1:DataGridAggregatesCollection>
+                                            <c1:DataGridAggregateSum ResultTemplate="{StaticResource ResultTemplate}" ></c1:DataGridAggregateSum>
+                                        </c1:DataGridAggregatesCollection>
+                                    </c1:DataGridAggregate.AggregateFunctions>
+                                </c1:DataGridNumericColumn>
+                                <c1:DataGridNumericColumn  Header = "A715"           Tag="FF7105"   Binding = "{Binding A715}"   IsReadOnly="True" HorizontalAlignment="Center" >
+                                    <c1:DataGridAggregate.AggregateFunctions>
+                                        <c1:DataGridAggregatesCollection>
+                                            <c1:DataGridAggregateSum ResultTemplate="{StaticResource ResultTemplate}" ></c1:DataGridAggregateSum>
+                                        </c1:DataGridAggregatesCollection>
+                                    </c1:DataGridAggregate.AggregateFunctions>
+                                </c1:DataGridNumericColumn>
+                                <c1:DataGridNumericColumn     Header = "A716"         Tag="FF7106"     Binding = "{Binding A716}"                 IsReadOnly="True" HorizontalAlignment="Center" >
+                                    <c1:DataGridAggregate.AggregateFunctions>
+                                        <c1:DataGridAggregatesCollection>
+                                            <c1:DataGridAggregateSum ResultTemplate="{StaticResource ResultTemplate}" ></c1:DataGridAggregateSum>
+                                        </c1:DataGridAggregatesCollection>
+                                    </c1:DataGridAggregate.AggregateFunctions>
+                                </c1:DataGridNumericColumn>
+                                <c1:DataGridNumericColumn     Header = "A717"          Tag="FF7107"    Binding = "{Binding A717}"               IsReadOnly="True" HorizontalAlignment="Center" >
+                                    <c1:DataGridAggregate.AggregateFunctions>
+                                        <c1:DataGridAggregatesCollection>
+                                            <c1:DataGridAggregateSum ResultTemplate="{StaticResource ResultTemplate}" ></c1:DataGridAggregateSum>
+                                        </c1:DataGridAggregatesCollection>
+                                    </c1:DataGridAggregate.AggregateFunctions>
+                                </c1:DataGridNumericColumn>
+                                <c1:DataGridNumericColumn     Header = "A718"          Tag="FF7108"    Binding = "{Binding A718}"               IsReadOnly="True" HorizontalAlignment="Center" >
+                                    <c1:DataGridAggregate.AggregateFunctions>
+                                        <c1:DataGridAggregatesCollection>
+                                            <c1:DataGridAggregateSum ResultTemplate="{StaticResource ResultTemplate}" ></c1:DataGridAggregateSum>
+                                        </c1:DataGridAggregatesCollection>
+                                    </c1:DataGridAggregate.AggregateFunctions>
+                                </c1:DataGridNumericColumn>
+                                <c1:DataGridNumericColumn     Header = "A719"          Tag="FF7109"    Binding = "{Binding A719}"               IsReadOnly="True" HorizontalAlignment="Center" >
+                                    <c1:DataGridAggregate.AggregateFunctions>
+                                        <c1:DataGridAggregatesCollection>
+                                            <c1:DataGridAggregateSum ResultTemplate="{StaticResource ResultTemplate}" ></c1:DataGridAggregateSum>
+                                        </c1:DataGridAggregatesCollection>
+                                    </c1:DataGridAggregate.AggregateFunctions>
+                                </c1:DataGridNumericColumn>
+                            </c1:C1DataGrid.Columns>
+                            <c1:C1DataGrid.BottomRows >
+                                <c1:DataGridSummaryRow x:Name="summary" RowStyle="{StaticResource SummaryRowStyle}"/>
+                            </c1:C1DataGrid.BottomRows>
+                        </c1:C1DataGrid>
+                        -->
+                        <c1:C1DataGrid x:Name="dgShipPlanDate" IsReadOnly="False" HeadersVisibility="None" RowHeight="Auto" SelectionMode="SingleRow" 
+                                       MouseDoubleClick="dgShipPlanDate_MouseDoubleClick" LoadedCellPresenter="dgShipPlanDate_LoadedCellPresenter" LoadedRowHeaderPresenter="dgShipPlanDate_LoadedRowHeaderPresenter" UnloadedCellPresenter ="dgShipPlanDate_UnloadedCellPresenter">
+                            <c1:C1DataGrid.Columns>
+                            </c1:C1DataGrid.Columns>
+
+                            <!-- 2024.03.07 DataGridSummaryRow 추가 -->
+                            <c1:C1DataGrid.BottomRows>
+                                <c1:DataGridSummaryRow x:Name="sumShipPlanResult" RowStyle="{StaticResource SummaryRowStyle}"/>
+                            </c1:C1DataGrid.BottomRows>
+                        </c1:C1DataGrid>
+                    </Grid>
+                </Grid>
+            </Grid>
+        </ctrlLib:LGCLayout>
+        <ctrlLib:LoadingIndicator x:Name="loadingIndicator" Grid.Row="999" Grid.Column="999"/>
+    </Grid>
+</UserControl>

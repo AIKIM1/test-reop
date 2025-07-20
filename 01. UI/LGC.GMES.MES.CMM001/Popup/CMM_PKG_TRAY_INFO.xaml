@@ -1,0 +1,85 @@
+﻿<c1:C1Window x:Class="LGC.GMES.MES.CMM001.Popup.CMM_PKG_TRAY_INFO"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:c1="http://schemas.componentone.com/winfx/2006/xaml"
+		     xmlns:System="clr-namespace:System;assembly=mscorlib"
+             xmlns:ctrlLib="clr-namespace:LGC.GMES.MES.ControlsLibrary;assembly=LGC.GMES.MES.ControlsLibrary"        
+             ctrlLib:LGCPopupWindowExtension.ApplyStyle="True"
+             Header="{Binding Converter={StaticResource GlobalObjectDicConverter}, ConverterParameter='FORM_TRAY_SEARCH'}" 
+             Tag="ProtoType01Windows01" Height="300" Width="850" IsResizable="True" Initialized="C1Window_Initialized" Loaded="C1Window_Loaded"   >
+
+    <c1:C1Window.Resources>
+        <ResourceDictionary Source="/LGC.GMES.MES.ControlsLibrary;Component/ControlStyles.xaml"/>
+    </c1:C1Window.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40" />
+            <RowDefinition Height="*" />            
+            <RowDefinition Height="15" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <!-- Title -->
+        <Border Grid.Row="0" BorderThickness="1" BorderBrush="#ffbebebe" Style="{StaticResource BorderSubTitleStyle}"/>
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="8"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="4"/>
+                <ColumnDefinition Width="Auto" MinWidth="150"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="8"/>
+            </Grid.ColumnDefinitions>
+
+            <TextBlock      Grid.Column="1" Text="{Binding ConverterParameter='TRAYID', Converter={StaticResource GlobalObjectDicConverter}, RelativeSource={RelativeSource Self}}" HorizontalAlignment="Right" Style="{StaticResource SearchCondition_LabelStyle}" />
+            <TextBox        Grid.Column="3" Style="{StaticResource Content_InputForm_TextBoxStyle}" x:Name="txtTrayID" CharacterCasing="Upper" KeyUp="txtTrayID_KeyUp" GotFocus="txtTrayID_GotFocus"  />
+
+            <Button         Grid.Column="5" x:Name="btnSearch" Content="{Binding ConverterParameter=SEARCH, Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource SearchButtonStyle}" Cursor="Hand" Click="btnSearch_Click" />
+        </Grid>
+
+        <!--Contents area-->
+        <Border Grid.Row ="1" Background="#ffffffff" BorderThickness="1" BorderBrush="#ffbebebe"></Border>
+        <Grid Grid.Row ="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="8" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="8" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="8" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="8" />
+            </Grid.ColumnDefinitions>
+
+            <Grid Grid.Row="1" Grid.Column="1">
+                <c1:C1DataGrid Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3" x:Name="dgInfo" IsReadOnly="True" HeadersVisibility="Column" SelectionMode="SingleCell" >
+                    <c1:C1DataGrid.Columns>
+                        <c1:DataGridTextColumn        Header = "TRAYID"                  Binding = "{Binding CSTID}"           HorizontalAlignment="Center"  />
+                        <c1:DataGridTextColumn        Header = "TRAYSTAT"                Binding = "{Binding CSTSTAT}"          HorizontalAlignment="Center"  />
+                        <c1:DataGridTextColumn        Header = "FORM_TRAY_STATE"         Binding = "{Binding FORM_MOVE_STAT_CODE_NAME}"           HorizontalAlignment="Center"  />
+                        <c1:DataGridTextColumn        Header = "작업일자"                Binding = "{Binding CALDATE}"   HorizontalAlignment="Left"  />
+                        <c1:DataGridTextColumn        Header = "PKGLot"              Binding = "{Binding PROD_LOTID}"      HorizontalAlignment="Center"   />
+                        <c1:DataGridTextColumn        Header = "제품ID"           Binding = "{Binding PRODID}"      HorizontalAlignment="Left"    />
+                        <c1:DataGridNumericColumn     Header = "CREATE_QTY"         Binding = "{Binding WIPQTY}"       HorizontalAlignment="Right"  Format="#,##0"  />
+                    </c1:C1DataGrid.Columns>
+                </c1:C1DataGrid>
+            </Grid>
+        </Grid>
+
+        <!--button area-->
+        <Grid Grid.Row ="3">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="5"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <Button x:Name="btnClose" Grid.Column="3" Content="{Binding ConverterParameter='닫기', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{DynamicResource Content_MainButtonStyle}" Click="btnClose_Clicked" />
+        </Grid>
+
+        <ctrlLib:LoadingIndicator x:Name="loadingIndicator" />
+    </Grid>
+</c1:C1Window>

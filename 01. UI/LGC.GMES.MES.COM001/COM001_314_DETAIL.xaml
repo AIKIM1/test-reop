@@ -1,0 +1,126 @@
+﻿<c1:C1Window x:Class="LGC.GMES.MES.COM001.COM001_314_DETAIL"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:LGC.GMES.MES.COM001"
+             xmlns:c1="http://schemas.componentone.com/winfx/2006/xaml" 
+             xmlns:ctrlLib="clr-namespace:LGC.GMES.MES.ControlsLibrary;assembly=LGC.GMES.MES.ControlsLibrary"
+             mc:Ignorable="d"
+             ctrlLib:LGCPopupWindowExtension.ApplyStyle="True"
+             Header="{Binding Converter={StaticResource GlobalObjectDicConverter}, ConverterParameter='Tool사용 상세이력'}" 
+             Height="600" Width="1100" IsResizable="False" Loaded="C1Window_Loaded">
+
+    <c1:C1Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/LGC.GMES.MES.ControlsLibrary;component/ControlStyles.xaml" />
+                <ResourceDictionary Source="/LGC.GMES.MES.ControlsLibrary;component/ControlTemplates/LGCDatePicker.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </c1:C1Window.Resources>
+
+    <Grid>
+        <ctrlLib:LGCLayout x:Name="LayoutRoot" Tag="Tool사용_상세이력">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="51"/>
+                    <RowDefinition Height="8"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <!-- Search Area -->
+                <Grid Grid.Row="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="AutO"/>
+                        <ColumnDefinition Width="20"/>
+                        <ColumnDefinition Width="AutO"/>
+                        <ColumnDefinition Width="20"/>
+                        <ColumnDefinition Width="AutO"/>
+                        <ColumnDefinition Width="20"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Date -->
+                    <Grid Grid.Column="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="5"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel Grid.Column="0" Orientation="Horizontal">
+                            <TextBlock Style="{StaticResource SearchCondition_MandatoryMarkStyle}" />
+                            <TextBlock Text="{Binding ConverterParameter='기간', Converter={StaticResource GlobalObjectDicConverter}, RelativeSource={RelativeSource Self}}" HorizontalAlignment="Right" Style="{StaticResource Content_Search_LabelStyle}" />
+                        </StackPanel>
+
+                        <Grid Grid.Column="2">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="20"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <ctrlLib:LGCDatePicker Grid.Column="0" x:Name="dtpFrom" DatepickerType="Date"/>
+                            <TextBlock Grid.Column="1" Text="~" Style="{StaticResource Content_InputForm_LabelStyle}" HorizontalAlignment="Center"/>
+                            <ctrlLib:LGCDatePicker Grid.Column="2" x:Name="dtpTo" DatepickerType="Date"/>
+                        </Grid>
+
+                    </Grid>
+
+                    <!-- 각인 공구 ToolID -->
+                    <Grid Grid.Column="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="5"/>
+                            <ColumnDefinition Width="180"/>
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Right">
+                            <TextBlock Style="{StaticResource SearchCondition_MandatoryMarkStyle}" />
+                            <TextBlock Text="{Binding ConverterParameter='ENGRAVING_TOOL_ID', Converter={StaticResource GlobalObjectDicConverter}, RelativeSource={RelativeSource Self}}" HorizontalAlignment="Right" Style="{StaticResource Content_Search_LabelStyle}" />
+                        </StackPanel>
+                        <TextBox Grid.Column="2" x:Name="tbToolID" Style="{StaticResource Content_InputForm_ReadOnlyTextBoxStyle}" IsReadOnly="True"/>
+                    </Grid>
+
+                    <!-- 표준 공구 ToolID -->
+                    <Grid Grid.Column="4">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="5"/>
+                            <ColumnDefinition Width="180"/>
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Right">
+                            <TextBlock Style="{StaticResource SearchCondition_MandatoryMarkStyle}" />
+                            <TextBlock Text="{Binding ConverterParameter='STANDARD_TOOL_ID', Converter={StaticResource GlobalObjectDicConverter}, RelativeSource={RelativeSource Self}}" HorizontalAlignment="Right" Style="{StaticResource Content_Search_LabelStyle}" />
+                        </StackPanel>
+                        <TextBox Grid.Column="2" x:Name="tbStdToolID" Style="{StaticResource Content_InputForm_ReadOnlyTextBoxStyle}" IsReadOnly="True"/>
+                    </Grid>
+
+                    <!-- Button -->
+                    <Button Grid.Column="6" x:Name="btnSearch" Content="{Binding ConverterParameter=SEARCH, Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource SearchButtonStyle}" Cursor="Hand" Click="btnSearch_Click"/>
+                </Grid>
+
+                <!-- DataGrid(상세이력) Area -->
+                <c1:C1DataGrid Grid.Row="2" x:Name="dgToolUsageHistory" HeadersVisibility="Column" AutoGenerateColumns="False">
+                    <c1:C1DataGrid.Columns>
+                        <c1:DataGridTextColumn Header="사용일시"                Binding="{Binding PRCS_DTTM}"               HorizontalAlignment="Center"/>
+                        <c1:DataGridTextColumn Header="사용 횟수"               Binding="{Binding USE_COUNT}"               HorizontalAlignment="Center"/>
+                        <c1:DataGridTextColumn Header="처리유형"                Binding="{Binding PRCS_TYPE_CODE}"          HorizontalAlignment="Center"/>
+                        <c1:DataGridTextColumn Header="설비명"                  Binding="{Binding EQPTNAME}"                HorizontalAlignment="Center"/>
+                        <c1:DataGridTextColumn Header="설비ID"                  Binding="{Binding EQPTID}"                  HorizontalAlignment="Center"/>
+                        <!-- [E20230626-000053] [생산PI] Tool ID 사용이력 및 연마 관리 내 수정 요청  -->
+                        <c1:DataGridTextColumn Header="EQPT_MOUNT_PSTN"         Binding="{Binding EQPT_MOUNT_PSTN_NAME}"    HorizontalAlignment="Center" />
+                        <c1:DataGridTextColumn Header="LOTID"                   Binding="{Binding LOTID}"                   HorizontalAlignment="Center"/>
+                        <c1:DataGridTextColumn Header="LOT시작일시"             Binding="{Binding LOT_STRT_DTTM}"           HorizontalAlignment="Center"/>
+                        <c1:DataGridTextColumn Header="LOT종료일시"             Binding="{Binding LOT_END_DTTM}"            HorizontalAlignment="Center"/>
+                        <!-- Collapsed -->
+                        <c1:DataGridTextColumn Header="ToolID"        Binding="{Binding TOOL_ID}"         HorizontalAlignment="Center" Visibility="Collapsed"/>
+                    </c1:C1DataGrid.Columns>
+                </c1:C1DataGrid>
+            </Grid>
+        </ctrlLib:LGCLayout>
+        <ctrlLib:LoadingIndicator x:Name="loadingIndicator" Grid.Row="999" Grid.Column="999" />
+    </Grid>
+</c1:C1Window>

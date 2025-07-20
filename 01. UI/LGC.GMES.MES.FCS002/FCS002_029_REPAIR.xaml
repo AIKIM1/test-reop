@@ -1,0 +1,123 @@
+﻿<c1:C1Window x:Class="LGC.GMES.MES.FCS002.FCS002_029_REPAIR"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:c1="http://schemas.componentone.com/winfx/2006/xaml"
+		     xmlns:System="clr-namespace:System;assembly=mscorlib"
+             xmlns:ctrlLib="clr-namespace:LGC.GMES.MES.ControlsLibrary;assembly=LGC.GMES.MES.ControlsLibrary"        
+             xmlns:ss="http://schemas.grapecity.com/windows/spreadsheet/2012"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:CMM001="clr-namespace:LGC.GMES.MES.CMM001;assembly=LGC.GMES.MES.CMM001"
+             ctrlLib:LGCPopupWindowExtension.ApplyStyle="True"
+             Header="{Binding Converter={StaticResource GlobalObjectDicConverter}, ConverterParameter='PIN 수리 등록'}" 
+             Tag="ProtoType01Windows01" Height="700" Width="1500" IsResizable="True" Loaded="C1Window_Loaded" >
+    <c1:C1Window.Resources>
+        <ResourceDictionary Source="/LGC.GMES.MES.ControlsLibrary;Component/ControlStyles.xaml"/>
+    </c1:C1Window.Resources>
+    <Grid>
+        <ctrlLib:LGCLayout x:Name="LayoutRoot" Tag="장애조치내역 저장">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="250"/>
+                    <ColumnDefinition Width="8"/>
+                    <ColumnDefinition Width="5*"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- 조회조건 -->
+                <Grid Name="SearchArea" Grid.Column="0" >
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="8"/>
+                        <RowDefinition Height="11"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="13"/>
+                        <ColumnDefinition Width="1"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="13"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Border     Grid.Row="1" Grid.RowSpan="99" Grid.Column="0" Grid.ColumnSpan="99" Style="{StaticResource Content_InputForm_ContentBorderStyle}"/>
+
+                    <!--<TextBlock Grid.Row="2" Grid.Column="1" Style="{StaticResource SearchCondition_MandatoryMarkStyle}"/>-->
+                    <TextBlock Grid.Row="2" Grid.Column="2" Style="{StaticResource Content_InputForm_LabelStyle}" HorizontalAlignment="Left">
+                                    <Run Text="{Binding ConverterParameter='설비레인', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay }" />
+                    </TextBlock>
+
+                    <c1:C1ComboBox  Grid.Row="3" Grid.Column="2"  x:Name="cboLane"  DisplayMemberPath="" SelectedValuePath=""  Style="{StaticResource C1ComboBoxStyle}" AutoComplete="False" />
+
+
+                    <TextBlock Name="tbBoxPos1" Grid.Row="4" Grid.Column="2" Style="{StaticResource Content_InputForm_LabelStyle}" HorizontalAlignment="Left">
+                                    <Run Text="{Binding ConverterParameter='열', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay }"/>
+                    </TextBlock>
+                    <c1:C1ComboBox  x:Name="cboRow"   Grid.Row="5" Grid.Column="2" MinHeight="23" Style="{StaticResource C1ComboBoxStyle}" AutoComplete="False" />
+
+                    <TextBlock Name="tbBoxPos2" Grid.Row="6" Grid.Column="2" Style="{StaticResource Content_InputForm_LabelStyle}" HorizontalAlignment="Left">
+                                    <Run Text="{Binding ConverterParameter='Col', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay }"/>
+                    </TextBlock>
+                    <c1:C1ComboBox  x:Name="cboCol"   Grid.Row="7" Grid.Column="2" MinHeight="23" Style="{StaticResource C1ComboBoxStyle}" AutoComplete="False" />
+
+                    <TextBlock Name="tbBoxPos3" Grid.Row="8" Grid.Column="2" Style="{StaticResource Content_InputForm_LabelStyle}" HorizontalAlignment="Left">
+                                    <Run Text="{Binding ConverterParameter='Stg', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay }"/>
+                    </TextBlock>
+                    <c1:C1ComboBox  x:Name="cboStg"   Grid.Row="9" Grid.Column="2" MinHeight="23" Style="{StaticResource C1ComboBoxStyle}" AutoComplete="False" />
+
+                    <TextBlock Name="tbEqptID" Grid.Row="10" Grid.Column="2" Style="{StaticResource Content_InputForm_LabelStyle}" HorizontalAlignment="Left">
+                                    <Run Text="{Binding ConverterParameter='EQP', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay }"/>
+                    </TextBlock>
+                    <c1:C1ComboBox  Grid.Row="11" Grid.Column="2" x:Name="cboEqp"   MinHeight="23" Style="{StaticResource C1ComboBoxStyle}" AutoComplete="False" />
+
+                    <TextBlock Grid.Row="12" Grid.Column="2" Style="{StaticResource Content_InputForm_LabelStyle}" HorizontalAlignment="Left">
+                                    <Run Text="{Binding ConverterParameter='CHANNEL', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay }"/>
+                    </TextBlock>
+                    <c1:C1ComboBox  Grid.Row="13" Grid.Column="2" x:Name="cboChannel"   MinHeight="23" Style="{StaticResource C1ComboBoxStyle}" AutoComplete="False" SelectionCommitted="cboChannel_SelectionCommitted" />
+
+                    <TextBlock Grid.Row="14" Grid.Column="2" Style="{StaticResource Content_InputForm_LabelStyle}" HorizontalAlignment="Left">
+                                    <Run Text="{Binding ConverterParameter='CHG_DESC', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay }"/>
+                    </TextBlock>
+                    <TextBox    x:Name="txtContents" Grid.Row="15" Grid.Column="2"  Style="{StaticResource Content_InputForm_TextBoxStyle}" Height="200" />
+
+                    <Button   Grid.Row="16" Grid.Column="2" x:Name="btnSave" Width="80" Margin="10" Content="{Binding ConverterParameter=Save , Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_MainButtonSpecialStyle}" Click="btnSaveClick" />
+                    <c1:C1ComboBox  Grid.Row="17" Grid.Column="2"  x:Name="cboEqpKind"  DisplayMemberPath="" SelectedValuePath=""  Style="{StaticResource C1ComboBoxStyle}" AutoComplete="False"  Visibility="Hidden" />
+                </Grid>
+
+                <!-- 조회결과 -->
+                <Grid Grid.Column="2">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="8"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <c1:C1DataGrid Grid.Row="1" x:Name="dgList" IsReadOnly="False" HeadersVisibility="None" SelectionMode="SingleRow" LoadedCellPresenter="dgList_LoadedCellPresenter">
+                        <c1:C1DataGrid.Columns>
+
+                        </c1:C1DataGrid.Columns>
+                    
+                        <c1:C1DataGrid.TopRows>
+                            <c1:DataGridColumnHeaderRow />
+                            <c1:DataGridColumnHeaderRow />
+                        </c1:C1DataGrid.TopRows>
+
+                    </c1:C1DataGrid>
+                </Grid>
+            </Grid>
+        </ctrlLib:LGCLayout>
+        <ctrlLib:LoadingIndicator x:Name="loadingIndicator" Grid.Row="999" Grid.Column="999" />
+    </Grid>
+</c1:C1Window>

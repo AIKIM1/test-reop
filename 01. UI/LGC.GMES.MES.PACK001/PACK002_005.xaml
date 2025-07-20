@@ -1,0 +1,219 @@
+﻿<UserControl x:Class="LGC.GMES.MES.PACK001.PACK002_005"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:local="clr-namespace:LGC.GMES.MES.PACK001"
+             xmlns:c1="http://schemas.componentone.com/winfx/2006/xaml"
+             xmlns:ctrlLib="clr-namespace:LGC.GMES.MES.ControlsLibrary;assembly=LGC.GMES.MES.ControlsLibrary"
+             mc:Ignorable="d" 
+             d:DesignHeight="768" d:DesignWidth="1024">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/LGC.GMES.MES.ControlsLibrary;component/ControlStyles.xaml" />
+                <ResourceDictionary Source="/LGC.GMES.MES.ControlsLibrary;component/ControlTemplates/LGCDatePicker.xaml" />
+                <ResourceDictionary Source="/LGC.GMES.MES.ControlsLibrary;component/ControlTemplates/C1DataGridStyle.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid>
+        <ctrlLib:LGCLayout x:Name="LayoutRoot" Tag="소포장 투입 이력 조회">
+            <Grid>
+                <Grid.Resources>
+                    <DataTemplate x:Key="ResultTemplate">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" Text="{Binding}" TextBlock.FontWeight="Bold" HorizontalAlignment="Right" />
+                        </Grid>
+                    </DataTemplate>
+                </Grid.Resources>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="8" />
+                    <RowDefinition Height="40"/>
+                    <RowDefinition Height="8" />
+                    <RowDefinition Height="1*" />
+                </Grid.RowDefinitions>
+
+                <!--백그라운드용-->
+                <Border     Grid.Row="1" Style="{StaticResource Content_InputForm_LabelBorderStyle}"/>
+
+                <!--조회 버튼-->
+                <!--클릭 기능 추가-->
+                <Button    Grid.Row="1" x:Name="btnSearch" Content="{Binding ConverterParameter=SEARCH, Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" 
+                            Style="{StaticResource SearchButtonStyle}" Cursor="Hand" HorizontalAlignment="Right" Margin="0,0,8,0" Click="btnSearch_Click"/>
+
+                <Grid Grid.Row="1" Grid.Column="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="9" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="10" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="10" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="10" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="5" />
+                    </Grid.ColumnDefinitions>
+                    <!-- <조회조건> -->
+                    <!--재공종료일(타임픽)-->
+                    <TextBlock              Grid.Column="1" Text="{Binding ConverterParameter='기간', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}" />
+                    <ctrlLib:LGCDatePicker  Grid.Column="2" x:Name="dtpTmDateFrom" DatepickerType="Date"  HorizontalAlignment="Stretch" Height="Auto" VerticalAlignment="Center"/>
+                    <TextBlock              Grid.Column="3" Text=" ~ " HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    <ctrlLib:LGCDatePicker  Grid.Column="4" x:Name="dtpTmDateTo" DatepickerType="Date"  HorizontalAlignment="Stretch" Height="Auto" VerticalAlignment="Center"/>
+                    <!--라인(콤보)-->
+                    <TextBlock              Grid.Column="6" Text="{Binding ConverterParameter='라인', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}"/>
+                    <c1:C1ComboBox          Grid.Column="7" x:Name="cboEquipmentSegment" Style="{StaticResource C1ComboBoxStyle}" AutoComplete="False" DisplayMemberPath="CBO_NAME" SelectedValuePath="CBO_CODE" />
+                    <!--자재 그룹(콤보)-->
+                    <TextBlock              Grid.Column="9" Text="{Binding ConverterParameter='자재그룹', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}" Margin="0,12,8,12"/>
+                    <c1:C1ComboBox          Grid.Column="10" x:Name="cboMtrlGroup" Style="{StaticResource C1ComboBoxStyle}" AutoComplete="False" HorizontalAlignment="Stretch" DisplayMemberPath="KEY" SelectedValuePath="VALUE" SelectedIndex="1"  Margin="3,8" />
+                    <TextBlock              Grid.Column="12" Text="{Binding ConverterParameter='자재코드', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}" Margin="0,12,8,12"/>
+                    <TextBox                Grid.Column="13"  x:Name="txtSearch_MtrlCode"    CharacterCasing="Upper"    Style="{StaticResource SearchCondition_TextBoxStyle}" KeyDown="txtSearch_MtrlCode_KeyDown" />
+                </Grid>
+
+                <Grid Grid.Row="3">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="7*" />
+                        <ColumnDefinition Width="8" />
+                        <ColumnDefinition Width="8*" />
+                    </Grid.ColumnDefinitions>
+                    <!--백그라운드용-->
+                    <Border Grid.Column="0" Style="{StaticResource Content_InputForm_ContentBorderStyle}"/>
+                    <Border Grid.Column="2" Style="{StaticResource Content_InputForm_ContentBorderStyle}"/>
+
+                    <!--Splitter-->
+                    <GridSplitter  Grid.Column="1" ResizeDirection="Columns" ShowsPreview="True" Style="{StaticResource GridSplitterStyle}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" />
+
+                    <!--왼쪽 영역 01-->
+                    <Grid  Grid.Column="0" >
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="35"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="8"/>
+                        </Grid.RowDefinitions>
+
+                        <Border Grid.RowSpan="3" Grid.Row="0" BorderThickness="1" Style="{StaticResource BorderSubTitleStyle}"/>
+                        <Border Grid.RowSpan="2" Grid.Row="1"  Background="#ffffffff" BorderThickness="2" BorderBrush="#ffbebebe"></Border>
+
+                        <!-- 왼쪽 영역 타이틀 -->
+                        <Grid   Grid.Row="0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="8"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="8"/>
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock      Grid.Row="0"  Grid.Column="1" Text="{Binding ConverterParameter='요약', Converter={StaticResource GlobalObjectDicConverter}, RelativeSource={RelativeSource Self}}" HorizontalAlignment="Right" Style="{StaticResource Content_Search_LabelStyle}" />
+                        </Grid>
+                        <!--요약 정보 그리드-->
+                        <Grid Grid.Row="1" >
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="2"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="8"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="8"/>
+                            </Grid.ColumnDefinitions>
+
+                            <Border Grid.Row="0" Grid.Column="1" Style="{StaticResource Condition_Header_BorderStyle}"/>
+                            <c1:C1DataGrid x:Name="dgReturnSummaryList" Grid.Row ="1" Grid.Column="1" IsReadOnly="True" HeadersVisibility="None" SelectionMode="MultiRange" FrozenColumnCount="2" HorizontalScrollBarVisibility="Visible" MouseDoubleClick="dgSummary_MouseDoubleClick" LoadedCellPresenter="dgSummary_LoadedCellPresenter">
+                                <c1:C1DataGrid.TopRows>
+                                    <c1:DataGridColumnHeaderRow />
+                                    <c1:DataGridColumnHeaderRow />
+                                </c1:C1DataGrid.TopRows>
+                                <c1:C1DataGrid.Columns>
+                                    <c1:DataGridTextColumn    Header = "[EQSGID,EQSGID]"                        Binding = "{Binding EQSGID}"                HorizontalAlignment="Center" Width="Auto" IsReadOnly="True" Visibility="Collapsed"/>
+                                    <c1:DataGridTextColumn    Header = "[라인,라인]"                            Binding = "{Binding EQSGNAME}"              HorizontalAlignment="Center" Width="150" IsReadOnly="True" />
+                                    <c1:DataGridTextColumn    Header = "[PORT_MTRL_GR_CODE,PORT_MTRL_GR_CODE]"  Binding = "{Binding PORT_MTRL_GR_CODE}"     HorizontalAlignment="Center" Width="Auto" IsReadOnly="True" Visibility="Collapsed"/>
+                                    <c1:DataGridTextColumn    Header = "[자재그룹,자재그룹]"                    Binding = "{Binding PORT_MTRL_GR_NAME}"     HorizontalAlignment="Center" Width="120" IsReadOnly="True" />
+                                    <c1:DataGridTextColumn    Header = "[MTRLCODE,MTRLCODE]"                    Binding = "{Binding MTRLCODE}"              HorizontalAlignment="Center" Width="Auto" IsReadOnly="True" Visibility="Collapsed"/>
+                                    <c1:DataGridTextColumn    Header = "[자재코드,자재코드]"                    Binding = "{Binding MTRLCODE}"              HorizontalAlignment="Center" Width="150" IsReadOnly="True" />
+                                    <c1:DataGridTextColumn    Header = "[INPUT_ACTID,INPUT_ACTID]"              Binding = "{Binding INPUT_ACTID}"           HorizontalAlignment="Center" Width="Auto" IsReadOnly="True" Visibility="Collapsed"/>
+                                    <c1:DataGridNumericColumn Header = "[INPUT,BOX]"                            Binding = "{Binding INPUT_BOX_CNT}"         HorizontalAlignment="Center" Width="Auto" IsReadOnly="True" Format="#,###0" />
+                                    <c1:DataGridNumericColumn Header = "[INPUT,TOTAL]"                          Binding = "{Binding INPUT_TOT_CNT}"         HorizontalAlignment="Center" Width="Auto" IsReadOnly="True" Format="#,###0" />
+                                    <c1:DataGridTextColumn    Header = "[REINPUT_ACTID,REINPUT_ACTID]"          Binding = "{Binding REINPUT_ACTID}"         HorizontalAlignment="Center" Width="Auto" IsReadOnly="True" Visibility="Collapsed"/>
+                                    <c1:DataGridNumericColumn Header = "[재투입,BOX]"                           Binding = "{Binding REINPUT_BOX_CNT}"       HorizontalAlignment="Center" Width="Auto" IsReadOnly="True" Format="#,###0" />
+                                    <c1:DataGridNumericColumn Header = "[재투입,TOTAL]"                         Binding = "{Binding REINPUT_TOT_CNT}"       HorizontalAlignment="Center" Width="Auto" IsReadOnly="True" Format="#,###0" />
+                                    <c1:DataGridTextColumn    Header = "[RETURN_ACTID,RETURN_ACTID]"            Binding = "{Binding RETURN_ACTID}"          HorizontalAlignment="Center" Width="Auto" IsReadOnly="True" Visibility="Collapsed"/>
+                                    <c1:DataGridNumericColumn Header = "[반품,BOX]"                             Binding = "{Binding RETURN_BOX_CNT}"        HorizontalAlignment="Center" Width="Auto" IsReadOnly="True" Format="#,###0" />
+                                    <c1:DataGridNumericColumn Header = "[반품,TOTAL]"                           Binding = "{Binding RETURN_TOT_CNT}"        HorizontalAlignment="Center" Width="Auto" IsReadOnly="True" Format="#,###0" />
+                                    <c1:DataGridTextColumn    Header = "[DATE_FROM,DATE_FROM]"                  Binding = "{Binding DATE_FROM}"             HorizontalAlignment="Center" Width="Auto" IsReadOnly="True" Visibility="Collapsed"/>
+                                    <c1:DataGridTextColumn    Header = "[DATE_TO,DATE_TO]"                      Binding = "{Binding DATE_TO}"               HorizontalAlignment="Center" Width="Auto" IsReadOnly="True" Visibility="Collapsed"/>
+                                </c1:C1DataGrid.Columns>
+                            </c1:C1DataGrid>
+                        </Grid>
+                    </Grid>
+                    
+                    <!--오른쪽 영역 02-->
+                    <Grid   Grid.Row="0" Grid.Column="2" >
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="35"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="8"/>
+                        </Grid.RowDefinitions>
+
+                        <Border Grid.Row="0" Grid.RowSpan="3" BorderThickness="1" Style="{StaticResource BorderSubTitleStyle}"/>
+                        <Border Grid.Row="1" Grid.RowSpan="2" Background="#ffffffff" BorderThickness="2" BorderBrush="#ffbebebe"></Border>
+
+                        <!--오른쪽 영역 타이틀-->
+                        <Grid   Grid.Row="0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="8"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="8"/>
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock      Grid.Row="0"  Grid.Column="1" Text="{Binding ConverterParameter='DETAIL_CONTENT', Converter={StaticResource GlobalObjectDicConverter}, RelativeSource={RelativeSource Self}}" HorizontalAlignment="Right" Style="{StaticResource Content_Search_LabelStyle}" />
+                        </Grid>
+                        <!--자재 그룹 그리드-->
+                        <Grid Grid.Row="1" >
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="2"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="8"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="8"/>
+                            </Grid.ColumnDefinitions>
+
+                            <Border Grid.Row="0" Grid.Column="1" Style="{StaticResource Condition_Header_BorderStyle}"/>
+                            <c1:C1DataGrid x:Name="dgReturnDetailsList" Grid.Row="1" Grid.ColumnSpan="3" IsReadOnly="True" Margin="8,0,8,0" HeadersVisibility="Column" SelectionMode="MultiRange" >
+                                <c1:C1DataGrid.Columns>
+                                    <c1:DataGridTextColumn      Header = "라인"                 Binding = "{Binding EQSGNAME}"                HorizontalAlignment="Center" Width="Auto" />
+                                    <c1:DataGridTextColumn      Header = "자재그룹"             Binding = "{Binding PORT_MTRL_GR_NAME}"       HorizontalAlignment="Center" Width="Auto" />
+                                    <c1:DataGridTextColumn      Header = "자재코드"             Binding = "{Binding MTRLCODE}"                HorizontalAlignment="Center" Width="Auto" />
+                                    <c1:DataGridTextColumn      Header = "Box ID"               Binding = "{Binding S_BOX_ID}"                HorizontalAlignment="Center" Width="Auto" />
+                                    <c1:DataGridTextColumn      Header = "Status"               Binding = "{Binding S_BOX_STAT}"              HorizontalAlignment="Center" Width="Auto" />
+                                    <c1:DataGridTextColumn      Header = "투입수량"             Binding = "{Binding INPUT_QTY}"               HorizontalAlignment="Center" Width="Auto" />
+                                    <c1:DataGridTextColumn      Header = "사용수량"             Binding = "{Binding USE_QTY}"                 HorizontalAlignment="Center" Width="Auto" />
+                                    <c1:DataGridTextColumn      Header = "반품수량"             Binding = "{Binding RETURN_QTY}"              HorizontalAlignment="Center" Width="Auto" />
+                                    <c1:DataGridTextColumn      Header = "Consume Date"         Binding = "{Binding CONSUME_DTTM}"            HorizontalAlignment="Center" Width="Auto" />
+                                    <c1:DataGridTextColumn      Header = "Reinput Date"         Binding = "{Binding INPUT_DTTM}"              HorizontalAlignment="Center" Width="Auto" />
+                                    <c1:DataGridTextColumn      Header = "Return Operator"      Binding = "{Binding RETURN_USER}"             HorizontalAlignment="Center" Width="Auto" />
+                                    <c1:DataGridTextColumn      Header = "반품사유"             Binding = "{Binding RETURN_REASON}"           HorizontalAlignment="Center" Width="Auto" />
+                                    <c1:DataGridTextColumn      Header = "Return Note"          Binding = "{Binding RETURN_NOTE}"             HorizontalAlignment="Center" Width="Auto" />
+                                    
+                                </c1:C1DataGrid.Columns>
+                            </c1:C1DataGrid>
+                        </Grid>
+
+                    </Grid>
+                </Grid>
+            </Grid>
+        </ctrlLib:LGCLayout>
+        <ctrlLib:LoadingIndicator x:Name="loadingIndicator" Grid.Row="999" Grid.Column="999" />
+    </Grid>
+</UserControl>

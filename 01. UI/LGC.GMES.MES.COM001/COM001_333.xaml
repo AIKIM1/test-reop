@@ -1,0 +1,205 @@
+﻿<UserControl xmlns:ss="http://schemas.grapecity.com/windows/spreadsheet/2012"  
+             x:Class="LGC.GMES.MES.COM001.COM001_333"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:c1="http://schemas.componentone.com/winfx/2006/xaml"
+             xmlns:ctrlLib="clr-namespace:LGC.GMES.MES.ControlsLibrary;assembly=LGC.GMES.MES.ControlsLibrary"
+             xmlns:uc="clr-namespace:LGC.GMES.MES.CMM001.Controls;assembly=LGC.GMES.MES.CMM001"
+             mc:Ignorable="d" 
+             d:DesignHeight="768" d:DesignWidth="1024" Loaded="UserControl_Loaded">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/LGC.GMES.MES.ControlsLibrary;component/ControlStyles.xaml" />
+                <ResourceDictionary Source="/LGC.GMES.MES.ControlsLibrary;component/ControlTemplates/LGCDatePicker.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid x:Name="grdMain">
+        <ctrlLib:LGCLayout x:Name="LayoutRoot" Tag="Cell Map 조회" Grid.ColumnSpan="2">
+            <Grid>
+                <Grid.Resources>
+                    <DataTemplate x:Key="ResultTemplate">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="1" Text="{Binding}" HorizontalAlignment="Right" Padding="0,0,5,0"  />
+                        </Grid>
+                    </DataTemplate>
+                </Grid.Resources>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="8" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="8" />
+                    <RowDefinition Height="1.5*" />
+                </Grid.RowDefinitions>
+
+                <!-- 완성LOT, CELL정보 -->
+                <Grid Grid.Row="2" Grid.Column="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="8"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Border Grid.Column="0" Background="#e8ebed" BorderThickness="1" BorderBrush="#8a8a8a" />
+                    <GridSplitter Grid.Column="1" ResizeDirection="Columns" ShowsPreview="True" Style="{StaticResource GridSplitterStyle}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" />
+
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="213*"/>
+                            <ColumnDefinition Width="41*"/>
+                            <ColumnDefinition Width="10"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="34"/>
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+
+                        <!--백그라운드용-->
+                        <Border Grid.Row="0" Grid.Column="0" Grid.RowSpan="2" Grid.ColumnSpan="3" Style="{StaticResource Content_InputForm_ContentBorderStyle}" Margin="0,0,0,0.2"/>
+                        <Border Grid.Row="0" Grid.Column="0" BorderThickness="1" Grid.ColumnSpan="99" BorderBrush="#ffbebebe" Style="{StaticResource BorderSubTitleStyle}" />
+
+                        <Grid Grid.Row="0" Grid.Column="0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="5"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="5"/>
+                                <ColumnDefinition Width="150"/>
+                                <ColumnDefinition Width="30"/>
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock  Grid.Column="1" HorizontalAlignment="Left" Text="{Binding ConverterParameter='요청자', Converter={StaticResource GlobalObjectDicConverter}, RelativeSource={RelativeSource Self}}" Style="{StaticResource Content_Search_LabelStyle}" />
+                            <TextBox Grid.Column="3" x:Name="txtSearchUserName" HorizontalAlignment="Stretch"    Style="{StaticResource SearchCondition_TextBoxStyle}" KeyDown="txtUserName_KeyDown"/>
+                            <uc:UcBaseButton  Grid.Column="4" x:Name="btnSearchUser" HorizontalAlignment="Stretch"    Content="{Binding ConverterParameter=Title17,   Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{DynamicResource Content_SearchButtonStyle}" Click="btnUser_Click"/>
+                        </Grid>
+
+                        <uc:UcBaseButton x:Name="btnSearch" Grid.Row="0" Grid.Column="1"  HorizontalAlignment="Right" Content="{Binding ConverterParameter=SEARCH, Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource SearchButtonStyle}" Click="btnSearch_Click" Margin="0,2,0,2.6" />
+
+                        <uc:UcBaseDataGrid x:Name="dgQuery" 
+                                       Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" 
+                                       IsReadOnly="True" 
+                                       HeadersVisibility="Column" 
+                                       SelectionMode="SingleRow" 
+                                       Margin="8,8.4,8,8.2"
+                                       SelectionChanged="dgQuery_SelectionChanged" >
+                            <c1:C1DataGrid.Columns>
+                                <c1:DataGridTextColumn      Header = "요청자"      Binding = "{Binding REQ_USER_NAME}"               HorizontalAlignment="Left" />
+                                <c1:DataGridTextColumn      Header = "Query 명"    Binding = "{Binding QRY_NAME}"                    HorizontalAlignment="Left" />
+                                <c1:DataGridTextColumn      Header = "Query ID"    Binding = "{Binding STORED_QRY_ID}"                    HorizontalAlignment="Left"  Visibility="Collapsed"/>
+                                <c1:DataGridTextColumn      Header = "조회권한"    Binding = "{Binding STORED_QRY_AUTH_NAME}"        HorizontalAlignment="Left" />
+                                <c1:DataGridTextColumn      Header = "사용기간"    Binding = "{Binding STORED_QRY_VLD_TYPE_NAME}"    HorizontalAlignment="Left" />
+                                <c1:DataGridTextColumn      Header = "생성자"      Binding = "{Binding INSUSER_NAME}"                HorizontalAlignment="Left" />
+                                <c1:DataGridTextColumn      Header = "생성일시"    Binding = "{Binding INSDTTM}"                     HorizontalAlignment="Center" />
+                                <c1:DataGridTextColumn      Header = "수정자"      Binding = "{Binding UPDUSER_NAME}"                HorizontalAlignment="Left" />
+                                <c1:DataGridTextColumn      Header = "수정일시"    Binding = "{Binding UPDDTTM}"                     HorizontalAlignment="Center" />
+                            </c1:C1DataGrid.Columns>
+                        </uc:UcBaseDataGrid>
+
+                    </Grid>
+                    <Border Grid.Row="0" Grid.Column="3"  Style="{StaticResource Content_InputForm_GroupBorderStyle}"/>
+
+                    <Grid Grid.Column ="3">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="34"/>
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="10"/>
+                        </Grid.ColumnDefinitions>
+
+                        <!--백그라운드용-->
+                        <Border Grid.Row="0" Grid.Column="0" Grid.RowSpan="99" Grid.ColumnSpan="99" Style="{StaticResource Content_InputForm_ContentBorderStyle}"/>
+                        <Border Grid.Row="0" Grid.Column="0" BorderThickness="1" Grid.ColumnSpan="99" BorderBrush="#ffbebebe" Style="{StaticResource BorderSubTitleStyle}"/>
+
+                        <uc:UcBaseButton x:Name="btnRun" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Right"  Content="{Binding ConverterParameter=실행, Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_MainButtonSpecialStyle}" Click="btnRun_Click" Margin="0,2,0,2.6"/>
+
+                        <uc:UcBaseDataGrid x:Name="dgParameter" 
+                                       Grid.Row="2" Grid.Column="0"
+                                       Grid.ColumnSpan="2" 
+                                       IsReadOnly="False" 
+                                       HeadersVisibility="Column" 
+                                       SelectionMode="SingleCell" 
+                                       Margin="8,8,8,8" >
+                            <c1:C1DataGrid.Columns>
+                                <c1:DataGridTemplateColumn Name="CHK" Header="MAND_FLAG" Width="Auto" HorizontalAlignment="Center" IsReadOnly="True" >
+                                    <c1:DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <CheckBox IsChecked="{Binding MAND_FLAG, Mode=TwoWay}" VerticalAlignment="Center" HorizontalAlignment="Center" IsEnabled="False" />
+                                        </DataTemplate>
+                                    </c1:DataGridTemplateColumn.CellTemplate>
+                                </c1:DataGridTemplateColumn>
+                                <c1:DataGridTextColumn      Header = "파라미터"   Binding = "{Binding PARA_NAME}"    HorizontalAlignment="Left" IsReadOnly="True"/>
+                                <c1:DataGridTextColumn      Header = "값"         Binding = "{Binding PARA_VALUE}"   HorizontalAlignment="Left"/>
+                                <c1:DataGridTextColumn      Header = "설명"       Binding = "{Binding PARA_NOTE}"    HorizontalAlignment="Left" IsReadOnly="True"/>
+                                <c1:DataGridTextColumn      Header = "BAS_VALUE"  Binding = "{Binding DFLT_VALUE}"   HorizontalAlignment="Left" IsReadOnly="True"/>
+                            </c1:C1DataGrid.Columns>
+                        </uc:UcBaseDataGrid>
+
+                    </Grid>
+
+                </Grid>
+                <!-- 완성LOT, CELL정보 End -->
+
+                <GridSplitter Grid.Row="3" ResizeDirection="Rows" ShowsPreview="True" Style="{StaticResource GridSplitterVerticalStyle }" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" />
+
+                <!-- LOT 리스트 -->
+                <Grid Grid.Row="4" Grid.Column="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="34"/>
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="8" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <!--백그라운드용-->
+                    <Border Grid.Row="0" Grid.Column="0" Grid.RowSpan="99" Grid.ColumnSpan="99" Style="{StaticResource Content_InputForm_ContentBorderStyle}"/>
+                    <Border Grid.Row="0" Grid.Column="0" BorderThickness="1" Grid.ColumnSpan="99" BorderBrush="#ffbebebe" Style="{StaticResource BorderSubTitleStyle}"/>
+
+                    <TextBlock x:Name="txtQueryResult" Grid.Row="0" Style="{StaticResource Content_ModuleTitleStyle}"><Run Text="{Binding ConverterParameter='QUERY_RESULT', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}"/></TextBlock>
+                    <Grid Grid.Row="0" Grid.Column="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="5" />
+                            <ColumnDefinition Width="100" />
+                            <ColumnDefinition Width="10" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" HorizontalAlignment="Right"  Style="{StaticResource Content_ModuleTitleStyle}"><Run Text="{Binding ConverterParameter='Row 수 제한', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}"/></TextBlock>
+                        <c1:C1NumericBox x:Name="numRowMaxCount" Grid.Column="2" Minimum="1" Value="5000" Height="23"  CornerRadius="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Format="#,##0" ValueChanged="numRowMaxCount_ValueChanged" ></c1:C1NumericBox>
+                    </Grid>
+
+
+                    <uc:UcBaseDataGrid x:Name="dgResult" IsUserConfigUse="False"
+                                   Grid.Row="1" 
+                                   Grid.Column="0"
+                                   Grid.ColumnSpan="3" 
+                                   IsReadOnly="True" 
+                                   HeadersVisibility="Column" 
+                                   SelectionMode="SingleRow" 
+                                   Margin="8,8,8,8">
+                        <c1:C1DataGrid.Columns>
+                            <!-- 컬럼 동적 생성 -->
+                        </c1:C1DataGrid.Columns>
+                    </uc:UcBaseDataGrid>
+                </Grid>
+                <!-- LOT 리스트 End -->
+
+
+            </Grid>
+        </ctrlLib:LGCLayout>
+
+        <ctrlLib:LoadingIndicator x:Name="loadingIndicator" Grid.Row="999" Grid.Column="999"/>
+    </Grid>
+</UserControl>

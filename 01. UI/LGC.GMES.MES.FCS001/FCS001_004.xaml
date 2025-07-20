@@ -1,0 +1,289 @@
+﻿<UserControl x:Class="LGC.GMES.MES.FCS001.FCS001_004"
+             xmlns:ss="http://schemas.grapecity.com/windows/spreadsheet/2012"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:c1="http://schemas.componentone.com/winfx/2006/xaml"
+             xmlns:ctrlLib="clr-namespace:LGC.GMES.MES.ControlsLibrary;assembly=LGC.GMES.MES.ControlsLibrary"
+             xmlns:uc="clr-namespace:LGC.GMES.MES.CMM001.Controls;assembly=LGC.GMES.MES.CMM001"
+             mc:Ignorable="d" 
+             d:DesignHeight="768" d:DesignWidth="1024"  Loaded="UserControl_Loaded" >
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/LGC.GMES.MES.ControlsLibrary;component/ControlStyles.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    
+    <Grid x:Name="grdMain">
+        <ctrlLib:LGCLayout x:Name="LayoutRoot" Tag="충방전기 가동현황" Grid.ColumnSpan="2">
+            <Grid>
+                <c1:C1TabControl x:Name="tcSelfInsp" >
+                    <c1:C1TabItem x:Name="TabOperStatus" Header="{Binding Converter={StaticResource GlobalObjectDicConverter}, ConverterParameter='OPER_STATUS'}" Margin="0" MinWidth="130" >
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="51"/>
+                                <RowDefinition Height="8"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+
+                            <Border Grid.Row="0" Background="#fff2f2f2" BorderThickness="1" BorderBrush="#ffd1d1d1"/>
+                            <Grid   Grid.Row="0" Grid.Column="0" >
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="11" />
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="11" />
+                                </Grid.RowDefinitions>
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="13" />
+                                    <ColumnDefinition Width="100" />
+                                    <ColumnDefinition Width="200" />
+                                    <ColumnDefinition Width="30" />
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="13"/>
+                                </Grid.ColumnDefinitions>
+
+                                <!--조회조건 ROW1-->
+                                <!--조회 버튼-->
+                                <Grid Grid.Row="1" Grid.Column="5" >
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <uc:UcBaseButton  x:Name="btnSearch"  Grid.Row="0" Grid.Column="1" Height="Auto" Content="{Binding ConverterParameter=SEARCH, Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource SearchButtonStyle}" Cursor="Hand" Click="btnSearch_Click" />
+                                </Grid>
+                            </Grid>
+
+                            <!--조회 영역-->
+                            <!--ROW 02-->
+                            <Border Grid.Row="2" Background="#fff2f2f2" BorderThickness="1" BorderBrush="#ffbebebe"></Border>
+                            <Grid   Grid.Row="2" Grid.Column="0" >
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="8"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <Border Grid.Row="2" Background="#fff2f2f2" BorderThickness="1" BorderBrush="#ffbebebe"></Border>
+
+                                <Grid   Grid.Row="2" Grid.Column="0" >
+                                    <uc:UcBaseDataGrid x:Name="dgFomtOperStatus" Grid.Row="0" Margin="8" IsReadOnly="True" RowHeight="Auto" SelectionMode="SingleRow" HeadersVisibility="None" FrozenTopRowsCount="2" SelectionChanged="dgFomtOperStatus_SelectionChanged">
+                                        <c1:C1DataGrid.Columns>
+                                            <c1:DataGridTextColumn      Header = "[설비레인,설비레인]"  Binding = "{Binding LANE_NAME}"         HorizontalAlignment="Center" />
+                                            <c1:DataGridTextColumn      Header = "[설비ID,설비ID]"      Binding = "{Binding LANE_ID}"           HorizontalAlignment="Center" Visibility="Hidden" />
+                                            <c1:DataGridTextColumn      Header = "[구분,구분]"          Binding = "{Binding EQP_KIND_NAME}"     HorizontalAlignment="Center" />
+                                            <c1:DataGridTextColumn      Header = "[구분ID,구분ID]"      Binding = "{Binding EQP_KIND}"          HorizontalAlignment="Center" Visibility="Hidden"/>
+                                            <c1:DataGridNumericColumn   Header = "[전체,BOX수]"         Binding = "{Binding TOT}"               HorizontalAlignment="Right"  Format="###,###,##0"/>
+                                            <c1:DataGridNumericColumn   Header = "[가동률,BOX수]"       Binding = "{Binding RUN}"               HorizontalAlignment="Right"  Format="###,###,##0"/>
+                                            <c1:DataGridNumericColumn   Header = "[가동률,비율(%)]"     Binding = "{Binding RATE_RUN}"          HorizontalAlignment="Right"  Format="###,###,##0.##"/>
+                                            <c1:DataGridNumericColumn   Header = "[비가동률,BOX수]"     Binding = "{Binding IDLE}"              HorizontalAlignment="Right"  Format="###,###,##0"/>
+                                            <c1:DataGridNumericColumn   Header = "[비가동률,비율(%)]"   Binding = "{Binding RATE_IDLE}"         HorizontalAlignment="Right"  Format="###,###,##0.##"/>
+                                            <c1:DataGridNumericColumn   Header = "[부동률,BOX수]"       Binding = "{Binding ETC}"               HorizontalAlignment="Right"  Format="###,###,##0"/>
+                                            <c1:DataGridNumericColumn   Header = "[부동률,비율(%)]"     Binding = "{Binding RATE_ETC}"          HorizontalAlignment="Right"  Format="###,###,##0.##"/>
+                                        </c1:C1DataGrid.Columns>
+
+                                        <c1:C1DataGrid.TopRows>
+                                            <c1:DataGridColumnHeaderRow />
+                                            <c1:DataGridColumnHeaderRow />
+                                        </c1:C1DataGrid.TopRows>
+
+                                        <c1:C1GroupingWithSummariesBehavior.GroupingWithSummariesBehavior>
+                                            <c1:C1GroupingWithSummariesBehavior />
+                                        </c1:C1GroupingWithSummariesBehavior.GroupingWithSummariesBehavior>
+                                    </uc:UcBaseDataGrid>
+                                </Grid>
+
+                                <GridSplitter Grid.Column="1" ResizeDirection="Columns" ShowsPreview="True" Style="{StaticResource GridSplitterVerticalStyle }" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" />
+
+                                <Grid Grid.Column="2" Width="auto">
+                                    <!--백그라운드용-->
+                                    <Border Grid.Row="0" Grid.Column="0" Grid.RowSpan="2" Grid.ColumnSpan="3" Style="{StaticResource Content_InputForm_ContentBorderStyle}" Margin="0,0,0,0.2"/>
+                                    <uc:UcBaseDataGrid x:Name="dgFomtOperDetail" Grid.Row="1" Margin="8" IsReadOnly="True" RowHeight="Auto" SelectionMode="MultiRange" HeadersVisibility="None" FrozenTopRowsCount="2">
+                                        <c1:C1DataGrid.Columns>
+                                            <c1:DataGridTextColumn      Header = "[설비명,설비명]"      Binding = "{Binding EQPT_NAME}"    HorizontalAlignment="Center" />
+                                            <c1:DataGridNumericColumn   Header = "[가동률,횟수]"        Binding = "{Binding RUN}"          HorizontalAlignment="Right"  Format="###,###,##0"/>
+                                            <c1:DataGridNumericColumn   Header = "[가동률,비율(%)]"     Binding = "{Binding RATE_RUN}"     HorizontalAlignment="Right"  Format="###,###,##0.##"/>
+                                            <c1:DataGridNumericColumn   Header = "[비가동률,횟수]"      Binding = "{Binding IDLE}"         HorizontalAlignment="Right"  Format="###,###,##0"/>
+                                            <c1:DataGridNumericColumn   Header = "[비가동률,비율(%)]"   Binding = "{Binding RATE_IDLE}"    HorizontalAlignment="Right"  Format="###,###,##0.##"/>
+                                            <c1:DataGridNumericColumn   Header = "[부동률,횟수]"        Binding = "{Binding ETC}"          HorizontalAlignment="Right"  Format="###,###,##0"/>
+                                            <c1:DataGridNumericColumn   Header = "[부동률,비율(%)]"     Binding = "{Binding RATE_ETC}"     HorizontalAlignment="Right"  Format="###,###,##0.##"/>
+                                            <c1:DataGridNumericColumn   Header = "[전체,횟수]"          Binding = "{Binding TOT}"          HorizontalAlignment="Right"  Format="###,###,##0"/>
+                                            <c1:DataGridNumericColumn   Header = "[전체,비율(%)]"       Binding = "{Binding RATE_TOT}"     HorizontalAlignment="Right"  Format="###,###,##0.##"/>
+                                        </c1:C1DataGrid.Columns>
+
+                                        <c1:C1DataGrid.TopRows>
+                                            <c1:DataGridColumnHeaderRow />
+                                            <c1:DataGridColumnHeaderRow />
+                                        </c1:C1DataGrid.TopRows>
+
+                                        <c1:C1GroupingWithSummariesBehavior.GroupingWithSummariesBehavior>
+                                            <c1:C1GroupingWithSummariesBehavior />
+                                        </c1:C1GroupingWithSummariesBehavior.GroupingWithSummariesBehavior>
+                                    </uc:UcBaseDataGrid>
+                                </Grid>
+                            </Grid>
+                        </Grid>
+                    </c1:C1TabItem>
+
+                    <c1:C1TabItem x:Name="TabSearch" Header="{Binding Converter={StaticResource GlobalObjectDicConverter}, ConverterParameter='이력조회'}" Margin="0" MinWidth="130" Visibility="Collapsed"   >
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="8"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+
+                            <Border Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="99" Background="#fff2f2f2" BorderThickness="1" BorderBrush="#ffd1d1d1"></Border>
+
+                            <!--조회영역-->
+                            <Grid x:Name="SearchArea" Grid.Row="0">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="11" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="11" />
+                                </Grid.RowDefinitions>
+
+                                <Grid Grid.Row="1">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="13"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="13"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="13"/>
+                                    </Grid.ColumnDefinitions>
+                                    <!--
+                                    <TextBlock                Grid.Row="1" Grid.Column="1"  Text="{Binding ConverterParameter='SEL_PERIOD', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}" />
+                                     -->
+                                    <ctrlLib:LGCDatePicker    Grid.Row="0" Grid.Column="2"  x:Name="dtpFromDate" DatepickerType="Date" IsNullInitValue="True" />
+                                    <c1:C1DateTimePicker      Grid.Row="0" Grid.Column="3"  x:Name="dtpFromTime" Margin="3,3,0,4" CustomTimeFormat="HH:mm" HorizontalAlignment="Left" VerticalAlignment="Center" EditMode="Time" Background="LightYellow" TimeIncrement="0:1:0"/>
+                                    <TextBlock                Grid.Row="0" Grid.Column="4"  Text="{Binding ConverterParameter='~', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}"/>
+                                    <ctrlLib:LGCDatePicker    Grid.Row="0" Grid.Column="5"  x:Name="dtpToDate" DatepickerType="Date" IsNullInitValue="True" />
+                                    <c1:C1DateTimePicker      Grid.Row="0" Grid.Column="6"  x:Name="dtpToTime" CustomTimeFormat="HH:mm" HorizontalAlignment="Left" Margin="4,0,0,0" VerticalAlignment="Center" EditMode="Time" Background="LightYellow" TimeIncrement="0:1:0"/>
+                                    <TextBlock                          Grid.Row="0" Grid.Column="8" Margin="0,0,5,0" Text="{Binding ConverterParameter='LINE_ID', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}" VerticalAlignment="Center" />
+                                    <uc:UcBaseComboBox  x:Name="cboLine"    Grid.Row="0" Grid.Column="9" MinHeight="23" DisplayMemberPath="CBO_NAME" SelectedValuePath="CBO_CODE" Style="{StaticResource C1ComboBoxStyle}"   AutoComplete="False" />
+
+
+                                    <uc:UcBaseButton                 Grid.Row="0" Grid.Column="12" Margin="4" x:Name="btnHistorySearch" Content="{Binding ConverterParameter='SEARCH' , Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource SearchButtonStyle}"  Cursor="Hand" Click="btnHistorySearch_Click"   />
+                                </Grid>
+                            </Grid>
+
+                            <!--조회 영역-->
+                            <!--ROW 02-->
+                            <Border Grid.Row="2" Background="#fff2f2f2" BorderThickness="1" BorderBrush="#ffbebebe"></Border>
+                            <Grid   Grid.Row="2" Grid.Column="0" >
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="8"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="8"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <Border Grid.Row="2" Background="#fff2f2f2" BorderThickness="1" BorderBrush="#ffbebebe"></Border>
+
+                                <Grid   Grid.Row="2" Grid.Column="0" >
+                                    <uc:UcBaseDataGrid x:Name="dgFomtOperHistory" Grid.Row="0" Margin="8" IsReadOnly="True" RowHeight="Auto" SelectionMode="SingleRow" HeadersVisibility="None" FrozenColumnCount="2" FrozenTopRowsCount="2" SelectionChanged="dgFomtOperHistory_SelectionChanged">
+                                        <c1:C1DataGrid.Columns>
+                                            <c1:DataGridTextColumn      Header = "[설비레인,설비레인]"                  Binding = "{Binding LANE_NAME}"         HorizontalAlignment="Center" />
+                                            <c1:DataGridTextColumn      Header = "[설비ID,설비ID]"                     Binding = "{Binding LANE_ID}"           HorizontalAlignment="Center" Visibility="Hidden" />
+                                            <c1:DataGridTextColumn      Header = "[설비세그먼트,설비세그먼트]"          Binding = "{Binding EQSGID}"            HorizontalAlignment="Center" Visibility="Hidden" />
+                                            <c1:DataGridTextColumn      Header = "[작업일,작업일]"                     Binding = "{Binding JOB_DATE}"          HorizontalAlignment="Center" />
+                                            <c1:DataGridTextColumn      Header = "[TOTAL_RUN_TIME,TOTAL_RUN_TIME]"    Binding = "{Binding TOTAL_TIME}"        HorizontalAlignment="Center" Format="###,###,##0"/>
+                                            <c1:DataGridNumericColumn   Header = "[JOB_TIME,JOB_TIME]"                Binding = "{Binding RUN_TIME}"          HorizontalAlignment="Right"  Format="###,###,##0"/>
+                                            <c1:DataGridNumericColumn   Header = "[대기시간,대기시간]"                  Binding = "{Binding WAIT_TIME}"         HorizontalAlignment="Right"  Format="###,###,##0"/>
+                                            <c1:DataGridNumericColumn   Header = "[가동률,PROC_WAIT_INCLD]"            Binding = "{Binding RATE_SUM}"          HorizontalAlignment="Right"  Format="###,###,##0.##"/>
+                                            <c1:DataGridNumericColumn   Header = "[가동률,PROC_WAIT_EXCLD]"            Binding = "{Binding RATE_RUN}"          HorizontalAlignment="Right"  Format="###,###,##0.##" />
+                                            <c1:DataGridNumericColumn   Header = "[부동,부동시간]"                     Binding = "{Binding BM_TROUBLE_TIME}"   HorizontalAlignment="Right"  Format="###,###,##0"/>
+                                            <c1:DataGridNumericColumn   Header = "[부동,부동률]"                       Binding = "{Binding RATE_TROUBLE}"      HorizontalAlignment="Right"  Format="###,###,##0.##"/>
+                                            <c1:DataGridTextColumn      Header = "[작업일,작업 시작 일시]"              Binding = "{Binding MAKE_FROM_TIME}"    HorizontalAlignment="Center" Visibility="Collapsed"/>
+                                            <c1:DataGridTextColumn      Header = "[작업일,작업 종료 일시]"              Binding = "{Binding MAKE_TO_TIME}"      HorizontalAlignment="Center" Visibility="Collapsed"/>
+                                        </c1:C1DataGrid.Columns>
+
+                                        <c1:C1DataGrid.TopRows>
+                                            <c1:DataGridColumnHeaderRow />
+                                            <c1:DataGridColumnHeaderRow />
+                                        </c1:C1DataGrid.TopRows>
+
+                                        <c1:C1GroupingWithSummariesBehavior.GroupingWithSummariesBehavior>
+                                            <c1:C1GroupingWithSummariesBehavior />
+                                        </c1:C1GroupingWithSummariesBehavior.GroupingWithSummariesBehavior>
+                                    </uc:UcBaseDataGrid>
+                                </Grid>
+
+                                <GridSplitter Grid.Column="1" ResizeDirection="Columns" ShowsPreview="True" Style="{StaticResource GridSplitterVerticalStyle }" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" />
+
+                                <Grid Grid.Column="2" Width="auto">
+                                    <!--백그라운드용-->
+                                    <Border Grid.Row="0" Grid.Column="0" Grid.RowSpan="2" Grid.ColumnSpan="3" Style="{StaticResource Content_InputForm_ContentBorderStyle}" Margin="0,0,0,0.2"/>
+                                    <uc:UcBaseDataGrid x:Name="dgFomtOperHistoryDetail" Grid.Row="1" Margin="8" IsReadOnly="True" RowHeight="Auto" SelectionMode="MultiRange" HeadersVisibility="None" FrozenTopRowsCount="2" FrozenColumnCount="2" SelectionChanged="dgFomtOperHistoryDetail_SelectionChanged">
+                                        <c1:C1DataGrid.Columns>
+                                            <c1:DataGridTextColumn      Header = "[설비ID,설비ID]"                  Binding = "{Binding EQPTID}"    HorizontalAlignment="Center" Visibility="Hidden" />
+                                            <c1:DataGridTextColumn      Header = "[EQP_NAME,EQP_NAME]"             Binding = "{Binding EQPT_NAME}"          HorizontalAlignment="Left" />
+                                            <c1:DataGridNumericColumn   Header = "[TOTAL_RUN_TIME,TOTAL_RUN_TIME]" Binding = "{Binding TOTAL_TIME}"         HorizontalAlignment="Right"  Format="###,###,##0.##"/>
+                                            <c1:DataGridNumericColumn   Header = "[JOB_TIME,JOB_TIME]"             Binding = "{Binding RUN_TIME}"           HorizontalAlignment="Right"  Format="###,###,##0"/>
+                                            <c1:DataGridNumericColumn   Header = "[대기시간,대기시간]"              Binding = "{Binding WAIT_TIME}"          HorizontalAlignment="Right"  Format="###,###,##0.##"/>
+                                            <c1:DataGridNumericColumn   Header = "[가동률,PROC_WAIT_INCLD]"        Binding = "{Binding RATE_SUM}"           HorizontalAlignment="Right"  Format="###,###,##0"/>
+                                            <c1:DataGridNumericColumn   Header = "[가동률,PROC_WAIT_EXCLD]"        Binding = "{Binding RATE_RUN}"           HorizontalAlignment="Right"  Format="###,###,##0.##"/>
+                                            <c1:DataGridNumericColumn   Header = "[부동,부동시간]"                  Binding = "{Binding BM_TROUBLE_TIME}"    HorizontalAlignment="Right"  Format="###,###,##0"/>
+                                            <c1:DataGridNumericColumn   Header = "[부동,부동률]"                    Binding = "{Binding RATE_TROUBLE}"       HorizontalAlignment="Right"  Format="###,###,##0.##"/>
+                                            <c1:DataGridTextColumn      Header = "[작업일,작업 시작 일시]"          Binding = "{Binding MAKE_FROM_TIME}"    HorizontalAlignment="Center" Visibility="Collapsed"/>
+                                            <c1:DataGridTextColumn      Header = "[작업일,작업 종료 일시]"          Binding = "{Binding MAKE_TO_TIME}"      HorizontalAlignment="Center" Visibility="Collapsed"/>
+                                        </c1:C1DataGrid.Columns>
+
+                                        <c1:C1DataGrid.TopRows>
+                                            <c1:DataGridColumnHeaderRow />
+                                            <c1:DataGridColumnHeaderRow />
+                                        </c1:C1DataGrid.TopRows>
+
+                                        <c1:C1GroupingWithSummariesBehavior.GroupingWithSummariesBehavior>
+                                            <c1:C1GroupingWithSummariesBehavior />
+                                        </c1:C1GroupingWithSummariesBehavior.GroupingWithSummariesBehavior>
+                                    </uc:UcBaseDataGrid>
+                                </Grid>
+                                <GridSplitter Grid.Column="3" ResizeDirection="Columns" ShowsPreview="True" Style="{StaticResource GridSplitterVerticalStyle }" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" />
+
+                                <Grid Grid.Column="4" Width="auto">
+                                    <!--백그라운드용-->
+                                    <Border Grid.Row="0" Grid.Column="0" Grid.RowSpan="2" Grid.ColumnSpan="3" Style="{StaticResource Content_InputForm_ContentBorderStyle}" Margin="0,0,0,0.2"/>
+                                    <uc:UcBaseDataGrid x:Name="dgFomtOperHistoryEndDetail" Grid.Row="1" Margin="8" IsReadOnly="True" RowHeight="Auto" SelectionMode="MultiRange" HeadersVisibility="None" FrozenTopRowsCount="2">
+                                        <c1:C1DataGrid.Columns>
+                                            <c1:DataGridTextColumn   Header = "[EQP_NAME,EQP_NAME]"       Binding = "{Binding EQPT_NAME}"       HorizontalAlignment="Center" />
+                                            <c1:DataGridTextColumn   Header = "[작업일,작업 시작 일시]"     Binding = "{Binding FROM_TIME}"       HorizontalAlignment="Right"    />
+                                            <c1:DataGridTextColumn   Header = "[작업일,작업 종료 일시]"     Binding = "{Binding TO_TIME}"         HorizontalAlignment="Right"  />
+                                            <c1:DataGridTextColumn   Header = "[BOX상태,BOX상태]"          Binding = "{Binding EIOSTAT}"         HorizontalAlignment="Left"  />
+                                        </c1:C1DataGrid.Columns>
+
+                                        <c1:C1DataGrid.TopRows>
+                                            <c1:DataGridColumnHeaderRow />
+                                            <c1:DataGridColumnHeaderRow />
+                                        </c1:C1DataGrid.TopRows>
+
+                                        <c1:C1GroupingWithSummariesBehavior.GroupingWithSummariesBehavior>
+                                            <c1:C1GroupingWithSummariesBehavior />
+                                        </c1:C1GroupingWithSummariesBehavior.GroupingWithSummariesBehavior>
+                                    </uc:UcBaseDataGrid>
+                                </Grid>
+                            </Grid>
+                        </Grid>
+                    </c1:C1TabItem>
+                </c1:C1TabControl>
+            </Grid>
+        </ctrlLib:LGCLayout>
+
+        <ctrlLib:LoadingIndicator x:Name="loadingIndicator" Grid.Row="999" Grid.Column="999" />
+    </Grid>
+</UserControl>

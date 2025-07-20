@@ -1,0 +1,379 @@
+﻿<Window x:Class="LGC.GMES.MES.MainNavigator.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:c1="http://schemas.componentone.com/winfx/2006/xaml"
+        xmlns:System="clr-namespace:System;assembly=mscorlib"
+        Title="MES SFU Updater" 
+        WindowStartupLocation="CenterScreen" 
+        WindowStyle="None" 
+        ResizeMode="NoResize" 
+        AllowsTransparency="True" 
+        SizeToContent="WidthAndHeight">
+
+    <Window.Resources>
+
+        <Style TargetType="{x:Type Button}" x:Key="Navigator_Button_Style" BasedOn="{StaticResource ButtonBaseStyle}">
+            <Setter Property="Content" Value="Import"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Height" Value="50"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Foreground" Value="#FFFFFFFF"/>
+            <Setter Property="FontFamily" Value="/LGC.GMES.MES.ControlsLibrary;Component/#맑은 고딕"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Grid Height="{TemplateBinding Height}">
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Normal"/>
+                                    <VisualState x:Name="MouseOver">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Border" Storyboard.TargetProperty="(UIElement.Visibility)">
+                                                <DiscreteObjectKeyFrame KeyTime="0">
+                                                    <DiscreteObjectKeyFrame.Value>
+                                                        <Visibility>Collapsed</Visibility>
+                                                    </DiscreteObjectKeyFrame.Value>
+                                                </DiscreteObjectKeyFrame>
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames BeginTime="0" Duration="0:0:0.001" Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="MouseOverElement">
+                                                <DiscreteObjectKeyFrame KeyTime="0">
+                                                    <DiscreteObjectKeyFrame.Value>
+                                                        <Visibility>Visible</Visibility>
+                                                    </DiscreteObjectKeyFrame.Value>
+                                                </DiscreteObjectKeyFrame>
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Pressed">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Border"
+												Storyboard.TargetProperty="(UIElement.Visibility)">
+                                                <DiscreteObjectKeyFrame KeyTime="0">
+                                                    <DiscreteObjectKeyFrame.Value>
+                                                        <Visibility>Collapsed</Visibility>
+                                                    </DiscreteObjectKeyFrame.Value>
+                                                </DiscreteObjectKeyFrame>
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PressedVisualElement"
+												Storyboard.TargetProperty="(UIElement.Visibility)">
+                                                <DiscreteObjectKeyFrame KeyTime="0">
+                                                    <DiscreteObjectKeyFrame.Value>
+                                                        <Visibility>Visible</Visibility>
+                                                    </DiscreteObjectKeyFrame.Value>
+                                                </DiscreteObjectKeyFrame>
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Disabled"/>
+                                </VisualStateGroup>
+                                <VisualStateGroup x:Name="FocusStates">
+                                    <VisualState x:Name="Focused"/>
+                                    <VisualState x:Name="Unfocused" />
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                            <Border x:Name="Border" Background="{TemplateBinding Background}" BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}" >
+                                <Grid Margin="{TemplateBinding Padding}">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="18"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="8"/>
+                                        <ColumnDefinition Width="15"/>
+                                    </Grid.ColumnDefinitions>
+                                    <ContentPresenter x:Name="contentPresenter" Grid.Column="1" Content="{TemplateBinding Content}" ContentTemplate="{TemplateBinding ContentTemplate}"
+									                  VerticalAlignment="{TemplateBinding VerticalContentAlignment}" HorizontalAlignment="Left"/>
+                                </Grid>
+                            </Border>
+                            <Border x:Name="MouseOverElement" Background="#FFC8294B"  BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}" Visibility="Collapsed">
+                                <Grid Margin="{TemplateBinding Padding}">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="18"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="8"/>
+                                        <ColumnDefinition Width="15"/>
+                                    </Grid.ColumnDefinitions>
+                                    <ContentPresenter Grid.Column="1" Content="{TemplateBinding Content}" ContentTemplate="{TemplateBinding ContentTemplate}"
+  									                  VerticalAlignment="{TemplateBinding VerticalContentAlignment}" HorizontalAlignment="Left"/>
+                                    <Image      Grid.Column="3" Source="Images/LGC/gate_body_i_menu_sel.png" Width="22" Height="20"  />
+                                </Grid>
+                            </Border>
+
+                            <Border x:Name="PressedVisualElement" BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="#FFBEBEBE" Visibility="Collapsed">
+                                <Border.Background>
+                                    <LinearGradientBrush EndPoint="0.504,1.5" StartPoint="0.504,0.03">
+                                        <GradientStop Color="#FFBDBDBD" Offset="0"/>
+                                        <GradientStop Color="#FFE0E0E0" Offset="0.5"/>
+                                    </LinearGradientBrush>
+                                </Border.Background>
+                                <Grid Margin="{TemplateBinding Padding}">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="9"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="9"/>
+                                    </Grid.ColumnDefinitions>
+                                    <ContentPresenter Grid.Column="1" Content="{TemplateBinding Content}" ContentTemplate="{TemplateBinding ContentTemplate}"
+									 VerticalAlignment="{TemplateBinding VerticalContentAlignment}" HorizontalAlignment="Left"/>
+                                </Grid>
+                            </Border>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+
+        </Style>
+
+        <Style TargetType="{x:Type Button}" x:Key="Exit_Button_Style" BasedOn="{StaticResource ButtonBaseStyle}">
+            <Setter Property="Content" Value="Exit"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Height" Value="32"/>
+            <Setter Property="Background" Value="#FF404049"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Foreground" Value="#FFE1E1E1"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Grid Height="{TemplateBinding Height}">
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Normal"/>
+                                    <VisualState x:Name="MouseOver">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Border"
+												Storyboard.TargetProperty="(UIElement.Visibility)">
+                                                <DiscreteObjectKeyFrame KeyTime="0">
+                                                    <DiscreteObjectKeyFrame.Value>
+                                                        <Visibility>Collapsed</Visibility>
+                                                    </DiscreteObjectKeyFrame.Value>
+                                                </DiscreteObjectKeyFrame>
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames BeginTime="0" Duration="0:0:0.001" Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="MouseOverElement">
+                                                <DiscreteObjectKeyFrame KeyTime="0">
+                                                    <DiscreteObjectKeyFrame.Value>
+                                                        <Visibility>Visible</Visibility>
+                                                    </DiscreteObjectKeyFrame.Value>
+                                                </DiscreteObjectKeyFrame>
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Pressed"/>
+                                    <VisualState x:Name="Disabled"/>
+                                </VisualStateGroup>
+                                <VisualStateGroup x:Name="FocusStates">
+                                    <VisualState x:Name="Focused"/>
+                                    <VisualState x:Name="Unfocused" />
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                            <Border x:Name="Border" Background="{TemplateBinding Background}" BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}" >
+                                <Grid Margin="{TemplateBinding Padding}">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="9"/>
+                                        <ColumnDefinition Width="22"/>
+                                        <ColumnDefinition Width="10"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="9"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Image      Grid.Column="1" Source="Images/LGC/gate_header_i_exit.png" Width="22" Height="20"  />
+                                    <ContentPresenter x:Name="contentPresenter" Grid.Column="3" Content="{TemplateBinding Content}" ContentTemplate="{TemplateBinding ContentTemplate}"
+ 									                  VerticalAlignment="{TemplateBinding VerticalContentAlignment}" HorizontalAlignment="{TemplateBinding HorizontalAlignment}"/>
+                                </Grid>
+                            </Border>
+                            <Border x:Name="MouseOverElement" Background="#FF717179"  BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}" Visibility="Collapsed">
+                                <Grid Margin="{TemplateBinding Padding}">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="9"/>
+                                        <ColumnDefinition Width="22"/>
+                                        <ColumnDefinition Width="10"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="9"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Image      Grid.Column="1" Source="Images/LGC/gate_header_i_exit.png" Width="22" Height="20"  />
+                                    <ContentPresenter Grid.Column="3" Content="{TemplateBinding Content}" ContentTemplate="{TemplateBinding ContentTemplate}"
+ 									                  VerticalAlignment="{TemplateBinding VerticalContentAlignment}" HorizontalAlignment="{TemplateBinding HorizontalAlignment}"/>
+                                </Grid>
+                            </Border>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+
+        </Style>
+
+    </Window.Resources>
+
+
+    <Grid Width="1024" Height="700">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="90" />
+            <RowDefinition Height="610" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+
+        <Grid Grid.Row="0" Grid.Column="0" MouseLeftButtonDown="Grid_MouseLeftButtonDown">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="48"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="26"/>
+            </Grid.ColumnDefinitions>
+
+            <Border Grid.Row="0" Grid.Column="0"  Grid.ColumnSpan="5" Background="#FF404049"/>
+            <Grid Grid.Row="0" Grid.Column="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="38"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <Image      Grid.Column="1" Source="Images/LGC/gate_header_logo.png" Width="114" Height="38"  />
+            </Grid>
+
+            <Grid Grid.Row="0" Grid.Column="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="36"/>
+                    <ColumnDefinition Width="10"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <Image      Grid.Column="0" Source="Images/LGC/gate_header_i_user.png" Width="36" Height="36"  />
+                <TextBlock  Grid.Column="2" Name="txtUserID"  VerticalAlignment="Center" FontSize="14" Foreground="#FFE1E1E1" FontWeight="Bold"></TextBlock>
+            </Grid>
+
+            <Button x:Name="btnExit"    Grid.Row="0" Grid.Column="3"   Style="{DynamicResource Exit_Button_Style}" Click="btnExit_Click"  />
+        </Grid>
+
+        <Grid Grid.Row="1" Grid.Column="0">
+            <Image      Grid.Column="1" Source="Images/LGC/gate_body_img_bg.png" Stretch="Fill"  />
+        </Grid>
+
+        <Grid Grid.Row="1" Grid.Column="0">
+            <Grid.RowDefinitions>
+                <!--<RowDefinition Height="56" />-->
+                <RowDefinition Height="20" />
+                <!--<RowDefinition Height="470" />-->
+                <RowDefinition Height="530" />
+                <!--<RowDefinition Height="84" />-->
+                <RowDefinition Height="70" />
+            </Grid.RowDefinitions>
+            
+            <Grid.ColumnDefinitions>
+                <!--<ColumnDefinition Width="96"/>-->
+                <ColumnDefinition Width="50"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="2*"/>
+                <!--<ColumnDefinition Width="96"/>-->
+                <ColumnDefinition Width="50"/>
+            </Grid.ColumnDefinitions>
+
+            <Border Grid.Row="1" Grid.Column="1" Background="#FFFFFFFF">
+                <Grid Grid.Row="1" Grid.Column="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="50" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="38" />
+                        <RowDefinition Height="300" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Grid Grid.Row="1" Grid.Column="0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="8" />
+                            <RowDefinition Height="6" />
+                            <RowDefinition Height="8" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Row="0"   Grid.Column="0" Text="MES"                        FontSize="24" Foreground="#FF333333" FontFamily="/LGC.GMES.MES.ControlsLibrary;Component/#맑은 고딕" VerticalAlignment="Center" HorizontalAlignment="Center"></TextBlock>
+                        <Image     Grid.Row="2"   Grid.Column="0" Source="Images/LGC/gate_body_l_dot.png" Width="6" Height="6"  />
+                        <TextBlock Grid.Row="4"   Grid.Column="0" Text="GLOBAL MANUFACTURING"        FontSize="14" Foreground="#FF333333" FontFamily="/LGC.GMES.MES.ControlsLibrary;Component/#맑은 고딕" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="Bold"></TextBlock>
+                        <TextBlock Grid.Row="5"   Grid.Column="0" Text="EXECUTION SYSTEM SHOP FLOOR" FontSize="14" Foreground="#FF333333" FontFamily="/LGC.GMES.MES.ControlsLibrary;Component/#맑은 고딕" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="Bold"></TextBlock>
+                    </Grid>
+                    <Image     Grid.Row="3"   Grid.Column="0" Source="Images/LGC/gate_body_l_img_logo_removed.png" Stretch="Fill"  />
+                </Grid>
+            </Border>
+
+            <Border Grid.Row="1" Grid.Column="2" Background="#FF474751">
+                <Grid Grid.Row="1" Grid.Column="2">
+                    <Grid.RowDefinitions>
+                        <!--<RowDefinition Height="107" />-->
+                        <RowDefinition Height="80" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="55" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="32"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="2"/>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="32"/>
+                    </Grid.ColumnDefinitions>
+                    
+                    <TextBlock x:Name="txtTitle"       Grid.Row="0"   Grid.Column="1" Grid.ColumnSpan="5"  Text="오창공장"   FontSize="30" Foreground="#FFFFFFFF" FontFamily="/LGC.GMES.MES.ControlsLibrary;Component/#맑은 고딕" FontWeight="Bold" VerticalAlignment="Center" HorizontalAlignment="Left"></TextBlock>
+                    <StackPanel x:Name="spButton" Grid.Row="1" Grid.Column="1" Orientation="Vertical" ScrollViewer.VerticalScrollBarVisibility="Auto">
+                        <!--<Button x:Name="btnNavigator01"    Content="GMES-A-KR 오창 조립" Style="{DynamicResource Navigator_Button_Style}" />
+                        <Button x:Name="btnNavigator02"    Content="GMES-E-KR 오창 전극" Style="{DynamicResource Navigator_Button_Style}" />
+                        <Button x:Name="btnNavigator03"    Content="GMES-P-KR 오창 Pack" Style="{DynamicResource Navigator_Button_Style}" />-->
+                    </StackPanel>
+                    <Canvas Grid.Row="1" Grid.Column="2" Background="Gray" />
+                    <!--<Border Grid.Row="1" Grid.Column="2"  Background="#000000">-->
+                    <StackPanel x:Name="spButton1" Grid.Row="1" Grid.Column="3" Orientation="Vertical" ScrollViewer.VerticalScrollBarVisibility="Auto">
+                        <!--<Button x:Name="btnNavigator01"    Content="GMES-A-KR 오창 조립" Style="{DynamicResource Navigator_Button_Style}" />
+                        <Button x:Name="btnNavigator02"    Content="GMES-E-KR 오창 전극" Style="{DynamicResource Navigator_Button_Style}" />
+                        <Button x:Name="btnNavigator03"    Content="GMES-P-KR 오창 Pack" Style="{DynamicResource Navigator_Button_Style}" />-->
+                    </StackPanel>
+
+                    <!--<Button x:Name="btnNavigator01"    Grid.Row="1" Grid.Column="1"   Content="GMES-A-KR 오창 조립" Style="{DynamicResource Navigator_Button_Style}" />
+                    <Button x:Name="btnNavigator02"    Grid.Row="2" Grid.Column="1"   Content="GMES-E-KR 오창 전극" Style="{DynamicResource Navigator_Button_Style}" />
+                    <Button x:Name="btnNavigator03"    Grid.Row="3" Grid.Column="1"   Content="GMES-P-KR 오창 Pack" Style="{DynamicResource Navigator_Button_Style}" />-->
+                    <Border Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="5" Background="#FF404049">
+                        <Grid >
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="10" />
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="10" />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="150"/>
+                                <ColumnDefinition Width="150"/>
+                                <ColumnDefinition Width="24"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock      Grid.Row="1" Grid.Column="1" Text="Language " FontSize="14" Foreground="#FFFFFFFF" FontFamily="/LGC.GMES.MES.ControlsLibrary;Component/#맑은 고딕" VerticalAlignment="Center" HorizontalAlignment="Right"></TextBlock>
+                            <c1:C1ComboBox  Grid.Row="1" Grid.Column="2" x:Name="cboLang"      DisplayMemberPath="PRODNAME" SelectedValuePath="PRODID"  Style="{StaticResource C1ComboBoxStyle}" AutoComplete="False" />
+
+                        </Grid>
+                    </Border>
+                </Grid>
+            </Border>
+
+            <Grid Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="4">
+                <Grid.RowDefinitions>
+                    <!--<RowDefinition Height="54" />
+                    <RowDefinition Height="30" />-->
+                    <RowDefinition Height="50" />
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="100"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="24"/>
+                </Grid.ColumnDefinitions>
+
+                <Image Grid.Column="1" Source="Images/LGC/gate_body_logo.png" Stretch="None" VerticalAlignment="Bottom" Width="250" Height="36"  />
+            </Grid>
+
+        </Grid>
+    </Grid>
+</Window>

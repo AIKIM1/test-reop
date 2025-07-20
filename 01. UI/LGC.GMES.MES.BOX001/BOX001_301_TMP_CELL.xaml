@@ -1,0 +1,122 @@
+﻿<c1:C1Window x:Class="LGC.GMES.MES.BOX001.BOX001_301_TMP_CELL"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:c1="http://schemas.componentone.com/winfx/2006/xaml"
+		     xmlns:System="clr-namespace:System;assembly=mscorlib"
+             xmlns:ctrlLib="clr-namespace:LGC.GMES.MES.ControlsLibrary;assembly=LGC.GMES.MES.ControlsLibrary" 
+             xmlns:uc="clr-namespace:LGC.GMES.MES.CMM001.Controls;assembly=LGC.GMES.MES.CMM001"
+             ctrlLib:LGCPopupWindowExtension.ApplyStyle="True"
+             Header="{Binding Converter={StaticResource GlobalObjectDicConverter}, ConverterParameter='PALLET정보'}" 
+             Tag="ProtoType01Windows01" Height="500" Width="700" IsResizable="True" >
+
+    <c1:C1Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/LGC.GMES.MES.ControlsLibrary;component/ControlStyles.xaml" />
+                <ResourceDictionary Source="/LGC.GMES.MES.ControlsLibrary;component/ControlTemplates/LGCDatePicker.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </c1:C1Window.Resources>
+
+    <Grid Name="grdMain">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="8" />
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="8" />
+            <RowDefinition Height="44" />
+        </Grid.RowDefinitions>
+
+        <!--start search Area-->
+        <Grid  Grid.Row="0"  Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="45" />
+                <RowDefinition Height="45" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="2*" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <Border   Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="7" Grid.RowSpan="2" Style="{StaticResource Content_InputForm_LabelBorderStyle}"/>
+
+            <!--조회조건 타이틀-->
+            <TextBlock  Grid.Row="0" Grid.Column="0" Text="{Binding ConverterParameter='기간', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}"/>
+            <TextBlock  Grid.Row="0" Grid.Column="2" Text="{Binding ConverterParameter='작업자', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}"/>
+            <TextBlock  Grid.Row="1" Grid.Column="0" Text="{Binding ConverterParameter='라인', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}"/>
+            <TextBlock  Grid.Row="1" Grid.Column="2" Text="{Binding ConverterParameter='모델', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}"/>
+
+            <!--조회조건 컨트롤-->
+            <!--<StackPanel Orientation="Horizontal"  Grid.Row="0" Grid.Column="1"  Margin="8,3">
+                <DatePicker Style="{StaticResource DatePickerBaseStyle}" x:Name="dtpDateFrom"/>
+                <TextBlock  Text="~" Style="{StaticResource Content_InputForm_LabelStyle}" Margin="3,0,3,0"/>
+                <DatePicker Style="{StaticResource DatePickerBaseStyle}" x:Name="dtpDateTo"/>
+            </StackPanel>-->
+            <StackPanel Orientation="Horizontal"  Grid.Row="0" Grid.Column="1">
+                <ctrlLib:LGCDatePicker  x:Name="dtpDateFrom"  DatepickerType="Date"/>
+                <TextBlock  Text="~" Style="{StaticResource Content_InputForm_LabelStyle}" Margin="3,0,3,0"/>
+                <ctrlLib:LGCDatePicker  x:Name="dtpDateTo"  DatepickerType="Date"/>
+            </StackPanel>
+
+            <!--<TextBox  Grid.Row="0" Grid.Column="5" Margin="8,3" x:Name="txtUser" Style="{StaticResource Content_InputForm_TextBoxStyle}"/>-->
+            <!-- <uc:UcBaseComboBox  Grid.Row="0" Grid.Column="3" x:Name="cboProcUser" Style="{StaticResource C1ComboBoxStyle}" AutoComplete="False" DisplayMemberPath="CBO_NAME" SelectedValuePath="CBO_CODE"  />>-->
+            <TextBox Grid.Row="0" Grid.Column="3" x:Name="txtWorker" />
+            <uc:UcBaseComboBox  Grid.Row="1" Grid.Column="1" x:Name="cboEquipmentSegment" Style="{StaticResource C1ComboBoxStyle}" AutoComplete="False" DisplayMemberPath="CBO_NAME" SelectedValuePath="CBO_CODE"/>
+            <uc:UcBaseComboBox  Grid.Row="1" Grid.Column="3" x:Name="cboModelLot" Style="{StaticResource C1ComboBoxStyle}" AutoComplete="False" DisplayMemberPath="CBO_NAME" SelectedValuePath="CBO_CODE"/>
+
+            <!--조회 버튼-->
+            <uc:UcBaseButton    Grid.Row="2" Grid.Column="6"  x:Name="btnSearch" Content="{Binding ConverterParameter=SEARCH, Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource SearchButtonStyle}" Cursor="Hand" Click="btnSearch_Click" />
+        </Grid>
+        <!--end search Area-->
+
+        <!--content area-->
+        <Border Grid.Row="2" Background="#ffffffff" BorderThickness="1" BorderBrush="#ffbebebe"></Border>
+        <uc:UcBaseDataGrid Grid.Row="2"  x:Name="dgList" IsReadOnly="True" CanUserFilter="False" CanUserSort="False" HeadersVisibility="Column" SelectionMode="SingleRow" >
+
+            <c1:C1DataGrid.Columns>
+ 
+                <c1:DataGridTemplateColumn  EditOnSelection="True" Name="CHK" Width="Auto" >
+                    <c1:DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <RadioButton GroupName="dgListChoiceGroup" IsChecked="{Binding CHK, Mode=OneWay}" Name="dgListChoice" HorizontalAlignment="Center" Checked="dgListChoice_Checked" />
+                        </DataTemplate>
+                    </c1:DataGridTemplateColumn.CellTemplate>
+                </c1:DataGridTemplateColumn>
+                <c1:DataGridTextColumn        Header = "순번"  Width="50"  Binding = "{Binding SEQ_NO}"   HorizontalAlignment="Center" />
+                <c1:DataGridTextColumn        Header = "저장일시"          Binding = "{Binding INSDTTM}"   HorizontalAlignment="Center" />
+                <c1:DataGridTextColumn        Header = "저장순번"          Binding = "{Binding SAVE_SEQNO}"   HorizontalAlignment="Center" />
+                <c1:DataGridTextColumn        Header = "INSUSER"            Binding = "{Binding INSUSER}"   HorizontalAlignment="Center"  Visibility="Collapsed"/>
+                <c1:DataGridTextColumn        Header = "등록자"            Binding = "{Binding USERNAME}"   HorizontalAlignment="Center" />
+                <c1:DataGridTextColumn        Header = "EQSGID"              Binding = "{Binding EQSGID}"   HorizontalAlignment="Center" Visibility="Collapsed"/>
+                <c1:DataGridTextColumn        Header = "라인"              Binding = "{Binding EQSGNAME}"   HorizontalAlignment="Center" />
+                <c1:DataGridTextColumn        Header = "제품ID"            Binding = "{Binding PRODID}"   HorizontalAlignment="Center" />
+                <c1:DataGridTextColumn        Header = "Project"            Binding = "{Binding PROJECTNAME}"   HorizontalAlignment="Center" />
+                <c1:DataGridTextColumn        Header = "출하처"            Binding = "{Binding SHIPTO_NAME}"   HorizontalAlignment="Center" />
+                <c1:DataGridTextColumn        Header = "수량"              Binding = "{Binding SCAN_QTY}"   HorizontalAlignment="Center" />
+            </c1:C1DataGrid.Columns>
+
+        </uc:UcBaseDataGrid>
+
+        <!--button area-->
+        <!--<Border Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="8" Background="#fff2f2f2" BorderThickness="1" BorderBrush="#ffd1d1d1"></Border>-->
+        <Grid Grid.Row ="4">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <uc:UcBaseButton x:Name="btnSelect"    Grid.Column="1" Content="{Binding ConverterParameter=선택, Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{DynamicResource Content_MainButtonSpecialStyle}" Click="btnSelect_Click"/>
+            <uc:UcBaseButton x:Name="btnTagPring"    Grid.Column="2" Content="{Binding ConverterParameter='TAG발행', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{DynamicResource Content_MainButtonSpecialStyle}" Margin="4,0,4,0" Click="btnTagPring_Click"/>
+            <uc:UcBaseButton x:Name="btnClose" Grid.Column="3" Content="{Binding ConverterParameter=닫기, Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{DynamicResource Content_MainButtonStyle}" Margin="4,0,4,0" Click="btnClose_Click" />
+        </Grid>
+
+        
+        <ctrlLib:LoadingIndicator x:Name="loadingIndicator" Grid.Row="999" Grid.Column="999" />
+    </Grid>
+    
+</c1:C1Window>

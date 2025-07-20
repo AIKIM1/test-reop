@@ -1,0 +1,75 @@
+﻿<UserControl x:Class="LGC.GMES.MES.FCS002.FCS002_209"
+             xmlns:ss="http://schemas.grapecity.com/windows/spreadsheet/2012"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:c1="http://schemas.componentone.com/winfx/2006/xaml"
+             xmlns:ctrlLib="clr-namespace:LGC.GMES.MES.ControlsLibrary;assembly=LGC.GMES.MES.ControlsLibrary"
+             xmlns:CMM001="clr-namespace:LGC.GMES.MES.CMM001;assembly=LGC.GMES.MES.CMM001"
+             mc:Ignorable="d" 
+             d:DesignHeight="768" d:DesignWidth="1280"  Loaded="UserControl_Loaded" >
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/LGC.GMES.MES.ControlsLibrary;component/ControlStyles.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid x:Name="grdMain">
+        <ctrlLib:LGCLayout x:Name="LayoutRoot" Tag="Aging 출고 Buffer 관리" Grid.ColumnSpan="2">
+            <ctrlLib:LGCLayout.Content>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="51"/>
+                        <RowDefinition Height="8"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <Border Grid.Row="0" Background="#fff2f2f2" BorderThickness="1" BorderBrush="#ffd1d1d1"/>
+                    <Grid   Grid.Row="0" Grid.Column="0" >
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="11" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="11" />
+                        </Grid.RowDefinitions>
+                        
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="13" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="4"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="10"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Button         Grid.Row="1" Grid.Column="2" x:Name="btnSearch" Content="{Binding ConverterParameter='SEARCH' , Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource SearchButtonStyle}"  Cursor="Hand" />
+                        <Button         Grid.Row="1" Grid.Column="4" x:Name="btnSave"   Content="{Binding ConverterParameter=저장,    Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_MainButtonSpecialStyle}" Cursor="Hand" />
+                        
+                    </Grid>
+                    <!--조회 영역-->
+                    <!--ROW 02-->
+                    <Border Grid.Row="2" Background="#fff2f2f2" BorderThickness="1" BorderBrush="#ffbebebe"></Border>
+                    <Grid   Grid.Row="2" Grid.Column="0" >
+                        <Border Grid.Row="0" Grid.Column="0" Style="{StaticResource Content_InputForm_GroupBorderStyle}"/>
+                        <c1:C1DataGrid x:Name="dgList" SelectionMode="SingleRow" HeadersVisibility="Column" Margin="8" >
+                            <c1:C1DataGrid.Columns>
+                                <c1:DataGridTextColumn    Header = "LANE_ID"         Binding = "{Binding LANE_ID}"              HorizontalAlignment="Center" Visibility="Collapsed"/>
+                                <c1:DataGridTextColumn    Header = "MODEL_TYPE_CD"   Binding = "{Binding MODEL_TYPE_CD}"        HorizontalAlignment="Center" Visibility="Collapsed"/>
+                                <c1:DataGridTextColumn    Header = "설비레인"        Binding = "{Binding LANE_NAME}"            HorizontalAlignment="Center" />
+                                <c1:DataGridTextColumn    Header = "충방전기"        Binding = "{Binding AGING_OUT_CNT}"        HorizontalAlignment="Center" />
+                                <c1:DataGridTextColumn    Header = "전용OCV"         Binding = "{Binding AGING_OUT_OCV_CNT}"    HorizontalAlignment="Center" />
+                                <c1:DataGridTextColumn    Header = "고온Aging"       Binding = "{Binding AGING_OUT_HAGING_CNT}" HorizontalAlignment="Center" />
+                                <c1:DataGridTextColumn    Header = "상온Aging"       Binding = "{Binding AGING_OUT_NAGING_CNT}" HorizontalAlignment="Center" />
+                                <c1:DataGridTextColumn    Header = "Degas"           Binding = "{Binding AGING_OUT_DEGAS_CNT}"  HorizontalAlignment="Center" />
+                                <c1:DataGridTextColumn    Header = "Grader"          Binding = "{Binding AGING_OUT_GRADER_CNT}" HorizontalAlignment="Center" />
+                            </c1:C1DataGrid.Columns>
+                        </c1:C1DataGrid>
+                    </Grid>
+                </Grid>
+            </ctrlLib:LGCLayout.Content>
+        </ctrlLib:LGCLayout>
+
+        <ctrlLib:LoadingIndicator x:Name="loadingIndicator" Grid.Row="999" Grid.Column="999" />
+    </Grid>
+</UserControl>

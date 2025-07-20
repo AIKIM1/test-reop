@@ -1,0 +1,107 @@
+﻿<UserControl x:Class="LGC.GMES.MES.FCS001.FCS001_015"
+             xmlns:ss="http://schemas.grapecity.com/windows/spreadsheet/2012"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:c1="http://schemas.componentone.com/winfx/2006/xaml"
+             xmlns:ctrlLib="clr-namespace:LGC.GMES.MES.ControlsLibrary;assembly=LGC.GMES.MES.ControlsLibrary"
+             xmlns:uc="clr-namespace:LGC.GMES.MES.CMM001.Controls;assembly=LGC.GMES.MES.CMM001"
+             mc:Ignorable="d" 
+             d:DesignHeight="768" d:DesignWidth="1024"  Loaded="UserControl_Loaded" >
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/LGC.GMES.MES.ControlsLibrary;component/ControlStyles.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid x:Name="grdMain">
+        <ctrlLib:LGCLayout x:Name="LayoutRoot" Tag="Aging 정보이상 Rack 현황" Grid.ColumnSpan="2">
+            <ctrlLib:LGCLayout.Content>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="51"/>
+                        <RowDefinition Height="8"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <Border Grid.Row="0" Background="#fff2f2f2" BorderThickness="1" BorderBrush="#ffd1d1d1"/>
+                    <Grid   Grid.Row="0" Grid.Column="0" >
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="11" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="11" />
+                        </Grid.RowDefinitions>
+                        
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="13" />
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="10" />
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="10" />
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="30" />
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="13"/>
+                        </Grid.ColumnDefinitions>
+
+                        <!--조회조건 ROW1-->
+                        <Grid Grid.Row="1" Grid.Column="1">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="4*"/>
+                                <ColumnDefinition Width="6*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock                             Grid.Row="0" Grid.Column="0" Text="{Binding ConverterParameter='EQP_FLAG', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}" VerticalAlignment="Center" />
+                            <uc:UcBaseComboBox  x:Name="cboEqpKind"  Grid.Row="0" Grid.Column="1" MinHeight="23" Style="{StaticResource C1ComboBoxStyle}" AutoComplete="False" />
+                        </Grid>
+                        <Grid Grid.Row="1" Grid.Column="3">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="10" />
+                                <ColumnDefinition Width="155"/>
+                                <ColumnDefinition Width="10" />
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <uc:UcBaseCheckBox           x:Name="chkAbnormal"   Grid.Row="0" Grid.Column="1" Margin="3" Content="{Binding ConverterParameter='INFO_ERR', Converter={StaticResource GlobalObjectDicConverter}}" Style="{StaticResource SearchCondition_CheckBoxStyle}" IsChecked="True" />
+                            <uc:UcBaseCheckBox           x:Name="chkInput"   Grid.Row="0" Grid.Column="3" Margin="3" Content="{Binding ConverterParameter='RCV_BAN', Converter={StaticResource GlobalObjectDicConverter}}" Style="{StaticResource SearchCondition_CheckBoxStyle}" IsChecked="False" />
+                        </Grid>    
+                            
+                        
+                        <!--조회 버튼-->
+                        <Grid Grid.Row="1" Grid.Column="7" >
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+
+                            <uc:UcBaseButton         x:Name="btnSearch"     Grid.Row="0" Grid.Column="1" Height="Auto" Content="{Binding ConverterParameter=SEARCH, Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource SearchButtonStyle}" Cursor="Hand" Click="btnSearch_Click" />
+                        </Grid>
+                    </Grid>
+                    <!--조회 영역-->
+                    <!--ROW 02-->
+                    <Border Grid.Row="2" Background="#fff2f2f2" BorderThickness="1" BorderBrush="#ffbebebe"></Border>
+                    <Grid   Grid.Row="2" Grid.Column="0" >
+                        <uc:UcBaseDataGrid x:Name="dgEqpStatus" Grid.Row="0" Grid.Column="0" Margin="3" IsReadOnly="True" HeadersVisibility="Column" SelectionMode="MultiRange" >
+                            <c1:C1DataGrid.Columns>
+                                <c1:DataGridTextColumn      Header = "호기"    Binding = "{Binding LANE_NAME}"      HorizontalAlignment="Center" />
+                                <c1:DataGridTextColumn      Header = "열"      Binding = "{Binding EQP_ROW_LOC}"    HorizontalAlignment="Center" />
+                                <c1:DataGridTextColumn      Header = "연"      Binding = "{Binding EQP_COL_LOC}"    HorizontalAlignment="Center" />
+                                <c1:DataGridTextColumn      Header = "단"      Binding = "{Binding EQP_STG_LOC}"    HorizontalAlignment="Center" />
+                                <c1:DataGridTextColumn      Header = "상태"    Binding = "{Binding STATUS}"         HorizontalAlignment="Center" />
+                                <c1:DataGridTextColumn      Header = "RCV_BAN_REASON"    Binding = "{Binding RCV_PRHB_RSN}"         HorizontalAlignment="Center" />
+                                <c1:DataGridDateTimeColumn  Header = "UPDDTTM"    Binding = "{Binding UPDDTTM}"         HorizontalAlignment="Center" CustomDateFormat="yyyy-MM-dd HH:mm:ss" />
+                                <c1:DataGridTextColumn      Header = "UPDUSER"    Binding = "{Binding UPDUSER}"         HorizontalAlignment="Center" />
+                            </c1:C1DataGrid.Columns>
+
+                            <c1:C1GroupingWithSummariesBehavior.GroupingWithSummariesBehavior>
+                                <c1:C1GroupingWithSummariesBehavior />
+                            </c1:C1GroupingWithSummariesBehavior.GroupingWithSummariesBehavior>
+                        </uc:UcBaseDataGrid>
+                    </Grid>
+                </Grid>
+            </ctrlLib:LGCLayout.Content>
+        </ctrlLib:LGCLayout>
+
+        <ctrlLib:LoadingIndicator x:Name="loadingIndicator" Grid.Row="999" Grid.Column="999" />
+    </Grid>
+</UserControl>

@@ -1,0 +1,209 @@
+﻿<c1:C1Window x:Class="LGC.GMES.MES.BOX001.Report_Pallet_Hist"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:c1="http://schemas.componentone.com/winfx/2006/xaml"
+		     xmlns:System="clr-namespace:System;assembly=mscorlib"
+             xmlns:ctrlLib="clr-namespace:LGC.GMES.MES.ControlsLibrary;assembly=LGC.GMES.MES.ControlsLibrary"        
+             ctrlLib:LGCPopupWindowExtension.ApplyStyle="True"
+             Header="{Binding Converter={StaticResource GlobalObjectDicConverter}, ConverterParameter='REPORT'}" 
+             Tag="ProtoType01Windows01" Height="666.684" Width="930.393">
+
+    <c1:C1Window.Resources>
+        <ResourceDictionary Source="/LGC.GMES.MES.ControlsLibrary;Component/ControlStyles.xaml"/>
+    </c1:C1Window.Resources>
+
+    <c1:C1TabControl Name="tbCtrl" Grid.Row="0">
+        <c1:C1TabItem Name="Tag" Header="{Binding ConverterParameter=PALLETTAG, Converter={StaticResource GlobalObjectDicConverter}}" Margin="0" >            
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="2"/>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="8"/>
+                    <RowDefinition Height="45"/>
+                </Grid.RowDefinitions>
+
+                <Grid Grid.Row="0" Margin="5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="80" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="80" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock  Grid.Column="1"    Text="{Binding ConverterParameter=총출하수량, Converter={StaticResource GlobalObjectDicConverter}, RelativeSource={RelativeSource Self}}" HorizontalAlignment="Right" 
+                                                Style="{StaticResource Content_InputForm_LabelStyle}" />
+                    <TextBox  Grid.Column="2"  x:Name="txtShipQty" Style="{StaticResource SearchCondition_TextBoxStyle}" />
+            
+                    <TextBlock  Grid.Column="3"    Text="{Binding ConverterParameter=구성차수, Converter={StaticResource GlobalObjectDicConverter}, RelativeSource={RelativeSource Self}}" HorizontalAlignment="Right" 
+                                                Style="{StaticResource Content_InputForm_LabelStyle}" />
+                    <TextBox  Grid.Column="4"  x:Name="txtConbineSeq" Style="{StaticResource SearchCondition_TextBoxStyle}" />
+
+                    <Button Grid.Column="5"  x:Name="btnSave" Content="{Binding ConverterParameter=저장,    Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" 
+                            Style="{StaticResource Content_MainButtonNoMinWidthSpecialStyle}" Cursor="Hand" Click="btnSave_Click"/>
+
+                </Grid>
+                <!--<c1:C1DocumentViewer x:Name="c1DocumentViewer" ToolBarTray.IsLocked="True"  VerticalAlignment="Top" HorizontalAlignment="Left"/>-->
+                <c1:C1DocumentViewer Grid.Row="2" x:Name="c1DocumentViewer" VerticalAlignment="Top" HorizontalAlignment="Left" >
+                    <DocumentViewer.Resources>
+                        <!--Hides the search box-->
+                        <Style TargetType="ContentControl">
+                            <Setter Property="Visibility" Value="Collapsed" />
+                        </Style>
+
+                        <!--Hides the toolbar-->
+                        <Style TargetType="ToolBar">
+                            <Setter Property="Visibility" Value="Collapsed" />
+                        </Style>
+                    </DocumentViewer.Resources>
+
+                </c1:C1DocumentViewer>
+
+                <Grid Grid.Row="4" >
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="4" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="4" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+
+                    <StackPanel Grid.Column="0" Orientation="Horizontal">
+                        <TextBlock Text="{Binding ConverterParameter='PAGE', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" VerticalAlignment="Bottom" Margin="0,0,0,15"/>
+                        <TextBox x:Name="txtPage" IsReadOnly="True" Width="30" TextAlignment="Right"  />
+                        <Button x:Name="btnUp"   Margin="0,5,0,5" Style="{DynamicResource Content_ModuleButtonUpStyle}" Click="btnUp_Click"/>
+                        <Button x:Name="btnDown" Margin="5" Style="{DynamicResource Content_ModuleButtonDownStyle}" Click="btnDown_Click"/>
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="2" Orientation="Horizontal">
+                        <TextBlock Text="{Binding ConverterParameter='인쇄매수', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" VerticalAlignment="Bottom" Margin="0,0,0,15"/>
+                        <c1:C1NumericBox x:Name="txtPrintQty" Minimum="1" Maximum="10" Value="1" Width="40" Height="25" Margin="5"/>
+                    </StackPanel>
+
+                    <Button Grid.Column="4"  x:Name="btnPrint" Content="{Binding ConverterParameter=발행,    Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" 
+                            Style="{StaticResource Content_MainButtonSpecialStyle}" Cursor="Hand" Click="btnPrint_Click" />
+
+                    <Button Grid.Column="6"  x:Name="btnClose" Content="{Binding ConverterParameter=닫기,    Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" 
+                            Style="{StaticResource Content_MainButtonSpecialStyle}" Cursor="Hand" Click="btnClose_Click" />
+
+                </Grid>
+
+            </Grid>
+        </c1:C1TabItem>
+        <c1:C1TabItem x:Name="tabVolt" Header="{Binding ConverterParameter=셀전압구간, Converter={StaticResource GlobalObjectDicConverter}}" Visibility="Hidden" >
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="10"/>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="8"/>
+                    <RowDefinition Height="45"/>
+                </Grid.RowDefinitions>
+
+                <c1:C1DocumentViewer Grid.Row="1" x:Name="c1DocumentViewerVolt" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="2" >
+                    <DocumentViewer.Resources>
+                        <!--Hides the search box-->
+                        <Style TargetType="ContentControl">
+                            <Setter Property="Visibility" Value="Collapsed" />
+                        </Style>
+
+                        <!--Hides the toolbar-->
+                        <Style TargetType="ToolBar">
+                            <Setter Property="Visibility" Value="Collapsed" />
+                        </Style>
+                    </DocumentViewer.Resources>
+
+                </c1:C1DocumentViewer>
+                
+                <Grid Grid.Row="4" >
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="4" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="4" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Grid.Column="2" Orientation="Horizontal">
+                        <TextBlock Text="{Binding ConverterParameter='인쇄매수', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" VerticalAlignment="Bottom" Margin="0,0,0,15"/>
+                        <c1:C1NumericBox x:Name="txtPrintQtyVolt" Minimum="1" Maximum="10" Value="1" Width="40" Height="25" Margin="5"/>
+                    </StackPanel>
+
+                    <Button Grid.Column="4"  x:Name="btnPrintVolt" Content="{Binding ConverterParameter=발행,    Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" 
+                            Style="{StaticResource Content_MainButtonSpecialStyle}" Cursor="Hand" Click="btnPrintVolt_Click" />
+
+                    <Button Grid.Column="6"  x:Name="btnCloseVolt" Content="{Binding ConverterParameter=닫기,    Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" 
+                            Style="{StaticResource Content_MainButtonSpecialStyle}" Cursor="Hand" Click="btnClose_Click" />
+
+                </Grid>
+            </Grid>
+        </c1:C1TabItem>
+        <c1:C1TabItem Name="Tag2" Header="{Binding ConverterParameter=PALLETTAG(영문), Converter={StaticResource GlobalObjectDicConverter}}" Margin="0" Visibility="Collapsed">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="2"/>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="8"/>
+                    <RowDefinition Height="45"/>
+                </Grid.RowDefinitions>
+
+                <!--<c1:C1DocumentViewer x:Name="c1DocumentViewer" ToolBarTray.IsLocked="True"  VerticalAlignment="Top" HorizontalAlignment="Left"/>-->
+                <c1:C1DocumentViewer Grid.Row="2" x:Name="c1DocumentViewer2" VerticalAlignment="Top" HorizontalAlignment="Left" >
+                    <DocumentViewer.Resources>
+                        <!--Hides the search box-->
+                        <Style TargetType="ContentControl">
+                            <Setter Property="Visibility" Value="Collapsed" />
+                        </Style>
+
+                        <!--Hides the toolbar-->
+                        <Style TargetType="ToolBar">
+                            <Setter Property="Visibility" Value="Collapsed" />
+                        </Style>
+                    </DocumentViewer.Resources>
+
+                </c1:C1DocumentViewer>
+
+                <Grid Grid.Row="4" >
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="4" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="4" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+
+                    <StackPanel Grid.Column="0" Orientation="Horizontal">
+                        <TextBlock Text="{Binding ConverterParameter='PAGE', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" VerticalAlignment="Bottom" Margin="0,0,0,15"/>
+                        <TextBox x:Name="txtPage2" IsReadOnly="True" Width="30" TextAlignment="Right"  />
+                        <Button x:Name="btnUp2"   Margin="0,5,0,5" Style="{DynamicResource Content_ModuleButtonUpStyle}" Click="btnUp2_Click"/>
+                        <Button x:Name="btnDown2" Margin="5" Style="{DynamicResource Content_ModuleButtonDownStyle}" Click="btnDown2_Click"/>
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="2" Orientation="Horizontal">
+                        <TextBlock Text="{Binding ConverterParameter='인쇄매수', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" VerticalAlignment="Bottom" Margin="0,0,0,15"/>
+                        <c1:C1NumericBox x:Name="txtPrintQty2" Minimum="1" Maximum="10" Value="1" Width="40" Height="25" Margin="5"/>
+                    </StackPanel>
+
+                    <Button Grid.Column="4"  x:Name="btnPrint2" Content="{Binding ConverterParameter=발행,    Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" 
+                            Style="{StaticResource Content_MainButtonSpecialStyle}" Cursor="Hand" Click="btnPrint2_Click" />
+
+                    <Button Grid.Column="6"  x:Name="btnClose2" Content="{Binding ConverterParameter=닫기,    Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" 
+                            Style="{StaticResource Content_MainButtonSpecialStyle}" Cursor="Hand" Click="btnClose_Click" />
+
+                </Grid>
+
+            </Grid>
+        </c1:C1TabItem>
+    </c1:C1TabControl>
+</c1:C1Window>

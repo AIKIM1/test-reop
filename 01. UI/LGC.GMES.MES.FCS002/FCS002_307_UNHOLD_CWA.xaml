@@ -1,0 +1,183 @@
+﻿<c1:C1Window x:Class="LGC.GMES.MES.FCS002.FCS002_307_UNHOLD_CWA"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:c1="http://schemas.componentone.com/winfx/2006/xaml"
+		     xmlns:System="clr-namespace:System;assembly=mscorlib"
+             xmlns:ctrlLib="clr-namespace:LGC.GMES.MES.ControlsLibrary;assembly=LGC.GMES.MES.ControlsLibrary"        
+             ctrlLib:LGCPopupWindowExtension.ApplyStyle="True"
+             Header="{Binding Converter={StaticResource GlobalObjectDicConverter}, ConverterParameter='HOLD해제'}" 
+             Tag="ProtoType01Windows01" Height="700" Width="800" IsResizable="True" Loaded="C1Window_Loaded" >
+
+    <c1:C1Window.Resources>
+        <ResourceDictionary Source="/LGC.GMES.MES.ControlsLibrary;Component/ControlStyles.xaml"/>
+    </c1:C1Window.Resources>
+    <Grid Name="grdAllMain">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="8"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="8"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Grid Name="grdSelect" Grid.Row="0" Visibility="Collapsed">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="8"/>
+                <ColumnDefinition Width="0.5*"/>
+                <ColumnDefinition Width="8"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="8"/>
+                <ColumnDefinition Width="0.5*"/>
+            </Grid.ColumnDefinitions>
+
+            
+            <TextBlock Grid.Column="0" Text="{Binding ConverterParameter=해제 구분, Converter={StaticResource GlobalObjectDicConverter}, RelativeSource={RelativeSource Self}}" HorizontalAlignment="Right" Style="{StaticResource Content_InputForm_LabelStyle}" x:Name="releaseType"/>
+            <TextBox Grid.Column="2" x:Name="selectMode" Style="{StaticResource SearchCondition_TextBoxStyle}" IsEnabled="False"/>
+            
+            <Grid Name="grdRadio" Grid.Column="4">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="8"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <RadioButton Grid.Column="0" Style="{StaticResource SearchCondition_RadioButtonStyle}" Content="{Binding ConverterParameter='Group 전체', Converter={StaticResource GlobalObjectDicConverter}}" Name="rdoGroupAll" GroupName="RELEASEHOLD" Checked="rdoGroupAll_Checked" IsChecked="True"  HorizontalAlignment="Right"/>
+                <RadioButton Grid.Column="2" Style="{StaticResource SearchCondition_RadioButtonStyle}" Content="{Binding ConverterParameter='선택 Cell ID',   Converter={StaticResource GlobalObjectDicConverter}}" Name="rdoCell" GroupName="RELEASEHOLD" Checked="rdoCell_Checked" HorizontalAlignment="Right"/>
+            </Grid>
+
+            <TextBox Grid.Column="6" x:Name="txtCellID" Style="{StaticResource SearchCondition_TextBoxStyle}" IsEnabled="False" PreviewKeyDown="txtCellID_PreviewKeyDown" KeyDown="txtCellID_KeyDown"/>
+
+        </Grid>
+        <Grid Name="grdHoldGroupReason" Grid.Row="2" Visibility="Collapsed">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="8"/>
+                <ColumnDefinition Width="0.5*"/>
+                <ColumnDefinition Width="8"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="8"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Grid.Column="0" Text="{Binding ConverterParameter=Group ID, Converter={StaticResource GlobalObjectDicConverter}, RelativeSource={RelativeSource Self}}" HorizontalAlignment="Right" Style="{StaticResource Content_InputForm_LabelStyle}" />
+            <TextBox Grid.Column="2" x:Name="txtGroupID" Style="{StaticResource SearchCondition_TextBoxStyle}" IsEnabled="False"/>
+            <TextBlock Grid.Column="4" Text="{Binding ConverterParameter=Hold 사유, Converter={StaticResource GlobalObjectDicConverter}, RelativeSource={RelativeSource Self}}" HorizontalAlignment="Right" Style="{StaticResource Content_InputForm_LabelStyle}" />
+            <TextBox Grid.Column="6" x:Name="txtHoldReason" Style="{StaticResource SearchCondition_TextBoxStyle}" IsEnabled="False"/>
+        </Grid>
+        
+    <Grid Name="grdMain" Grid.Row="4">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="8" />
+            <RowDefinition Height="5*" />
+            <RowDefinition Height="8" />
+            <RowDefinition Height="3*" />
+            <RowDefinition Height="8" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+            
+        <Grid Grid.Row="0" Name="grdCellCount">
+                <TextBlock Grid.Column="4" x:Name="selectCellCount" Style="{StaticResource Content_InputForm_LabelStyle}" HorizontalAlignment="Left"/>
+        </Grid>
+        
+        <Grid Grid.Row="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="0"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <!--<Border Grid.Row="0" BorderThickness="1" BorderBrush="#ffbebebe" Style="{StaticResource BorderSubTitleStyle}"/>-->
+
+            <Grid Grid.Row="0" Margin="4">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="15"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="180"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="4"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="8"/>
+                    <ColumnDefinition Width="30"/>
+                    <ColumnDefinition Width="4"/>
+                    <ColumnDefinition Width="30"/>
+                    <ColumnDefinition Width="0"/>
+                </Grid.ColumnDefinitions>
+
+                <!--<TextBlock Grid.Row="0" Grid.Column="1"  Text="{Binding ConverterParameter='HOLD등록',   Converter={StaticResource GlobalObjectDicConverter}, RelativeSource={RelativeSource Self}}" HorizontalAlignment="Right" Style="{StaticResource Content_Search_LabelStyle}" />-->
+
+                <!--<Button      Grid.Column="4"  x:Name="btnDownLoad"  Click="btnDownLoad_Click" Content="{Binding ConverterParameter='엑셀다운로드',   Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{DynamicResource Content_ModuleButtonExcelExportStyle}" />
+                <Button      Grid.Column="6"  x:Name="btnUpLoad"    Click="btnUpLoad_Click"   Content="{Binding ConverterParameter='엑셀업로드',   Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{DynamicResource Content_ModuleButtonExcelExportStyle}" />-->
+                <!--<Border      Grid.Column="7"  Style="{StaticResource Content_Separator_BorderStyle}" />
+                <Button      Grid.Column="8"  x:Name="btnAdd"       Click="btnAdd_Click"      Content="+" Height="25" />
+                <Button      Grid.Column="10" x:Name="btnDelete"    Click="btnDelete_Click"   Content="-"   Height="25" />-->
+            </Grid>
+
+            <c1:C1DataGrid Grid.Row="1" Grid.Column="0" x:Name="dgHold" LoadedColumnHeaderPresenter ="dgHold_LoadedColumnHeaderPresenter"   FrozenBottomRowsCount="1" IsReadOnly="False"  HeadersVisibility="Column" SelectionMode="MultiRange" CanUserAddRows="True">
+                <c1:C1DataGrid.Columns>
+                    <c1:DataGridCheckBoxColumn   Width="45"         Binding = "{Binding CHK}"             EditOnSelection ="True"   HorizontalAlignment="Center" />
+                    <c1:DataGridTextColumn Header="HOLD_ID"         Binding = "{Binding HOLD_ID}"         EditOnSelection ="True"   HorizontalAlignment="Center" Visibility="Collapsed"/>
+                    <c1:DataGridTextColumn Header="조립LOTID"       Binding = "{Binding ASSY_LOTID}"      EditOnSelection ="True"   HorizontalAlignment="Center" />
+                    <c1:DataGridComboBoxColumn Header="보류범위"    Binding = "{Binding HOLD_TRGT_CODE}"  EditOnSelection ="True"   HorizontalAlignment="Center" DisplayMemberPath="CBO_NAME" SelectedValuePath="CBO_CODE" />
+                    <c1:DataGridTextColumn Header="Cell ID"     Binding = "{Binding STRT_SUBLOTID}"   EditOnSelection ="True"   HorizontalAlignment="Center"/>
+                        <c1:DataGridTextColumn           Header="HOLD등록일시"       Binding="{Binding HOLD_DTTM}"      HorizontalAlignment="Center"     IsReadOnly="True"/>
+                        <c1:DataGridComboBoxColumn Header="보류수량"    Binding = "{Binding HOLD_REG_QTY}"   EditOnSelection ="True"   HorizontalAlignment="Center" DisplayMemberPath="CBO_NAME" SelectedValuePath="CBO_CODE"  />
+                    <c1:DataGridTextColumn Header="종료CELLSEQ"     Binding = "{Binding END_SUBLOTID}"    EditOnSelection ="True"   HorizontalAlignment="Center" Visibility="Collapsed" />
+                    <!--컬럼속성 정리 필요-->
+                </c1:C1DataGrid.Columns>
+                <c1:C1GroupingWithSummariesBehavior.GroupingWithSummariesBehavior>
+                    <c1:C1GroupingWithSummariesBehavior/>
+                </c1:C1GroupingWithSummariesBehavior.GroupingWithSummariesBehavior>
+
+                <c1:C1DataGrid.BottomRows>
+                    <c1:DataGridSummaryRow x:Name="summary_InPallet" RowStyle="{StaticResource SummaryRowStyle}"/>
+                </c1:C1DataGrid.BottomRows>
+            </c1:C1DataGrid>
+
+        </Grid>
+
+        <Grid Grid.Row="4">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="34"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <Border Grid.Row="0" BorderThickness="1,1,1,0" BorderBrush="#ffbebebe" Style="{StaticResource BorderSubTitleStyle}"/>
+            <Grid Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="15"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="15"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="4"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="4"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
+                    <TextBlock  Style="{StaticResource SearchCondition_MandatoryMarkStyle}" />
+                    <TextBlock Grid.Row="0" Grid.Column="1"  Text="{Binding ConverterParameter='HOLD해제사유',   Converter={StaticResource GlobalObjectDicConverter}, RelativeSource={RelativeSource Self}}" HorizontalAlignment="Right" Style="{StaticResource Content_Search_LabelStyle}" />
+                </StackPanel>     
+            </Grid>
+            <TextBox Grid.Row="2" Margin="0" x:Name="txtNote"  Style="{StaticResource Content_InputForm_TextBoxStyle}"  Height="Auto" TextWrapping="Wrap"  AcceptsReturn="True"  VerticalScrollBarVisibility="Auto" VerticalContentAlignment="Top"/>
+
+
+        </Grid>
+        <!--button area-->
+        <Grid Grid.Row ="6">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="5"/>
+                <ColumnDefinition Width="300"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="5"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <Button x:Name="btnSave"    Grid.Column="4" Content="{Binding ConverterParameter='저장', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}"   Click="btnSave_Click" Style="{DynamicResource Content_MainButtonSpecialStyle}"  />
+            <Button x:Name="btnClose" Grid.Column="6" Content="{Binding ConverterParameter='닫기', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Click="btnClose_Click" Style="{DynamicResource Content_MainButtonStyle}"  />
+        </Grid>
+
+        <ctrlLib:LoadingIndicator x:Name="loadingIndicator"  />
+    </Grid>
+    </Grid>
+</c1:C1Window>

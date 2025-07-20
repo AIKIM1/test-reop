@@ -1,0 +1,335 @@
+﻿<UserControl xmlns:ss="http://schemas.grapecity.com/windows/spreadsheet/2012"  x:Class="LGC.GMES.MES.PACK001.PACK003_003"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:c1="http://schemas.componentone.com/winfx/2006/xaml"
+             xmlns:ctrlLib="clr-namespace:LGC.GMES.MES.ControlsLibrary;assembly=LGC.GMES.MES.ControlsLibrary"
+             mc:Ignorable="d" 
+             d:DesignHeight="768" d:DesignWidth="1024"
+             Loaded="UserControl_Loaded">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/LGC.GMES.MES.ControlsLibrary;component/ControlStyles.xaml" />
+                <ResourceDictionary Source="/LGC.GMES.MES.PACK001;component/Style/ControlStyles_PACK.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid>
+        <ctrlLib:LGCLayout x:Name="LayoutRoot" Tag="Cell 재고예상(Domestic)" Grid.ColumnSpan="4">
+
+            <!-- CELL 단위 -->
+            <Grid>
+                <c1:C1TabControl  Grid.Row="0">
+                    <c1:C1TabItem Header="{Binding Converter={StaticResource GlobalObjectDicConverter}, ConverterParameter='CELL재고 예상(Domestic)'}" >
+                        <Grid Grid.Row="0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="151*"/>
+                                <ColumnDefinition Width="361*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="5"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="5"/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <Border Grid.Row="1" Grid.Column="0" Grid.RowSpan="3" Style="{StaticResource Content_InputForm_GroupBorderStyle}" Grid.ColumnSpan="2" ></Border>
+                            <Border Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Style="{StaticResource Content_InputForm_GroupBorderStyle}"/>
+                            <Grid x:Name="SearchArea" Grid.Row="1" Grid.ColumnSpan="2">
+
+                                <Grid   Grid.Row="1" Grid.Column="0" >
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="13"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="15"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="13"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="5"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="5"/>
+                                    </Grid.RowDefinitions>
+
+                                    <Grid Grid.Row="1" Grid.Column="6" HorizontalAlignment="Right">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="4"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
+                                    </Grid>
+
+                                    <TextBlock             Grid.Row="1" Grid.Column="4" Text="{Binding ConverterParameter='물류이동 대상만', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}"/>
+                                    <CheckBox              Grid.Row="1" Grid.Column="5"  Name="chkRemovetg" Style="{StaticResource CheckBoxBaseStyle}"  Width="20" ToolTip="선택되어 있으면 물류이동대상만 적용" />
+                                    <TextBlock     Grid.Row="1" Grid.Column="1" Style="{StaticResource Content_ModuleTitleStyle}">
+                                    <Run Text="{Binding ConverterParameter='CELL재고 예상(Domestic)', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}"/>
+                                    </TextBlock>
+                                    <Button     Grid.Row="1" Grid.Column="7" x:Name="btnSearch" Content="{Binding ConverterParameter=SEARCH,    Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{DynamicResource SearchButtonStyle}" Cursor="Hand" Click="btnSearch_Click" />
+                                </Grid>
+                            </Grid>
+
+                            <Grid x:Name="GridArea" Grid.Row="3" Grid.ColumnSpan="2">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="5"/>
+                                    <RowDefinition Height="20"/>
+                                    <RowDefinition Height="0.8*"/>
+                                    <RowDefinition Height="5"/>
+                                    <RowDefinition Height="5"/>
+                                    <RowDefinition Height="20"/>
+                                    <RowDefinition Height="1.2*"/>
+                                    <RowDefinition Height="5"/>
+                                </Grid.RowDefinitions>
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="5"/>
+                                    <ColumnDefinition Width="1*"/>
+                                    <ColumnDefinition Width="5"/>
+                                </Grid.ColumnDefinitions>
+
+                                <!-- 시간별 투입 실적 & 계획수량 조회  영역 -->
+                                <Grid x:Name="TitleArea" Grid.Row="0" Grid.Column="1"  Grid.RowSpan="2" >
+                                    <Border Grid.Row="0" Grid.Column="0" BorderThickness="1" BorderBrush="#ffbebebe" Style="{StaticResource BorderSubTitleStyle}"/>
+                                    <TextBlock Grid.Row="0" Grid.Column="0" Style="{StaticResource Content_ModuleTitleStyle}"><Run Text="{Binding ConverterParameter='투입 실적', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}"/></TextBlock>
+                                </Grid>
+
+                                <!-- 데이터 영역 -->
+                                <Grid x:Name="GridInputArea"  Grid.Column="1" Grid.Row="2">
+                                    <Border Grid.Row="0" Grid.Column="0" Style="{StaticResource Content_InputForm_ContentBorderStyle}"/>
+                                    <c1:C1DataGrid x:Name="dgInput2" HeadersVisibility="None" IsReadOnly="True" 
+                                                   Width="Auto" SelectionMode="SingleRow"
+                                                   LoadedCellPresenter="dgInput2_LoadedCellPresenter" 
+                                                   FrozenTopRowsCount="3"
+                                                   FrozenColumnCount="8" 
+                                                   FontSize="9" MouseDoubleClick="dgInput2_MouseDoubleClick" >
+
+                                        <c1:C1DataGrid.TopRows>
+                                            <c1:DataGridColumnHeaderRow ctrlLib:DataGridMergeExtension.MergeMode="VERTICALHIERARCHI"/>
+                                            <c1:DataGridColumnHeaderRow ctrlLib:DataGridMergeExtension.MergeMode="VERTICALHIERARCHI"/>
+                                            <c1:DataGridColumnHeaderRow ctrlLib:DataGridMergeExtension.MergeMode="VERTICALHIERARCHI"/>
+                                        </c1:C1DataGrid.TopRows>
+
+                                        <c1:C1DataGrid.Columns >
+                                            <c1:DataGridTextColumn Header = "[동,동,동]"                           Binding = "{Binding AREAID}"         HorizontalAlignment="Center"   Width="Auto" HeaderStyle="{StaticResource CenterGridHeaderStyle_15}" ctrlLib:DataGridMergeExtension.MergeMode="VERTICAL" />
+
+                                            <c1:DataGridTextColumn Header = "[PRODID,PRODID,PRODID]"               Binding = "{Binding MTRLID}"         HorizontalAlignment="Left"     Width="Auto" HeaderStyle="{StaticResource CenterGridHeaderStyle_15}" />
+                                            <c1:DataGridTextColumn Header = "[프로젝트명,프로젝트명,프로젝트명]"   Binding = "{Binding MTRL_PRJT_NAME}" HorizontalAlignment="Left"     Width="Auto" HeaderStyle="{StaticResource CenterGridHeaderStyle_15}" />
+
+                                            <c1:DataGridNumericColumn Header = "[재고,Cell Bldg.,가용]"       Binding = "{Binding CELL_AVA_QTY}"     HorizontalAlignment="Right"  Width="Auto" HeaderStyle="{StaticResource CenterGridHeaderStyle_14}"  Format="#,###0"/>
+                                            <c1:DataGridNumericColumn Header = "[재고,Cell Bldg.,비가용]"     Binding = "{Binding CELL_NON_AVA_QTY}" HorizontalAlignment="Right"  Width="Auto" HeaderStyle="{StaticResource CenterGridHeaderStyle_14}"  Format="#,###0"/>
+                                            <c1:DataGridNumericColumn Header = "[재고,In-Transit,In-Transit]" Binding = "{Binding INTRANSITQTY}"     HorizontalAlignment="Right"  Width="Auto" HeaderStyle="{StaticResource CenterGridHeaderStyle_14}"  Format="#,###0"/>
+                                            <c1:DataGridNumericColumn Header = "[재고,Pack Bldg.,가용]"       Binding = "{Binding AVAQTY}"           HorizontalAlignment="Right"  Width="Auto" HeaderStyle="{StaticResource CenterGridHeaderStyle_14}"  Format="#,###0"/>
+                                            <c1:DataGridNumericColumn Header = "[재고,Pack Bldg.,비가용]"     Binding = "{Binding HOLDQTY}"          HorizontalAlignment="Right"  Width="Auto" HeaderStyle="{StaticResource CenterGridHeaderStyle_14}"  Format="#,###0"/>
+
+                                            <c1:DataGridNumericColumn Header = "[실적,On-Actual,On-Actual]" Binding = "{Binding INPUTQTY}" HorizontalAlignment="Right"  Width="Auto" HeaderStyle="{StaticResource CenterGridHeaderStyle_14}" Format="#,###0"/>
+                                            <c1:DataGridNumericColumn Header = "[실적,계획총량,계획총량]"   Binding = "{Binding PLANQTY}" HorizontalAlignment="Right"  Width="Auto" HeaderStyle="{StaticResource CenterGridHeaderStyle_14}" Format="#,###0"/>
+
+                                            <c1:DataGridNumericColumn Header = "[실적,08,08]" Binding = "{Binding 8}"  HorizontalAlignment="Right"   Width="55" HeaderStyle="{StaticResource CenterGridHeaderStyle_14}" Format="#,###0"/>
+                                            <c1:DataGridNumericColumn Header = "[실적,09,09]" Binding = "{Binding 9}"  HorizontalAlignment="Right"   Width="55" HeaderStyle="{StaticResource CenterGridHeaderStyle_14}" Format="#,###0"/>
+                                            <c1:DataGridNumericColumn Header = "[실적,10,10]" Binding = "{Binding 10}"  HorizontalAlignment="Right"  Width="55" HeaderStyle="{StaticResource CenterGridHeaderStyle_14}" Format="#,###0"/>
+                                            <c1:DataGridNumericColumn Header = "[실적,11,11]" Binding = "{Binding 11}"  HorizontalAlignment="Right"  Width="55" HeaderStyle="{StaticResource CenterGridHeaderStyle_14}" Format="#,###0"/>
+                                            <c1:DataGridNumericColumn Header = "[실적,12,12]" Binding = "{Binding 12}"  HorizontalAlignment="Right"  Width="55" HeaderStyle="{StaticResource CenterGridHeaderStyle_14}" Format="#,###0"/>
+                                            <c1:DataGridNumericColumn Header = "[실적,13,13]" Binding = "{Binding 13}"  HorizontalAlignment="Right"  Width="55" HeaderStyle="{StaticResource CenterGridHeaderStyle_14}" Format="#,###0"/>
+                                            <c1:DataGridNumericColumn Header = "[실적,14,14]" Binding = "{Binding 14}"  HorizontalAlignment="Right"  Width="55" HeaderStyle="{StaticResource CenterGridHeaderStyle_14}" Format="#,###0"/>
+                                            <c1:DataGridNumericColumn Header = "[실적,15,15]" Binding = "{Binding 15}"  HorizontalAlignment="Right"  Width="55" HeaderStyle="{StaticResource CenterGridHeaderStyle_14}" Format="#,###0"/>
+                                            <c1:DataGridNumericColumn Header = "[실적,16,16]" Binding = "{Binding 16}"  HorizontalAlignment="Right"  Width="55" HeaderStyle="{StaticResource CenterGridHeaderStyle_14}" Format="#,###0"/>
+                                            <c1:DataGridNumericColumn Header = "[실적,17,17]" Binding = "{Binding 17}"  HorizontalAlignment="Right"  Width="55" HeaderStyle="{StaticResource CenterGridHeaderStyle_14}" Format="#,###0"/>
+                                            <c1:DataGridNumericColumn Header = "[실적,18,18]" Binding = "{Binding 18}"  HorizontalAlignment="Right"  Width="55" HeaderStyle="{StaticResource CenterGridHeaderStyle_14}" Format="#,###0"/>
+                                            <c1:DataGridNumericColumn Header = "[실적,19,19]" Binding = "{Binding 19}"  HorizontalAlignment="Right"  Width="55" HeaderStyle="{StaticResource CenterGridHeaderStyle_14}" Format="#,###0"/>
+                                            <c1:DataGridNumericColumn Header = "[실적,20,20]" Binding = "{Binding 20}"  HorizontalAlignment="Right"  Width="55" HeaderStyle="{StaticResource CenterGridHeaderStyle_14}" Format="#,###0"/>
+                                            <c1:DataGridNumericColumn Header = "[실적,21,21]" Binding = "{Binding 21}"  HorizontalAlignment="Right"  Width="55" HeaderStyle="{StaticResource CenterGridHeaderStyle_14}" Format="#,###0"/>
+                                            <c1:DataGridNumericColumn Header = "[실적,22,22]" Binding = "{Binding 22}"  HorizontalAlignment="Right"  Width="55" HeaderStyle="{StaticResource CenterGridHeaderStyle_14}" Format="#,###0"/>
+                                            <c1:DataGridNumericColumn Header = "[실적,23,23]" Binding = "{Binding 23}"  HorizontalAlignment="Right"  Width="55" HeaderStyle="{StaticResource CenterGridHeaderStyle_14}" Format="#,###0"/>
+                                            <c1:DataGridNumericColumn Header = "[실적,24,24]" Binding = "{Binding 24}"  HorizontalAlignment="Right"  Width="55" HeaderStyle="{StaticResource CenterGridHeaderStyle_14}" Format="#,###0"/>
+                                            <c1:DataGridNumericColumn Header = "[실적,01,01]" Binding = "{Binding 1}"  HorizontalAlignment="Right"   Width="55" HeaderStyle="{StaticResource CenterGridHeaderStyle_14}" Format="#,###0"/>
+                                            <c1:DataGridNumericColumn Header = "[실적,02,02]" Binding = "{Binding 2}"  HorizontalAlignment="Right"   Width="55" HeaderStyle="{StaticResource CenterGridHeaderStyle_14}" Format="#,###0"/>
+                                            <c1:DataGridNumericColumn Header = "[실적,03,03]" Binding = "{Binding 3}"  HorizontalAlignment="Right"   Width="55" HeaderStyle="{StaticResource CenterGridHeaderStyle_14}" Format="#,###0"/>
+                                            <c1:DataGridNumericColumn Header = "[실적,04,04]" Binding = "{Binding 4}"  HorizontalAlignment="Right"   Width="55" HeaderStyle="{StaticResource CenterGridHeaderStyle_14}" Format="#,###0"/>
+                                            <c1:DataGridNumericColumn Header = "[실적,05,05]" Binding = "{Binding 5}"  HorizontalAlignment="Right"   Width="55" HeaderStyle="{StaticResource CenterGridHeaderStyle_14}" Format="#,###0"/>
+                                            <c1:DataGridNumericColumn Header = "[실적,06,06]" Binding = "{Binding 6}"  HorizontalAlignment="Right"   Width="55" HeaderStyle="{StaticResource CenterGridHeaderStyle_14}" Format="#,###0"/>
+                                            <c1:DataGridNumericColumn Header = "[실적,07,07]" Binding = "{Binding 7}"  HorizontalAlignment="Right"   Width="55" HeaderStyle="{StaticResource CenterGridHeaderStyle_14}" Format="#,###0"/>
+                                        </c1:C1DataGrid.Columns>
+                                    </c1:C1DataGrid>
+                                </Grid>
+
+                                <Grid x:Name="TitleArea2" Grid.Row="4" Grid.Column="1"  Grid.RowSpan="2">
+                                    <Border Grid.Row="0" Grid.Column="0" BorderThickness="1" BorderBrush="#ffbebebe" Style="{StaticResource BorderSubTitleStyle}"/>
+                                    <TextBlock Grid.Row="0" Grid.Column="0" Style="{StaticResource Content_ModuleTitleStyle}"><Run Text="{Binding ConverterParameter='재고예상', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}"/></TextBlock>
+                                </Grid>
+                                <Grid x:Name="GridStockArea"  Grid.Column="1" Grid.Row="6">
+                                    <Border Grid.Row="0" Grid.Column="0" Style="{StaticResource Content_InputForm_ContentBorderStyle}"/>
+                                    <c1:C1DataGrid x:Name="dgStock2" HeadersVisibility="None" IsReadOnly="True" 
+                                                   Width="Auto"  SelectionMode="SingleRow"
+                                                   LoadedCellPresenter="dgStock2_LoadedCellPresenter" FrozenTopRowsCount="3" FrozenColumnCount="5"  FontSize="9" >
+
+                                        <c1:C1DataGrid.TopRows>
+                                            <c1:DataGridColumnHeaderRow ctrlLib:DataGridMergeExtension.MergeMode="VERTICALHIERARCHI"/>
+                                            <c1:DataGridColumnHeaderRow ctrlLib:DataGridMergeExtension.MergeMode="VERTICALHIERARCHI"/>
+                                            <c1:DataGridColumnHeaderRow ctrlLib:DataGridMergeExtension.MergeMode="VERTICALHIERARCHI"/>
+                                        </c1:C1DataGrid.TopRows>
+
+                                        <c1:C1DataGrid.Columns >
+                                            <c1:DataGridTextColumn Header = "[동,동,동]"                                        Binding = "{Binding AREAID}"         HorizontalAlignment="Center" Width="Auto" HeaderStyle="{StaticResource CenterGridHeaderStyle_15}" ctrlLib:DataGridMergeExtension.MergeMode="VERTICAL" />
+                                            <c1:DataGridTextColumn Header = "[EQSGNAME,EQSGNAME,EQSGNAME]"                  Binding = "{Binding EQSGNAME}" HorizontalAlignment="Left"   Width="Auto" HeaderStyle="{StaticResource CenterGridHeaderStyle_15}" />
+                                            <c1:DataGridTextColumn Header = "[PRODID,PRODID,PRODID]"                  Binding = "{Binding MTRLID}" HorizontalAlignment="Left"   Width="Auto" HeaderStyle="{StaticResource CenterGridHeaderStyle_15}" />
+                                            <c1:DataGridTextColumn Header = "[프로젝트명,프로젝트명,프로젝트명]"     Binding = "{Binding MTRL_PRJT_NAME}" HorizontalAlignment="Left"   Width="Auto" HeaderStyle="{StaticResource CenterGridHeaderStyle_15}" />
+                                            <c1:DataGridTextColumn Header = "[조립동,조립동,조립동]"                    Binding = "{Binding AREA_ASSY}"      HorizontalAlignment="Left"   Width="Auto" HeaderStyle="{StaticResource CenterGridHeaderStyle_15}" />
+                                            <c1:DataGridTextColumn Header = "[조립Line,조립Line,조립Line]"              Binding = "{Binding PKG_EQPT}"      HorizontalAlignment="Left"   Width="Auto" HeaderStyle="{StaticResource CenterGridHeaderStyle_15}" />
+                                            <c1:DataGridTextColumn Header = "[전극Line,전극Line,전극Line]"              Binding = "{Binding COT_EQPT}"      HorizontalAlignment="Left"   Width="Auto" HeaderStyle="{StaticResource CenterGridHeaderStyle_15}" />
+
+                                            <c1:DataGridNumericColumn Header = "[재고,Cell Bldg.,가용]"    Binding = "{Binding CELL_AVA_QTY}"  HorizontalAlignment="Right"  Width="Auto" HeaderStyle="{StaticResource CenterGridHeaderStyle_14}" Format="#,###0"/>
+                                            <c1:DataGridNumericColumn Header = "[재고,Cell Bldg.,비가용]"          Binding = "{Binding CELL_NON_AVA_QTY}"   HorizontalAlignment="Right"  Width="Auto" HeaderStyle="{StaticResource CenterGridHeaderStyle_14}" Format="#,###0"/>
+                                            <c1:DataGridNumericColumn Header = "[재고,In-Transit,In-Transit]"  Binding = "{Binding INTRANSITQTY}"  HorizontalAlignment="Right"  Width="Auto" HeaderStyle="{StaticResource CenterGridHeaderStyle_14}" Format="#,###0" />
+                                            <c1:DataGridNumericColumn Header = "[재고,Pack Bldg.,가용]"    Binding = "{Binding AVAQTY}"        HorizontalAlignment="Right"  Width="Auto" HeaderStyle="{StaticResource CenterGridHeaderStyle_14}" Format="#,###0" />
+                                            <c1:DataGridNumericColumn Header = "[재고,Pack Bldg.,비가용]"        Binding = "{Binding HOLDQTY}"       HorizontalAlignment="Right"  Width="Auto" HeaderStyle="{StaticResource CenterGridHeaderStyle_14}" Format="#,###0" />
+
+                                            <c1:DataGridNumericColumn Header = "[예상,On-Hand,On-Hand]"    Binding = "{Binding INPUTQTY}" HorizontalAlignment="Right"  Width="60" HeaderStyle="{StaticResource CenterGridHeaderStyle_14}" Format="#,###0"/>
+                                            <c1:DataGridNumericColumn Header = "[예상,계획총량,계획총량]"  Binding = "{Binding PLANQTY}" HorizontalAlignment="Right"  Width="60" HeaderStyle="{StaticResource CenterGridHeaderStyle_14}" Format="#,###0"/>
+                                            <c1:DataGridNumericColumn Header = "[예상,음수계수,음수계수]"  Binding = "{Binding HH_SUM}" HorizontalAlignment="Right"  Width="60" HeaderStyle="{StaticResource CenterGridHeaderStyle_14}" Format="#,###0" Visibility="Collapsed" />
+
+                                            <c1:DataGridNumericColumn Header = "[예상,08,08]" Binding = "{Binding 8}"  HorizontalAlignment="Right"  Width="55" HeaderStyle="{StaticResource CenterGridHeaderStyle_14}" Format="#,###0"/>
+                                            <c1:DataGridNumericColumn Header = "[예상,09,09]" Binding = "{Binding 9}"  HorizontalAlignment="Right"  Width="55" HeaderStyle="{StaticResource CenterGridHeaderStyle_14}" Format="#,###0"/>
+                                            <c1:DataGridNumericColumn Header = "[예상,10,10]" Binding = "{Binding 10}"  HorizontalAlignment="Right" Width="55" HeaderStyle="{StaticResource CenterGridHeaderStyle_14}" Format="#,###0"/>
+                                            <c1:DataGridNumericColumn Header = "[예상,11,11]" Binding = "{Binding 11}"  HorizontalAlignment="Right" Width="55" HeaderStyle="{StaticResource CenterGridHeaderStyle_14}" Format="#,###0"/>
+                                            <c1:DataGridNumericColumn Header = "[예상,12,12]" Binding = "{Binding 12}"  HorizontalAlignment="Right" Width="55" HeaderStyle="{StaticResource CenterGridHeaderStyle_14}" Format="#,###0"/>
+                                            <c1:DataGridNumericColumn Header = "[예상,13,13]" Binding = "{Binding 13}"  HorizontalAlignment="Right" Width="55" HeaderStyle="{StaticResource CenterGridHeaderStyle_14}" Format="#,###0"/>
+                                            <c1:DataGridNumericColumn Header = "[예상,14,14]" Binding = "{Binding 14}"  HorizontalAlignment="Right" Width="55" HeaderStyle="{StaticResource CenterGridHeaderStyle_14}" Format="#,###0"/>
+                                            <c1:DataGridNumericColumn Header = "[예상,15,15]" Binding = "{Binding 15}"  HorizontalAlignment="Right" Width="55" HeaderStyle="{StaticResource CenterGridHeaderStyle_14}" Format="#,###0"/>
+                                            <c1:DataGridNumericColumn Header = "[예상,16,16]" Binding = "{Binding 16}"  HorizontalAlignment="Right" Width="55" HeaderStyle="{StaticResource CenterGridHeaderStyle_14}" Format="#,###0"/>
+                                            <c1:DataGridNumericColumn Header = "[예상,17,17]" Binding = "{Binding 17}"  HorizontalAlignment="Right" Width="55" HeaderStyle="{StaticResource CenterGridHeaderStyle_14}" Format="#,###0"/>
+                                            <c1:DataGridNumericColumn Header = "[예상,18,18]" Binding = "{Binding 18}"  HorizontalAlignment="Right" Width="55" HeaderStyle="{StaticResource CenterGridHeaderStyle_14}" Format="#,###0"/>
+                                            <c1:DataGridNumericColumn Header = "[예상,19,19]" Binding = "{Binding 19}"  HorizontalAlignment="Right" Width="55" HeaderStyle="{StaticResource CenterGridHeaderStyle_14}" Format="#,###0"/>
+                                            <c1:DataGridNumericColumn Header = "[예상,20,20]" Binding = "{Binding 20}"  HorizontalAlignment="Right" Width="55" HeaderStyle="{StaticResource CenterGridHeaderStyle_14}" Format="#,###0"/>
+                                            <c1:DataGridNumericColumn Header = "[예상,21,21]" Binding = "{Binding 21}"  HorizontalAlignment="Right" Width="55" HeaderStyle="{StaticResource CenterGridHeaderStyle_14}" Format="#,###0"/>
+                                            <c1:DataGridNumericColumn Header = "[예상,22,22]" Binding = "{Binding 22}"  HorizontalAlignment="Right" Width="55" HeaderStyle="{StaticResource CenterGridHeaderStyle_14}" Format="#,###0"/>
+                                            <c1:DataGridNumericColumn Header = "[예상,23,23]" Binding = "{Binding 23}"  HorizontalAlignment="Right" Width="55" HeaderStyle="{StaticResource CenterGridHeaderStyle_14}" Format="#,###0"/>
+                                            <c1:DataGridNumericColumn Header = "[예상,24,24]" Binding = "{Binding 24}"  HorizontalAlignment="Right" Width="55" HeaderStyle="{StaticResource CenterGridHeaderStyle_14}" Format="#,###0"/>
+                                            <c1:DataGridNumericColumn Header = "[예상,01,01]" Binding = "{Binding 1}"  HorizontalAlignment="Right"  Width="55" HeaderStyle="{StaticResource CenterGridHeaderStyle_14}" Format="#,###0"/>
+                                            <c1:DataGridNumericColumn Header = "[예상,02,02]" Binding = "{Binding 2}"  HorizontalAlignment="Right"  Width="55" HeaderStyle="{StaticResource CenterGridHeaderStyle_14}" Format="#,###0"/>
+                                            <c1:DataGridNumericColumn Header = "[예상,03,03]" Binding = "{Binding 3}"  HorizontalAlignment="Right"  Width="55" HeaderStyle="{StaticResource CenterGridHeaderStyle_14}" Format="#,###0"/>
+                                            <c1:DataGridNumericColumn Header = "[예상,04,04]" Binding = "{Binding 4}"  HorizontalAlignment="Right"  Width="55" HeaderStyle="{StaticResource CenterGridHeaderStyle_14}" Format="#,###0"/>
+                                            <c1:DataGridNumericColumn Header = "[예상,05,05]" Binding = "{Binding 5}"  HorizontalAlignment="Right"  Width="55" HeaderStyle="{StaticResource CenterGridHeaderStyle_14}" Format="#,###0"/>
+                                            <c1:DataGridNumericColumn Header = "[예상,06,06]" Binding = "{Binding 6}"  HorizontalAlignment="Right"  Width="55" HeaderStyle="{StaticResource CenterGridHeaderStyle_14}" Format="#,###0"/>
+                                            <c1:DataGridNumericColumn Header = "[예상,07,07]" Binding = "{Binding 7}"  HorizontalAlignment="Right"  Width="55" HeaderStyle="{StaticResource CenterGridHeaderStyle_14}" Format="#,###0"/>
+                                        </c1:C1DataGrid.Columns>
+                                    </c1:C1DataGrid>
+                                </Grid>
+
+                            </Grid>
+                        </Grid>
+                    </c1:C1TabItem>
+                    <c1:C1TabItem x:Name="tabCell_ISI" Header="{Binding Converter={StaticResource GlobalObjectDicConverter}, ConverterParameter='CELL재고 현황조회'}">
+                        <Grid>
+                            <Grid x:Name="Content_CELL_ISI">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="5"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="5"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="5"/>
+                                    <RowDefinition Height="30"/>
+                                    <RowDefinition Height="5"/>
+                                    <RowDefinition Height="34"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+                                <Border Grid.Row="1" Grid.ColumnSpan="2" Grid.RowSpan="4" Style="{StaticResource Content_InputForm_GroupBorderStyle}"/>
+                                <Border Grid.Row="3" Grid.Column="1" Style="{StaticResource Content_InputForm_LabelBorderStyle}" />
+                                <Border Grid.Row="4" Grid.ColumnSpan="3" Grid.RowSpan="2" Style="{StaticResource Content_InputForm_GroupBorderStyle}"/>
+
+
+                                <Grid x:Name="ContentTop_Cell_ISI" Grid.Row="1" Grid.Column="1">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="8"/>
+                                        <ColumnDefinition Width="1*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="8"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="8"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <TextBlock     Grid.Row="3" Grid.Column="1" Style="{StaticResource Content_ModuleTitleStyle}">
+                                    <Run Text="{Binding ConverterParameter='CELL재고 현황조회', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}"/>
+                                    </TextBlock>
+
+
+                                    <TextBlock Grid.Column="2" Text="{Binding ConverterParameter='물류이동 대상만', Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource Content_InputForm_LabelStyle}" />
+                                    <CheckBox  Grid.Column="3"  Name="chkRemovetgTwo" Style="{StaticResource CheckBoxBaseStyle}"  Width="20" ToolTip="선택되어 있으면 물류이동대상만 적용" />
+                                    <Button    Grid.Column="5" x:Name="btnCell_ISI_Search" Content="{Binding ConverterParameter=SEARCH, Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{StaticResource SearchButtonStyle}" Cursor="Hand" HorizontalAlignment="Right" Click="btnCell_ISI_Search_Click" />
+
+                                </Grid>
+                                <Border Grid.Row="3" Grid.ColumnSpan="3" BorderThickness="1" BorderBrush="#ffbebebe" Style="{StaticResource BorderSubTitleStyle}"/>
+
+                                <Grid Grid.Row="3" Grid.Column="1">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="8"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="15"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="8"/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock x:Name="tbCell_ISI_Count" Grid.Column="1" Text="[ 0 건 ]" Style="{StaticResource Content_InputForm_LabelStyle}" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,0,5"/>
+                                    <Button   Grid.Column="7" x:Name="btnExcel_CELL_ISI"  Content="{Binding ConverterParameter=EXCEL,   Converter={StaticResource GlobalObjectDicConverter}, Mode=OneWay}" Style="{DynamicResource Content_ModuleButtonExcelExportStyle}" Click="btnExcel_CELL_ISI_Click"/>
+                                </Grid>
+
+                                <c1:C1DataGrid Grid.Row="5" Grid.Column="1" x:Name="dgCell_ISI" IsReadOnly="True" HeadersVisibility="None" FrozenTopRowsCount="4" FrozenColumnCount="8" FontSize="9" SelectionMode="SingleRow" LoadedCellPresenter="dgCell_ISI_LoadedCellPresenter" >
+                                    <c1:C1DataGrid.TopRows>
+                                        <c1:DataGridColumnHeaderRow />
+                                        <c1:DataGridColumnHeaderRow />
+                                        <c1:DataGridColumnHeaderRow />
+                                        <c1:DataGridColumnHeaderRow />
+                                    </c1:C1DataGrid.TopRows>
+
+                                    <c1:C1DataGrid.Columns>
+                                        <c1:DataGridTextColumn        Header = "[동,동,동,동]"                                                              Binding = "{Binding AREAID }"                    HorizontalAlignment="Right" Width="Auto" HeaderStyle="{StaticResource CenterGridHeaderStyle_15}"  ctrlLib:DataGridMergeExtension.MergeMode ="VERTICAL"/>
+
+                                        <c1:DataGridTextColumn        Header = "[Cell 제품 ID,Cell 제품 ID,Cell 제품 ID,Cell 제품 ID]"                      Binding = "{Binding MTRL_PRJT_NAME }"            HorizontalAlignment="Right" Width="Auto" HeaderStyle="{StaticResource CenterGridHeaderStyle_14}"    Format="#,###0" />
+                                        <c1:DataGridNumericColumn        Header = "[합계,계획총량,계획총량,계획총량]"                                       Binding = "{Binding PLAN_QTY_TOT }"              HorizontalAlignment="Right" Width="Auto" HeaderStyle="{StaticResource CenterGridHeaderStyle_14}"    Format="#,###0" />
+                                        <c1:DataGridNumericColumn        Header = "[합계,Cell가용총합,Cell가용총합,Cell가용총합]"                           Binding = "{Binding CELL_AVA_QTY_TOT }"          HorizontalAlignment="Right" Width="Auto" HeaderStyle="{StaticResource CenterGridHeaderStyle_14}"    Format="#,###0" />
+                                        <c1:DataGridNumericColumn        Header = "[합계,In-Transit총합,In-Transit총합,In-Transit총합]"                     Binding = "{Binding INTRANSIT_QTY_TOT }"         HorizontalAlignment="Right" Width="Auto" HeaderStyle="{StaticResource CenterGridHeaderStyle_14}"    Format="#,###0" />
+                                        <c1:DataGridNumericColumn        Header = "[합계,Pack가용총합,Pack가용총합,Pack가용총합]"                           Binding = "{Binding PACK_WIP_QTY_TOT }"          HorizontalAlignment="Right" Width="Auto" HeaderStyle="{StaticResource CenterGridHeaderStyle_14}"    Format="#,###0" />
+                                        <c1:DataGridNumericColumn        Header = "[합계,Pack투입총합,Pack투입총합,Pack투입총합]"                           Binding = "{Binding INPUT_QTY_TOT }"             HorizontalAlignment="Right" Width="Auto" HeaderStyle="{StaticResource CenterGridHeaderStyle_14}"    Format="#,###0" Visibility="Collapsed" />
+                                        <c1:DataGridNumericColumn        Header = "[합계,계획대비보유현황,계획대비보유현황,계획대비보유현황]"               Binding = "{Binding DIFF_QTY_TOT }"              HorizontalAlignment="Right" Width="Auto" HeaderStyle="{StaticResource CenterGridHeaderStyle_14}"    Format="#,###0" />
+                                        <c1:DataGridNumericColumn        Header = "[개별,Cell Bldg. 재고,조립1동,가용]"                                     Binding = "{Binding A5_AVA_QTY }"                HorizontalAlignment="Right" Width="Auto" HeaderStyle="{StaticResource CenterGridHeaderStyle_14}"    Format="#,###0" />
+                                        <c1:DataGridNumericColumn        Header = "[개별,Cell Bldg. 재고,조립1동,비가용]"                                       Binding = "{Binding A5_QA_QTY }"                 HorizontalAlignment="Right" Width="Auto" HeaderStyle="{StaticResource CenterGridHeaderStyle_14}"    Format="#,###0" />
+                                        <c1:DataGridNumericColumn        Header = "[개별,Cell Bldg. 재고,조립2동,가용]"                                     Binding = "{Binding A6_AVA_QTY }"                HorizontalAlignment="Right" Width="Auto" HeaderStyle="{StaticResource CenterGridHeaderStyle_14}"    Format="#,###0" />
+                                        <c1:DataGridNumericColumn        Header = "[개별,Cell Bldg. 재고,조립2동,비가용]"                                       Binding = "{Binding A6_QA_QTY }"                 HorizontalAlignment="Right" Width="Auto" HeaderStyle="{StaticResource CenterGridHeaderStyle_14}"    Format="#,###0" />
+                                        <c1:DataGridNumericColumn        Header = "[개별,Cell Bldg. 재고,조립3동,가용]"                                     Binding = "{Binding A7_AVA_QTY }"                HorizontalAlignment="Right" Width="Auto" HeaderStyle="{StaticResource CenterGridHeaderStyle_14}"    Format="#,###0" />
+                                        <c1:DataGridNumericColumn        Header = "[개별,Cell Bldg. 재고,조립3동,비가용]"                                       Binding = "{Binding A7_QA_QTY }"                 HorizontalAlignment="Right" Width="Auto" HeaderStyle="{StaticResource CenterGridHeaderStyle_14}"    Format="#,###0" />
+                                        <c1:DataGridNumericColumn        Header = "[개별,In-Transit,조립1동,조립1동]"                                       Binding = "{Binding A5_INTRANSIT_QTY }"          HorizontalAlignment="Right" Width="Auto" HeaderStyle="{StaticResource CenterGridHeaderStyle_14}"    Format="#,###0" />
+                                        <c1:DataGridNumericColumn        Header = "[개별,In-Transit,조립2동,조립2동]"                                       Binding = "{Binding A6_INTRANSIT_QTY }"          HorizontalAlignment="Right" Width="Auto" HeaderStyle="{StaticResource CenterGridHeaderStyle_14}"    Format="#,###0" />
+                                        <c1:DataGridNumericColumn        Header = "[개별,In-Transit,조립3동,조립3동]"                                       Binding = "{Binding A7_INTRANSIT_QTY }"          HorizontalAlignment="Right" Width="Auto" HeaderStyle="{StaticResource CenterGridHeaderStyle_14}"    Format="#,###0" />
+                                        <c1:DataGridNumericColumn        Header = "[개별,In-Transit,도입,도입]"                                             Binding = "{Binding OUT_TRANSIT_QTY }"           HorizontalAlignment="Right" Width="Auto" HeaderStyle="{StaticResource CenterGridHeaderStyle_14}"    Format="#,###0" />
+                                        <c1:DataGridNumericColumn        Header = "[개별,Pack Bldg.,조립1동,가용]"                                          Binding = "{Binding A5_WIP_AVA_QTY }"            HorizontalAlignment="Right" Width="Auto" HeaderStyle="{StaticResource CenterGridHeaderStyle_14}"    Format="#,###0" />
+                                        <c1:DataGridNumericColumn        Header = "[개별,Pack Bldg.,조립1동,비가용]"                                          Binding = "{Binding A5_WIP_HOLD_QTY }"           HorizontalAlignment="Right" Width="Auto" HeaderStyle="{StaticResource CenterGridHeaderStyle_14}"    Format="#,###0" />
+                                        <c1:DataGridNumericColumn        Header = "[개별,Pack Bldg.,조립2동,가용]"                                          Binding = "{Binding A6_WIP_AVA_QTY }"            HorizontalAlignment="Right" Width="Auto" HeaderStyle="{StaticResource CenterGridHeaderStyle_14}"    Format="#,###0" />
+                                        <c1:DataGridNumericColumn        Header = "[개별,Pack Bldg.,조립2동,비가용]"                                          Binding = "{Binding A6_WIP_HOLD_QTY }"           HorizontalAlignment="Right" Width="Auto" HeaderStyle="{StaticResource CenterGridHeaderStyle_14}"    Format="#,###0" />
+                                        <c1:DataGridNumericColumn        Header = "[개별,Pack Bldg.,조립3동,가용]"                                          Binding = "{Binding A7_WIP_AVA_QTY }"            HorizontalAlignment="Right" Width="Auto" HeaderStyle="{StaticResource CenterGridHeaderStyle_14}"    Format="#,###0" />
+                                        <c1:DataGridNumericColumn        Header = "[개별,Pack Bldg.,조립3동,비가용]"                                          Binding = "{Binding A7_WIP_HOLD_QTY }"           HorizontalAlignment="Right" Width="Auto" HeaderStyle="{StaticResource CenterGridHeaderStyle_14}"    Format="#,###0" />
+                                        <c1:DataGridNumericColumn        Header = "[개별,Pack Bldg.,도입,가용]"                                             Binding = "{Binding OUT_WIP_AVA_QTY }"           HorizontalAlignment="Right" Width="Auto" HeaderStyle="{StaticResource CenterGridHeaderStyle_14}"    Format="#,###0" />
+                                        <c1:DataGridNumericColumn        Header = "[개별,Pack Bldg.,도입,비가용]"                                             Binding = "{Binding OUT_WIP_HOLD_QTY }"          HorizontalAlignment="Right" Width="Auto" HeaderStyle="{StaticResource CenterGridHeaderStyle_14}"    Format="#,###0" />
+
+                                    </c1:C1DataGrid.Columns>
+                                </c1:C1DataGrid>
+                            </Grid>
+                        </Grid>
+                    </c1:C1TabItem>
+                </c1:C1TabControl>
+
+            </Grid>
+
+        </ctrlLib:LGCLayout>
+
+        <ctrlLib:LoadingIndicator x:Name="loadingIndicator"  Visibility="Collapsed" />
+    </Grid>
+</UserControl>
