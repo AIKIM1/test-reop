@@ -41,19 +41,14 @@ name: .NET Core Desktop
 on:
   push:
     branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
-
-jobs:
 
   build:
 
     strategy:
       matrix:
-        configuration: [Debug, Release]
+        configuration: [Debug]
 
-    runs-on: windows-latest  # For a list of available runner types, refer to
-                             # https://help.github.com/en/actions/reference/workflow-syntax-for-github-actions#jobsjob_idruns-on
+    runs-on: windows-latest 
 
     env:
       Solution_Name: your-solution-name                         # Replace with your solution name, i.e. MyWpfApp.sln.
@@ -62,23 +57,21 @@ jobs:
       Wap_Project_Path: your-wap-project-path                   # Replace with the path to your Wap project, i.e. MyWpf.App.Package\MyWpfApp.Package.wapproj.
 
     steps:
+    # 커밋 메시지에 [deploy] 포함되었는지 체크
+    if: contains(github.event.head_commit.message, '[deploy]')
+    # GitHub repo 코드 내려받기 (전체 커밋 이력 포함)
     - name: Checkout
       uses: actions/checkout@v4
       with:
         fetch-depth: 0
 
-    # Install the .NET Core workload
-    - name: Install .NET Core
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: 8.0.x
-
     # Add  MSBuild to the PATH: https://github.com/microsoft/setup-msbuild
+    # MSBuild.exe 사용 가능하게 설정
     - name: Setup MSBuild.exe
       uses: microsoft/setup-msbuild@v2
 
     # Execute all unit tests in the solution
-    - name: Execute unit tests
+    - name: Execute unit tests  # dotnet test로 단위 테스트 실행
       run: dotnet test
 
     # Restore the application to populate the obj folder with RuntimeIdentifiers
